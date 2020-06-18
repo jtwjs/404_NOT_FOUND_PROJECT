@@ -1,0 +1,55 @@
+
+/* Header  */
+#header {
+    width: 100%;
+}
+
+.header__head {
+    display: flex;
+    margin: 0 auto;
+    width: 1200px;
+}
+
+.header__head--logo {
+    margin-left: 350px;
+}
+
+.header__head--menubar {
+    display: flex;
+    align-items: flex-end;
+}
+
+.header__head--searchbar {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    height: 50px;
+    padding: 10px;
+    border: 3px solid #34C759;
+    border-radius: 100px;
+}
+
+.search-input {
+    width: 90%;
+
+}
+
+.search-btn img {
+    position: relative;
+    top: -2px;
+    width: 23px;
+}
+
+.cart-btn img {
+    width: 55px;
+    height: 55px;
+}
+
+.notice-btn img { 
+    position: relative;
+    top: -9px;
+    width: 45px;
+    height: 35px;
+}
+
+
