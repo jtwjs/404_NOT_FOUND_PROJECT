@@ -1,0 +1,155 @@
+
+
+.join__form {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.join__form--marketer {
+    display: flex;
+    flex-direction: column;
+    width: 1200px;
+    padding: 50px;
+
+}
+
+label {
+    width: 200px;
+}
+
+span {
+    margin-left: 10px;
+    font-family: 맑은 고딕,돋움,굴림;
+    color:#888888;
+    font-size: 8pt;
+}
+
+.essential::before {
+    margin-right: 5px;
+    display: inline-block;
+    width: 12px;
+    height: 9px;
+    background-image: url("/UI/assets/Path.png");
+    content: "";
+}
+
+.virtual::before {
+    display: inline-block;
+    width: 16px;
+    content: "";
+
+}
+
+.id, .pw, .pwcheck, .marketName, .ceoName, .addr, 
+.saleNum, .name, .Phone, .email, .bankNum {
+    padding: 10px;
+    border-top: 2px solid #d3d3d3;
+}
+
+.pwcheck {
+    border-bottom: 2px solid #d3d3d3;
+}
+
+.addr {
+    margin-bottom: 10px;
+}
+
+.email, .bankNum {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #d3d3d3;
+}
+
+.bankNum {
+    padding-top: 20px;
+}
+
+input[type="text"], input[type="password"], input[type="checkbox"] {
+    border: 1px solid #808080;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.inputId, .inputPw, .inputPwCheck, .inputMarketName, .inputCeoName, 
+.inputSaleNum, .inputName, .inputEmail1, .inputEmail2 {
+    width: 200px;
+}
+
+.inputAddrNum {
+    width: 100px;
+}
+
+.inputAddr1 {
+    margin-left: 205px;
+}
+
+.inputAddr1, .inputAddr2 {
+    width: 350px;
+}
+
+.inputPhone1, .inputPhone2, .inputPhone3 {
+    width: 80px;
+}
+
+.inputChkSaleFile {
+    margin-left: 150px;
+}
+
+.inputBankNum2 {
+    width: 400px;
+}
+
+
+select {
+    border: 1px solid #808080;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.selectEmail3 {
+    width: 200px;
+}
+
+.selectBankNum1 {
+    width: 150px;
+}
+
+
+button {
+    width: 200px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font: 16px 맑은고딕,굴림,돋움;
+    letter-spacing: 1px;
+	color: #ffffff;
+}
+
+.addrNumBtn, .SaleFileBtn {
+    width: 100px;
+    padding: 5px;
+    font: 12px 맑은고딕,굴림,돋움;
+}
+
+.addrNumBtn {
+    margin-left: 20px;
+    background: #d3d3d3;
+	color: black;
+}
+
+.SaleFileBtn {
+    margin-left: 30px;
+    border-radius: 5px;
+    background: #7e76c9;
+}
+
+.finish .submitBtn {
+    margin-left: 315px;
+    background: #17a542;
+}
+
+.finish .resetBtn {
+    margin-left: 20px;
+    background: #808080;
+}

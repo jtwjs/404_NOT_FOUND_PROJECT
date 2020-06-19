@@ -1,4 +1,12 @@
 
+.show-category {
+    display: flex;
+
+}
+.hide-category {
+    display: none;
+ 
+}
 
 /* Header  */
 #header {
@@ -73,10 +81,17 @@
    
 }
 
-.nav__category {
+#nav__category {
     position: relative;
     margin-right: 20px;
 }
+
+#nav__category:hover > .show-category {
+    max-height: 300px;
+    opacity: 1;
+  
+}
+
 
 #category_btn {
     display: flex;
@@ -101,8 +116,11 @@
 
 #category_menu {
     position: absolute;
-    display: none;
+    max-height: 0;
     border: 1px solid rgba(52, 199, 89,0.8);
+    transition: all 4s ease-in-out;
+    opacity: 0;
+    
 }
 #category_menu a {
     display: block;
@@ -111,7 +129,7 @@
     color: rgba(51, 51, 51,0.6);
     text-align: left;
     letter-spacing: -.3px;
-    transition: all 150ms ease-in-out;
+    
 }
 
 #category_menu a:hover {
