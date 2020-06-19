@@ -1,8 +1,19 @@
 * {
     box-sizing:border-box;
     margin:0;
+<<<<<<< Updated upstream
 }
 
+=======
+    padding: 0;
+    line-height: 1.4;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #2B292D;
+}
+>>>>>>> Stashed changes
 
 /* Reset CSS */
 a {
@@ -10,9 +21,19 @@ a {
     text-decoration: none;
 }
 
+a:hover {
+    text-decoration: none;
+    color:currentColor;
+}
+
 button,
 input,
 textarea {
+<<<<<<< Updated upstream
+=======
+    border: none;
+    font-family: 'Noto Sans KR', sans-serif;
+>>>>>>> Stashed changes
     font-size: 16px;
 }
 
@@ -35,9 +56,23 @@ li {
 
 }
 
+<<<<<<< Updated upstream
 p {
     font-size: 16px;
     line-height: 1.5;
     color: #2b292d;
     letter-spacing: -0.01em;
 }
+=======
+
+.hide-text { 
+    display:inline-block;
+    overflow:hidden;
+    border:0;
+    width:1px;
+    height:1px;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path:inset(50%);
+    }
+    
+>>>>>>> Stashed changes

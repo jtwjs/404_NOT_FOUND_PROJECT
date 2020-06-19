@@ -1,0 +1,210 @@
+
+/* Header  */
+#header {
+    display: fixed;
+    
+}
+
+.header__head {
+    display: flex;
+    width: 1200px;
+    margin-bottom: 10px;
+    
+}
+
+.header__head--logo {
+    margin-left: 330px;
+    cursor: pointer;
+}
+
+.header__head--menubar {
+    display: flex;
+    align-items: flex-end;
+}
+
+.header__head--searchbar {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    height: 50px;
+    padding: 10px 20px;
+
+    border: 3px solid #34C759;
+    border-radius: 100px;
+}
+
+.search-input {
+    width: 90%;
+
+}
+
+.search-btn img {
+    position: relative;
+    top: -2px;
+    width: 23px;
+}
+
+.cart-btn img {
+    width: 55px;
+    height: 55px;
+}
+
+.notice-btn img { 
+    position: relative;
+    top: -9px;
+    width: 45px;
+    height: 35px;
+}
+
+/* nav  */
+#nav {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    padding: 0 10px;
+    border-top : 2px solid #C2CEDB;
+    border-bottom: 2px solid #C2CEDB;
+}
+
+.nav__category {
+    margin-right: 20px;
+}
+
+.category_btn {
+    display: flex;
+}
+
+.category_btn::before {
+    position: relative;
+    top: 4px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    background-image: url("./assets/header-image/hamburger-menu-icon\ \(1\).png");
+    background-repeat: no-repeat;
+    content: ';
+}
+
+
+.nav__localbar {
+    margin-right: 120px;
+}
+
+.local-menu-list {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.local-menu-list a {
+    font-weight: 500;
+    transition: all 350ms ease-in-out;
+}
+
+.local-menu-list a:hover {
+    color: #34C759;
+}
+
+.local-menu-list li:first-child {
+    padding-bottom: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    
+}
+
+.local-menu-list li:first-child::before {
+    position: relative;
+    top: 10px;
+    display: inline-block;
+    width: 33px;
+    height: 30px;
+    margin-right: 5px;
+    background-image: url("./assets/header-image/농수산물이미지.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    content: '';
+}
+
+.local-menu-list li {
+    margin-right: 10px;
+}
+
+
+.nav__menubar {
+    display: flex;
+}
+
+
+.login-btn {
+    display: flex;
+    margin-right: 10px;
+
+}
+
+.login-btn::before {
+    position: relative;
+    top: 2px;
+    width: 20px;
+    height: 20px;
+    margin-right: 3px;
+    background-image: url("./assets/header-image/icon.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    content: '';
+}
+
+.join-btn {
+    display: flex;
+    margin-right: 10px;
+}
+
+.join-btn::before {
+    position: relative;
+    top: 2px;
+    width: 20px;
+    height: 20px;
+    margin-right: 3px;
+    background-image: url("./assets/header-image/회원가입.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    content: '';
+}
+
+.ordercheck-btn {
+    display: flex;
+    margin-right: 10px;
+}
+
+.ordercheck-btn::before {
+    position: relative;
+    top: 2px;
+    width: 20px;
+    height: 20px;
+    margin-right: 3px;
+    background-image: url("./assets/header-image/주문조회.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    content: '';
+}
+
+.service-btn {
+    display: flex;
+}
+
+.service-btn::before {
+    position: relative;
+    top: 2px;
+    width: 20px;
+    height: 22px;
+    margin-right: 3px;
+    background-image: url("./assets/header-image/고객센터.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    content: '';
+}
