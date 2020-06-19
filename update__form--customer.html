@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="update__form--customer_style.css">
+    <link rel="stylesheet" href="reset.css">
+    <title>update-customer</title>
+</head>
+<body>
+    <section id="update__form">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+             
+                    <div class="update__form--customer">
+                        <h5><b>회원정보 입력</b></h5>
+
+                        <form name="update__form--customer">
+
+                            <div class="name"> 
+                                <label for="userName" class="essential">이름</label>
+                                <input type="text" class="inputName" id="userName" name="userName" maxlength="20" value="">
+                            </div>
+
+                            <div class="id">
+                                <label for="userId" class="essential">아이디</label>
+                                <input type="text" class="inputId" id="userId" name="userId" maxlength="20" value=""  >                                
+                            </div>
+
+                            <div class="pw">
+                                <label for="userPw" class="essential">비밀번호</label>
+                                <input type="password" class="inputPw" id="userPw" name="userpPw" maxlength="20" autocomplete="off">                                
+                            </div>
+
+                            <div class="pwcheck">
+                                <label for="userPwCheck" class="essential">신규 비밀번호</label>
+                                <input type="password" class="inputPwCheck" id="userPwCheck" name="userPwCheck" maxlength="20" autocomplete="off">
+                                <span>공백 없는 영문, 숫자 포함 6 ~ 20자</span>
+                            </div>
+
+                            <div class="email">
+                                <label for="email1" class="virtual">이메일 주소</label>
+                                <input type="text" class="inputEmail1" id="email01" name="email01" size="20" maxlength="20" value="">
+                                @
+                                <input type="text" class="inputEmail2" id="email02" name="email02" size="20" maxlength="20" value="">
+                                <select name="inputEmail3" class="inputEmail3" id="email03">
+                                    <option value="메일 선택" selected>메일 선택</option>
+                                    <option value="naver.com">naver.com</option>
+                                    <option value="daum.net">daum.net</option>
+                                    <option value="gmail.com">gmail.com</option>
+                                    <option value="yahoo.co.kr">yahoo.co.kr</option>
+                                    <option value="직접 입력" >직접 입력</option>
+                                </select>
+                            </div>
+                            <div class="mPhone">
+                                <label for="mPhone1" class="essential">휴대폰번호</label>
+                                <select class="inputPhone1" id="mPhone1" name="mPhone1">
+                                    <option value="010" selected>010</option>
+                                    <option value="011">011</option>
+                                    <option value="016">017</option>
+                                    <option value="018">018</option>
+                                    <option value="019">019</option>
+                                </select>
+                                -
+                                <input id="mPhone2" class="inputPhone2" name="mPhone2" type="text" value="" size="4" maxlength="4">
+                                -
+                                <input id="mPhone3" class="inputPhone3" name="mPhone3" type="text" value="" size="4" maxlength="4">
+                                
+                                <input type="checkbox" class="chk_sms" name="chk_sms" id="sms_button" checked> SMS를 수신하겠습니다.
+
+                                <div class="smsSpan">
+                                    <br />SMS 수신에 동의하시면 여러가지 할인혜택과 각종 이벤트 정보를 받아보실 수 있습니다.
+                                    <br />회원가입관련, 주문배송관련 등의 SMS는 수신동의와 상관없이 구매 회원에게 발송됩니다.
+                                </div>
+                            </div>
+                            <div class="addr">
+                                <label for="addr" class="virtual">주소</label>
+                                <input type="text" id="sample4_postcode" class="inputAddrNum" name="addr_num" placeholder="우편번호">
+                                <button type="button"  class="addrNumBtn" onclick="sample4_execDaumPostcode()" >우편번호찾기</button><br>
+                                  <input type="text" class="inputAddr1" id="sample4_roadAddress" placeholder="도로명주소">
+                                  <span id="guide" style="color:#999;display:none"></span>
+                                  <input type="text" class="inputAddr2" id="sample4_detailAddress" placeholder="상세주소"> 
+
+                                  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+                                                                           
+                            </div>
+                            <div class="finish">
+                              <div class="button">
+                                <br />
+                                <button type="button" class="submitBtn" onclick="location.href='#'">회원정보수정</button>
+                                <button type="button" class="resetBtn" onclick="location.href='#'">취소</button>
+                              </div>       
+                           </div>                   
+                        </form>
+                    </div>    
+                </div>
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript" src="post.js"></script>
+</body>
+</html>
