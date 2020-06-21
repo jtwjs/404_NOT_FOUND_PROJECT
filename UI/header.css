@@ -106,6 +106,7 @@
 #category_menu {
     position: absolute;
     display: flex;
+    height: 0;
     border: 1px solid rgba(52, 199, 89,0.8);
     transition: all 350ms ease-in-out;
    
