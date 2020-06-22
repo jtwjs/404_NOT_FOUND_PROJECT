@@ -1,0 +1,60 @@
+.container {
+    width: 1200px;
+    max-width: none !important;
+}
+
+#my-page__sidebar {
+	margin: 50px 50px 0 30px;
+	padding: 0;
+	width: 150px;
+}
+
+#my-page__sidebar--title {
+	height: 50px;
+	background-color: #71AD2C;
+	text-align: center;
+}
+
+#my-page__sidebar--title > p {
+	line-height: 50px;
+	color: #fff;
+	font-size: 20px;
+}
+
+#my-page__sidebar--sub1 > p{
+	height: 35px;
+    line-height: 40px;
+	background-color: #ccc;
+	color: #333;
+	text-align: center;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+#my-page__sidebar--sub1 > ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-decoration: none;
+}
+
+#my-page__sidebar--sub1 > ul > li {
+	margin: 0 0 10px 0;
+	padding: 0;
+}
+
+
+a:link {
+	color: #215151;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #215151;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #215151;
+	text-decoration: none;
+}
