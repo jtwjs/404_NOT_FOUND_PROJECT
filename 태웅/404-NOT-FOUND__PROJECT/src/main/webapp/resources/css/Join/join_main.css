@@ -33,7 +33,7 @@
     position: absolute;
     width: 15px;
     height: 15px;
-    background-image: url("./assets/join_main-image/right-arrow.png");
+    background-image: url("../../Images/Join/right-arrow.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -46,6 +46,10 @@
 
 .join__main--content--title {
     margin-bottom: 40px;
+}
+
+.brand-title {
+	color: #34C759;
 }
 
 .join__main--content--sort {
@@ -91,13 +95,13 @@
 .join--buyer .join--type::after {
     width: 52px;
     height: 52px;
-    background-image: url(./assets/join_main-image/pngegg.png);
+    background-image: url(../../Images/Join/pngegg.png);
 }
 
 .join--seller .join--type::after {
     width: 62px;
     height: 52px;
-    background-image: url(./assets/join_main-image/seller.jpg);
+    background-image: url(../../Images/Join/seller.jpg);
 }
 
 .join--type span {
@@ -110,7 +114,7 @@
     left: 65px;
     width: 25px;
     height: 30px;
-    background-image: url(./assets/join_main-image/arrow-right2.png);
+    background-image: url(../../Images/Join//arrow-right2.png);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -135,54 +139,54 @@
     height: 30px;
 }
 
-.sns-wrap .naver {
+.sns-wrap .naver-btn {
     background-color: #00ca3b;
 }
 
-.sns-wrap .naver::after {
+.sns-wrap .naver-btn::after {
     position: absolute;
     top: 2px;
     left: 45px;
     width: 30px;
     height: 25px;
-    background-image: url(./assets/join_main-image/naver-icon.png);
+    background-image: url(../../Images/Join/naver-icon.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     content: '';
 }
 
-.sns-wrap .kakao {
+.sns-wrap .kakao-btn {
     background-color: #f6d63d;
 }
 
-.sns-wrap .kakao::after {
+.sns-wrap .kakao-btn::after {
     position: absolute;
     top: 2px;
     left: 49px;
     width: 25px;
     height: 25px;
-    background-image: url(./assets/join_main-image/kakao-icon.png);
+    background-image: url(../../Images/Join/kakao-icon.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     content: '';
 }
 
-.sns-wrap .facebook {
+.sns-wrap .facebook-btn {
     background-color: #3b5999;
     background-repeat: no-repeat;
     background-size: cover;
     
 }
 
-.sns-wrap .facebook::after {
+.sns-wrap .facebook-btn::after {
     position: absolute;
     top: 2px;
     left: 45px;
     width: 25px;
     height: 25px;
-    background-image: url(./assets/join_main-image/facebook-icon.png);
+    background-image: url(../../Images/Join/facebook-icon.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

@@ -50,6 +50,10 @@ li {
 
 }
 
+h2 {
+    margin: 0; 
+}
+
 dl {
     margin: 0;
 }

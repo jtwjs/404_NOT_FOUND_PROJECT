@@ -3,8 +3,6 @@ strong {
 }
 
 #footer {
-	position: absolute;
-	bottom: 0;
     width: 100%;
     height: 250px;
     font-size: 12px;
@@ -231,8 +229,8 @@ strong {
 }
 
 
-.policy-list li:first-child {
-    color: #fff;
+.policy-list strong {
+	color: #fff;
 }
 
 .policy-list li:first-child::after,

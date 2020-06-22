@@ -14,7 +14,6 @@
 <html>
 <head>
     <jsp:include page="../header.jsp" flush="false"/>
-    <jsp:include page="../footer.jsp" flush="false"/>
     <link href="<c:url value='/resources/css/module/header.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/reset.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css'/>" rel="stylesheet" />
@@ -76,5 +75,8 @@
             </div>
         </div>
     </div>
+    <jsp:include page="../footer.jsp" flush="false"/>
+    <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js'/>" ></script>
+	<script type="text/javascript" src="<c:url value='/resources/js/module/header.js'/>" ></script>
 </body>
 </html>

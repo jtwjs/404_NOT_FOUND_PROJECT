@@ -12,6 +12,7 @@
     display: flex;
     width: 1200px;
     margin-bottom: 10px;
+    padding-top: 15px;
     
 }
 
@@ -109,6 +110,7 @@
     height: 0;
     border: 1px solid rgba(52, 199, 89,0.8);
     transition: all 350ms ease-in-out;
+    z-index:1;
    
     
 }
@@ -122,11 +124,6 @@
     letter-spacing: -.3px;
     
 }
-
-/* #category_menu a:hover {
-    font-weight: 600;
-    color: #34C759;
-} */
 
 #category_menu .title-on {
     font-weight: 600;
