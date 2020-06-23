@@ -2,12 +2,12 @@
 var dropBtn = document.getElementById('nav__category');
     dropBtn.addEventListener('mouseover',function(){
         document.getElementById('category_menu').style.height="365px";
-        
+        document.getElementById('category_menu').style.borderBottom = '1px solid rgba(52, 199, 89,0.8)';
     });
 
     dropBtn.addEventListener('mouseout',function(){
         document.getElementById('category_menu').style.height="0";
-        
+        document.getElementById('category_menu').style.borderBottom = null;
     });
 
     document.getElementById('category_btn').addEventListener('mouseover',function(){
