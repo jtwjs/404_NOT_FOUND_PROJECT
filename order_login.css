@@ -17,12 +17,7 @@
 a:link{
     text-decoration: none;
 }
-a:visited{
-    /* 방문했던 링크  */
-    text-decoration: none;
-    color: #000000;
 
-}
 a:hover{
     /*   마우스 올렸을 때    */
     color:#ff7b00;
@@ -35,18 +30,20 @@ a:active{
     text-decoration: none;
 }
 
-
+/* 로그인, 비회원주문조회 text*/
 .order_tit, .order_tit2{
 
     margin-top: 200px;    
     padding-left: 215px;
 }
 
+/* 비회원 주문조회 text*/
 .order_tit2{
-    padding-left: 182px;
+    padding-left: 170px;
 
 }
 
+/*회원, 비회원 text*/
 .login__member, .login__member2{ 
 
     padding-left: 225px; 
@@ -58,6 +55,7 @@ a:active{
     float: right;
 }
 
+/* 회원 노란색 줄*/
 .login__border{
 
     margin-left: 148px;
@@ -65,6 +63,7 @@ a:active{
     width : 35%;
 }
 
+/*비회원 노란색 줄*/
 .login__border2{
 
     margin-left: 159px;
@@ -72,15 +71,20 @@ a:active{
     width : 35%;
 }
 
-input[type="text"], input[type="password"] {
+/* input, button 스타일*/
+input[type="text"], input[type="password"], button[type="button"] {
 
     margin-top: 25px;
-    margin-left: 35px;
-    border: 1px solid #808080;
-    border-radius: 5px;
-    text-align: left;
+    margin-left: 35px;    
+    border-radius: 5px;    
     width: 420px;
     height: 39px;
+}
+
+input[type="text"], input[type="password"]{
+
+    border: 1px solid #808080;
+    text-align: left;
 }
 
 .checkbox{
@@ -90,18 +94,14 @@ input[type="text"], input[type="password"] {
 
 }
 
-
+/* 로그인 버튼 */
 .submitBtn  {
 
-    margin-top: 20px;
-    margin-left: 25px;
-    border-radius: 5px; 
-    width: 450px;
-    height: 39px;
     background: #ddc808;
     
 }
 
+/* 아이디 /  비밀번호 찾기 */
 .loginfind_btn{
     
     margin-top: 25px;
@@ -110,34 +110,36 @@ input[type="text"], input[type="password"] {
 
 }
 
+/* 회원 가입 , 주문 조회 버튼*/
 .submitjoinBtn, .submitcartBtn{
 
-    margin-left: 25px;
-    border-radius: 5px; 
-    width: 450px;
-    height: 39px;
     background : #808080;   
 
 }
 
+/* 회원가입 버튼 */
 .submitjoinBtn{
 
-    margin-top: 20px;
+    margin-top: 25px;
 }
 
+/* 주문조회 버튼 */
 .submitcartBtn{
 
     margin-top: 67px;
 }
+
+/* 회원가입, 주문조회 text color */
 .submitjoinBtn, .submitcartBtn, .b{
 
     color : #ffffff
 }
 
+/* 네이버, 카카오 이미지 위치 */
 .other_login{
 
-    margin-top: 20px;
-    margin-left: 42px;
+    margin-top: 25px;
+    margin-left: 45px;
 
 }
 
