@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 	<jsp:include page="../header.jsp" flush="false"/>
     <link href="<c:url value='/resources/css/module/header.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/reset.css'/>" rel="stylesheet" />
