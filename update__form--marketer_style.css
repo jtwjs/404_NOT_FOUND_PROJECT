@@ -1,0 +1,154 @@
+
+
+.main {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.update__form--marketer {
+    display: flex;
+    flex-direction: column;
+    width: 1200px;
+    padding: 50px;
+
+}
+
+.essential {
+    width: 200px;
+}
+
+.essential::before {
+    margin-right: 5px;
+    display: inline-block;
+    width: 12px;
+    height: 9px;
+    background-image: url("/assets/Path.png");
+    content: "";
+}
+
+.guide {
+    margin-left: 10px;
+    font-family: 맑은 고딕,돋움,굴림;
+    color:#888888;
+    font-size: 8pt;
+}
+
+.update_id, .update_pw, .update_pwcheck, 
+.update_marketName, .update_ceoName, .update_addr, 
+.update_saleNum, .update_name, .update_Phone, 
+.update_email, .update_bankNum {
+    padding: 10px;
+    border-top: 2px solid #d3d3d3;
+}
+
+.update_pwcheck {
+    border-bottom: 2px solid #d3d3d3;
+}
+
+.update_addr {
+    margin-bottom: 10px;
+}
+
+.update_email, .update_bankNum {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #d3d3d3;
+}
+
+.update_bankNum {
+    padding-top: 20px;
+}
+
+.inputId, .inputPw, .inputPwCheck, .inputMarketName, 
+.inputCeoName, .inputSaleNum, .inputName, 
+.inputEmail1, .inputEmail2, .inputAddrNum, .inputAddr1,
+.inputAddr2, .inputPhone1, .inputPhone2, .inputPhone3,
+.inputChkSaleFile, .inputBankNum2 {
+    border: 1px solid #808080;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.inputId, .inputPw, .inputPwCheck, .inputMarketName, .inputCeoName, 
+.inputSaleNum, .inputName, .inputEmail1, .inputEmail2 {
+    width: 200px;
+}
+
+.inputAddrNum {
+    width: 100px;
+}
+
+.inputAddr1 {
+    margin-left: 205px;
+}
+
+.inputAddr1, .inputAddr2 {
+    width: 350px;
+}
+
+.inputPhone1, .inputPhone2, .inputPhone3 {
+    width: 80px;
+}
+
+.inputChkSaleFile {
+    margin-left: 150px;
+}
+
+.inputBankNum2 {
+    width: 400px;
+}
+
+
+.selectEmail3, .selectBankNum1 {
+    border: 1px solid #808080;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.selectEmail3 {
+    width: 200px;
+}
+
+.selectBankNum1 {
+    width: 150px;
+}
+
+
+.addrNumBtn, .SaleFileBtn, .submitBtn, .resetBtn {
+    width: 200px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font: 16px 맑은고딕,굴림,돋움;
+    letter-spacing: 1px;
+	color: #ffffff;
+}
+
+.addrNumBtn, .SaleFileBtn {
+    width: 100px;
+    padding: 5px;
+    font: 12px 맑은고딕,굴림,돋움;
+}
+
+.addrNumBtn {
+    margin-left: 20px;
+    background: #d3d3d3;
+	color: black;
+}
+
+.SaleFileBtn {
+    margin-left: 30px;
+    border-radius: 5px;
+    background: #7e76c9;
+}
+
+.submitBtn {
+    margin-left: 315px;
+    background: #17a542;
+}
+
+.resetBtn {
+    margin-left: 20px;
+    background: #808080;
+}

@@ -1,0 +1,140 @@
+
+
+.main {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.join__form--customer {
+    display: flex;
+    flex-direction: column;
+    width: 1200px;
+    padding: 50px;
+
+}
+
+.essential, .virtual {
+    width: 150px;
+}
+
+.essential::before {
+    margin-right: 5px;
+    display: inline-block;
+    width: 12px;
+    height: 9px;
+    background-image: url("/assets/Path.png");
+    content: "";
+}
+
+.virtual::before {
+    display: inline-block;
+    width: 16px;
+    content: "";
+}
+
+.join_name, .join_id, .join_pw, .join_pwcheck, 
+.join_mPhone, .join_email, .join_addr {
+    padding: 10px;
+    border-top: 2px solid #d3d3d3
+}
+
+.join_email {
+    margin-bottom: 35px;
+}
+
+.join_addr {
+    margin-bottom: 10px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #d3d3d3;
+}
+
+.inputName, .inputId, .inputPw, .inputPwCheck,
+.inputEmail1, .inputEmail2, .inputPhone2, .inputPhone3,
+.inputChkSms, .inputAddrNum, .inputAddr1, .inputAddr2 {
+    border: 1px solid #808080;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.inputName, .inputId, .inputPw, .inputPwCheck, 
+.inputEmail1, .inputEmail2 {
+    width: 200px;
+}
+
+.inputPhone2, .inputPhone3 {
+    width: 80px;
+}
+
+.inputAddrNum {
+    width: 100px;
+}
+
+.inputAddr1 {
+    margin-left: 156px;
+}
+
+.inputAddr1, .inputAddr2 {
+    width: 350px;
+}
+
+.inputChkSms {
+    margin-left: 20px;
+}
+
+.selectPhone, .selectEmail3 {
+    border: 1px solid #808080;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.selectPhone {
+    width: 80px;
+}
+
+.selectEmail3 {
+    width: 200px;
+}
+
+.guide {
+    margin-left: 10px;
+    font-family: 맑은 고딕,돋움,굴림;
+    color:#888888;
+    font-size: 8pt;
+}
+
+.join_mPhone .smsAgree {
+    margin-left: 240px;
+    font-family: 맑은 고딕,돋움,굴림;
+    font-size: 8pt;
+    color:#888888;
+}
+
+.addrNumBtn, .submitBtn, .resetBtn {
+    width: 200px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font: 16px 맑은고딕,굴림,돋움;
+    letter-spacing: 1px;
+	color: #ffffff;
+}
+
+.addrNumBtn {
+    width: 100px;
+    padding: 5px;
+    margin-left: 20px;
+    font: 12px 맑은고딕,굴림,돋움;
+    background: #d3d3d3;
+	color: black;
+}
+
+.submitBtn {
+    margin-left: 315px;
+    background: #17a542;
+}
+
+.resetBtn {
+    margin-left: 20px;
+    background: #808080;
+}
