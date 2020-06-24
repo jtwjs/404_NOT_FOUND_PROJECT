@@ -3,34 +3,202 @@
 
 <head>
     <meta charset="UTF-8">
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <!-- 외부파일 경로 바꿔야함-->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" href="login_page_marketer.css">
     <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="login_page_marketer.css">
     <title>로그인페이지</title>
 </head>
 
 <body>
-    <section id="main__login__maketer">
+    <!-- HEADER 시작 -->
+    <header id="header" role="banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="header__head">
+                        <div class="header__head--logo">
+                            <img src="assets/header-image/이웃샵이미지.png" alt="main logo" />
+                            <h2 class="hide-text">메인</h2>
+                        </div>
+                        <div class="header__head--menubar">
+                            <div class="header__head--searchbar">
+                                <input type="text" class="search-input" placeholder="지역 특산품" />
+                                <button type="submit" class="search-btn">
+                                    <img src="assets/header-image/search-icon.png" alt="search icon" />
+                                </button>
+                            </div>
+                            <button type="button" class="cart-btn">
+                                <img src="assets/header-image/cart-icon.png" alt="shooping acrt icon" />
+                            </button>
+                            <button type="button" class="notice-btn">
+                                <img src="assets/header-image/notice-icon.jpg" alt="notice icon" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav id="nav" role="navigation">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="header__nav">
+                            <div id="nav__category">
+                                <button type="button" id="category_btn">
+                                    <span class="hide-text">전체 카테고리</span>
+                                </button>
+                                <div id="category_menu">
+                                    <div class="main_category">
+                                        <ul id="main_category--list">
+                                            <li><a id="main_category--first" class="title-on" href="#">쌀/잡곡</a></li>
+                                            <li><a id="main_category--second" href="#">채소류</a></li>
+                                            <li><a id="main_category--third" href="#">과일</a></li>
+                                            <li><a id="main_category--fourth" href="#">축산물</a></li>
+                                            <li><a id="main_category--fifth" href="#">수산물/건어물</a></li>
+                                            <li><a id="main_category--sixth" href="#">가공식품/떡류</a></li>
+                                            <li><a id="main_category--seventh" href="#">김치/반찬/젓갈</a></li>
+                                            <li><a id="main_category--eighth" href="#">장/조청/식초</a></li>
+                                            <li><a id="main_category--ninth" href="#">건강식품</a></li>
+                                            <li><a id="main_category--tenth" href="#">차류</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="sub_category">
+                                        <ul id="sub_category--first">
+                                            <li><a href="#" class="">백미</a></li>
+                                            <li><a href="#">현미/찹쌀/흑미</a></li>
+                                            <li><a href="#">콩/팥/보리</a></li>
+                                            <li><a href="#">조/수수/깨/기타</a></li>
+                                            <li><a href="#">곡류선물세트</a></li>
+                                        </ul>
+                                        <ul id="sub_category--second" class="hide">
+                                            <li><a href="#">감자/고구마</a></li>
+                                            <li><a href="#">더덕</a></li>
+                                            <li><a href="#">나물/잎줄기 채소</a></li>
+                                            <li><a href="#">건나물/건채소</a></li>
+                                            <li><a href="#">버섯류</a></li>
+                                            <li><a href="#">옥수수/단호박/기타</a></li>
+                                        </ul>
+                                        <ul id="sub_category--third" class="hide">
+                                            <li><a href="#">사과/배</a></li>
+                                            <li><a href="#">감/홍시/곶감</a></li>
+                                            <li><a href="#">견과/건과</a></li>
+                                            <li><a href="#">참다래/기타과일</a></li>
+                                        </ul>
+                                        <ul id="sub_category--fourth" class="hide">
+                                            <li><a href="#">소고기</a></li>
+                                            <li><a href="#">돼지고기</a></li>
+                                            <li><a href="#">닭</a></li>
+                                            <li><a href="#">계란/알류/가공란</a></li>
+                                            <li><a href="#">축산선물세트</a></li>
+                                            <li><a href="#">유제품</a></li>
+                                            <li><a href="#">기타</a></li>
+                                        </ul>
+                                        <ul id="sub_category--fifth" class="hide">
+                                            <li><a href="#">황태/진미채</a></li>
+                                            <li><a href="#">수산물선물세트</a></li>
+                                            <li><a href="#">기타</a></li>
+                                        </ul>
+                                        <ul id="sub_category--sixth" class="hide">
+                                            <li><a href="#">떡</a></li>
+                                            <li><a href="#">한과</a></li>
+                                            <li><a href="#">면</a></li>
+                                            <li><a href="#">음료</a></li>
+                                            <li><a href="#">냉장냉동간편조리</a></li>
+                                            <li><a href="#">기름</a></li>
+                                            <li><a href="#">기타</a></li>
+                                        </ul>
+                                        <ul id="sub_category--seventh" class="hide">
+                                            <li><a href="#">김치/절임배추</a></li>
+                                            <li><a href="#">반찬/절임</a></li>
+                                            <li><a href="#">젓갈</a></li>
+                                            <li><a href="#">기타</a></li>
+                                        </ul>
+                                        <ul id="sub_category--eighth" class="hide">
+                                            <li><a href="#">간장</a></li>
+                                            <li><a href="#">고추장</a></li>
+                                            <li><a href="#">된장</a></li>
+                                            <li><a href="#">청국장</a></li>
+                                            <li><a href="#">장류선물세트</a></li>
+                                            <li><a href="#">식초/액젓</a></li>
+                                            <li><a href="#">조청</a></li>
+                                            <li><a href="#">기타</a></li>
+                                        </ul>
+                                        <ul id="sub_category--ninth" class="hide">
+                                            <li><a href="#">유산균</a></li>
+                                            <li><a href="#">홍삼/인삼</a></li>
+                                            <li><a href="#">건강즙</a></li>
+                                            <li><a href="#">영양식/선식</a></li>
+                                            <li><a href="#">꿀/로얄젤리</a></li>
+                                            <li><a href="#">건강분말/건강환</a></li>
+                                            <li><a href="#">기타</a></li>
+                                        </ul>
+                                        <ul id="sub_category--tenth" class="hide">
+                                            <li><a href="#">커피</a></li>
+                                            <li><a href="#">전통차/허브차/꽃차</a></li>
+                                            <li><a href="#">커피/차 선물세트</a></li>
+                                            <li><a href="#">기타</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nav__localbar">
+                                <ul class="local-menu-list">
+                                    <li>지역 특산물</li>
+                                    <li><a href="#">강원</a></li>
+                                    <li><a href="#">경기</a></li>
+                                    <li><a href="#">경북</a></li>
+                                    <li><a href="#">경남</a></li>
+                                    <li><a href="#">전남</a></li>
+                                    <li><a href="#">전북</a></li>
+                                    <li><a href="#">제주</a></li>
+                                    <li><a href="#">충남</a></li>
+                                    <li><a href="#">충북</a></li>
+                                    <li><a href="#">울릉도/독도</a></li>
+                                </ul>
+                            </div>
+                            <div class="nav__menubar">
+                                <button type="button" class="login-btn">로그인</button>
+                                <button type="button" class="join-btn">회원가입</button>
+                                <button type="button" class="ordercheck-btn">주문조회</button>
+                                <button type="button" class="service-btn">고객센터</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </nav>
+    </header>
+        <!-- HEADER 끝 -->
+
+    <main id="main">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="main__login__maketer--wrap">
                         <!--일반 회원 로그인-->
-                        <div class="login_tit">
-                            <h5><b>로그인</b></h5>
-                        </div>
+                            <h5 class="login_tit">로그인</h5>
                         <div class="login__member--tabs">
-                            <div class="login__member">
+                            <div class="login__members1">
                                 <a href="login_page_customer.html">
-                                    <p><b>회원</b></p>
+                                    <p class="login__member">회원</p>
                                 </a>
                             </div>
                             <div class="login__border">
                             </div>
                         </div>
-                        <div class="main__login--form">
+                        <div class="main__login__maketer--form">
                             <form name="main__login--form">
 
                                 <div class="id">
@@ -42,36 +210,34 @@
                                     <input type="password" class="inputPw" id="userPw" name="userPw" maxlength="20"
                                         placeholder="  비밀번호를 입력해주세요.">
                                 </div>
-                                <div class="checkbox">
+                                <div class="check_Id">
                                     <input type="checkbox" class="chk_Id" name="chk_Id" id="Id_button" checked> 아이디 저장
                                 </div>
                                 <div class="login_btn">
                                 </div>
 
-                                <button type="button" class="submitBtn" onclick="location.href='#'"><b>로그인</b></button>
+                                <button type="button" class="submitBtn" onclick="location.href='#'">로그인</button>
 
                                 <div class="loginfind_btn">
-                                    <a href="#" id="findIdBtn" class="findIdBtn" onclick="location.href='#'"><b>아이디
-                                            찾기</b></a>
-                                    &nbsp; <b>|</b> &nbsp; 
-                                    <a href="#" id="findPwBtn" class="findPwBtn" onclick="location.href='#'"><b>비밀번호
-                                            찾기</b></a>
+                                    <a href="#" id="findIdBtn" class="findIdBtn" onclick="location.href='#'">아이디
+                                            찾기</a>
+                                    &nbsp; | &nbsp; 
+                                    <a href="#" id="findPwBtn" class="findPwBtn" onclick="location.href='#'">비밀번호
+                                            찾기</a>
                                 </div>
                                 <div class="join_btn">
                                     <button type="button" class="submitjoinBtn"
-                                        onclick="location.href='#'"><b>회원가입하기</b></button>
+                                        onclick="location.href='#'">회원가입하기</button>
                                 </div>
 
-                                <div class="other_login">
+                                <div class="main__login__customer--other_login">
                                     <a id="naver-login-btn" href="#" role="button">
-                                        <img src="../UI/assets/naver.PNG" width="28%" height="45" />
+                                        <img src="./assets/naver.PNG"  />
                                     </a>
-                                    &nbsp;
-                                    <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"></script>
 
                                     <a id="kakao-login-btn" href="#" role="button">
-                                        <img src="./UI/assets/kakao_login_medium_narrow.png" width="28%" height="45" />
-                                        <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+                                        <img src="./assets/kakao_login_medium_narrow.png"  />
+           
                                     </a>
                                 </div>
                             </form>
@@ -79,16 +245,121 @@
                     </div>
                     <!-- 개인사업자 로그인 -->
                     <div class="main__login__maketer--wrap2">
-                        <div class="login__member2">
+                        <div class="login__members2">
                             <a href="login_page_marketer.html">
-                                <p><b>개인사업자</b></p>
+                                <p class="login__member2">개인사업자</p>
                         </div>
                         <div class="login__border2">
                         </div>
                     </div>
                 </div>
             </div>
-    </section>
+        </main>
+
+<!--FOOTER 시작-->
+    <footer id="footer">
+        <div class="footer__top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="footer-content">
+                            <div class="footer__top--inner">
+                                <div class="sns_wrap">
+                                    <a href="https://facebook.com" class="facebook" title="페이스북 새창 이동"
+                                        target="_blank"><span class="hide-text">facebook</span></a>
+                                    <a href="https://instagram.com" class="instagram" title="인스타그램 새창 이동"
+                                        target="_blank"><span class="hide-text">instagram</span></a>
+                                    <a href="https://youtube.com" class="youtube" title="유튜브 새창 이동"
+                                        target="_blank"><span class="hide-text">youtube</span></a>
+                                </div>
+                                <div class="related_site">
+                                    <button type="button" id="related_site--box">
+                                        Related Site
+                                    </button>
+                                    <div id="related_site--wrap">
+                                        <dl id="related_site--list">
+                                            <dt class="related_site--title">지방농촌진흥기관</dt>
+                                            <dd><a href="http://www.rda.go.kr/localOrgAllView.do" title="새창열기"
+                                                    target="_blank">지방농촌진흥기관 전체보기</a></dd>
+                                            <dt class="related_site--title">유관 기관</dt>
+                                            <dd><a href="https://www.mafra.go.kr/sites/mafra/index.do" title="새창열기"
+                                                    target="_blank">농림축산식품부</a></dd>
+                                            <dd><a href="http://www.nongupin.co.kr/" title="새창열기"
+                                                    target="_blank">농업인신문</a></dd>
+                                            <dd><a href="http://www.kawa.or.kr/" title="새창열기"
+                                                    target="_blank">한국농수산물도매시장</a></dd>
+                                            <dd><a href="http://www.at.or.kr/home/apko000000/index.action/" title="새창열기"
+                                                    target="_blank">한국농수산식품유통공사</a></dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="footer__bottom--incont">
+                            <div class="customer-service">
+                                <div class="footer--subtitle">
+                                    Customer Service
+                                </div>
+                                <div class="cs_content">
+                                    <ul class="cs_menulist">
+                                        <li>
+                                            <a href="#">FAQ</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">1:1문의</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">이용안내</a>
+                                        </li>
+                                    </ul>
+                                    <div class="cs_detail-content">
+                                        <ul class="cs_info">
+                                            <li><strong>고객센터:</strong> 1588-1234</li>
+                                            <li><strong>상담시간:</strong> 09:00 ~ 18:00</li>
+                                            <li><strong>점심시간:</strong> 12:00 ~ 13:00</li>
+                                            <li><strong>주말 및 공휴일 휴무</strong></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="business-info">
+                                <div class="footer--subtitle">
+                                    Business Info
+                                </div>
+                                <ul class="bs_detail-info">
+                                    <li><strong>대표:</strong>&nbsp;&nbsp;404 NOT FOUND</li>
+                                    <li><strong>사업자등록번호:</strong>&nbsp;&nbsp;214-85-24928</li>
+                                    <li>서울시 서초구 강남대로 459(서초동,백암빌딩)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="footer__bottom--inner">
+                            <div class="copyright">
+                                Copyright (c) '404 NOT FOUND' ALL RIGHTS RESERVED.
+                            </div>
+                            <ul class="policy-list">
+                                <li><a href="#"><strong>개인정보 처리방침</strong></a></li>
+                                <li><a href="#">이메일 무단수집거부</a></li>
+                                <li><a href="#">이용약관</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </footer>
+    <!--FOOTER 끝-->
+    <script type="text/javascript" src="header.js"></script>
+    <script type="text/javascript" src="footer.js"></script>
 </body>
 
 </html>
