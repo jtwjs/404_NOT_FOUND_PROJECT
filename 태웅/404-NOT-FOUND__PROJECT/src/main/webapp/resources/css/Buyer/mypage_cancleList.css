@@ -1,0 +1,60 @@
+.content__tag--b {
+	font-size: 20px;
+    color: #515151;
+}
+
+span.content__tag--span {
+	float: right;
+}
+
+#mypage__cancle-list--content {
+	margin: 50px 0;
+	padding: 0;
+	width: 900px;
+}
+
+#cacle-list__list--title {
+	margin: 0 0 20px 0;
+	padding: 0;
+	width: 100%;
+}
+
+#mypage__cancle-list--table {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	color: #515151;
+}
+
+#mypage__cancle-list--table > table > thead > tr{
+	border-top: 1px solid #515151;
+	border-bottom: 2px solid #515151;
+}
+
+#mypage__cancle-list--table > table > tbody > tr {
+	border-bottom: 1px solid #515151;
+}
+
+.cancle-list__date {
+    width: 100px;
+}
+
+.cancle-list__num {
+    width: 100px;
+}
+
+.cancle-list__type {
+    width: 100px;
+}
+
+.cancle-list__name {
+    width: 400px;
+}
+
+.cancle-list__return-date {
+    width: 100px;
+}
+
+.cancle-list__status {
+    width: 100px;
+}

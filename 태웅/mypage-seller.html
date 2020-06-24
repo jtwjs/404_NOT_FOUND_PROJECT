@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="mypage-seller.css">
+    <title>판매자 마이페이지</title>
+    
+</head>
+<body>
+    <section id="main">
+    	<div class="container">
+	        <div class="row">
+            	<div class="col-xs-12" >
+	            	<section id="content">
+	           			<aside id="side">
+                            <h2>마이페이지</h2>
+							<ul>
+								<li><a href="#" onclick="location.href=''">판매자 정보수정</a></li>
+								<li><a href="#" onclick="location.href=''">상품등록</a></li>
+                                <li><a href="#" onclick="location.href=''">시세정보</a></li>
+                                <li><a href="#" onclick="location.href=''">판매현황</a></li>
+                                <li><a href="#" onclick="location.href=''">정산관리</a></li>
+                                <li><a href="#" onclick="location.href=''">고객관리</a></li>
+							</ul>								           				
+	           			</aside>
+	           			<article id="myPage">
+                            <h2 class="content-title">My Page</h2>
+                            <div class="mypage__profile">
+                                <div class="mypage__profile--info">
+                                    <div class="mypage__profile--info-main">
+                                        <figure>
+                                            <img src="./assets/mypage-image/profile.jpg" alt="profile" />
+                                        </figure>
+                                        <h2><span id="my-name">펭귄</span> Marketer</h2>
+                                    </div>
+                                    <div class="mypage__profile--info-sub">
+                                        <div class="settlement-amount">
+                                            <h2 class="title">오늘정산</h2>
+                                            <dl>
+                                                <dt>정산대상금액</dt>
+                                                <dd><span id="amount" class="item">1,500,000</span> 원</dd>
+                                            </dl>
+                                        </div>
+                                        <dl class="additional-info">
+                                            <dt>상품Q&A</dt>
+                                            <dd class="item">0</dd>
+                                            <dt>오늘발송요청</dt>
+                                            <dd class="item">0</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <div calss="mypage__profile--starRating">
+                                    <div class="overall-rating">
+                                        <h2 class="title">판매자 평점</h2>
+                                        <div class="rating-monthly">
+                                            <dl>
+                                                <dt>7월의<span class="enter">종합평점</span></dt>
+                                                <dd><strong>3.0</strong>/5</dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                    <div class="detail-rating">
+                                        <ul>
+                                            <li>
+                                                <h2>상품만족</h2>
+                                                <div class="rating-grade">
+                                                    <p><strong>3.0</strong><span>주의</span></p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <h2>배송속도</h2>
+                                                <div class="rating-grade">
+                                                    <p><strong>3.0</strong><span>주의</span></p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <h2>문의응대</h2>
+                                                <div class="rating-grade">
+                                                    <p><strong>3.0</strong><span>주의</span></p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mypage__progress">
+                                <div class="mypage__progress--sendOrder">
+                                    <h2 class="title">주문발송</h2>
+                                    <dl>
+                                        <dt>입금대기중</dt>
+                                        <dd class="item">0</dd>
+                                        <dt>배송준비중</dt>
+                                        <dd class="item">0</dd>
+                                        <dt>배송중</dt>
+                                        <dd class="item">0</dd>
+                                    </dl>
+                                </div>
+                                <div class="mypage__progresss--cancelOrder">
+                                    <h2 class="title">취소/반품/교환</h2>
+                                    <dl>
+                                        <dt>취소신청</dt>
+                                        <dd class="item">0</dd>
+                                        <dt>반품신청</dt>
+                                        <dd class="item">0</dd>
+                                        <dt>교환신청</dt>
+                                        <dd class="item">0</dd>
+                                    </dl>
+                                </div>
+                                <div class="mypage__progress--cstmrCare">
+                                    <h2 class="title" >고객관리</h2>
+                                    <dl>
+                                        <dt>Q&A 답변대기중</dt>
+                                        <dd class="item">0</dd>
+                                        <dt>상품후기</dt>
+                                        <dd class="item">0</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <div class ="market_price_info">
+                                <h2 class="title">시세정보</h2>
+                                <div class="price-chart">
+
+                                </div>
+                            </div>
+
+	           			</article>
+	       			</section>
+	       		 </div>	
+       		</div>
+        </div>	    
+    </section>
+</body>
+</html>
