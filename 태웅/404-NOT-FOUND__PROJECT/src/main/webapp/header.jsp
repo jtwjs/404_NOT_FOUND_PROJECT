@@ -27,7 +27,7 @@
                             <button type="button" class="cart-btn">
                                 <img src="./resources/Images/module/header/cart-icon.png" alt="shooping acrt icon" />
                             </button>
-                            <button type="button" class="notice-btn">
+                            <button type="button" class="notice-btn" onclick="javascript:location.href='seller_myPage.ad'"t>
                                 <img src="./resources/Images/module/header/notice-icon.jpg" alt="notice icon" />
                             </button>
                         </div>
@@ -154,7 +154,7 @@
                                     </ul>
                                 </div>
                                 <div class="nav__menubar">
-                                    <button type="button" class="login-btn" onclick="javascript:location.href='loginBuyer.ad'">로그인</button>
+                                    <button type="button" class="login-btn" onclick="javascript:location.href='loginPage.ad'">로그인</button>
                                     <button type="button" class="join-btn" onclick="javascript:location.href='JoinMain.ad'">회원가입</button>
                                     <button type="button" class="ordercheck-btn">주문조회</button>
                                     <button type="button" class="service-btn" onclick="javascript:location.href='BoardNotice.sc'">고객센터</button>

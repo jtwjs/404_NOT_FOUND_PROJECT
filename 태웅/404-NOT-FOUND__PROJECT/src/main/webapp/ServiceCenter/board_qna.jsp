@@ -16,7 +16,7 @@
     <title>고객문의</title>
 </head>
 <body>
-    <section id="main">
+    <main id="main">
     	<div class="container">
 	        <div class="row">
             	<div class="col-xs-12" >
@@ -63,7 +63,7 @@
 	       		 </div>	
        		</div>
         </div>	    
-    </section>
+    </main>
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js'/>" ></script>
 	<script type="text/javascript" src="<c:url value='/resources/js/module/header.js'/>" ></script>

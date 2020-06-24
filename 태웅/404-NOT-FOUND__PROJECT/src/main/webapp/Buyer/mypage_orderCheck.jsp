@@ -22,7 +22,6 @@ if((String)session.getAttribute("id") != null){
 <html>
 <head>
      <jsp:include page="../header.jsp" flush="false"/>
-    <jsp:include page="../footer.jsp" flush="false"/>
     <link href="<c:url value='/resources/css/module/header.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/reset.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css'/>" rel="stylesheet" />
@@ -33,6 +32,7 @@ if((String)session.getAttribute("id") != null){
     <title>주문/배송 조회</title>
 </head>
 <body>
+<main id="main">
     <div class="container">
         <div class="row">
             <jsp:include page="mypage_sidebar.jsp" flush="false"/>
@@ -88,7 +88,10 @@ if((String)session.getAttribute("id") != null){
                 </div>
             </div>
         </div>
-        
     </div>
+</main>	
+  		<jsp:include page="../footer.jsp" flush="false"/>
+        <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js'/>" ></script>
+		<script type="text/javascript" src="<c:url value='/resources/js/module/header.js'/>" ></script>
 </body>
 </html>

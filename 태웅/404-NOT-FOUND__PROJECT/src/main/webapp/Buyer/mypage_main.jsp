@@ -66,6 +66,7 @@
     <title>마이페이지</title>
 </head>
 <body>
+<main id="main">
     <div class="container">
         <div class="row">
             
@@ -176,7 +177,7 @@
             
         </div>
     </div>
-    
+</main>
     
         <jsp:include page="../footer.jsp" flush="false"/>
         <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js'/>" ></script>
