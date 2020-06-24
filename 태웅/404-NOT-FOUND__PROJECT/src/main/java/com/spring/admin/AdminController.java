@@ -10,4 +10,9 @@ public class AdminController {
 	public String JoinMainPage() {
 		return "Join/join_main";
 	}
+	
+	@RequestMapping(value = "/loginBuyer.ad")
+	public String loginBuyerPage() {
+		return "admin/login_buyer";
+	}
 }

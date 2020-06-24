@@ -154,7 +154,7 @@
                                     </ul>
                                 </div>
                                 <div class="nav__menubar">
-                                    <button type="button" class="login-btn">로그인</button>
+                                    <button type="button" class="login-btn" onclick="javascript:location.href='loginBuyer.ad'">로그인</button>
                                     <button type="button" class="join-btn" onclick="javascript:location.href='JoinMain.ad'">회원가입</button>
                                     <button type="button" class="ordercheck-btn">주문조회</button>
                                     <button type="button" class="service-btn" onclick="javascript:location.href='BoardNotice.sc'">고객센터</button>
