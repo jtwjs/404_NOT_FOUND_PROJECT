@@ -11,8 +11,8 @@ public class AdminController {
 		return "Join/join_main";
 	}
 	
-	@RequestMapping(value = "/loginBuyer.ad")
+	@RequestMapping(value = "/loginPage.ad")
 	public String loginBuyerPage() {
-		return "admin/login_buyer";
+		return "Admin/login_page_customer";
 	}
 }

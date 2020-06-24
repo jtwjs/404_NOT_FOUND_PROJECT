@@ -16,13 +16,16 @@
             width: 1200px;
             max-width: none !important;
         }
+        
+
     </style>
     <!-- 각자 view에 연결된 css 파일에 .container 부분 넣어줄 것 -->
     <title>Home</title>
 </head>
 <body>
-    <h1>hello</h1>
-    
+	<main id="main">
+    	<h1>hello</h1>
+	</main>
     
     
     

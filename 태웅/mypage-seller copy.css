@@ -39,7 +39,7 @@
 
 .profile-img {
   margin-bottom: 16px;
-  padding-top: 13px;
+  padding-top: 15px;
 }
 
 .profile-img img {
@@ -99,7 +99,7 @@
   right: 15px;
   width: 20px;
   height: 20px;
-  background-image: url(./assets/mypage-image/down_arrow_g.png);
+  background-image: url(../../Images/Seller/down_arrow_g.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -112,7 +112,7 @@
 #menu-transaction.selected-menu::after,
 #menu-quotations.selected-menu::after,
 #menu-qna.selected-menu::after {
-  background-image: url(./assets/mypage-image/down_arrow_w.png);
+  background-image: url(../../Images/Seller/down_arrow_w.png);
 }
 
 #menu-profile:hover,
@@ -129,7 +129,7 @@
 #menu-transaction:hover::after,
 #menu-quotations:hover::after,
 #menu-qna:hover::after {
-  background-image: url(./assets/mypage-image/down_arrow_w.png);
+  background-image: url(../../Images/Seller/down_arrow_w.png);
 }
 
 #menu-profile--item,
@@ -162,7 +162,7 @@
   left: 9px;
   width: 25px;
   height: 25px;
-  background-image: url(./assets/mypage-image/arrow_right_24px_rounded.png);
+  background-image: url(../../Images/Seller/arrow_right_24px_rounded.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -178,7 +178,7 @@
 
 /* content */
 #myPage {
-  width: 100%;
+  width: 900px;
   border: 1px solid rgba(34, 34, 34, 0.1);
   border-top: 2px solid #34c759;
   padding: 15px 30px 40px;
@@ -227,19 +227,19 @@
   margin-right: 10px;
   font-size: 16px;
   font-weight: 500;
-  text-indent: 30px;
+  text-indent: 35px;
 }
 
 #star-rating {
   position: absolute;
   top: 42px;
-  left: 40px;
+  left: 35px;
   width: 200px;
   height: auto;
 }
 
 .rating-score {
-  padding: 5px 40px 0 0;
+  padding: 5px 20px 0 0;
   text-align: right;
 }
 
@@ -252,7 +252,7 @@
   padding-top: 10px;
   font-size: 12px;
   color: rgba(54, 54, 54, 0.5);
-  text-indent: 35px;
+  text-indent: 30px;
   text-align: left;
 }
 
@@ -310,7 +310,7 @@
   display: flex;
   flex-direction: column;
   width: 50%;
-  padding: 15px 25px 15px;
+  padding: 15px 0;
 }
 
 .settlement-amount {
@@ -329,7 +329,7 @@
   left: 95px;
   width: 25px;
   height: 25px;
-  background-image: url(./assets/mypage-image/monetization_on_24px.png);
+  background-image: url(../../Images/Seller/monetization_on_24px.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -342,6 +342,7 @@
 
 .settlement-amount dt {
   margin-bottom: 3px;
+  font-size: 15px;
 }
 
 .settlement-amount dd {
@@ -363,13 +364,17 @@
   margin-right: 15px;
   border: 1px solid rgba(54, 54, 54, 0.1);
   border-radius: 20px;
-  padding: 10px;
+  padding: 10px 0;
   font-size: 13px;
   text-align: center;
 }
 
 .additional-info dl:last-child {
   margin-right: 0;
+}
+
+.additional-info dt {
+  font-size: 14px;
 }
 
 .additional-info dd {
@@ -392,7 +397,7 @@
 .info-sales::after {
   position: absolute;
   top: -25px;
-  left: 23px;
+  left: 30px;
   width: 30px;
   height: 25px;
   background-repeat: no-repeat;
@@ -402,21 +407,21 @@
 }
 
 .info-regProduct::after {
-  background-image: url(./assets/mypage-image/card_giftcard_24px.png);
+  background-image: url(../../Images/Seller/card_giftcard_24px.png);
 }
 
 .info-qna::after {
-  background-image: url(./assets/mypage-image/contact_support_24px.png);
+  background-image: url(../../Images/Seller/contact_support_24px.png);
 }
 
 .info-reqDelivery::after {
   height: 30px;
-  background-image: url(./assets/mypage-image/airport_shuttle_24px.png);
+  background-image: url(../../Images/Seller/airport_shuttle_24px.png);
 }
 
 .info-sales::after {
   top: -23px;
-  background-image: url(./assets/mypage-image/notifications_24px.png);
+  background-image: url(../../Images/Seller/notifications_24px.png);
 }
 
 #inquery {
@@ -468,7 +473,7 @@
   top: 5px;
   width: 15px;
   height: 15px;
-  background-image: url(./assets/mypage-image/arrow-right.png);
+  background-image: url(../../Images/Seller/arrow-right.png);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
