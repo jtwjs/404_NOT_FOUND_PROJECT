@@ -1,0 +1,171 @@
+.order_page {
+
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    padding-bottom: 100px;
+    width: 1200px;
+
+}
+
+.order_page h5::before {
+
+    display: inline-block;
+    width: 33px;
+    height: 30px;
+    background-image: url(./assets/orderckicon3.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    content: '';
+
+}
+
+.order_page input {
+
+     margin: 8px 8px  8px 8px;
+    border: 1px solid #808080;
+    border-radius: 3px;
+
+}
+
+.order_page hr {
+
+    border: 0.5px solid #8f8f8f;
+}
+
+
+.order_page--tit{
+
+    font-size: 28px; 
+    margin-bottom: 35px; 
+
+}
+
+.order_page--ch {
+    
+    border-top: 2px solid #6e6a6a;
+    border-bottom: 2px solid #6e6a6a;
+    padding : 25px 0 25px 0;
+
+}
+
+.order_page--ch img{
+
+    float: left;
+    margin-left: 50px;
+    width: 215px;
+    height: 95px;     
+    
+}
+
+.order_page--text_1 p{
+
+    padding-top: 15px;
+    text-align: left;
+    text-indent : 20px;
+    font-weight: bold;
+    color : #6e6a6a;
+
+
+}
+
+.order_page--tit_2 p::before,
+.order_page--tit_3 p::before,
+.order_page--tit_4 p::before,
+.order_page--tit_5 p::before { 
+
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    background-image: url(./assets/orderckicon6.png);
+    background-size: cover;
+    background-position: right;
+    background-repeat: no-repeat;
+    content: '';
+
+}
+
+.order_page--text_2, 
+.order_page--text_3,
+.order_page--text_4,
+.order_page--text_5 {
+
+    margin-top: 55px;
+    font-size: 28px; 
+    margin-bottom: 25px;
+
+}
+
+.order_page--content1 table {
+   
+     width: 100%;
+
+}
+
+.list_table tr, th, td {
+
+    height : 35px;
+    text-align: center;
+
+}
+
+.domestic td {
+
+    text-align: right;
+}
+
+.order_page--user tr, td {
+
+    text-align: left;
+}
+
+.user_Essential::before {
+    margin-right: 5px;
+    display: inline-block;
+    width: 12px;
+    height: 9px;
+    background-image: url("./assets/Path.png");
+    content: "";
+}
+
+.user_Essential {
+
+    width:80px;
+}
+
+.order_page--user input {
+
+    border: 1px solid #bdbcbc;
+    border-radius: 3px;
+    margin-left: 30px;
+    text-align: center;
+
+}
+
+.addrNumBtn {
+
+    width: 100px;
+    padding: 5px;
+    margin-left: 20px;
+    background: #d3d3d3;
+    border-radius: 3px;
+    color: black;
+    
+}
+
+.fx12_2 {
+
+    padding:5px; 
+    border:1px solid #dddddd;
+
+}
+
+.fs12_2 textarea {
+    
+    border:0px;
+    border: 1px solid #bbb8b8;
+    width:80%; 
+
+}
