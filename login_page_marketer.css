@@ -9,6 +9,12 @@
 
 }
 
+.main__login__maketer--forms{
+
+    width: 1200px;
+    
+}
+
 .loginfind_btn a:hover {
     /*   마우스 올렸을 때    */
     color:#ff7b00;
@@ -39,9 +45,8 @@
 
 /* 개인사업자 text*/
 .login__member2 {
-    
-    margin-top: 54px;
-    margin-left: -180px;
+
+    margin: 54px 0 0 -180px;
     font-weight: bold;
 
 }
@@ -57,16 +62,14 @@
 
 .inputId, .inputPw, .submitBtn, .submitjoinBtn {
 
-    margin-top: 25px;
-    margin-left: 338px;    
+
+    margin: 25px 0 0 338px;
     border-radius: 5px;
     width: 440px;
     height: 39px;
 
-
 }
-
-.inputId, .inputPw{
+.main__login__maketer input{
     
     border: 1px solid #808080;
     text-align: left;
@@ -74,14 +77,12 @@
 
 /* 아이디 저장 체크박스 위치*/
 .check_Id{
-        
-    margin-top: 25px; 
-    margin-left: 370px;
-
+    
+    margin: 25px 0 0 370px;
 }
 
 /*로그인 버튼*/
-.main__login__customer--form, .submitBtn  {
+.main__login__maketer--form .submitBtn  {
 
     background: #ddc808;
     
@@ -90,8 +91,7 @@
 /*아이디/비밀번호 찾기 */
 .loginfind_btn{
     
-    margin-top: 25px;
-    margin-left: 483px;
+    margin: 25px 0 0 483px;
     font-size: 13px;
 
 }
@@ -113,16 +113,16 @@
 }
 
 /* 네이버, 카카오 */
-.main__login__customer--other_login {
+.main__login__maketer--other_login {
 
-    margin-top: 20px;
-    margin-left: 397px;
+    margin: 20px  0 0 397px;
+    
     
 }
-.main__login__customer--other_login img{
+.main__login__maketer--other_login img{
 
     width: 160px;
     height: 42px;
-   
+
 
 }
