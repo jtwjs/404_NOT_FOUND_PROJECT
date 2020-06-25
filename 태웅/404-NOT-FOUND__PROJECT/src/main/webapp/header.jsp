@@ -14,7 +14,7 @@
                 <div class="col-xs-12">
                     <div class="header__head">
                         <div class="header__head--logo">
-                            <img src="./resources/Images/module/header/main_logo.png" onclick="javascript:location.href='BuyerMyPage.by'" alt="main logo"/>
+                            <img src="./resources/Images/module/header/main_logo.png" onclick="javascript:location.href='Index.in'" alt="main logo"/>
                             <h2 class="hide-text">메인</h2>
                         </div>
                         <div class="header__head--menubar">
@@ -24,10 +24,10 @@
                                     <img src="./resources/Images/module/header/search-icon.png" alt="search icon" />
                                 </button>
                             </div>
-                            <button type="button" class="cart-btn">
+                            <button type="button" class="cart-btn" onclick="javascript:location.href='CartView.or'">
                                 <img src="./resources/Images/module/header/cart-icon.png" alt="shooping acrt icon" />
                             </button>
-                            <button type="button" class="notice-btn" onclick="javascript:location.href='seller_myPage.ad'"t>
+                            <button type="button" class="notice-btn" >
                                 <img src="./resources/Images/module/header/notice-icon.jpg" alt="notice icon" />
                             </button>
                         </div>
@@ -154,9 +154,9 @@
                                     </ul>
                                 </div>
                                 <div class="nav__menubar">
-                                    <button type="button" class="login-btn" onclick="javascript:location.href='loginPage.ad'">로그인</button>
-                                    <button type="button" class="join-btn" onclick="javascript:location.href='JoinMain.ad'">회원가입</button>
-                                    <button type="button" class="ordercheck-btn">주문조회</button>
+                                    <button type="button" class="login-btn" onclick="javascript:location.href='LoginBuyer.ad'">로그인</button>
+                                    <button type="button" class="join-btn" onclick="javascript:location.href='JoinSelect.ad'">회원가입</button>
+                                    <button type="button" class="ordercheck-btn" onclick="javascript:location.href='OrderLogin.or'">주문조회</button>
                                     <button type="button" class="service-btn" onclick="javascript:location.href='BoardNotice.sc'">고객센터</button>
                                 </div>
                             </div>

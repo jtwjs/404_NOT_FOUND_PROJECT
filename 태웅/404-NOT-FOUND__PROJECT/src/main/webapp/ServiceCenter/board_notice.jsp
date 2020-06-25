@@ -7,16 +7,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- header, css -->
     <jsp:include page="../header.jsp" flush="false"/>
-    <link href="<c:url value='/resources/css/module/reset.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/header.css'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/module/reset.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css'/>" rel="stylesheet" />
+    <!-- header, css end -->
     
     <link href="<c:url value='/resources/css/ServiceCenter/serviceCenter_board.css'/>" rel="stylesheet" />
     <title>공지사항</title>
 </head>
 <body>
-	<main id="main">
+	<section id="main">
     	<div class="container">
 	        <div class="row">
             	<div class="col-xs-12" >
@@ -63,9 +65,13 @@
 	       		 </div>	
        		</div>
         </div>	    
-    </main>
-    <jsp:include page="../footer.jsp" flush="false"/>
+    </section>
+
+
+    <!-- footer,js -->
+    <jsp:include page="../footer.jsp" flush="false"/>    
     <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js'/>" ></script>
-	<script type="text/javascript" src="<c:url value='/resources/js/module/header.js'/>" ></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/module/header.js'/>" ></script>
+    <!-- footer,js end -->
 </body>
 </html>

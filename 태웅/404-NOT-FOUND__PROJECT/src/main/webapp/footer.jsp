@@ -20,6 +20,9 @@
                                         <dl id="related_site--list">
                                             <dt class="related_site--title">지방농촌진흥기관</dt>
                                             <dd><a href="http://www.rda.go.kr/localOrgAllView.do" title="새창열기" target="_blank">지방농촌진흥기관 전체보기</a></dd>
+                                            <dd><a href="BuyerMyPage.by" title="새창열기" >구매자 마이페이지</a></dd>
+                                            <dd><a href="SellerMyPage.se" title="새창열기" >판매자 마이페이지</a></dd>
+                                            
                                             <dt class="related_site--title">유관 기관</dt>
                                             <dd><a href="https://www.mafra.go.kr/sites/mafra/index.do" title="새창열기" target="_blank" >농림축산식품부</a></dd>
                                             <dd><a href="http://www.nongupin.co.kr/" title="새창열기" target="_blank">농업인신문</a></dd>

@@ -75,3 +75,16 @@ p {
   clip: rect(1px, 1px, 1px, 1px);
   clip-path: inset(50%);
 }
+.container {
+  width: 1200px;
+  max-width: none !important;
+}
+
+body {
+  position: relative;
+  padding-top: 195px;
+}
+
+#main {
+  z-index: -1;
+}

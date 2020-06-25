@@ -78,5 +78,18 @@ p {
     clip-path:inset(50%);
     }
 
+
 #main {
-	min-height: 65vh;
+	min-height: 65vh;
+	padding-top: 198px;}
+
+body {
+  position: relative;
+  
+}
+
+
+.container {
+    width: 1200px;
+    max-width: none !important;
+}

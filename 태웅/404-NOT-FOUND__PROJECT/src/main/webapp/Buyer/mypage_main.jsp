@@ -15,172 +15,136 @@
     }*/
     
     // 아이디, 이름 (고객쇼핑정보) 을 받아옴
-    String id = null;
-    String name = null;
-    if((String)request.getAttribute("id") != null){
-    	id = (String)request.getAttribute("id");
-    }
-    if((String)request.getAttribute("name") != null){
-    	name = (String)request.getAttribute("name");
-    }
-    
-    
-    // 주문내역 리스트
-    ArrayList<OrderRecordVO> orderRecord_list = null;
-    if((ArrayList<OrderRecordVO>)request.getAttribute("orderRecord_list") != null){
-    	orderRecord_list = (ArrayList<OrderRecordVO>)request.getAttribute("orderRecord_list");
-    }
-    
-    // 관심상품 리스트
-    ArrayList<WishListVO> wishList_list = null;
-    if((ArrayList<WishListVO>)request.getAttribute("wishList_list") != null){
-    	wishList_list = (ArrayList<WishListVO>)request.getAttribute("wishList_list");
-    }
-    
-    
-    // 내가 쓴 상품 qna 리스트
-    ArrayList<BoardQnaVO> boardQna_list = null;
-    if((ArrayList<BoardQnaVO>)request.getAttribute("boardQna_list") != null){
-    	boardQna_list = (ArrayList<BoardQnaVO>)request.getAttribute("boardQna_list");
-    }
-    
-    // 내가 쓴 상품후기 리스트
-    ArrayList<BoardReviewVO> boardReview_list = null;
-    if((ArrayList<BoardReviewVO>)request.getAttribute("boardReview_list") != null){
-    	boardReview_list = (ArrayList<BoardReviewVO>)request.getAttribute("boardReview_list");
-    }
-    
+   
 %>
 <!DOCTYPE html>
 <html>
 <head>
+       <!-- header, css -->
     <jsp:include page="../header.jsp" flush="false"/>
-
     <link href="<c:url value='/resources/css/module/header.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/reset.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css'/>" rel="stylesheet" />
-    <!-- 필수영역 -->
-    
+    <!-- header, css end -->
+    <link href="<c:url value='/resources/css/Buyer/mypage_template.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Buyer/mypage_main.css'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/Buyer/mypage_sidebar.css'/>" rel="stylesheet" />
-    <title>마이페이지</title>
+    <title>구매자페이지</title>
 </head>
 <body>
-<main id="main">
-    <div class="container">
-        <div class="row">
-            
-            <jsp:include page="mypage_sidebar.jsp" flush="false"/>
-            
-            <div class="col-xs-9" id="my-page__content">
-                <div class="col-xs-12" id="my-page__content--user">
-                    <p><%=name %>(<%=id %>) 고객님의 쇼핑정보 입니다.</p>
-                </div>
-                
-                <div class="col-xs-12" id="my-page__content--order-record">
-                    <div class="col-xs-12" id="order-record__list--title">
-                        <b>주문내역</b>
-                        <a href="BuyerMyPageOrderCheck.by">더보기></a>
-                    </div>
-                    <div class="col-xs-12" id="order-record__list--table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td class="order-record__list--date">날짜</td>
-                                    <td class="order-record__list--num">주문번호</td>
-                                    <td class="order-record__list--name">상품명</td>
-                                    <td class="order-record__list--price">주문금액</td>
-                                    <td class="order-record__list--status">상태</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <%if(orderRecord_list != null){ %>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <%}else{ %>
-                                <tr>
-                                    <td colspan="5" class="order-record__list--none">주문한 내역이 없습니다</td>
-                                </tr>
-                                <%} %>
-                            </tbody>
-                        </table>
-                    </div>
-                </div> 
-                <!-- my-page__content--order-record end -->
-                
-                <div class="col-xs-12" id="my-page__content--wish-list">
-                    <div class="col-xs-12" id="wish-list__list--title">
-                        <b>관심상품</b>
-                        <a href="#">더보기></a>
-                    </div>
-                    
-                </div>
-                <!-- my-page__content--wish-list end -->
-                
-            </div>
-            <!-- my-page__content end -->
-            
-            <div class="col-xs-6" id="my-page__content--qna-list">
-                    <div class="col-xs-12" id="qna-list__list--title">
-                        <b>내가 쓴 Q&A</b>
-                        <a href="#">더보기></a>
-                    </div>
-                    <div class="col-xs-12" id="qna-list__list--table">
-                        <table>
-                            <%if(boardQna_list != null){%>
-                            <tbody>
-                                <tr>
-                                    <td class="qna-list__list--td"></td>
-                                </tr>
-                            </tbody>
-                            <%}else{ %>
-                            <tbody>
-                                <tr>
-                                    <td class="qna-list__list--td">등록한 문의가 없습니다</td>
-                                </tr>
-                            </tbody>
-                            <%} %>
-                        </table>
-                    </div>
-                </div>
-                <!-- my-page__content--qna-list end -->
-                
-                <div class="col-xs-6" id="my-page__content--review-list">
-                    <div class="col-xs-12" id="review-list__list--title">
-                        <b>내가 쓴 상품후기</b>
-                        <a href="#">더보기></a>
-                    </div>
-                    <div class="col-xs-12" id="review-list__list--table">
-                        <table>
-                            <%if(boardQna_list != null){%>
-                            <tbody>
-                                <tr>
-                                    <td class="review-list__list--td"></td>
-                                </tr>
-                            </tbody>
-                            <%}else{ %>
-                            <tbody>
-                                <tr>
-                                    <td class="review-list__list--td">등록한 후기가 없습니다</td>
-                                </tr>
-                            </tbody>
-                            <%} %>
-                        </table>
-                    </div>
-                </div>
-                <!-- my-page__content--review-list end -->
-            
-        </div>
-    </div>
-</main>
-    
-        <jsp:include page="../footer.jsp" flush="false"/>
-        <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js'/>" ></script>
-		<script type="text/javascript" src="<c:url value='/resources/js/module/header.js'/>" ></script>
+    <main id="main">
+    	<div class="container">
+	        <div class="row">
+            	<div class="col-xs-12" >
+	            	<section id="content">
+	           			<jsp:include page="mypage_template.jsp" flush="false"/>
+	           			<section id="myPage">
+                            <h2 class="content-title">My Page</h2>
+                            <article id="buyer__info">
+                                <div class="mypage__buyerRating">
+                                    <div class="overall-rating">
+                                        <h2 class="overall-rating--title">구매자 등급</h2>
+                                        <ul class="rating">
+                                            <li><span class="rating-grade">회원등급</span></li>
+                                            <li class="my_rating-grade"><h2 id="my-rating">LV.2 브론즈</h2> <a class="rating-benefit" href="#">등급 혜택 보기</a> </li>
+                                            <li id="rating-explain">* 다음 등급인 <span class="next-level">실버</span>까지 <span class="required-score">61,670</span>점 남았습니다<span class="register-date">가입일: 2014.05.22</span></li>
+                                        </ul>
+                                    </div>
+                                    
+                                </div>
+                                <div class="mypage__subInfo">
+                                    <div class="saving-point">
+                                        <img src="./resources/Images/Buyer/Money.png" alt="saving point image"/>
+                                        <dl>
+                                            <dt>적립금</dt>
+                                            <dd>5.998</dd>
+                                        </dl>
+                                    </div>
+                                    <div class="write-review">
+                                        <img src="./resources/Images/Buyer/wirte.png" alt="write review image"/>
+                                        <dl>
+                                            <dt>후기작성</dt>
+                                            <dd>9</dd>   
+                                        </dl>
+                                    </div>
+                                </div>
+                                
+                            </article>  
+                            <article id="inquery">
+                                <div class="inquery__order-delivery">
+                                    <div class="inquery--title">
+                                        <h2>주문<span class="slash">/</span>배송조회</h2>
+                                        <a class="view-all" href="#" title="전체보기">전체</a>
+                                    </div>
+                                    <div class="inquery--content">
+                                        <ul class="inquery--list">
+                                            <li class="inquery--list-item"><p>0<span class="enter">입금대기중</span></p></li> 
+                                            <li class="inquery--list-item"><p>0<span class="enter">배송준비중</span></p></li> 
+                                            <li class="inquery--list-item"><p>0<span class="enter">배송중</span></p></li> 
+                                            <li class="inquery--list-item complete"><p>0<span class="enter">배송완료</span></p></li> 
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="inquery__return-exchange">
+                                    <div class="inquery--title">
+                                        <h2>취소<span class="slash">/</span>교환<span class="slash">/</span>반품 내역</h2>
+                                        <a class="view-all" href="#" title="전체보기">전체</a>
+                                    </div>
+                                    <ul class="inquery--list">
+                                        <li class="inquery--list-item"><p>0<span class="enter">교환신청</span></p></li> 
+                                        <li class="inquery--list-item complete"><p>0<span class="enter">교환완료</span></p></li> 
+                                        <li class="inquery--list-item"><p>0<span class="enter">반품신청</span></p></li> 
+                                        <li class="inquery--list-item complete"><p>0<span class="enter">반품완료</span></p></li> 
+                                    </ul>
+                                </div>
+                            </article>
+                            <article id="order__history">
+                                <div class="order__history--title">
+                                    <h2>주문내역</h2>
+                                    <a class="view-all" href="#" title="전체보기">전체</a>
+                                </div>    
+                                <table class="order__history--table">
+                                    <thead>
+                                        <tr>
+                                            <th class="order-number">
+                                                주문번호
+                                            </th>             
+                                            <th class="product-name">
+                                                상품명
+                                            </th>       
+                                            <th class="order-amount">
+                                                주문금액
+                                            </th>       
+                                            <th class="order-date">
+                                                주문일자
+                                            </th>       
+                                        </tr>   
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="non-post" colspan="4">
+                                                주문내역이 없습니다.
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </article>
+                        </section>
+	       			</section>
+	       		 </div>	
+       		</div>
+        </div>	    
+    </main>
+    <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_main.js'/>"></script>
+    <!-- footer,js -->
+    <jsp:include page="../footer.jsp" flush="false"/>    
+    <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js'/>" ></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/module/header.js'/>" ></script>
+    <!-- footer,js end -->
 </body>
 </html>

@@ -1,0 +1,132 @@
+
+.main__login__maketer {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.main__login__maketer--wrap, .main__login__maketer--wrap2 {
+
+    display: flex;
+    flex-direction: column;
+    float: left;
+    width: 50%;
+
+}
+a:link{
+    text-decoration: none;
+}
+
+a:hover{
+    /*   마우스 올렸을 때    */
+    color:#ff7b00;
+    font-weight: 600;
+    text-decoration: underline;
+}
+a:active{
+    /*    클릭했을 때    */
+    color: #008000;
+    text-decoration: none;
+}
+
+/*로그인 text*/
+.login_tit{
+
+    margin-top: 200px;    
+    margin-left: 525px;
+    width: 1200px;
+}
+
+/*회원 text */
+.login__member{ 
+
+    padding-left: 440px; 
+    margin-top: 25px;
+    width: 600px;
+}
+
+/* 개인사업자 text*/
+.login__member2 {
+
+    margin-top: 257px;
+    margin-left: -238px;
+    float: right;
+}
+
+/*회원 노란색 선 */
+.login__border{
+
+    margin-left: 348px;
+    border-top: 4px solid #888888;
+    width : 24%;
+}
+
+/*개인사업자 노란색 선 */
+.login__border2{
+
+    margin-left: -308px;
+    margin-bottom: 200px;
+    border-top: 4px solid #fdcf41;
+    width : 24%;
+}
+
+/* input, button 스타일 */
+input[type="text"], input[type="password"], button[type="button"] {
+
+    margin-top: 25px;
+    margin-left: 338px;    
+    border-radius: 5px;
+    width: 440px;
+    height: 39px;
+}
+
+input[type="text"], input[type="password"]{
+
+    border: 1px solid #808080;
+    text-align: left;
+}
+
+/* 아이디 저장 체크박스 위치*/
+.checkbox{
+        
+    margin-top: 25px; 
+    margin-left: 350px;
+
+}
+
+/*로그인 버튼*/
+.submitBtn  {
+
+    background: #ddc808;
+    
+}
+
+/*아이디/비밀번호 찾기 */
+.loginfind_btn{
+    
+    margin-top: 25px;
+    margin-left: 470px;
+    font-size: 13px;
+
+}
+
+/*회원가입 버튼*/
+.submitjoinBtn{
+
+    background : #808080;    
+
+}
+
+/*회원가입 버튼 글자 색*/
+.submitjoinBtn b{
+
+    color : #ffffff
+}
+
+/* 네이버, 카카오 이미지*/
+.other_login{
+
+    margin-top: 20px;    
+    margin-left: 253px;
+    text-align: center;
+}

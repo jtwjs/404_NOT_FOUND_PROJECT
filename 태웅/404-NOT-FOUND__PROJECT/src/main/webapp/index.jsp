@@ -4,35 +4,32 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- header, css -->
     <jsp:include page="header.jsp" flush="false"/>
-    
-    <link href="<c:url value='/resources/css/module/header.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/reset.css'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/module/header.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css'/>" rel="stylesheet" />
-    <!-- 필수영역 -->
-    
-    <style>
-        .container {
-            width: 1200px;
-            max-width: none !important;
-        }
-        
-
-    </style>
-    <!-- 각자 view에 연결된 css 파일에 .container 부분 넣어줄 것 -->
+    <!-- header, css end -->
+ 	<link href="<c:url value='/resources/css/Home/main.css'/>" rel="stylesheet" />
     <title>Home</title>
 </head>
 <body>
-	<main id="main">
-    	<h1>hello</h1>
-	</main>
-    
-    
-    
-    
-    
-<jsp:include page="footer.jsp" flush="false"/>    
-<script type="text/javascript" src="<c:url value='/resources/js/module/footer.js'/>" ></script>
-<script type="text/javascript" src="<c:url value='/resources/js/module/header.js'/>" ></script>
+	<main id="main_1">
+        <section id="main_visual">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- footer,js -->
+    <jsp:include page="footer.jsp" flush="false"/>    
+    <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js'/>" ></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/module/header.js'/>" ></script>
+     <script type="text/javascript" src="<c:url value='/resources/js/Home/main.js'/>" ></script>
+    <!-- footer,js end -->
 </body>
 </html>

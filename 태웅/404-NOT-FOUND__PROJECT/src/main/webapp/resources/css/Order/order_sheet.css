@@ -1,0 +1,398 @@
+.container {
+    width: 1200px;
+    max-width: none !important;
+}
+
+#order__title {
+	margin: 30px 0 25px 0;
+	padding: 0;
+	width: 100%;
+	text-align: center;
+}
+
+#order__title > span {
+	font-size: 25px;
+	font-weight: bold;
+}
+
+#order__step-1 {
+	margin: 0 0 0 150px;
+	padding: 0;
+	width: 300px;
+	height: 60px;
+	line-height: 30px;
+	text-align: center;
+	background-color: #e0d8d8;
+	color: #201421;
+}
+
+#order__step-2 {
+	margin: 0 1px;
+	padding: 0;
+	width: 298px;
+	height: 60px;
+	line-height: 30px;
+	text-align: center;
+	background-color: #71AD2C;
+	color: #fff;
+}
+
+#order__step-3 {
+	margin: 0;
+	padding: 0;
+	width: 300px;
+	height: 60px;
+	line-height: 30px;
+	text-align: center;
+	background-color: #e0d8d8;
+	color: #201421;
+}
+
+.order__title{
+	margin: 0 0 10px 0;
+	padding: 0;
+	font-size: 25px;
+}
+
+/* base end --------------------------------------------------------------- */
+
+
+
+#order__list--check {
+	margin: 50px 100px 100px 100px;
+	padding: 0;
+	width: 1000px;
+}
+
+#order__list--check > table > thead > tr {
+	height: 40px;
+	text-align: center;
+	background-color: #f1eeee;
+	color: #4a484a;
+}
+
+.list__name {
+	width: 400px;
+}
+
+.list__amount {
+	width: 100px;
+}
+
+.list__price {
+	width: 100px;
+}
+
+.list__discount {
+	width: 100px;
+}
+
+.list__discount-price {
+	width: 100px;
+}
+
+.list__save-point {
+	width: 100px;
+}
+
+.list__delivery-price {
+	width: 100px;
+}
+
+
+/* 주문 리스트 end --------------------------------------------------------------- */
+
+
+#order__final-payment {
+	margin: 0 100px;
+	padding: 0;
+	width: 1000px;
+}
+
+#order__final-payment--table {
+	width: 100%;
+	height: 240px;
+	display: grid;
+	grid-template-columns: 60% 40%;
+	border-top: 1px solid #e0d8d8;
+	border-bottom: 1px solid #e0d8d8;
+}
+
+#order__final-payment--save-point {
+	margin: 40px 20px 0 20px;
+	padding: 0;
+	width: 540px;
+}
+
+#order__final-payment--save-point > div {
+	margin: 30px 0 0 0;
+	padding: 0;
+}
+
+#save-point__input-text {
+	border: 1px solid #e0d8d8;
+}
+
+#save-point__input-btn {
+	margin: 0 0 0 10px;
+	padding: 5px;
+	font-size: 13px;
+	background-color: #846767;
+	color: #fff;
+}
+
+#order__final-payment--total-price {
+	width: 100%;
+	background-color: #f1eeee;
+}
+
+#order__final-payment--total-price > div {
+	margin: 8% 10%;
+	padding: 0;
+}
+
+#order__final-payment--total-price > div > div {
+	margin: 5% 0;
+	padding: 0;
+	width: 100%;
+}
+
+.order__final-payment--price-check {
+	float: right;
+}
+
+/* 최종결제금액 end --------------------------------------------------------------- */
+
+
+
+#order__info {
+	margin: 30px 100px 0 100px;
+	padding: 0;
+	width: 1000px;
+}
+
+#order__info--table {
+	width: 100%;
+	height: 200px;
+	display: grid;
+	grid-template-columns: 50% 50%;
+	border-top: 1px solid #e0d8d8;
+	border-bottom: 1px solid #e0d8d8;
+}
+
+#order__info--info {
+	margin: 30px;
+	padding: 0;
+}
+
+#order__info--info > div {
+	margin: 15px 0;
+	padding 0;
+}
+
+.order__info--check {
+	font-size: 15px;
+	color: red;
+}
+
+.order__info--input-name {
+	margin: 0 0 0 30px;
+	padding: 0;
+	width: 150px;
+	border: 1px solid #e0d8d8;
+}
+
+.order__info--input-phone-data {
+	margin: 0 0 0 15px;
+	padding: 0;
+}
+
+.order__info--input-phone{
+	width: 100px;
+	border: 1px solid #e0d8d8;
+}
+
+.order__info--input-email {
+	margin: 0 0 0 15px;
+	padding: 0;
+	width: 300px;
+	border: 1px solid #e0d8d8;
+}
+
+#order__info--precautions {
+	margin: 30px 0 0 0;
+	padding: 0;
+	font-size: 15px;
+}
+
+/* 주문자 정보 end --------------------------------------------------------------- */
+
+
+#order__delivery {
+	margin: 30px 100px 0 100px;
+	padding: 0;
+	width: 1000px;
+}
+
+#order__delivery--table {
+	width: 100%;
+	height: 350px;
+	border-top: 1px solid #e0d8d8;
+	border-bottom: 1px solid #e0d8d8;
+}
+
+#order__delivery--info {
+	margin: 20px;
+	padding: 0;
+}
+
+#order__delivery--info > div {
+	margin: 0 0 10px 0;
+	width: 100%;
+}
+
+.order__delivery--info-head {
+	width: 150px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.order__delivery--info-body {
+	display: inline-block;
+}
+
+.order__delivery--info-body > input[type="text"] {
+	border: 1px solid #e0d8d8;
+}
+
+#postal-code__text {
+	width: 100px;
+}
+
+.order__delivery--search-btn {
+	margin: 0 10px 0 0;
+	padding: 5px;
+	font-size: 13px;
+	background-color: #846767;
+	color: #fff;
+}
+
+.address__text {
+	width: 400px;
+}
+
+#recipient__text--name {
+	margin: 0 10px 0 0;
+	padding: 0;
+	width: 150px;
+}
+
+.recipient__text--phone {
+	width: 70px;
+}
+
+#order__delivery--message {
+	width: 800px;
+	height: 130px;
+	border: 1px solid #e0d8d8;
+	resize: none;
+}
+
+/* 배송지 정보 end --------------------------------------------------------------- */
+
+
+#order__payment {
+	margin: 30px 100px 0 100px;
+	padding: 0;
+	width: 1000px;
+}
+
+#order__payment--table {
+	width: 100%;
+	height: 350px;
+	background-color: #f1eeee;
+	border-top: 1px solid #e0d8d8;
+	border-bottom: 1px solid #e0d8d8;
+}
+
+#order__payment--table > div {
+	margin: 30px;
+	width: 940px;
+	height: 290px;
+	display: grid;
+	grid-template-columns: 70% 30%;
+}
+
+#order__payment--info {
+	border-right: 1px solid #e0d8d8;
+}
+
+#order__payment--info > div {
+	margin: 30px 0 0 0;
+	padding: 0;
+}
+
+#order__payment--total-price {
+	margin: 50px 0 0 15px;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#total-price__title {
+	margin: 0 0 10px;
+	padding: 0;
+	font-size: 20px;
+}
+
+#total-price__bar {
+	width: 100%;
+	height: 70px;
+	line-height: 90px;
+	text-align: right;
+	background-color: #fff;
+	color: #71AD2C;
+}
+
+#total-price__total-price {
+	margin: 0 10px 0 0;
+	font-size: 30px;
+	font-weight: bold;
+}
+
+
+/* 결제 정보 end --------------------------------------------------------------- */
+
+
+#order__submit {
+	margin: 50px 0 100px 0;
+	padding: 0;
+	width: 100%;
+	text-align: center;
+}
+
+#order__submit--check {
+	margin: 0 0 30px 0;
+	padding: 0;
+	font-size: 13px;
+}
+
+#order__submit--payment > input[type="submit"] {
+	margin: 0;
+	padding: 15px 50px;
+	font-size: 20px;
+	border-radius: 5px;
+	background-color: #71AD2C;
+	color: #fff;
+}
+
+#order__submit--payment > input[type="button"] {
+	margin: 0;
+	padding: 15px 50px;
+	font-size: 20px;
+	border-radius: 5px;
+	background-color: #90a0a0;
+	color: #fff;
+}
+
+/* 결제확인 버튼 end --------------------------------------------------------------- */

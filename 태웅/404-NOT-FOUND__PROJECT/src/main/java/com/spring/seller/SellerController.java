@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class SellerController {
 
-	@RequestMapping( value="seller_myPage.ad")
-	public String seller_myPage() {
-		return "Seller/mypage_main";
+	@RequestMapping(value = "/SellerMyPage.se")
+	public String sellerMyPage() {
 		
+		return "Seller/mypage_main";
 	}
-
+	
 }

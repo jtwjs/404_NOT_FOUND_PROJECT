@@ -30,4 +30,9 @@ public class BuyerController {
     	return "Buyer/mypage_infoModify";
     }
 
+    @RequestMapping( value = "/test.by")
+    public String trest() {
+    	return "Buyer/test";
+    }
+    
 }

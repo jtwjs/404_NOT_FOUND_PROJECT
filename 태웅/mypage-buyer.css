@@ -57,7 +57,7 @@
   margin-bottom: 5px;
 }
 
-.seller {
+.buyer {
   font-size: 20px;
   color: #34c759;
 }
@@ -174,7 +174,7 @@
   padding: 15px 30px 40px;
   box-shadow: 0 8px 8px -4px rgba(0, 0, 0, 0.22);
 }
-#seller__info {
+#buyer__info {
   display: flex;
   margin-bottom: 40px;
 }
