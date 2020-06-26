@@ -1,18 +1,30 @@
 
+.container {
+    width: 1200px;
+    max-width: none !important;
+}
+
 .main {
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;  
+      
 
 }
+
+.order_longin--forms {
+    margin-left: 130px;
+    width: 100%;  
+}
+
+
 
 .order__login--wrap, .order__login--wrap2 {
 
     display: flex;
-    flex-direction: column;
+    flex-direction: column;    
     float: left;  
     margin-top: 80px;
-    padding-bottom: 100px;
-    width: 50%;
+    padding-bottom: 100px; 
 
 }
 
@@ -53,17 +65,21 @@
 /* 노란색 줄*/
 .login__border, .login__border2{
 
-    margin-left: 148px;
+    margin-left: 162px;
     border-top: 4px solid #fdcf41;
     width : 35%;
+}
+
+.login__border2 {
+ 
+    margin-left: 170px;
 }
 
 /* input, button 스타일*/
  .inputId, .inputPw, .submitBtn,
  .submitjoinBtn, .inputIrum, .inputPhone, .submitcartBtn {
     
-    margin-top: 25px;
-    margin-left: 35px;    
+    margin: 25px 0 0 35px; 
     border-radius: 5px;    
     width: 420px;
     height: 39px;
@@ -81,9 +97,8 @@
 
 
 .check_id{
-    
-    margin-left: 47px;
-    margin-top: 25px;
+
+    margin: 25px 0 0 47px;
 
 }
 
@@ -96,9 +111,8 @@
 
 /* 아이디 /  비밀번호 찾기 */
 .loginfind_btn{
-    
-    margin-top: 25px;
-    margin-left: 155px;
+
+    margin: 25px 0 0 165px;
     font-size: 13px;
 
 }
@@ -119,7 +133,7 @@
 /* 주문조회 버튼 */
 .submitcartBtn{
 
-    margin-top: 70px;
+    margin-top: 71px;
 }
 
 /* 회원가입, 주문조회 text color */
@@ -131,11 +145,13 @@
 /* 네이버, 카카오 이미지 위치 */
 .other_login{
 
-    margin-top: 25px;
-    margin-left: 45px;
+    margin: 25px 0 0 65px;
 
 }
 
+.other_login img {
 
-
-
+    width: 160px;
+    height: 42px;
+    margin-left: 10px;
+}
