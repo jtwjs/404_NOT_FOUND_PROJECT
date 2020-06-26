@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <!-- 외부파일 경로 바꿔야함-->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/sellBoard_contentsView_style.css">
+    <title>항목 게시판</title>
+</head>
+
+<body>
+    <!-- header -->
+    <header id="header" role="banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="header__head">
+                        <div class="header__head--logo">
+                            <img src="/assets/header-image/이웃샵이미지.png" alt="main logo" />
+                            <h2 class="hide-text">메인</h2>
+                        </div>
+                        <div class="header__head--menubar">
+                            <div class="header__head--searchbar">
+                                <input type="text" class="search-input" placeholder="지역 특산품" />
+                                <button type="submit" class="search-btn">
+                                    <img src="/assets/header-image/search-icon.png" alt="search icon" />
+                                </button>
+                            </div>
+                            <button type="button" class="cart-btn">
+                                <img src="/assets/header-image/cart-icon.png" alt="shooping acrt icon" />
+                            </button>
+                            <button type="button" class="notice-btn">
+                                <img src="/assets/header-image/notice-icon.jpg" alt="notice icon" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav id="nav" role="navigation">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="header__nav">
+                            <div id="nav__category">
+                                <button type="button" id="category_btn">
+                                    <span class="hide-text">전체 카테고리</span>
+                                </button>
+                                <div id="category_menu">
+                                    <div class="main_category">
+                                        <ul id="main_category--list">
+                                            <li><a id="main_category--first" class="title-on" href="#">쌀/잡곡</a></li>
+                                            <li><a id="main_category--second" href="#">채소류</a></li>
+                                            <li><a id="main_category--third" href="#">과일</a></li>
+                                            <li><a id="main_category--fourth" href="#">축산물</a></li>
+                                            <li><a id="main_category--fifth" href="#">수산물/건어물</a></li>
+                                            <li><a id="main_category--sixth" href="#">가공식품/떡류</a></li>
+                                            <li><a id="main_category--seventh" href="#">김치/반찬/젓갈</a></li>
+                                            <li><a id="main_category--eighth" href="#">장/조청/식초</a></li>
+                                            <li><a id="main_category--ninth" href="#">건강식품</a></li>
+                                            <li><a id="main_category--tenth" href="#">차류</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="sub_category">
+                                        <ul id="sub_category--first">
+                                            <li><a href="#" class="">백미</a></li>
+                                            <li><a href="#">현미/찹쌀/흑미</a></li>
+                                            <li><a href="#">콩/팥/보리</a></li>
+                                            <li><a href="#">조/수수/깨/기타</a></li>
+                                            <li><a href="#">곡류선물세트</a></li>
+                                        </ul>
+                                        <ul id="sub_category--second" class="hide">
+                                            <li><a href="#">감자/고구마</a></li>
+                                            <li><a href="#">더덕</a></li>
+                                            <li><a href="#">나물/잎줄기 채소</a></li>
+                                            <li><a href="#">건나물/건채소</a></li>
+                                            <li><a href="#">버섯류</a></li>
+                                            <li><a href="#">옥수수/단호박/기타</a></li>
+                                        </ul>
+                                        <ul id="sub_category--third" class="hide">
+                                            <li><a href="#">사과/배</a></li>
+                                            <li><a href="#">감/홍시/곶감</a></li>
+                                            <li><a href="#">견과/건과</a></li>
+                                            <li><a href="#">참다래/기타과일</a></li>
+                                        </ul>
+                                        <ul id="sub_category--fourth" class="hide">
+                                            <li><a href="#">소고기</a></li>
+                                            <li><a href="#">돼지고기</a></li>
+                                            <li><a href="#">닭</a></li>
+                                            <li><a href="#">계란/알류/가공란</a></li>
+                                            <li><a href="#">축산선물세트</a></li>
+                                            <li><a href="#">유제품</a></li>
+                                            <li><a href="#">기타</a></li>
+                                        </ul>
+                                        <ul id="sub_category--fifth" class="hide">
+                                            <li><a href="#">황태/진미채</a></li>
+                                            <li><a href="#">수산물선물세트</a></li>
+                                            <li><a href="#">기타</a></li>
+                                        </ul>
+                                        <ul id="sub_category--sixth" class="hide">
+                                            <li><a href="#">떡</a></li>
+                                            <li><a href="#">한과</a></li>
+                                            <li><a href="#">면</a></li>
+                                            <li><a href="#">음료</a></li>
+                                            <li><a href="#">냉장냉동간편조리</a></li>
+                                            <li><a href="#">기름</a></li>
+                                            <li><a href="#">기타</a></li>
+                                        </ul>
+                                        <ul id="sub_category--seventh" class="hide">
+                                            <li><a href="#">김치/절임배추</a></li>
+                                            <li><a href="#">반찬/절임</a></li>
+                                            <li><a href="#">젓갈</a></li>
+                                            <li><a href="#">기타</a></li>
+                                        </ul>
+                                        <ul id="sub_category--eighth" class="hide">
+                                            <li><a href="#">간장</a></li>
+                                            <li><a href="#">고추장</a></li>
+                                            <li><a href="#">된장</a></li>
+                                            <li><a href="#">청국장</a></li>
+                                            <li><a href="#">장류선물세트</a></li>
+                                            <li><a href="#">식초/액젓</a></li>
+                                            <li><a href="#">조청</a></li>
+                                            <li><a href="#">기타</a></li>
+                                        </ul>
+                                        <ul id="sub_category--ninth" class="hide">
+                                            <li><a href="#">유산균</a></li>
+                                            <li><a href="#">홍삼/인삼</a></li>
+                                            <li><a href="#">건강즙</a></li>
+                                            <li><a href="#">영양식/선식</a></li>
+                                            <li><a href="#">꿀/로얄젤리</a></li>
+                                            <li><a href="#">건강분말/건강환</a></li>
+                                            <li><a href="#">기타</a></li>
+                                        </ul>
+                                        <ul id="sub_category--tenth" class="hide">
+                                            <li><a href="#">커피</a></li>
+                                            <li><a href="#">전통차/허브차/꽃차</a></li>
+                                            <li><a href="#">커피/차 선물세트</a></li>
+                                            <li><a href="#">기타</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nav__localbar">
+                                <ul class="local-menu-list">
+                                    <li>지역 특산물</li>
+                                    <li><a href="#">강원</a></li>
+                                    <li><a href="#">경기</a></li>
+                                    <li><a href="#">경북</a></li>
+                                    <li><a href="#">경남</a></li>
+                                    <li><a href="#">전남</a></li>
+                                    <li><a href="#">전북</a></li>
+                                    <li><a href="#">제주</a></li>
+                                    <li><a href="#">충남</a></li>
+                                    <li><a href="#">충북</a></li>
+                                    <li><a href="#">울릉도/독도</a></li>
+                                </ul>
+                            </div>
+                            <div class="nav__menubar">
+                                <button type="button" class="login-btn">로그인</button>
+                                <button type="button" class="join-btn">회원가입</button>
+                                <button type="button" class="ordercheck-btn">주문조회</button>
+                                <button type="button" class="service-btn">고객센터</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </nav>
+    </header>
+    <!-- header 끝 -->
+
+    <!-- contents 시작 -->
+    <main id="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+
+                    <div class="category-table">
+                        <div class="category-title">
+                            <b><a href="#">쌀 / 잡곡</a></b>
+                        </div>
+
+                        <hr />
+
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="category_contents">
+                            <tr>
+                                <td><a href="#">· 백미</a></td>
+                                <td><a href="#">· 현미 / 찹쌀 / 흑미</a></td>
+                                <td><a href="#">· 콩 / 팥 / 보리</a></td>
+                                <td><a href="#">· 조 / 수수 / 깨 / 기타</a></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">· 곡류선물세트</a></td>
+                            </tr>
+                    </div>
+                    </td>
+                    </tr>
+                    </table>
+            
+                    <hr />
+
+                    <div>
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                            <br />
+                            <tr>
+                                <td align="left">
+                                    전체 상품 () 개
+                                </td>
+                                <td align="right">
+                                    <a href="#">인기순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                    <a href="#">최근등록순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                    <a href="#">판매인기순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                    <a href="#">낮은가격순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                    <a href="#">높은가격순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                    <select class="qty_view" name="perpage"
+                                        onchange="document.location.href='?perpage='+this.value+'&code=0004'">
+                                        <option value="32">32개씩 보기</option>
+                                        <option value="64">64개씩 보기</option>
+                                        <option value="96">96개씩 보기</option>
+                                        <option value="192">192개씩 보기</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="clear"></div>
+
+                    <hr />
+
+                    <div id="new">
+                        <ul class="item">
+                            <div class="item_box">
+                                <li><img src="/assets/exRice.png"></li>
+                                <li class="subject">홍천곡산 고향찰현미 10kg</li>
+                                <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
+                                <li class="price">40,000원</li>
+                            </div>
+                        </ul>
+                        <div class="item_box">
+                            <li><img src="/assets/exRice.png"></li>
+                            <li class="subject">홍천곡산 고향찰현미 4kg</li>
+                            <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
+                            <li class="price">20,000원</li>
+                        </div>
+                        </ul>
+                        <ul class="item">
+                            <div class="item_box">
+                                <li><img src="/assets/exRice.png"></li>
+                                <li class="subject">홍천곡산 고향찰현미 20kg</li>
+                                <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
+                                <li class="price">75,000원</li>
+                            </div>
+                        </ul>
+                        <ul class="item">
+                            <div class="item_box">
+                                <li><img src="/assets/exRice.png"></li>
+                                <li class="subject">홍천곡산 고향찹쌀 10kg</li>
+                                <li class="comment">구수한 누룽지 향이 일품인 찹쌀입니다.</li>
+                                <li class="price">40,000원</li>
+                            </div>
+                        </ul>
+
+                        <div class="clear"></div>
+
+                        <ul class="item">
+                            <div class="item_box">
+                                <li><img src="/assets/exRice.png"></li>
+                                <li class="subject">홍천곡산 고향찰현미 10kg</li>
+                                <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
+                                <li class="price">40,000원</li>
+                            </div>
+                        </ul>
+                        <div class="item_box">
+                            <li><img src="/assets/exRice.png"></li>
+                            <li class="subject">홍천곡산 고향찰현미 4kg</li>
+                            <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
+                            <li class="price">20,000원</li>
+                        </div>
+                        </ul>
+                        <ul class="item">
+                            <div class="item_box">
+                                <li><img src="/assets/exRice.png"></li>
+                                <li class="subject">홍천곡산 고향찰현미 20kg</li>
+                                <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
+                                <li class="price">75,000원</li>
+                            </div>
+                        </ul>
+                        <ul class="item">
+                            <div class="item_box">
+                                <li><img src="/assets/exRice.png"></li>
+                                <li class="subject">홍천곡산 고향찹쌀 10kg</li>
+                                <li class="comment">구수한 누룽지 향이 일품인 찹쌀입니다.</li>
+                                <li class="price">40,000원</li>
+                            </div>
+                        </ul>
+
+                        <div class="clear"></div>
+
+                        <ul class="item">
+                            <div class="item_box">
+                                <li><img src="/assets/exRice.png"></li>
+                                <li class="subject">홍천곡산 고향찰현미 10kg</li>
+                                <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
+                                <li class="price">40,000원</li>
+                            </div>
+                        </ul>
+                        <div class="item_box">
+                            <li><img src="/assets/exRice.png"></li>
+                            <li class="subject">홍천곡산 고향찰현미 4kg</li>
+                            <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
+                            <li class="price">20,000원</li>
+                        </div>
+                        </ul>
+                        <ul class="item">
+                            <div class="item_box">
+                                <li><img src="/assets/exRice.png"></li>
+                                <li class="subject">홍천곡산 고향찰현미 20kg</li>
+                                <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
+                                <li class="price">75,000원</li>
+                            </div>
+                        </ul>
+                        <ul class="item">
+                            <div class="item_box">
+                                <li><img src="/assets/exRice.png"></li>
+                                <li class="subject">홍천곡산 고향찹쌀 10kg</li>
+                                <li class="comment">구수한 누룽지 향이 일품인 찹쌀입니다.</li>
+                                <li class="price">40,000원</li>
+                            </div>
+                        </ul>
+                    </div> 
+                    <!-- new 끝-->
+
+                    <br />
+
+                    <div class="clear"></div>
+
+                    <div>
+                        <tr align=center height=20>
+                            <td colspan=7 style=font-family:Tahoma;font-size:10pt;>
+                                <%if(nowpage<=1){ %>
+                                [이전]&nbsp;
+                                <%}else{ %>
+                                <a href="./boardlist.bo?page=<%=nowpage-1 %>">[이전]</a>&nbsp;
+                                <%} %>
+                                
+                                <%for(int a=startpage;a<=endpage;a++){
+                                    if(a==nowpage){%>
+                                    [<%=a %>]
+                                    <%}else{ %>
+                                    <a href="./boardlist.bo?page=<%=a %>">[<%=a %>]</a>
+                                    &nbsp;
+                                    <%} %>
+                                <%} %>
+                                
+                                <%if(nowpage>=maxpage){ %>
+                                [다음]
+                                <%}else{ %>
+                                <a href="./boardlist.bo?page=<%=nowpage+1 %>">[다음]</a>
+                                <%} %>
+                            </td>
+                        </tr>
+                    </div>
+
+                    <br /><hr /><br />
+
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- contents 끝 -->
+
+
+
+
+
+    <!-- script 시작 -->
+    <script type="text/javascript" src="/js/post.js"></script>
+    <script type="text/javascript" src="/js/header.js"></script>
+    <script type="text/javascript" src="/js/footer.js"></script>
+    <!-- script 끝 -->
+</body>
+
+</html>
