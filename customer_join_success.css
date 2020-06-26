@@ -1,30 +1,53 @@
- .join__success--success{
+.join__customer--success2{
 
-    display: flex;
-    flex-direction: column;
-     margin-left: 330px;
-     padding-top: 150px;
-     padding-bottom: 200px;
-     
+  display: flex;
+  flex-direction: column;
+  padding-top: 150px;
+  padding-bottom: 200px;
+  width: 1200px;
   
-  }  
 
-.checkimg, .text_noti{
-   
-    text-align: center;
-    
-  }
+}  
 
-  .join_btn{  
+.join__customer--success2{
 
-    width:400px;
-    background-color: #888888;
-    border: none;
-    border-radius:10px;
-    padding: 15px 0;
-    margin: 30px;
+ 
+ background-image: url(./assets/농수산물백그라운드.png);
+ background-repeat: no-repeat;
+ background-size: 1200px 750px;
+ 
+}
 
 
-  }
-  
-  
+.join__customer--form {
+
+ text-align: center;
+
+}
+
+.join__customer--checkimg2 img{
+
+ width: 400px;
+ height: 150px;
+ margin-bottom: 50px;
+
+}
+
+.join__customer--noti2 {
+
+ margin-bottom: 15px;
+}
+
+.join__customer--btn2{  
+
+ width:400px;
+ background-color: #e5baba;
+ border: none;
+ border-radius:10px;
+ color: #474545;
+ font-weight: bold;
+ padding: 15px 0;
+ margin: 30px;
+
+
+}
