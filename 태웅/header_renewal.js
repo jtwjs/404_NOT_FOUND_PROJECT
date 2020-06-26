@@ -1,13 +1,16 @@
-var dropBtn = document.getElementById("nav__category");
+var dropBtn = document.getElementById("header__nav--category");
 dropBtn.addEventListener("mouseover", function () {
   document.getElementById("category_menu").style.height = "365px";
   document.getElementById("category_menu").style.borderBottom =
-    "1px solid rgba(52, 199, 89,0.8)";
+    "3px solid #509b59";
+
+  document.getElementById("category_btn").classList.add("selected");
 });
 
 dropBtn.addEventListener("mouseout", function () {
   document.getElementById("category_menu").style.height = "0";
   document.getElementById("category_menu").style.borderBottom = null;
+  document.getElementById("category_btn").classList.remove("selected");
 });
 
 document

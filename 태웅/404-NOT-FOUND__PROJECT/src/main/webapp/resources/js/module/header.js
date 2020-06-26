@@ -510,7 +510,7 @@ document
 var didScroll;
 var lastScrollTop = 0;
 var delta = 5; //동작의 구현이 시작되는 위치
-var navbarHeight = 20;
+var navbarHeight =  $('header').outerHeight();
 //스크롤시에 사용자가 스크롤했다는 것을 알림
 $(window).scroll(function (event) {
   didScroll = true;
@@ -522,7 +522,7 @@ setInterval(function () {
     hasScrolled();
     didScroll = false;
   }
-}, 250);
+}, 100);
 
 function hasScrolled() {
   var st = $(this).scrollTop(); //현재 스크롤의 위치 저장
@@ -535,9 +535,10 @@ function hasScrolled() {
   if (st  > navbarHeight) {
     //scroll Down
     $("header").removeClass("nav-down").addClass("nav-up");
+    console.log("navbarHeight"+navbarHeight);
   } else {
     //scroll Up
-    if (st  < 50 ) {
+    if (st  < navbarHeight ) {
       $("header").removeClass("nav-up").addClass("nav-down");
     }
   }

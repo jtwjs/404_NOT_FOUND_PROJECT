@@ -17,6 +17,7 @@
     <title>프로필 수정</title>
 </head>
 <body>
+<main id="main">
     <div class="container">
         <div class="row">
         	<div class="col-xs-12">
@@ -137,6 +138,7 @@
             </div>
         </div>
     </div>
+  </main>
     <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_main.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_infoModify.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/resources/js/Admin/post_search.js'/>"></script>
