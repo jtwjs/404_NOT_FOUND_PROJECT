@@ -513,7 +513,7 @@ document
 var didScroll;
 var lastScrollTop = 0;
 var delta = 5; //동작의 구현이 시작되는 위치
-var navbarHeight = $("#header__head").outerHeight();
+var navbarHeight = $(".header__top").outerHeight();
 
 //스크롤시에 사용자가 스크롤했다는 것을 알림
 $(window).scroll(function (event) {
@@ -536,13 +536,13 @@ function hasScrolled() {
     return;
   }
 
-  if (st > lastScrollTop && st > navbarHeight) {
+  if (st > navbarHeight) {
     //scroll Down
-    $("header").removeClass("nav-down").addClass("nav-up");
+    $("#header__nav").addClass("fixed");
   } else {
     //scroll Up
-    if (st + $(window).height() < $(document).height()) {
-      $("header").removeClass("nav-up").addClass("nav-down");
+    if (st < navbarHeight) {
+      $("#header__nav").removeClass("fixed")
     }
   }
 

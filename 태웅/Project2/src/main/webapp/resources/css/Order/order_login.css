@@ -1,0 +1,144 @@
+.container {
+    width: 1200px;
+    max-width: none !important;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+}
+
+.login__box {
+	margin-left: 100px;
+}
+
+.order__login--wrap, .order__login--wrap2 {
+
+    display: flex;
+    flex-direction: column;
+    float: left;  
+    margin-top: 80px;
+    padding-bottom: 100px;
+    width: 50%;
+
+}
+
+.loginfind_btn a:hover{
+    /*   마우스 올렸을 때    */
+    color:#ff7b00;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.loginfind_btn a:active{
+    /*    클릭했을 때    */
+    color: #008000;
+    text-decoration: none;
+}
+
+/* 로그인, 비회원주문조회 text*/
+.order_tit, .order_tit2{
+
+    padding-left: 215px;
+}
+
+/* 비회원 주문조회 text*/
+.order_tit2{
+    padding-left: 170px;
+
+}
+
+/*회원, 비회원 text*/
+.login__member, .login__member2{ 
+
+    padding-left: 225px; 
+    margin-top: 25px;
+    font-weight: bold;
+}
+
+
+/* 노란색 줄*/
+.login__border, .login__border2{
+
+    margin-left: 148px;
+    border-top: 4px solid #fdcf41;
+    width : 35%;
+}
+
+/* input, button 스타일*/
+ .inputId, .inputPw, .submitBtn,
+ .submitjoinBtn, .inputIrum, .inputPhone, .submitcartBtn {
+    
+    margin-top: 25px;
+    margin-left: 35px;    
+    border-radius: 5px;    
+    width: 420px;
+    height: 39px;
+    
+
+ }
+
+
+ /*input*/
+.inputId, .inputPw, .inputIrum, .inputPhone{
+
+    border: 1px solid #808080;
+    text-align: left;
+}
+
+
+.check_id{
+    
+    margin-left: 47px;
+    margin-top: 25px;
+
+}
+
+/* 로그인 버튼 */
+.submitBtn  {
+
+    background: #ddc808;
+    
+}
+
+/* 아이디 /  비밀번호 찾기 */
+.loginfind_btn{
+    
+    margin-top: 25px;
+    margin-left: 155px;
+    font-size: 13px;
+
+}
+
+/* 회원 가입 , 주문 조회 버튼*/
+.submitjoinBtn, .submitcartBtn{
+
+    background : #808080;   
+
+}
+
+/* 회원가입 버튼 */
+.submitjoinBtn{
+
+    margin-top: 25px;
+}
+
+/* 주문조회 버튼 */
+.submitcartBtn{
+
+    margin-top: 70px;
+}
+
+/* 회원가입, 주문조회 text color */
+.submitjoinBtn, .submitcartBtn, .b{
+
+    color : #ffffff
+}
+
+/* 네이버, 카카오 이미지 위치 */
+.other_login{
+
+    margin-top: 25px;
+    margin-left: 45px;
+
+}
