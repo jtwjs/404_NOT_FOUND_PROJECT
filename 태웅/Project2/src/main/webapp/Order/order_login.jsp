@@ -10,12 +10,12 @@
     <link href="<c:url value='/resources/css/module/header.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css?after'/>" rel="stylesheet" />
     <!-- header, css end -->
-    <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Common/sub_main.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Order/order_login.css?after'/>" rel="stylesheet" />
     <title>주문조회</title>
 </head>
 <body>
-  <section id="sub-main" class="serviceCenter">
+  <section id="sub-main" class="delivery">
 	  <div class="sub-top">
 	  	<h2 class="sub-title">주문배송</h2>
 	  	<ul class="sub-location">

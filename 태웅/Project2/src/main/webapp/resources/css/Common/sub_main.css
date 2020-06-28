@@ -17,6 +17,20 @@
 	background-image: url(../../Images/Common/sub_bg03.jpg);
 }
 
+#sub-main.seller .sub-top{
+}
+
+#sub-main.delivery .sub-top{
+	background-image: url(../../Images/Common/sub_bg05.jpg);
+	background-position-y: -33px;
+}
+
+#sub-main.cartView .sub-top{
+	background-image: url(../../Images/Common/sub_bg07.jpg);
+	background-repeat: no-repeat;
+	background-position-x: -115px;
+}
+
 .sub-top {
 	height: 100%;
 	text-align: center;

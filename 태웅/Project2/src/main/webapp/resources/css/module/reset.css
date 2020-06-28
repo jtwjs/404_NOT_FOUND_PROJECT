@@ -79,3 +79,11 @@ p {
   width: 1200px;
   max-width: none !important;
 }
+
+#main {
+	min-height: 60vh;
+}
+
+.enter {
+	display: block;
+}

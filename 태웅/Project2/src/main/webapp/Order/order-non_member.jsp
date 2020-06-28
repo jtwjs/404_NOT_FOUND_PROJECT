@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,13 +11,13 @@
     <link href="<c:url value='/resources/css/module/header.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css?after'/>" rel="stylesheet" />
     <!-- header, css end -->
-    <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Common/sub_main.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Order/order_login.css?after'/>" rel="stylesheet" />
     <title>주문조회</title>
 <title>비회원 주문배송</title>
 </head>
 <body>
-<section id="sub-main" class="serviceCenter">
+<section id="sub-main" class="delivery">
 	  <div class="sub-top">
 	  	<h2 class="sub-title">주문배송</h2>
 	  	<ul class="sub-location">
@@ -24,7 +25,7 @@
 	  		  <a href="Index.in"><span class="hide-text">home</span></a>
 	  		</li>
 	  		<li>
-	  		  <strong>주문배송</strong>
+	  		  <strong>비회원 주문배송</strong>
 	  		</li>
 	  	</ul>
 	  </div>

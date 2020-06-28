@@ -1,8 +1,161 @@
-#main_visual {
+#main__visual1 {
+	position: relative;
   width: 100%;
   height: 100vh;
+}
+
+#main__visual1.on {
+	transform:scale(1);
+}
+
+#main__visual1--slider {
+    width: 100%;
+    height: 100%;
+}
+
+#main__visual1--slider ul,
+#main__visual1--slider li,
+.slide-page{
+	width: 100%;
+	height: 100%;
+}
+
+#main__visual1--slider li {
+	position: absolute;
+}
+
+#main__visual1--slider li.on {
+}
+
+.slide-page1,
+.slide-page2,
+.slide-page3 {
+	height: 100%;
+}
+
+.slide-page1,
+.slide-page2,
+.slide-page3 {
+	background-size: cover;
+ 	background-repeat: no-repeat;
+  	background-position: center;
+ 	opacity: 0;
+ 	transform:scale(1.3);
+	-webkit-transform:scale(1.3);
+	opacity:0;
+	-webkit-opacity:0;
+	transition : all 1.4s ease-out; 
+	-webkit-transition : all 1.4s ease-out;
+}
+
+.slide-page1 {
   background-image: url("../../Images/Home/bg_section_story.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+}
+
+
+.slide-page2 {
+	background-image: url("../../Images/Home/bg_section_story2.jpg");
+}
+
+.slide-page3 {
+	background-image: url("../../Images/Home/bg_section_story3.jpg");
+}
+
+#main__visual1--slider li.on .slide-page1,
+#main__visual1--slider li.on .slide-page2,
+#main__visual1--slider li.on .slide-page3 {
+	transform: scale(1);
+	opacity: 1;
+}
+
+
+.slider__slogon {
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	transform: translateY(-25%);
+}
+
+.slider__slogon--title {
+	
+	color: #fff;
+	text-align: center;
+}
+
+.slider__slogon--title h2 {
+	position: relative;
+	font-size: 30px;
+	font-weight: 400;
+	line-height: 1.5;
+	letter-spacing: -0.05em;
+	
+}
+
+.slider__slogon--title h2::before {
+	position: absolute;
+	top: -50px;
+    left: 50%;
+	width: 30px;
+    height: 30px;
+    margin-left: -12px;
+	background-image: url("../../Images/Home/leaf-icon.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	content: '';
+}
+
+.slider__slogon--title strong {
+	font-size: 65px;
+	line-height: 1.3;
+}
+.slider__slogon--title span {
+	font-size: 50px;
+	color: #fff;
+	line-height: 1.5;
+	letter-spacing: -0.1em;;
+}
+
+
+/*contorller*/
+#control {
+	position: absolute;
+	width: 100%;
+    height: auto;
+    left: 0;
+    top: 50%;
+    text-align: left;
+    z-index: 100;
+}
+
+#control ul {
+	position: absolute;
+	bottom: 50%;
+	bottom: 50%;
+    display: block;
+    width: 66px;
+    margin-bottom: -104px;
+    margin-left: 3%;
+    text-align: left;
+    z-index: 9;
+    overflow: hidden;
+}
+
+#control ul li a {
+	display: block;
+    width: 66px;
+    height: 66px;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    line-height: 64px;
+    text-align: center;
+    color: rgba(255,255,255,0.5);
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+}
+
+#control ul li a.on {
+	border: 1px solid #fff;
+   	color: #fff;
 }

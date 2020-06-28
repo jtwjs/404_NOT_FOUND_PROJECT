@@ -25,6 +25,9 @@
 	  		<li>
 	  		  <strong>로그인</strong>
 	  		</li>
+	  		<li>
+	  		  <strong>판매자 로그인</strong>
+	  		</li>
 	  	</ul>
 	  </div>
 	  <div class="sub-tab">

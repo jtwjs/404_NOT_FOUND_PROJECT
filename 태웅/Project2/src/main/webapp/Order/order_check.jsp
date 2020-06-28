@@ -6,15 +6,37 @@
 <head>
     <!-- header, css -->
     <jsp:include page="../header.jsp" flush="false"/>
-    <link href="<c:url value='/resources/css/module/reset.css'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/module/reset.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/header.css?after'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/module/footer.css'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/module/footer.css?after'/>" rel="stylesheet" />
     <!-- header, css end -->
-    
-    <link href="<c:url value='/resources/css/Order/order_check.css'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Common/sub_main.css'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Order/order_check.css?after'/>" rel="stylesheet" />
     <title>비회원 주문조회</title>
 </head>
 <body>
+<section id="sub-main" class="cartView">
+	  <div class="sub-top">
+	  	<h2 class="sub-title">주문내역</h2>
+	  	<ul class="sub-location">
+	  		<li class="home">
+	  		  <a href="Index.in"><span class="hide-text">home</span></a>
+	  		</li>
+	  		<li>
+	  		  <strong>주문내역</strong>
+	  		</li>
+	  	</ul>
+	  </div>
+	  <div class="sub-tab">
+	  	<ul>
+	  		<li>
+	  			<a href="OrderCheck.or">
+	  				<span>주문내역</span>
+	  			</a>
+	  		</li>
+	  	</ul>
+	  </div>
+	</section>
     <main id="main">
         <div class="container">
             <div class="row">
@@ -139,8 +161,9 @@
 
 
     <!-- footer,js -->
-    <jsp:include page="../footer.jsp" flush="false"/>    
-    <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js'/>" ></script>
+    <jsp:include page="../footer.jsp" flush="false"/>
+    <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    
+    <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js?after'/>" ></script>
     <script type="text/javascript" src="<c:url value='/resources/js/module/header.js?after'/>" ></script>
     <!-- footer,js end -->
 </body>
