@@ -1,0 +1,73 @@
+.contnt__delivery {
+
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    padding-bottom: 100px;
+    width: 1200px;
+    
+}
+
+.content-title--site{
+
+    padding-bottom: 15px;
+}
+
+.content-pp{
+
+	font-size : 14px;
+}
+
+.delivery_Btn  {	
+
+    float: right;
+    margin-bottom: 25px;
+	width: 100px;
+    height: 40px;
+    padding: 10px;
+    background-color: #96e096;
+    border-radius: 5px;
+    font-size: 14px;	
+    text-align: center;	
+	
+}
+
+
+.site_content2 {
+
+    border-top:1px solid #bebebe;
+    border-bottom:1px solid #e7e4e4;
+    padding-bottom: 25px;
+    
+}
+
+.setting_form {
+
+    width: 1200px;
+    text-align: center;
+    margin-top: 15px;
+
+}
+
+
+
+
+.setting_list {
+
+    padding-top: 25px;
+   
+
+}
+
+
+.modifyBtn, .deleteBtn {
+
+    width: 60px;
+    height: 35px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    text-align: center;
+}
+
+
+
