@@ -1,0 +1,68 @@
+#sort-select {
+	width: 200px;
+	padding: .5em;
+	border: 1px solid #999;
+	font-family: inherit;
+	background: url('../../Images/Buyer/select_arrow.jpg') no-repeat 100% 50%;
+	border-radius: 0px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+#sort-select::-ms-expand {
+	display: none;
+}
+
+#transaction__detail {
+	margin: 20px 0;
+	padding: 0;
+}
+
+.transaction__detail--table {
+  width: 100%;
+  text-align: center;
+}
+
+.transaction__detail--table > thead {
+  background-color: #34c759;
+}
+
+.transaction__detail--table th,
+.transaction__detail--table td {
+  padding: 10px;
+}
+
+.wish-check {
+  width: 10%;
+}
+
+.wish-title {
+	width: 50%;
+}
+
+.wish-price {
+	width: 15%;
+}
+
+.wish-date {
+	width: 15%;
+}
+
+.wish-check,
+.wish-title,
+.wish-price,
+.wish-date {
+  font-weight: 500;
+  font-size: 20px;
+  color: #fff;
+}
+
+.transaction__detail--table > tbody {
+  font-size: 1.2rem;
+}
+
+.non-post {
+  height: 200px;
+  font-size: 20px;
+}

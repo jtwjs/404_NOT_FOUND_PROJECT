@@ -111,36 +111,31 @@
   padding: 10px;
 }
 
-.board-number {
-  width: 10%;
+.qna-number {
+  width: 15%;
 }
 
-.board-name {
-	width: 30%;
+.qna-title {
+	width: 50%;
 }
 
-.evaluation-score {
+.qna-date {
 	width: 15%;
 }
 
-.board-write-date {
-	width: 15%;
+.qna-hit {
+	width: 10%;
 }
 
-.board-sell-status {
-	width: 15%;
+.qna-secret {
+	width: 10%;
 }
 
-.board-modify {
-	width: 15%;
-}
-
-.board-number,
-.board-name,
-.evaluation-score,
-.board-write-date,
-.board-sell-status,
-.board-modify {
+.qna-number,
+.qna-title,
+.qna-date,
+.qna-hit,
+.qna-secret {
   font-weight: 500;
   font-size: 20px;
   color: #fff;
@@ -153,12 +148,4 @@
 .non-post {
   height: 200px;
   font-size: 20px;
-}
-
-.product-modify {
-	margin: 0;
-	padding: 5px 10px;
-	border-radius: 5px;
-	background-color: #6dbbe4;
-	color: #fff;
 }

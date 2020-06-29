@@ -32,7 +32,7 @@
   height: 347px;
   margin-bottom: 10px;
   border: 1px solid rgba(34, 34, 34, 0.1);
-  border-top: 2px solid #509b59;
+  border-top: 2px solid #34c759;
   padding: 20px;
   box-shadow: 2px 4px 4px 1px rgba(0, 0, 0, 0.22);
 }
@@ -190,7 +190,7 @@ dd {
 #myPage {
   width: 900px;
   border: 1px solid rgba(34, 34, 34, 0.1);
-  border-top: 2px solid #509b59;
+  border-top: 2px solid #34c759;
   padding: 15px 30px 40px;
   box-shadow: 0 8px 8px -4px rgba(0, 0, 0, 0.22);
 }

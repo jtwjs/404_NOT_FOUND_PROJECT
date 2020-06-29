@@ -53,7 +53,7 @@
                             <p class="login__member">회원</p>
                         <div class="login__border">
                      </div>    
-                        <form name="order__login--form">
+                     <form name="order__login--form">
     
                             <div class="id">
                                 <input type="text" class="inputId" id="userId" name="userId" maxlength="20" value=""
@@ -96,9 +96,9 @@
                                     <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
                                 </a>
                             </div>
-                        </form>
-                    </div>
-                </div>
+                        </form> 
+                      </div>
+               	   </div>
                 </div>
             </div>
         </div>

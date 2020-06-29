@@ -54,7 +54,7 @@
 	  	</ul>
 	  </div>
 	</section>
-    <main id="main">
+     <main id="main">
     	<div class="container">
 	        <div class="row">
             	<div class="col-xs-12" >
@@ -163,7 +163,7 @@
        		</div>
         </div>	    
     </main>
-    <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_main.js?after'/>"></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_menu.js?after'/>"></script>
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    

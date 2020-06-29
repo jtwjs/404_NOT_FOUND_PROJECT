@@ -48,9 +48,4 @@ public class AdminController {
     	return "Admin/join_seller_complete";
     }
 	
-	@RequestMapping(value = "/AdminMain.ad")
-    public String adminMain() {
-    	
-    	return "Admin/admin_main";
-    }
 }

@@ -35,6 +35,53 @@
 
 }
 
+ 
+
+.location-list {
+
+	position: relative;
+
+	top: -30px;
+
+	display: flex;
+
+	font-size: 13px;
+
+}
+
+ 
+
+.location-list li:first-child {
+
+	position: relative;
+
+	margin-right: 15px;
+
+	color: rgba(0, 0, 0, 0.4);
+
+}
+
+ 
+
+.location-list li:first-child::after {
+
+	position: absolute;
+
+	width: 15px;
+
+	height: 15px;
+
+	background-image: url("../../Images/Admin/right-arrow.png");
+
+	background-size: cover;
+
+	background-position: center;
+
+	background-repeat: no-repeat;
+
+	content: '';
+
+}
 
  
 

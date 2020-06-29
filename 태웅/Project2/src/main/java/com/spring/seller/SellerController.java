@@ -30,6 +30,12 @@ public class SellerController {
 		return "Seller/mypage_main";
 	}
 	
+	@RequestMapping(value = "/SellerInfoModify.se")  // 프로필 수정
+	public String sellerInfoModify() {
+		
+		return "Seller/mypage_infoModify";
+	}
+	
 	
 	@RequestMapping(value = "/SellerProductRegister.se")  // 상품내역 - 상품등록
 	public String sellerProductRegister() {
@@ -43,14 +49,40 @@ public class SellerController {
 		return "Seller/mypage_productList";
 	}
 	
+	@RequestMapping(value = "/SellerProductModify.se")    // 상품내역 - 판매글 수정
+	public String sellerProductModify() {
+		
+		return "Seller/mypage_productModify";
+	}
+	
+	@RequestMapping(value = "/SellerOrderStatus.se")    // 거래내역 - 주문관리
+	public String sellerOrderStatus() {
+		
+		return "Seller/mypage_orderStatus";
+	}
+	
+	@RequestMapping(value = "/SellerTransactionList.se")    // 거래내역 - 거래목록
+	public String sellerTransactionList() {
+		
+		return "Seller/mypage_transactionList";
+	}
+	
+	@RequestMapping(value = "/SellerCalculateManager.se")    // 거래내역 - 거래목록
+	public String sellerCalculateManager() {
+		
+		return "Seller/mypage_calculateManager";
+	}
+	
 	@RequestMapping(value = "/SellerMarketPriceInfo.se")  // 상품 시세정보
 	public String sellerMarketPriceInfo() {
 		
 		return "Seller/mypage_marketPriceInfo";
 	}
 	
-	@RequestMapping(value = "/SellerMarketPriceInfoDate.se", method = RequestMethod.GET)
-	public String sellerMarketPriceInfoDate(Model model, String regday, String countycode, String itemcategorycode) {
+	// 상품 시세정보 조회하기
+	
+	@RequestMapping(value = "/SellerMarketPriceInfoSearch.se", method = RequestMethod.GET)
+	public String sellerMarketPriceInfoSearch(Model model, String regday, String countycode, String itemcategorycode) {
 		
 		String url = "https://www.kamis.or.kr/customer/price/wholesale/catalogue.do?action=daily&regday=" 
 		    + regday + "&countycode=" + countycode + "&itemcategorycode=" + itemcategorycode + "&convert_kg_yn=N";

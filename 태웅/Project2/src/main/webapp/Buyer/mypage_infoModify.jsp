@@ -164,8 +164,8 @@
             </div>
         </div>
     </div>
-  </main>
-    <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_main.js'/>"></script>
+</main>
+    <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_menu.js?after'/>"></script>
     <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_infoModify.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/resources/js/Admin/post_search.js'/>"></script>
     

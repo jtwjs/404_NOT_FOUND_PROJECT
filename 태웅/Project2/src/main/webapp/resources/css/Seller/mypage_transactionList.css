@@ -111,36 +111,31 @@
   padding: 10px;
 }
 
-.board-number {
-  width: 10%;
+.order-number {
+  width: 15%;
 }
 
-.board-name {
-	width: 30%;
+.product-name {
+  width: 40%;
 }
 
-.evaluation-score {
+.order-price {
 	width: 15%;
 }
 
-.board-write-date {
+.buyer-id {
 	width: 15%;
 }
 
-.board-sell-status {
+.order-date {
 	width: 15%;
 }
 
-.board-modify {
-	width: 15%;
-}
-
-.board-number,
-.board-name,
-.evaluation-score,
-.board-write-date,
-.board-sell-status,
-.board-modify {
+.order-number,
+.product-name,
+.order-price,
+.buyer-id,
+.order-date {
   font-weight: 500;
   font-size: 20px;
   color: #fff;
@@ -153,12 +148,4 @@
 .non-post {
   height: 200px;
   font-size: 20px;
-}
-
-.product-modify {
-	margin: 0;
-	padding: 5px 10px;
-	border-radius: 5px;
-	background-color: #6dbbe4;
-	color: #fff;
 }

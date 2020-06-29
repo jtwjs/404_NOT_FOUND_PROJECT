@@ -21,7 +21,7 @@
                                         프로필
                                     </dt>
                                         <dd id="menu-profile--item">
-                                            <a href="#" onclick="location.href=''">수정하기</a>
+                                            <a href="#" onclick="location.href='SellerInfoModify.se'">수정하기</a>
                                         </dd>
                                     <dt id="menu-product">
                                         상품내역
@@ -34,9 +34,9 @@
                                         거래내역
                                     </dt>   
                                         <dd id="menu-transaction--item">
-                                            <a href="#" onclick="location.href=''">진행상황</a>
-                                            <a href="#" onclick="location.href=''">거래목록</a>
-                                            <a href="#" onclick="location.href=''">정산관리</a>
+                                            <a href="#" onclick="location.href='SellerOrderStatus.se'">주문관리</a>
+                                            <a href="#" onclick="location.href='SellerTransactionList.se'">거래목록</a>
+                                            <a href="#" onclick="location.href='SellerCalculateManager.se'">정산관리</a>
                                         </dd>
                                     
                                     <dt id="menu-quotations">

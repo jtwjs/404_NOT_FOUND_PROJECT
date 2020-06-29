@@ -20,23 +20,23 @@
 	        </dt>
             <dd id="menu-profile--item">
             	<a href="#" onclick="location.href='BuyerMyPageInfoModify.by'">수정하기</a>
-            	<a href="#" onclick="location.href=''">배송지관리</a>
+            	<a href="#" onclick="location.href='BuyerMyPageDeliveryManager.by'">배송지관리</a>
 		    </dd>
 			<dt id="menu-myShopping">
 			    나의 쇼핑 활동
 			</dt>
 	    	<dd id="menu-myShopping--item">
-	      	 	<a href="#" onclick="location.href='test.by'">주문내역</a>
-				<a href="#" onclick="location.href=''">좋아요</a>
-				<a href="#" onclick="location.href=''">최근 본 상품</a>
-				<a href="#" onclick="location.href=''">구매후기</a>
+	      	 	<a href="#" onclick="location.href='BuyerMyPageOrderList.by'">주문내역</a>
+				<a href="#" onclick="location.href='BuyerMyPageWishList.by'">찜목록</a>
+				<a href="#" onclick="location.href='BuyerMyPageRecentlyView.by'">최근 본 상품</a>
+				<a href="#" onclick="location.href='BuyerMyPageReview.by'">구매후기</a>
 	    	</dd>
 			<dt id="menu-qna">
 			    Q&A
 			</dt>
 	    	<dd id="menu-qna--item">
-	        	<a href="#" onclick="location.href=''">상품문의</a>
-				<a href="#" onclick="location.href=''">1:1문의</a>
+	        	<a href="#" onclick="location.href='BuyerMyPageProductQna.by'">상품문의</a>
+				<a href="#" onclick="location.href='BuyerMyPageServiceQna.by'">1:1문의</a>
             </dd>
 		</dl>								           				
   	</article>

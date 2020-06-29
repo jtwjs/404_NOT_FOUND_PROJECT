@@ -9,7 +9,8 @@
 }
 
 .login__box {
-	margin-left: 100px;
+	min-width: 1200px;
+	height: 100%;
 }
 
 .order__login--wrap, .order__login--wrap2 {
@@ -24,31 +25,31 @@
 }
 
 .loginfind_btn a:hover{
-    /*   마우스 올렸을 때    */
+    /*   留덉슦�뒪 �삱�졇�쓣 �븣    */
     color:#ff7b00;
     font-weight: 600;
     text-decoration: underline;
 }
 
 .loginfind_btn a:active{
-    /*    클릭했을 때    */
+    /*    �겢由��뻽�쓣 �븣    */
     color: #008000;
     text-decoration: none;
 }
 
-/* 로그인, 비회원주문조회 text*/
+/* 濡쒓렇�씤, 鍮꾪쉶�썝二쇰Ц議고쉶 text*/
 .order_tit, .order_tit2{
 
     padding-left: 215px;
 }
 
-/* 비회원 주문조회 text*/
+/* 鍮꾪쉶�썝 二쇰Ц議고쉶 text*/
 .order_tit2{
     padding-left: 170px;
 
 }
 
-/*회원, 비회원 text*/
+/*�쉶�썝, 鍮꾪쉶�썝 text*/
 .login__member, .login__member2{ 
 
     padding-left: 225px; 
@@ -57,7 +58,7 @@
 }
 
 
-/* 노란색 줄*/
+/* �끂���깋 以�*/
 .login__border, .login__border2{
 
     margin-left: 148px;
@@ -65,7 +66,7 @@
     width : 35%;
 }
 
-/* input, button 스타일*/
+/* input, button �뒪���씪*/
  .inputId, .inputPw, .submitBtn,
  .submitjoinBtn, .inputIrum, .inputPhone, .submitcartBtn {
     
@@ -94,14 +95,14 @@
 
 }
 
-/* 로그인 버튼 */
+/* 濡쒓렇�씤 踰꾪듉 */
 .submitBtn  {
 
     background: #ddc808;
     
 }
 
-/* 아이디 /  비밀번호 찾기 */
+/* �븘�씠�뵒 /  鍮꾨�踰덊샇 李얘린 */
 .loginfind_btn{
     
     margin-top: 25px;
@@ -110,32 +111,32 @@
 
 }
 
-/* 회원 가입 , 주문 조회 버튼*/
+/* �쉶�썝 媛��엯 , 二쇰Ц 議고쉶 踰꾪듉*/
 .submitjoinBtn, .submitcartBtn{
 
     background : #808080;   
 
 }
 
-/* 회원가입 버튼 */
+/* �쉶�썝媛��엯 踰꾪듉 */
 .submitjoinBtn{
 
     margin-top: 25px;
 }
 
-/* 주문조회 버튼 */
+/* 二쇰Ц議고쉶 踰꾪듉 */
 .submitcartBtn{
 
     margin-top: 70px;
 }
 
-/* 회원가입, 주문조회 text color */
+/* �쉶�썝媛��엯, 二쇰Ц議고쉶 text color */
 .submitjoinBtn, .submitcartBtn, .b{
 
     color : #ffffff
 }
 
-/* 네이버, 카카오 이미지 위치 */
+/* �꽕�씠踰�, 移댁뭅�삤 �씠誘몄� �쐞移� */
 .other_login{
 
     margin-top: 25px;

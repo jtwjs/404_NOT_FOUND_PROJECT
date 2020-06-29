@@ -38,10 +38,17 @@
 
 }
 
-.update_profile-photo, .update_name, .update_id, .update_pw,  .update_mPhone,
-.update_email, .update_addr {
+.update_profile-photo, .update_id, .update_pw,  .update_mPhone,
+.update_email, #license_check, #update_manager-name {
     padding: 10px;
-    border-top: 1px solid #d3d3d3
+    border-top: 1px solid #d3d3d3;
+}
+
+.update_payment {
+	margin-bottom: 50px;
+	padding: 10px;
+    border-top: 1px solid #d3d3d3;
+    border-bottom: 1px solid #d3d3d3;
 }
 
 .update_profile-photo {
@@ -142,7 +149,8 @@
 
 .inputName, .inputId, .inputPw, .inputPwCheck, 
 .inputEmail1, .inputEmail2, .inputPhone2, .inputPhone3, 
-.inputAddrNum, .inputAddr1, .inputAddr2, .inputChkSms {
+#updateName, #updateManagerName, #emailAddress, 
+#mPhoneNumber, #paymentMethod, #bankAccount {
     border: 1px solid #808080;
     border-radius: 5px;
     padding: 2px 8px;
@@ -161,28 +169,6 @@
 
 .inputPhone2, .inputPhone3 {
     width: 80px;
-}
-
-.inputAddrNum {
-    width: 100px;
-    margin-right: 10px;
-}
-
-.inputAddr1,
-.inputAddr2 {
-    margin-left: 184px;
-}
-
-.inputAddr1, .inputAddr2 {
-    width: 350px;
-}
-
-.inputAddr1 {
-	margin-bottom: 5px;
-}
-
-.inputChkSms {
-    margin-left: 20px;
 }
 
 .selectPhone, .selectEmail3 {
@@ -211,6 +197,14 @@
     
     font-size: 8pt;
     color:#888888;
+}
+
+#bankNum {
+	margin-left: 20px;
+	padding: 3px;
+	width: 300px;
+	border: 1px solid #808080;
+	border-radius: 5px;
 }
 
 .addrNumBtn {
@@ -262,4 +256,3 @@
 #resetBtn:hover {
 	background-color: #808080;
 }
-

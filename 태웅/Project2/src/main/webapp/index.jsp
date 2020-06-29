@@ -10,6 +10,7 @@
     <link href="<c:url value='/resources/css/module/header.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css'/>" rel="stylesheet" />
     <!-- header, css end -->
+    <link href="<c:url value='/resources/css/module/side.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Home/index.css'/>" rel="stylesheet" />
     <title>Home</title>
 </head>
@@ -73,7 +74,9 @@
     
     
     
-    
+     <jsp:include page="side.jsp" flush="false"/>
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script src="<c:url value='/resources/js/module/side.js'/>"></script>
     <!-- footer,js -->
     <jsp:include page="footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Home/index.js?after'/>" ></script>    

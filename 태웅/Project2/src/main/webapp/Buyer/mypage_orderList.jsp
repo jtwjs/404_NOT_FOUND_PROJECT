@@ -12,17 +12,17 @@
 <head>
     <!-- header, css -->
     <jsp:include page="../header.jsp" flush="false"/>
-    <link href="<c:url value='/resources/css/module/reset.css?after'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/module/header.css?after'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/module/footer.css?after'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/module/header.css'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/module/reset.css'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/module/footer.css'/>" rel="stylesheet" />
     <!-- header, css end -->
     <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/Seller/mypage_template.css?after'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/Seller/mypage_productList.css?after'/>" rel="stylesheet" />
-    <title>상품 내역</title>
+    <link href="<c:url value='/resources/css/Buyer/mypage_template.css'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Buyer/mypage_orderList.css'/>" rel="stylesheet" />
+    <title>주문 내역</title>
 </head>
 <body>
-  <section id="sub-main" class="seller">
+<section id="sub-main" class="">
 	  <div class="sub-top">
 	  	<h2 class="sub-title">마이페이지</h2>
 	  	<ul class="sub-location">
@@ -32,23 +32,22 @@
 	  		<li>
 	  		  <strong>마이페이지</strong>
 	  		</li>
-	  		<li>
-	  		  <strong>상품내역</strong>
+  			<li>
+	  			<strong>주문내역</strong>
 	  		</li>
 	  	</ul>
 	  </div>
 	  <div class="sub-tab">
 	  	<ul>
 	  		<li>
-	  			<a href="SellerMyPage.se">
+	  			<a href="BuyerMyPage.by">
 	  				<span>마이페이지</span>
 	  			</a>
 	  		</li>
 	  	</ul>
 	  </div>
-	</section> 
-
-  <main id="main">
+	</section>
+    <main id="main">
     
     <div class="container">
         <div class="row">
@@ -57,9 +56,9 @@
                 <jsp:include page="mypage_template.jsp" flush="false"/>
                 
                     <section id="myPage">
-                        <h2 class="content-title">상품내역</h2>
+                        <h2 class="content-title">주문내역</h2>
                         
-                           <article id="content__product-list--search">
+                            <article id="content__product-list--search">
                                 <div id="content__product-list--search-box">
                                     <form id="product-list__search-box--form" method="get"
                                         action="" onsubmit="">
@@ -105,22 +104,18 @@
                                 <table class="transaction__detail--table">
                                     <thead>
                                         <tr>
-                                            <th class="board-number">번호</th>                
-                                            <th class="board-name">글제목</th>       
-                                            <th class="evaluation-score">평가점수</th>       
-                                            <th class="board-write-date">등록일</th>       
-                                            <th class="board-sell-status">판매여부</th>       
-                                            <th class="board-modify">상품수정</th>       
+                                            <th class="order-number">주문번호</th>                
+                                            <th class="board-name">상품명</th>       
+                                            <th class="order-amount">수량</th>       
+                                            <th class="order-price">구매가격</th>       
+                                            <th class="order-date">구매일</th>       
+                                            <th class="order-status">주문상태</th>       
                                         </tr>   
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="non-post" colspan="5">
-                                                등록된 상품내역이 없습니다.
-                                            </td>
-                                            <td>
-                                                <input type="button" value="상품수정" class="product-modify"
-                                                    onclick="javascript:location.href='SellerProductModify.se'" />
+                                            <td class="non-post" colspan="6">
+                                                주문내역이 없습니다.
                                             </td>
                                         </tr>
                                         <tr>
@@ -141,8 +136,9 @@
     </main>
     
 
-    <script type="text/javascript" src="<c:url value='/resources/js/Seller/mypage_menu.js?after'/>"></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_menu.js'/>"></script>
     <!-- footer,js -->
+    
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    
     <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js?after'/>" ></script>
