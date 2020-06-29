@@ -12,7 +12,7 @@
     <link href="<c:url value='/resources/css/module/footer.css?after'/>" rel="stylesheet" />
     <!-- header, css end -->
     <link href="<c:url value='/resources/css/Common/sub_main.css'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/Order/order_login.css?after'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Order/order_login.css'/>" rel="stylesheet" />
     <title>주문조회</title>
 <title>비회원 주문배송</title>
 </head>
@@ -25,7 +25,7 @@
 	  		  <a href="Index.in"><span class="hide-text">home</span></a>
 	  		</li>
 	  		<li>
-	  		  <strong>비회원 주문배송</strong>
+	  		  <strong>비회원 주문조회</strong>
 	  		</li>
 	  	</ul>
 	  </div>
@@ -38,40 +38,41 @@
 	  		</li>
 	  		<li>
 	  			<a href="Order-non_member.or">
-	  				<span>비회원 주문배송</span>
+	  				<span>비회원 주문조회</span>
 	  			</a>
 	  		</li>
 	  	</ul>
 	  </div>
 	</section>
- <main id="main">
-   <div class="container">
-     <div class="row">
-       <div class="col-xs-12">
-			<div class="order__login--wrap2">  
-			        <h5 class="order_tit2">비회원 주문조회</h5>                        
-			        <p class="login__member2">비회원</p>                        
-			    <div class="login__border2">
-			    </div>
-			    <form name="order__login--form2">
+   <main id="main">
+     <div class="container">
+       <div class="row">
+         <div class="col-xs-12">
+           <div class="login__box">
+		    <div class="order__login--wrap">  
+		        <h5 class="order_title">비회원 주문조회</h5>                        
+			    <form name="order__non-member--form">
 			        <div class="irum">
+			        	<label for ="userIrum">이름</label>
 			            <input type="text" class="inputIrum" id="userIrum" name="userIrum" maxlength="20" value=""
 			                placeholder="  주문자명을 입력해 주세요.">
 			        </div>
 			
 			        <div class="phone">
-			            <input type="text" class="inputPhone" id="userPhone" name="userPhone" maxlength="20"
-			                placeholder="  휴대폰번호를 입력해 주세요.">
+			        	<label for="userPhone">휴대폰 번호</label>
+			            <input type="text" class="inputPhone" id="userPhon" name="userPhone" maxlength="20"
+			                placeholder="  휴대폰 번호를 입력해 주세요.">
 			        </div>
 			
 			        <div class="cart_btn">
-			            <button type="button" class="submitcartBtn" onclick="location.href='OrderCheck.or'">주문조회</button>
+			            <button type="button" class="submitcartBtn" onclick="location.href='OrderCheck.or'">비회원 주문조회</button>
 			        </div>
 			    </form>
-			</div>
-		</div>
+		      </div>
+		    </div>
+		  </div>
+	    </div>
 	  </div>
-	</div>
 	</main>
 	<!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>

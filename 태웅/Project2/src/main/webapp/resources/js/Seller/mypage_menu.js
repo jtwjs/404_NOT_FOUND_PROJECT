@@ -35,7 +35,7 @@ profile.addEventListener('click',function(){
 var product = document.getElementById('menu-product');
 var productItem = document.getElementById('menu-product--item');
 product.addEventListener('click',function(){
-    if ( productItem.style.height == '105px' ){
+    if ( productItem.style.height == '70px' ){
         product.style.backgroundColor = null;
         product.style.color =  null;
         productItem.style.height = '0px';
@@ -43,7 +43,7 @@ product.addEventListener('click',function(){
     else { 
         product.style.backgroundColor = '#34C759';
         product.style.color = '#fff';
-        productItem.style.height = '105px';
+        productItem.style.height = '70px';
 
         profile.style.backgroundColor = null;
         profile.style.color =  null;

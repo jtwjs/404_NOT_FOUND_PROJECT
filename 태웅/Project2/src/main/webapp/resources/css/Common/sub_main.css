@@ -63,7 +63,7 @@
 
 .sub-location {
 	display: flex;
-	align-itmes: center;
+	align-items: center;
 	justify-content: center;
 	opacity: 0; 
 	transform: translateY(-30px); 

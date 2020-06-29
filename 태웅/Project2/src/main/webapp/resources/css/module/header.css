@@ -62,6 +62,10 @@
   color: #fff;
 }
 
+.header__top__navi a:hover {
+	color: #fff;
+}
+
 #header__nav {
   display: flex;
   width: 100%;

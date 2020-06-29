@@ -49,46 +49,40 @@
                     <div class="login__box">
                     	<div class="order__login--wrap">
                         <!-- 일반회원 주문조회 로그인-->
-                            <h5 class="order_tit">로그인</h5>                        
-                            <p class="login__member">회원</p>
-                        <div class="login__border">
-                     </div>    
+                            <h5 class="order_title">로그인</h5>                        
                      <form name="order__login--form">
     
                             <div class="id">
+                            	<label for="userId">아이디</label>
                                 <input type="text" class="inputId" id="userId" name="userId" maxlength="20" value=""
                                     placeholder="  아이디를 입력해 주세요.">
                             </div>
     
                             <div class="password">
+                            	<label for="userPw">비밀번호</label>
                                 <input type="password" class="inputPw" id="userPw" name="userPw" maxlength="20"
                                     placeholder="  비밀번호를 입력해 주세요.">
                             </div>
-                            <div class="check_id">
-                                <input type="checkbox" class="chk_Id" name="chk_Id" id="Id_button" checked> 아이디 저장
+                            <div class="find">
+	                            <div class="check_id">
+	                                <input type="checkbox" class="chk_Id" name="chk_Id" id="Id_button" checked> 아이디 저장
+	                            </div>
+	                            <div class="loginfind_btn">
+	                                <a href="#" id="findIdBtn" class="findIdBtn" onclick="location.href='#'">아이디
+	                                        찾기</a>
+	                                <a href="#" id="findPwBtn" class="findPwBtn" onclick="location.href='#'">비밀번호
+	                                        찾기</a>
+	                            </div>
                             </div>
-                            <div class="login_btn">
-                            </div>
-    
+                          
                             <button type="button" class="submitBtn" onclick="location.href='#'">로그인</button>
-    
-                            <div class="loginfind_btn">
-                                <a href="#" id="findIdBtn" class="findIdBtn" onclick="location.href='#'">아이디
-                                        찾기</a>
-                                &nbsp; | &nbsp;
-                                <a href="#" id="findPwBtn" class="findPwBtn" onclick="location.href='#'">비밀번호
-                                        찾기</a>
-                            </div>
-                            <div class="join_btn">
-                                <button type="button" class="submitjoinBtn"
+                            <button type="button" class="submitjoinBtn"
                                     onclick="location.href='#'">회원가입하기</button>
-                            </div>
     
                             <div class="other_login">
                                 <a id="naver-login-btn" href="#" role="button">
                                     <img src="resources/Images/Order/naver.png" width="37%" height="45" />
                                 </a>
-                                &nbsp; &nbsp; &nbsp;
                                 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"></script>
     
                                 <a id="kakao-login-btn" href="#" role="button">
