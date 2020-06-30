@@ -21,7 +21,7 @@
     <title></title>
 </head>
 <body>
-   <section id="sub-main" class="seller">
+   <section id="sub-main" class="product">
 	  <div class="sub-top">
 	  	<h2 class="sub-title">상품리스트</h2>
 	  	<ul class="sub-location">

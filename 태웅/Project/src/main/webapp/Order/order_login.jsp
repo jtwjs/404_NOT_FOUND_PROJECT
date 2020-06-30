@@ -75,9 +75,9 @@
 	                            </div>
                             </div>
                           
-                            <button type="button" class="submitBtn" onclick="location.href='#'">로그인</button>
+                            <button type="button" class="submitBtn"  onclick="javascript:location.href='JoinBuyer.ad'">로그인</button>
                             <button type="button" class="submitjoinBtn"
-                                    onclick="location.href='#'">회원가입하기</button>
+                                     onclick="javascript:location.href='JoinBuyer.ad'">회원가입하기</button>
     
                             <div class="other_login">
                                 <a id="naver-login-btn" href="#" role="button">

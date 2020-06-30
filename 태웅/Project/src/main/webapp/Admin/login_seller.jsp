@@ -11,7 +11,7 @@
     <link href="<c:url value='/resources/css/module/footer.css?after'/>" rel="stylesheet" />
     <!-- header, css end -->
     <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/Admin/login_seller.css?after'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Admin/login_seller.css'/>" rel="stylesheet" />
     <title>로그인</title>
 </head>
 <body>
@@ -45,84 +45,59 @@
 	  	</ul>
 	  </div>
 	</section>
-    <main id="main">
+   <main id="main">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
-                    <div class="main__login__maketer">
-                        <div clss="main__login--foms">
-                            <div class="main__login__maketer--wrap">
-                                <!--일반 회원 로그인-->
-                                <h5 class="login_tit">로그인</h5>
-                                <div class="main__login__maketer--tabs">
-                                    <div class="login__members1">
-                                        <a href="LoginBuyer.ad">
-                                            <p class="login__member">회원</p>
-                                        </a>
-                                    </div>
-                                    <div class="login__border">
-                                    </div>
-                                </div>
-                                <div class="main__login__maketer--form">
-                                    <form name="main__login--form">
+                    <div class="login__box">
+                    	<div class="order__login--wrap">
+                        <!-- 일반회원 주문조회 로그인-->
+                            <h5 class="order_title">로그인</h5>                        
+                     <form name="order__login--form">
     
-                                        <div class="id">
-                                            <input type="text" class="inputId" id="userId" name="userId" maxlength="20"
-                                                value="" placeholder="  아이디를 입력해 주세요.">
-                                        </div>
-    
-                                        <div class="password">
-                                            <input type="password" class="inputPw" id="userPw" name="userPw" maxlength="20"
-                                                placeholder="  비밀번호를 입력해주세요.">
-                                        </div>
-                                        <div class="check_Id">
-                                            <input type="checkbox" class="chk_Id" name="chk_Id" id="Id_button" checked> 아이디
-                                            저장
-                                        </div>
-                                        <div class="login_btn">
-                                            <button type="button" class="submitBtn" onclick="location.href='#'">로그인</button>
-                                        </div>
-    
-                                        
-    
-                                        <div class="loginfind_btn">
-                                            <a href="#" id="findIdBtn" class="findIdBtn" onclick="location.href='#'">아이디
-                                                찾기</a>
-                                            &nbsp; | &nbsp;
-                                            <a href="#" id="findPwBtn" class="findPwBtn" onclick="location.href='#'">비밀번호
-                                                찾기</a>
-                                        </div>
-                                        <div class="join_btn">
-                                            <button type="button" class="submitjoinBtn"
-                                                onclick="location.href='#'">회원가입하기</button>
-                                        </div>
-    
-                                        <div class="main__login__maketer--other_login">
-                                            <a id="naver-login-btn" href="#" role="button">
-                                                <img src="./resources/Images/Admin/naver.png" />
-                                            </a>
-    
-                                            <a id="kakao-login-btn" href="#" role="button">
-                                                <img src="./resources/Images/Admin/kakao_login_medium_narrow.png" />
-                                            </a>
-                                        </div>
-                                    </form>
-                                </div>
+                            <div class="id">
+                            	<label for="userId">아이디</label>
+                                <input type="text" class="inputId" id="userId" name="userId" maxlength="20" value=""
+                                    placeholder="  아이디를 입력해 주세요.">
                             </div>
-                            <!-- 개인사업자 로그인 -->
-                            <div class="main__login__maketer--wrap2">
-                                <div class="login__members2">
-                                    <a href="#">
-                                        <p class="login__member2">개인사업자</p>
-                                    </a>
-                                </div>
-                                <div class="login__border2">
-                                </div>
+    
+                            <div class="password">
+                            	<label for="userPw">비밀번호</label>
+                                <input type="password" class="inputPw" id="userPw" name="userPw" maxlength="20"
+                                    placeholder="  비밀번호를 입력해 주세요.">
                             </div>
-                        </div>
-                    </div>
+                            <div class="find">
+	                            <div class="check_id">
+	                                <input type="checkbox" class="chk_Id" name="chk_Id" id="Id_button" checked> 아이디 저장
+	                            </div>
+	                            <div class="loginfind_btn">
+	                                <a href="#" id="findIdBtn" class="findIdBtn" onclick="location.href='#'">아이디
+	                                        찾기</a>
+	                                <a href="#" id="findPwBtn" class="findPwBtn" onclick="location.href='#'">비밀번호
+	                                        찾기</a>
+	                            </div>
+                            </div>
+                          
+                            <button type="button" class="submitBtn" onclick="location.href='#'">로그인</button>
+                            <button type="button" class="submitjoinBtn"
+                                     onclick="javascript:location.href='JoinSeller.ad'">회원가입하기</button>
+    
+                            <div class="other_login">
+                                <a id="naver-login-btn" href="#" role="button">
+                                    <img src="resources/Images/Order/naver.png" width="37%" height="45" />
+                                </a>
+                                <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"></script>
+    
+                                <a id="kakao-login-btn" href="#" role="button">
+                                    <img src="./resources/Images/Order/kakao_login_medium_narrow.png" width="37%" height="45" />
+                                    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+                                </a>
+                            </div>
+                        </form> 
+                      </div>
+               	   </div>
                 </div>
-            </div>        
+            </div>
         </div>
     </main>
 

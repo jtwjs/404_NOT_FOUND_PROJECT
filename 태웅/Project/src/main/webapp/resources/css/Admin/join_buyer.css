@@ -13,7 +13,7 @@
     display: flex;
     flex-direction: column;
     width: 1200px;
-    padding: 50px;
+    padding: 50px 200px;
 
 }
 
@@ -21,43 +21,57 @@
     width: 150px;
 }
 
+.essential {
+	position: relative;
+}
 .essential::before {
-    margin-right: 5px;
-    display: inline-block;
+	position: absolute;
+	top: 7px;
+	left: -17px;
     width: 12px;
     height: 9px;
+    margin-right: 5px;
     background-image: url("../../Images/Admin/Path.png");
     content: "";
 }
 
-.virtual::before {
-    display: inline-block;
-    width: 16px;
-    content: "";
+
+.join_name,
+.join_id,
+.join_pw,
+.join_pwcheck{
+	display: flex;
+    height: 61px;
+    border-top: 1px solid #d3d3d3;
+    padding: 10px 10px 0 20px;
 }
 
-.join_name, .join_id, .join_pw, .join_pwcheck, 
-.join_mPhone, .join_email, .join_addr {
-    padding: 10px;
-    border-top: 2px solid #d3d3d3
-}
+.join_mPhone,
+.join_email,
+.join_addr {
+	border-top: 1px solid #d3d3d3;
+	padding: 10px 10px 10px 20px;
+} 
 
-.join_email {
-    margin-bottom: 35px;
-}
+.join_mPhone {
+	display: flex;
+	padding-bottom: 5px;
+
+	}
 
 .join_addr {
-    margin-bottom: 10px;
-    padding-bottom: 30px;
-    border-bottom: 2px solid #d3d3d3;
+    border-bottom: 1px solid #d3d3d3;
 }
 
 .inputName, .inputId, .inputPw, .inputPwCheck,
 .inputEmail1, .inputEmail2, .inputPhone2, .inputPhone3,
 .inputChkSms, .inputAddrNum, .inputAddr1, .inputAddr2 {
+	height: 28px;
     border: 1px solid #808080;
     border-radius: 5px;
-    text-align: center;
+    padding: 5px 7px;
+    font-size: 15px;
+    text-align: left;
 }
 
 .inputName, .inputId, .inputPw, .inputPwCheck, 
@@ -71,19 +85,41 @@
 
 .inputAddrNum {
     width: 100px;
+    margin-bottom: 3px;
 }
 
 .inputAddr1 {
-    margin-left: 156px;
+    margin-left: 153px;
 }
 
 .inputAddr1, .inputAddr2 {
     width: 350px;
+    margin-left: 153px;
+}
+
+.inputAddr1 {
+	margin-bottom: 3px;
 }
 
 .inputChkSms {
+	position: relative;
+	top: 8px;
     margin-left: 20px;
 }
+
+.check {
+	font-size: 12px;
+
+	}
+
+.check.success {
+	color: #27AE60;
+}
+
+.check.error {
+	color: #EB5757;
+}
+
 
 .selectPhone, .selectEmail3 {
     border: 1px solid #808080;
@@ -96,45 +132,52 @@
 }
 
 .selectEmail3 {
-    width: 200px;
+    width: 150px;
 }
 
 .guide {
     margin-left: 10px;
-    font-family: 맑은 고딕,돋움,굴림;
+    
     color:#888888;
     font-size: 8pt;
 }
 
 .join_mPhone .smsAgree {
-    margin-left: 240px;
-    font-family: 맑은 고딕,돋움,굴림;
+    margin-left: 155px;
     font-size: 8pt;
     color:#888888;
 }
+
 
 .addrNumBtn, .submitBtn, .resetBtn {
     width: 200px;
     padding: 10px;
     border: none;
     border-radius: 10px;
-    font: 16px 맑은고딕,굴림,돋움;
+    font-size: 16px
     letter-spacing: 1px;
 	color: #ffffff;
 }
 
+
 .addrNumBtn {
     width: 100px;
     padding: 5px;
-    margin-left: 20px;
-    font: 12px 맑은고딕,굴림,돋움;
+    margin-left: 5px;
+    font-size: 12px;
     background: #d3d3d3;
 	color: black;
 }
 
+.join_finish {
+	position: relative;
+	top: 25px;
+	display: flex;
+    justify-content: center;
+}
+
 .submitBtn {
-    margin-left: 315px;
-    background: #17a542;
+    background: #27AE60;
 }
 
 .resetBtn {
