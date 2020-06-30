@@ -1,0 +1,402 @@
+.container {
+    width: 1200px;
+    max-width: none !important;
+}
+
+/* coomons */
+
+.enter {
+
+	display: block;
+
+	line-height: 1.8;
+
+}
+
+ 
+
+/* join-main */
+
+.join__main {
+
+	padding: 50px 0 150px;
+
+}
+
+ 
+
+.join__main--title {
+
+	display: flex;
+
+	justify-content: space-between;
+
+	margin-bottom: 65px;
+
+}
+
+ 
+
+.location-list {
+
+	position: relative;
+
+	top: -30px;
+
+	display: flex;
+
+	font-size: 13px;
+
+}
+
+ 
+
+.location-list li:first-child {
+
+	position: relative;
+
+	margin-right: 15px;
+
+	color: rgba(0, 0, 0, 0.4);
+
+}
+
+ 
+
+.location-list li:first-child::after {
+
+	position: absolute;
+
+	width: 15px;
+
+	height: 15px;
+
+	background-image: url("../../Images/Admin/right-arrow.png");
+
+	background-size: cover;
+
+	background-position: center;
+
+	background-repeat: no-repeat;
+
+	content: '';
+
+}
+
+ 
+
+.join__main--content {
+
+	margin: 0 100px;
+
+}
+
+ 
+
+.join__main--content--title {
+
+	margin-bottom: 40px;
+
+}
+
+ 
+
+.brand-title {
+
+	color: #34C759;
+
+}
+
+ 
+
+.join__main--content--sort {
+
+	display: flex;
+
+}
+
+ 
+
+.join--buyer {
+
+	margin-right: 30px;
+
+}
+
+ 
+
+.join--buyer, .join--seller {
+
+	width: 50%;
+
+	padding: 40px 40px 25px;
+
+	border: 1px solid rgba(0, 0, 0, 0.2);
+
+	border-radius: 20px;
+
+	transition: all 350ms ease-in-out;
+
+}
+
+ 
+
+.join--buyer:hover, .join--seller:hover {
+
+	border-radius: 20px;
+
+	background: #ffffff;
+
+	box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+
+	cursor: pointer;
+
+}
+
+ 
+
+.join--type {
+
+	position: relative;
+
+}
+
+ 
+
+.join--type::after {
+
+	position: absolute;
+
+	top: 0;
+
+	right: 0;
+
+	background-repeat: no-repeat;
+
+	background-size: cover;
+
+	background-position: center;
+
+	content: '';
+
+}
+
+ 
+
+.join--buyer .join--type::after {
+
+	width: 52px;
+
+	height: 52px;
+
+	background-image: url(../../Images/Admin/pngegg.png);
+
+}
+
+ 
+
+.join--seller .join--type::after {
+
+	width: 62px;
+
+	height: 52px;
+
+	background-image: url(../../Images/Admin/seller.jpg);
+
+}
+
+ 
+
+.join--type span {
+
+	position: relative;
+
+}
+
+ 
+
+.join--type span::after {
+
+	position: absolute;
+
+	top: 13px;
+
+	left: 65px;
+
+	width: 25px;
+
+	height: 30px;
+
+	background-image: url(../../Images/Admin/arrow-right2.png);
+
+	background-position: center;
+
+	background-size: cover;
+
+	background-repeat: no-repeat;
+
+	content: '';
+
+}
+
+ 
+
+.join--content {
+
+	margin-bottom: 10px;
+
+	
+
+}
+
+ 
+
+.easy-signUp dt {
+
+	margin-bottom: 8px;
+
+}
+
+ 
+
+.easy-signUp dd {
+
+	margin-bottom: 5px;
+
+	font-size: 12px;
+
+	
+
+}
+
+ 
+
+.sns-wrap {
+
+	display: flex;
+
+	height: 30px;
+
+	justify-content: space-between;
+
+}
+
+ 
+
+.sns-wrap a {
+
+	position: relative;
+
+	display: block;
+
+	width: 120px;
+
+	height: 30px;
+
+}
+
+ 
+
+.sns-wrap .naver-btn {
+
+	background-color: #00ca3b;
+
+}
+
+ 
+
+.sns-wrap .naver-btn::after {
+
+	position: absolute;
+
+	top: 2px;
+
+	left: 45px;
+
+	width: 30px;
+
+	height: 25px;
+
+	background-image: url("../../Images/Admin/naver-icon.png");
+
+	background-repeat: no-repeat;
+
+	background-size: cover;
+
+	background-position: center;
+
+	content: '';
+
+}
+
+ 
+
+.sns-wrap .kakao-btn {
+
+	background-color: #f6d63d;
+
+}
+
+ 
+
+.sns-wrap .kakao-btn::after {
+
+	position: absolute;
+
+	top: 2px;
+
+	left: 49px;
+
+	width: 25px;
+
+	height: 25px;
+
+	background-image: url("../../Images/Admin/kakao-icon.png");
+
+	background-repeat: no-repeat;
+
+	background-size: cover;
+
+	background-position: center;
+
+	content: '';
+
+}
+
+ 
+
+.sns-wrap .facebook-btn {
+
+	background-color: #3b5999;
+
+	background-repeat: no-repeat;
+
+	background-size: cover;
+
+}
+
+ 
+
+.sns-wrap .facebook-btn::after {
+
+	position: absolute;
+
+	top: 2px;
+
+	left: 45px;
+
+	width: 25px;
+
+	height: 25px;
+
+	background-image: url("../../Images/Admin/facebook-icon.png");
+
+	background-repeat: no-repeat;
+
+	background-size: cover;
+
+	background-position: center;
+
+	content: '';
+
+}

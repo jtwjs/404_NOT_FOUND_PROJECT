@@ -1,0 +1,59 @@
+.container {
+    width: 1200px;
+    max-width: none !important;
+}
+
+.join__marketer--success2{
+
+   display: flex;
+   flex-direction: column;
+   padding-top: 150px;
+   padding-bottom: 200px;
+   width: 1200px;
+   
+
+}  
+
+.join__marketer--success2{
+
+  
+  background-image: url("../../Images/Admin/join_complete_background.png");
+  background-repeat: no-repeat;
+  background-size: 1200px 750px;
+  
+}
+
+
+.join__marketer--form {
+
+  text-align: center;
+
+}
+
+.join__marketer--checkimg2 img{
+
+  width: 400px;
+  height: 150px;
+  margin-bottom: 50px;
+
+}
+
+.join__marketer--noti2 {
+
+  margin-bottom: 15px;
+}
+
+.join__marketer--btn2{  
+
+  width:400px;
+  background-color: orange;
+  border: none;
+  border-radius:10px;
+  color: #000;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 15px 0;
+  margin: 30px;
+
+
+}

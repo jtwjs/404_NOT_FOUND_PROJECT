@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="mypage-buyer.css">
+    <title>구매자 마이페이지</title>
+    
+</head>
+<body>
+    <header id="header" role="banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="header__head">
+                        <div class="header__head--logo">
+                            <img src="assets/header-image/이웃샵이미지.png" alt="main logo"/>
+                            <h2 class="hide-text">메인</h2>
+                        </div>
+                        <div class="header__head--menubar">
+                            <div class="header__head--searchbar">
+                                <input type="text" class="search-input" placeholder="지역 특산품" />
+                                <button type="submit" class="search-btn">
+                                    <img src="assets/header-image/search-icon.png" alt="search icon" />
+                                </button>
+                            </div>
+                            <button type="button" class="cart-btn">
+                                <img src="assets/header-image/cart-icon.png" alt="shooping acrt icon" />
+                            </button>
+                            <button type="button" class="notice-btn">
+                                <img src="assets/header-image/notice-icon.jpg" alt="notice icon" />
+                            </button>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+        <nav id="nav" role="navigation">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="header__nav">
+                                <div id="nav__category">
+                                    <button type="button" id="category_btn" >
+                                        <span class="hide-text">전체 카테고리</span>
+                                    </button>
+                                    <div id="category_menu">
+                                        <div class="main_category">
+                                            <ul id="main_category--list">
+                                                <li><a id="main_category--first" class="title-on" href="#">쌀/잡곡</a></li>
+                                                <li><a id="main_category--second" href="#">채소류</a></li>
+                                                <li><a id="main_category--third" href="#">과일</a></li>
+                                                <li><a id="main_category--fourth" href="#">축산물</a></li>
+                                                <li><a id="main_category--fifth" href="#">수산물/건어물</a></li>
+                                                <li><a id="main_category--sixth" href="#">가공식품/떡류</a></li>
+                                                <li><a id="main_category--seventh" href="#">김치/반찬/젓갈</a></li>
+                                                <li><a id="main_category--eighth" href="#">장/조청/식초</a></li>
+                                                <li><a id="main_category--ninth" href="#">건강식품</a></li>
+                                                <li><a id="main_category--tenth" href="#">차류</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="sub_category">
+                                            <ul id="sub_category--first" >
+                                                <li><a href="#" class="">백미</a></li>
+                                                <li><a href="#">현미/찹쌀/흑미</a></li>
+                                                <li><a href="#">콩/팥/보리</a></li>
+                                                <li><a href="#">조/수수/깨/기타</a></li>
+                                                <li><a href="#">곡류선물세트</a></li>
+                                            </ul>
+                                            <ul id="sub_category--second" class="hide">
+                                                <li><a href="#">감자/고구마</a></li>
+                                                <li><a href="#">더덕</a></li>
+                                                <li><a href="#">나물/잎줄기 채소</a></li>
+                                                <li><a href="#">건나물/건채소</a></li>
+                                                <li><a href="#">버섯류</a></li>
+                                                <li><a href="#">옥수수/단호박/기타</a></li>
+                                            </ul>
+                                            <ul id="sub_category--third" class="hide">
+                                                <li><a href="#">사과/배</a></li>
+                                                <li><a href="#">감/홍시/곶감</a></li>
+                                                <li><a href="#">견과/건과</a></li>
+                                                <li><a href="#">참다래/기타과일</a></li>
+                                            </ul>
+                                            <ul id="sub_category--fourth" class="hide">
+                                                <li><a href="#">소고기</a></li>
+                                                <li><a href="#">돼지고기</a></li>
+                                                <li><a href="#">닭</a></li>
+                                                <li><a href="#">계란/알류/가공란</a></li>
+                                                <li><a href="#">축산선물세트</a></li>
+                                                <li><a href="#">유제품</a></li>
+                                                <li><a href="#">기타</a></li>
+                                            </ul>
+                                            <ul id="sub_category--fifth" class="hide">
+                                                <li><a href="#">황태/진미채</a></li>
+                                                <li><a href="#">수산물선물세트</a></li>
+                                                <li><a href="#">기타</a></li>
+                                            </ul>
+                                            <ul id="sub_category--sixth" class="hide">
+                                                <li><a href="#">떡</a></li>
+                                                <li><a href="#">한과</a></li>
+                                                <li><a href="#">면</a></li>
+                                                <li><a href="#">음료</a></li>
+                                                <li><a href="#">냉장냉동간편조리</a></li>
+                                                <li><a href="#">기름</a></li>
+                                                <li><a href="#">기타</a></li>
+                                            </ul>
+                                            <ul id="sub_category--seventh" class="hide">
+                                                <li><a href="#">김치/절임배추</a></li>
+                                                <li><a href="#">반찬/절임</a></li>
+                                                <li><a href="#">젓갈</a></li>
+                                                <li><a href="#">기타</a></li>
+                                            </ul>
+                                            <ul id="sub_category--eighth" class="hide">
+                                                <li><a href="#">간장</a></li>
+                                                <li><a href="#">고추장</a></li>
+                                                <li><a href="#">된장</a></li>
+                                                <li><a href="#">청국장</a></li>
+                                                <li><a href="#">장류선물세트</a></li>
+                                                <li><a href="#">식초/액젓</a></li>
+                                                <li><a href="#">조청</a></li>
+                                                <li><a href="#">기타</a></li>
+                                            </ul>
+                                            <ul id="sub_category--ninth" class="hide">
+                                                <li><a href="#">유산균</a></li>
+                                                <li><a href="#">홍삼/인삼</a></li>
+                                                <li><a href="#">건강즙</a></li>
+                                                <li><a href="#">영양식/선식</a></li>
+                                                <li><a href="#">꿀/로얄젤리</a></li>
+                                                <li><a href="#">건강분말/건강환</a></li>
+                                                <li><a href="#">기타</a></li>
+                                            </ul>
+                                            <ul id="sub_category--tenth" class="hide">
+                                                <li><a href="#">커피</a></li>
+                                                <li><a href="#">전통차/허브차/꽃차</a></li>
+                                                <li><a href="#">커피/차 선물세트</a></li>
+                                                <li><a href="#">기타</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nav__localbar">
+                                    <ul class="local-menu-list">
+                                        <li>지역 특산물</li>
+                                        <li><a href="#">강원</a></li>
+                                        <li><a href="#">경기</a></li>
+                                        <li><a href="#">경북</a></li>
+                                        <li><a href="#">경남</a></li>
+                                        <li><a href="#">전남</a></li>
+                                        <li><a href="#">전북</a></li>
+                                        <li><a href="#">제주</a></li>
+                                        <li><a href="#">충남</a></li>
+                                        <li><a href="#">충북</a></li>
+                                        <li><a href="#">울릉도/독도</a></li>
+                                    </ul>
+                                </div>
+                                <div class="nav__menubar">
+                                    <button type="button" class="login-btn">로그인</button>
+                                    <button type="button" class="join-btn">회원가입</button>
+                                    <button type="button" class="ordercheck-btn">주문조회</button>
+                                    <button type="button" class="service-btn">고객센터</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main id="main">
+    	<div class="container">
+	        <div class="row">
+            	<div class="col-xs-12" >
+	            	<section id="content">
+	           			<aside id="side">
+                            <article id="side__profile">
+                                <dl>
+                                    <dt class="profile-img">
+                                        <img src="./assets/buyer-mypage-image/Avatar 3.png" alt="profile" />
+                                    </dt>
+                                    <dd class="profile-content">
+                                        <p class="buyer">구매자</p>
+                                        <p><span id="profile-name">윤기석</span> 님</p>
+                                        <p>마지막 접속일자: <span id="last_access_date">2020.06.23</span></p>
+                                    </dd>
+                                </dl>
+                            </article>
+                            <article id="side__menu">
+                                <dl>
+                                    <dt id="menu-profile" >
+                                        프로필
+                                    </dt>
+                                        <dd id="menu-profile--item">
+                                            <a href="#" onclick="location.href=''">수정하기</a>
+                                            <a href="#" onclick="location.href=''">배송지관리</a>
+                                        </dd>
+                                    <dt id="menu-myShopping">
+                                        나의 쇼핑 활동
+                                    </dt>
+                                        <dd id="menu-myShopping--item">
+                                            <a href="#" onclick="location.href=''">주문내역</a>
+                                            <a href="#" onclick="location.href=''">좋아요</a>
+                                            <a href="#" onclick="location.href=''">최근 본 상품</a>
+                                            <a href="#" onclick="location.href=''">구매후기</a>
+                                        </dd>
+                                    
+                                    
+                                    <dt id="menu-qna">
+                                        Q&A
+                                    </dt>
+                                        <dd id="menu-qna--item">
+                                            <a href="#" onclick="location.href=''">상품문의</a>
+                                            <a href="#" onclick="location.href=''">1:1문의</a>
+                                        </dd>
+                                </dl>								           				
+                            </article>
+	           			</aside>
+	           			<section id="myPage">
+                            <h2 class="content-title">My Page</h2>
+                            <article id="buyer__info">
+                                <div class="mypage__buyerRating">
+                                    <div class="overall-rating">
+                                        <h2 class="overall-rating--title">구매자 등급</h2>
+                                        <ul class="rating">
+                                            <li><span class="rating-grade">회원등급</span></li>
+                                            <li class="my_rating-grade"><h2 id="my-rating">LV.2 브론즈</h2> <a class="rating-benefit" href="#">등급 혜택 보기</a> </li>
+                                            <li id="rating-explain">* 다음 등급인 <span class="next-level">실버</span>까지 <span class="required-score">61,670</span>점 남았습니다<span class="register-date">가입일: 2014.05.22</span></li>
+                                        </ul>
+                                    </div>
+                                    
+                                </div>
+                                <div class="mypage__subInfo">
+                                    <div class="saving-point">
+                                        <img src="./assets/buyer-mypage-image/Money.png" alt="saving point image"/>
+                                        <dl>
+                                            <dt>적립금</dt>
+                                            <dd>5.998</dd>
+                                        </dl>
+                                    </div>
+                                    <div class="write-review">
+                                        <img src="./assets/buyer-mypage-image/wirte.png" alt="write review image"/>
+                                        <dl>
+                                            <dt>후기작성</dt>
+                                            <dd>9</dd>   
+                                        </dl>
+                                    </div>
+                                </div>
+                                
+                            </article>  
+                            <article id="inquery">
+                                <div class="inquery__order-delivery">
+                                    <div class="inquery--title">
+                                        <h2>주문<span class="slash">/</span>배송조회</h2>
+                                        <a class="view-all" href="#" title="전체보기">전체</a>
+                                    </div>
+                                    <div class="inquery--content">
+                                        <ul class="inquery--list">
+                                            <li class="inquery--list-item"><p>0<span class="enter">입금대기중</span></p></li> 
+                                            <li class="inquery--list-item"><p>0<span class="enter">배송준비중</span></p></li> 
+                                            <li class="inquery--list-item"><p>0<span class="enter">배송중</span></p></li> 
+                                            <li class="inquery--list-item complete"><p>0<span class="enter">배송완료</span></p></li> 
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="inquery__return-exchange">
+                                    <div class="inquery--title">
+                                        <h2>취소<span class="slash">/</span>교환<span class="slash">/</span>반품 내역</h2>
+                                        <a class="view-all" href="#" title="전체보기">전체</a>
+                                    </div>
+                                    <ul class="inquery--list">
+                                        <li class="inquery--list-item"><p>0<span class="enter">교환신청</span></p></li> 
+                                        <li class="inquery--list-item complete"><p>0<span class="enter">교환완료</span></p></li> 
+                                        <li class="inquery--list-item"><p>0<span class="enter">반품신청</span></p></li> 
+                                        <li class="inquery--list-item complete"><p>0<span class="enter">반품완료</span></p></li> 
+                                    </ul>
+                                </div>
+                            </article>
+                            <article id="order__history">
+                                <div class="order__history--title">
+                                    <h2>주문내역</h2>
+                                    <a class="view-all" href="#" title="전체보기">전체</a>
+                                </div>    
+                                <table class="order__history--table">
+                                    <thead>
+                                        <tr>
+                                            <th class="order-number">
+                                                주문번호
+                                            </th>             
+                                            <th class="product-name">
+                                                상품명
+                                            </th>       
+                                            <th class="order-amount">
+                                                주문금액
+                                            </th>       
+                                            <th class="order-date">
+                                                주문일자
+                                            </th>       
+                                        </tr>   
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="non-post" colspan="4">
+                                                주문내역이 없습니다.
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </article>
+                        </section>
+	       			</section>
+	       		 </div>	
+       		</div>
+        </div>	    
+    </main>
+    <footer id="footer">
+        <div class="footer__top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="footer-content">
+                            <div class="footer__top--inner">
+                                <div class="sns_wrap">
+                                    <a href="https://facebook.com" class="facebook" title="페이스북 새창 이동" target="_blank"><span class="hide-text">facebook</span></a>
+                                    <a href="https://instagram.com" class="instagram" title="인스타그램 새창 이동" target="_blank"><span class="hide-text">instagram</span></a>
+                                    <a href="https://youtube.com" class="youtube" title="유튜브 새창 이동" target="_blank"><span class="hide-text">youtube</span></a>
+                                </div>
+                                <div class="related_site">
+                                    <button type="button" id="related_site--box">
+                                        Related Site
+                                    </button>
+                                    <div id="related_site--wrap">
+                                        <dl id="related_site--list">
+                                            <dt class="related_site--title">지방농촌진흥기관</dt>
+                                            <dd><a href="http://www.rda.go.kr/localOrgAllView.do" title="새창열기" target="_blank">지방농촌진흥기관 전체보기</a></dd>
+                                            <dt class="related_site--title">유관 기관</dt>
+                                            <dd><a href="https://www.mafra.go.kr/sites/mafra/index.do" title="새창열기" target="_blank" >농림축산식품부</a></dd>
+                                            <dd><a href="http://www.nongupin.co.kr/" title="새창열기" target="_blank">농업인신문</a></dd>
+                                            <dd><a href="http://www.kawa.or.kr/" title="새창열기" target="_blank">한국농수산물도매시장</a></dd>
+                                            <dd><a href="http://www.at.or.kr/home/apko000000/index.action/" title="새창열기" target="_blank" >한국농수산식품유통공사</a></dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="footer__bottom--incont">       
+                            <div class="customer-service">
+                                <div class="footer--subtitle">
+                                    Customer Service
+                                </div>
+                                <div class="cs_content">
+                                    <ul class="cs_menulist">
+                                        <li>
+                                            <a href="#">FAQ</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">1:1문의</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">이용안내</a>
+                                        </li>
+                                    </ul>
+                                    <div class="cs_detail-content">
+                                        <ul class="cs_info">
+                                            <li><strong>고객센터:</strong> 1588-1234</li>
+                                            <li><strong>상담시간:</strong> 09:00 ~ 18:00</li>
+                                            <li><strong>점심시간:</strong> 12:00 ~ 13:00</li>
+                                            <li><strong>주말 및 공휴일 휴무</strong></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="business-info">
+                                <div class="footer--subtitle">
+                                    Business Info
+                                </div>
+                                <ul class="bs_detail-info">
+                                    <li><strong>대표:</strong>&nbsp;&nbsp;404 NOT FOUND</li>
+                                    <li><strong>사업자등록번호:</strong>&nbsp;&nbsp;214-85-24928</li>
+                                    <li>서울시 서초구 강남대로 459(서초동,백암빌딩)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="footer__bottom--inner">
+                            <div class="copyright">
+                                Copyright (c) '404 NOT FOUND' ALL RIGHTS RESERVED.
+                            </div>
+                            <ul class="policy-list">
+                                <li><a href="#"><strong>개인정보 처리방침</strong></a></li>
+                                <li><a href="#">이메일 무단수집거부</a></li>
+                                <li><a href="#">이용약관</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </footer>
+    <script type="text/javascript" src="header.js"></script>
+    <script type="text/javascript" src="footer.js"></script>    
+    <script type="text/javascript" src="mypage-buyer.js"></script>
+</body>
+</html>
