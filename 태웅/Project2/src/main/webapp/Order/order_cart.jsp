@@ -18,7 +18,7 @@
     <link href="<c:url value='/resources/css/module/reset.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css?after'/>" rel="stylesheet" />
     <!-- header, css end -->
-    <link href="<c:url value='/resources/css/Common/sub_main.css'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Order/order_cart.css?after'/>" rel="stylesheet" />
     <title>장바구니</title>
 </head>

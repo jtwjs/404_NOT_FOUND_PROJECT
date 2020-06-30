@@ -81,41 +81,128 @@ $(document).ready(function(){
 
 /*section2*/
 
-var leftBtn = document.getElementById('controller-left');
-var rightBtn = document.getElementById('controller-right');
-var rank1 = document.getElementById('rank1');
-var rank2 = document.getElementById('rank2');
-var rank3 = document.getElementById('rank3');
-var rank4 = document.getElementById('rank4');
-var rank5 = document.getElementById('rank5');
-var rank6 = document.getElementById('rank6');
-var rank7 = document.getElementById('rank7');
-var rank8 = document.getElementById('rank8');
-var rank9 = document.getElementById('rank9');
-var rank10 = document.getElementById('rank10');
+document.addEventListener('DOMContentLoaded', function() {
+var $slideWrap = document.querySelector('.best-product--content'),
+	$slideContainer = document.querySelector('#best-product--list'),
+	$slide = document.querySelectorAll('.product--list-item'),
+	$slideHeight = 0,
+	$slideCount = $slide.length,
+	$currentIndex = 0,
+	$autoTimer = undefined,
+	$navPrev = document.getElementById('controller-left'),
+	$navNext = document.getElementById('controller-right');
+   
+	console.log($slideHeight);
+	
+	//슬라이더 wrap 높이 지정
+	$slideHeight = $slide[0].offsetHeight;
+	console.log($slideHeight);
+	$slideWrap.style.height = $slideHeight +'px';
+	$slideContainer.style.height = $slideHeight +'px';
+	
+	//슬라이드 위치 지정
+	$slideContainer.style.left = 0 + '%';
+	
+	for(var i = 0; i < $slideCount; i++ ) {
+		$slide[i].style.left = i * 33.5 + '%';
+	}
+	
+	//슬라이드 이동 함수
+	function goToSlide(idx) {
+		$slideContainer.style.left = -33.5 * idx + '%';
+		$currentIndex = idx;
+	}
+	$slideContainer.classList.add('move');
+	
+	
+	// 버튼기능
+	
+	$navPrev.addEventListener('click',function(){
+		
+		if($navPrev.classList.contains('disable')){
+			goToSlide($currentIndex);
+		}else {
+			goToSlide($currentIndex - 1);
+		}
+		
+		if( $currentIndex == 0 ) {
+			$navPrev.classList.add('disable');
+		}else{
+			$navPrev.classList.remove('disable');
+		}
+		if( $currentIndex == $slideCount - 3) {
+			$navNext.classList.add('disable');
+		}else{
+			$navNext.classList.remove('disable');
+		}	
+		console.log("현재페이지:"+$currentIndex);
+	});
+	
+	
+	
+	$navNext.addEventListener('click',function(){	
+		if($navNext.classList.contains('disable')){
+			goToSlide($currentIndex);
+		}else {
+			goToSlide($currentIndex + 1);
+		}
+		
+		if( $currentIndex == 0 ) {
+			$navPrev.classList.add('disable');
+		}else{
+			$navPrev.classList.remove('disable');
+		}
+		if( $currentIndex == $slideCount - 3) {
+			$navNext.classList.add('disable');
+		}else{
+			$navNext.classList.remove('disable');
+			
+		}	
+		console.log("현재페이지:"+$currentIndex);
+	});
+	
+	//autoSlide
+	function startAutoSlide() {
+		$autoTimer = setInterval(function() {
+			var nextIdx = ($currentIndex + 1) %($slideCount-3);
+			
+			goToSlide(nextIdx);
+		}, 4000);
 
-rightBtn.addEventListener('click',function(){
-	rank1.style.transform = "translateX(408px)";
-	rank2.style.transform = "translateX(408px)";
-	rank3.style.transform = "translateX(408px)";
-	rank4.style.transform = "translateX(408px)";
-	rank5.style.transform = "translateX(408px)";
-	rank6.style.transform = "translateX(408px)";
-	rank7.style.transform = "translateX(408px)";
-	rank8.style.transform = "translateX(408px)";
-	rank9.style.transform = "translateX(408px)";
-	rank10.style.transform = "translateX(408px)";
-});
+	}
+	
+	function stopAutoSlide() {
+		clearInterval($autoTimer);
 
-leftBtn.addEventListener('click',function(){
-	rank1.style.transform = "translateX(-408px)";
-	rank2.style.transform = "translateX(-408px)";
-	rank3.style.transform = "translateX(-408px)";
-	rank4.style.transform = "translateX(-408px)";
-	rank5.style.transform = "translateX(-408px)";
-	rank6.style.transform = "translateX(-408px)";
-	rank7.style.transform = "translateX(-408px)";
-	rank8.style.transform = "translateX(-408px)";
-	rank9.style.transform = "translateX(-408px)";
-	rank10.style.transform = "translateX(-408px)";
-});
+	}
+	
+	 startAutoSlide();
+	
+	//clearInterval(대상)
+	
+	$slideWrap.addEventListener('mouseenter',function(){
+		stopAutoSlide();
+	});
+	
+	$navPrev.addEventListener('mouseenter',function(){
+		stopAutoSlide();
+	});
+	
+	$navNext.addEventListener('mouseenter',function(){
+		stopAutoSlide();
+	});
+	
+	
+	$slideWrap.addEventListener('mouseleave',function(){
+		startAutoSlide();
+	});
+
+	$navPrev.addEventListener('mouseleave',function(){
+		startAutoSlide();
+	});
+	
+	$navNext.addEventListener('mouseleave',function(){
+		startAutoSlide();
+	});
+	
+});//DOMcontentloaded

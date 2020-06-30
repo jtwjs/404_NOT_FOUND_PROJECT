@@ -11,8 +11,8 @@
     <link href="<c:url value='/resources/css/module/header.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css?after'/>" rel="stylesheet" />
     <!-- header, css end -->
-    <link href="<c:url value='/resources/css/Common/sub_main.css'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/Order/order_login.css'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Order/order_login.css?after'/>" rel="stylesheet" />
     <title>주문조회</title>
 <title>비회원 주문배송</title>
 </head>
