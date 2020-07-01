@@ -2,27 +2,27 @@ package com.spring.buyer;
 
 import java.util.Date;
 
-public class BuyerVO {         // 구매자 (일반회원)
+public class BuyerVO {         
 
-    private String buyer_id;   // 구매자 ID (기본키)
-    private String password;   // 비밀번호
-    private String name;       // 이름
-    private String tel;        // 연락처
-    private String email;      // 이메일
-    private String address;    // 주소
-    private int buyer_num;     // 구매자 등록번호
-    private char grade;        // 구매자 등급
-    private char member_type;   // 멤버타입 (1, 구매자)
-    private char del_flag;     // 탈퇴여부 (Y,N으로 구분)
-    private Date join_date;    // 회원가입일
-    private Date wthdr_date;   // 회원탈퇴일
-    private int save_point;    // 적립금
+    private String id;   
+    private String password;   
+    private String name;       
+    private String tel;        
+    private String email;      
+    private String address;    
+    private int buyerNum;     
+    private char grade;        
+    private char memberType;  
+    private char delFlag;     
+    private Date joinDate;    
+    private Date wthdrDate;   
+    private int savePoint;    
 	
-    public String getBuyer_id() {
-        return buyer_id;
+    public String getId() {
+        return id;
     }
-    public void setBuyer_id(String buyer_id) {
-        this.buyer_id = buyer_id;
+    public void setId(String id) {
+        this.id = id;
     }
     public String getPassword() {
        return password;
@@ -54,11 +54,11 @@ public class BuyerVO {         // 구매자 (일반회원)
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public int getBuyer_num() {
-		return buyer_num;
+	public int getBuyerNum() {
+		return buyerNum;
 	}
-	public void setBuyer_num(int buyer_num) {
-		this.buyer_num = buyer_num;
+	public void setBuyerNum(int buyerNum) {
+		this.buyerNum = buyerNum;
 	}
 	public char getGrade() {
 		return grade;
@@ -66,34 +66,34 @@ public class BuyerVO {         // 구매자 (일반회원)
 	public void setGrade(char grade) {
 		this.grade = grade;
 	}
-	public char getMember_type() {
-		return member_type;
+	public char getMemberType() {
+		return memberType;
 	}
-	public void setMember_type(char member_type) {
-		this.member_type = member_type;
+	public void setMemberType(char memberType) {
+		this.memberType = memberType;
 	}
-	public char getDel_flag() {
-		return del_flag;
+	public char getDelFlag() {
+		return delFlag;
 	}
-	public void setDel_flag(char del_flag) {
-		this.del_flag = del_flag;
+	public void setDelFlag(char delFlag) {
+		this.delFlag = delFlag;
 	}
-	public Date getJoin_date() {
-		return join_date;
+	public Date getJoinDate() {
+		return joinDate;
 	}
-	public void setJoin_date(Date join_date) {
-		this.join_date = join_date;
+	public void setJoinDate(Date joinDate) {
+		this.joinDate = joinDate;
 	}
-	public Date getWthdr_date() {
-		return wthdr_date;
+	public Date getWthdrDate() {
+		return wthdrDate;
 	}
-	public void setWthdr_date(Date wthdr_date) {
-		this.wthdr_date = wthdr_date;
+	public void setWthdrDate(Date wthdrDate) {
+		this.wthdrDate = wthdrDate;
 	}
-	public int getSave_point() {
-		return save_point;
+	public int getSavePoint() {
+		return savePoint;
 	}
-	public void setSave_point(int save_point) {
-		this.save_point = save_point;
+	public void setSavePoint(int savePoint) {
+		this.savePoint = savePoint;
 	}
 }

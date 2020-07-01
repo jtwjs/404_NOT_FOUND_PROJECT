@@ -36,7 +36,7 @@
 	  		</li>
 	  		<li class="unselect">
 	  			<a href="OrderNonMember.or">
-	  				<span>비회원 주문배송</span>
+	  				<span>비회원 주문조회</span>
 	  			</a>
 	  		</li>
 	  	</ul>

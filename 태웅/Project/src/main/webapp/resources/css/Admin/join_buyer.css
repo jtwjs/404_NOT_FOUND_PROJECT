@@ -1,3 +1,7 @@
+.hide {
+	display:none;
+}
+
 .container {
     width: 1200px;
     max-width: none !important;
@@ -13,8 +17,12 @@
     display: flex;
     flex-direction: column;
     width: 1200px;
-    padding: 50px 200px;
+    padding: 80px 200px 70px;
 
+}
+
+.join__form--customer h5 {
+	margin-bottom: 20px;
 }
 
 .essential, .virtual {
@@ -53,11 +61,19 @@
 	padding: 10px 10px 10px 20px;
 } 
 
+.join_email .virtual {
+	width: 146px;
+}
+
 .join_mPhone {
 	display: flex;
 	padding-bottom: 5px;
 
 	}
+	
+.join_mPhone .essential {
+	width: 182px;
+}
 
 .join_addr {
     border-bottom: 1px solid #d3d3d3;
@@ -103,9 +119,10 @@
 
 .inputChkSms {
 	position: relative;
-	top: 8px;
-    margin-left: 20px;
-}
+	top: -2px;
+	margin-right: 2px;
+	
+	}
 
 .check {
 	font-size: 12px;
@@ -142,11 +159,28 @@
     font-size: 8pt;
 }
 
-.join_mPhone .smsAgree {
-    margin-left: 155px;
-    font-size: 8pt;
-    color:#888888;
+.join_mPhone--content {
+	width: 100%;
 }
+
+.join_mPhone--input {
+	display: flex;
+	align-items: start;
+	width: 100%;
+}
+
+
+.join_mPhone .smsAgree-btn {
+	display: flex;
+	align-items: start;
+	margin-left: 10px;
+}
+
+.join_mPhone .smsAgree-desc {
+	font-size: 8pt;
+    color: #888888;
+
+	}
 
 
 .addrNumBtn, .submitBtn, .resetBtn {

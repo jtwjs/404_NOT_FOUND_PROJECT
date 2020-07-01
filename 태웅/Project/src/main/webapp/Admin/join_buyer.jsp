@@ -48,49 +48,49 @@
 
                     <div class="join__form--customer">
                         <h5><b>회원정보 입력</b></h5>
-                        <form name="join__form--customer">
+                        <form name="join__form--customer" action="" method="post">
 
                             <div class="join_name">
                                 <label for="userName" class="essential">이름</label>
                                 <div class="">
-	                                <input type="text" class="inputName" id="userName" name="userName" maxlength="20" required>
-	                                <p id="name_check" class="check success"> 가나다라</p>
+	                                <input type="text" class="inputName" id="userName" name="userName" minlength="2" maxlength="20" required>
+	                                <p id="name_check" class="check hide"></p>
                                 </div>
                             </div>
 
                             <div class="join_id">
                                 <label for="userId" class="essential">아이디</label>
                                 <div class="">
-	                                <input type="text" class="inputId" id="userId" name="userId" minlength="6" maxlength="16" required onblur="idCheck()">
-	                                <span class="guide">공백 없는 6 ~ 16자의 영문 소문자,숫자 포함</span>
-	                                <p id="id_check" class="check error"> 가나다라</p>
+	                                <input type="text" class="inputId" id="userId" name="userId" minlength="5" maxlength="20" required>
+	                                <span class="guide">공백 없는 5 ~ 20자의 영문 소문자,숫자 포함</span>
+	                                <p id="id_check" class="check hide"> </p>
                                 </div>
                             </div>
 
                             <div class="join_pw">
                                 <label for="userPw" class="essential">비밀번호</label>
                                 <div class="">
-	                                <input type="password" class="inputPw" id="userPw" name="userpPw" minlength="10" maxlength="20" autocomplete="off" required onblur="pwCheck()">
-	                                <span class="guide">공백 없는 10 ~ 20자의 영문 대/소문자,숫자 및 특수문자 포함</span>
-	                                <p id="pw_check" class="check"> 가나다라</p>
+	                                <input type="password" class="inputPw" id="userPw" name="userpPw" minlength="8" maxlength="16" autocomplete="off" required>
+	                                <span class="guide">공백 없는 8 ~ 16자의 영문 대/소문자,숫자 및 특수문자 포함</span>
+	                                <p id="pw_check" class="check hide"></p>
                                 </div>
                             </div>
 
                             <div class="join_pwcheck">
                                 <label for="userPwCheck" class="essential">비밀번호 확인</label>
                                 <div class="">
-	                                <input type="password" class="inputPwCheck" id="userPwCheck" name="userPwCheck" minlength="10" maxlength="20" autocomplete="off" required onblur="pwEqualCheck()">
+	                                <input type="password" class="inputPwCheck" id="userPwCheck" name="userPwCheck" minlength="8" maxlength="16" autocomplete="off" required>
 	                                <span class="guide">비밀번호 확인을 위해 한번 더 입력하세요.</span>
-	                                <p id="pwConfirm_check" class="check"> 가나다라</p>
+	                                <p id="pwConfirm_check" class="check hide"></p>
                                 </div>
                             </div>
 
                             <div class="join_email">
                                 <label for="email1" class="virtual">이메일 주소</label>
-                                <input type="text" class="inputEmail1" id="email01" name="email01" size="20" maxlength="20" onblur="mailCheck()">
+                                <input type="text" class="inputEmail1" id="email01" name="email01" size="20" maxlength="20">
                                 	&#64;
                                 <input type="text" class="inputEmail2" id="email02" name="email02" size="20" maxlength="20" >
-                                <select class="selectEmail3" name="selectEmail3" id="email03" onchange="email(this.form)">
+                                <select class="selectEmail3" name="selectEmail3" id="email03">
                                     <option value="">직접 입력</option>
                                     <option value="naver.com">naver.com</option>
                                     <option value="daum.net">daum.net</option>
@@ -100,23 +100,27 @@
 
                             <div class="join_mPhone">
                                 <label for="mPhone1" class="essential">휴대폰번호</label>
-                                <div class="">
-	                                <select class="selectPhone" id="mPhone1" name="mPhone1">
-	                                    <option value="010" selected>010</option>
-	                                    <option value="011">011</option>
-	                                    <option value="016">017</option>
-	                                    <option value="018">018</option>
-	                                    <option value="019">019</option>
-	                                </select>
-	                                -
-	                                <input type="text" class="inputPhone2" id="mPhone2" name="mPhone2" value="" size="4" maxlength="4" required onblur="telCheck(this)">
-	                                -
-	                                <input type="text" class="inputPhone3" id="mPhone3" name="mPhone3" value="" size="4" maxlength="4" required onblur="telCheck(this)">
-	                                <div class="">
-										<p id="tel_check" class="check"> 가나다라</p>
-		                                <input type="checkbox" class="inputChkSms" name="chk_sms" id="sms_button" checked> SMS를 수신하겠습니다.
+                                <div class="join_mPhone--content">
+                                	<div class="join_mPhone--input">
+		                                <select class="selectPhone" id="mPhone1" name="mPhone1">
+		                                    <option value="010" selected>010</option>
+		                                    <option value="011">011</option>
+		                                    <option value="016">017</option>
+		                                    <option value="018">018</option>
+		                                    <option value="019">019</option>
+		                                </select>
+		                                -
+		                                <input type="text" class="inputPhone2" id="mPhone2" name="mPhone2" value="" size="4" maxlength="4" required>
+		                                -
+		                                <input type="text" class="inputPhone3" id="mPhone3" name="mPhone3" value="" size="4" maxlength="4" required>
+		                                <div class="smsAgree-btn">
+			                                	<input type="checkbox" class="inputChkSms" name="chk_sms" id="sms_button" checked> SMS를 수신하겠습니다.
+	                                	</div>
 	                                </div>
-	                                <div class="smsAgree">
+									<p id="tel_check" class="check hide"></p>
+										
+	                                
+	                                <div class="smsAgree-desc">
 	                                    <br />*SMS 수신에 동의하시면 여러가지 할인혜택과 각종 이벤트 정보를 받아보실 수 있습니다.
 	                                    <br />회원가입관련, 주문배송관련 등의 SMS는 수신동의와 상관없이 구매 회원에게 발송됩니다.
 	                                </div>
@@ -137,7 +141,7 @@
 
                             <div class="join_finish">
                                 <br />
-                                <button type="button" class="submitBtn" onclick="location.href='JoinBuyerComplete.ad'">회원가입</button>
+                                <button type="submit" class="submitBtn">회원가입</button>
                                 <button type="button" class="resetBtn" onclick="location.href='Index.in'">취소</button>
                             </div>
                         </form>
