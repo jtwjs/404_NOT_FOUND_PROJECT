@@ -8,7 +8,7 @@
 <mapper namespace="com.spring.mapper.BuyerMapper">
 	
 	<!-- id는 Mapper.java(여기선 MemberMapper.java)에 동일하게 사용해야된다. -->  
-	<resultMap id="buyerResultMap" type="com.spring.buyer.BuyerVO">
+	<resultMap id="buyerResultMap" type="BuyerVO">
 		<result column = "buyer_id" property = "id" />
 		<result column = "password" property ="password" />
 		<result column = "name" property = "name" />
@@ -28,23 +28,22 @@
 		SELECT * FROM member_buyer WHERE buyer_id = #{id}
 	</select>
 	
-	<insert id = "InsertBuyerAccount" parameterType = "com.spring.buyer.BuyerVO" >
-		<selectKey keyProperty="buyerNum" order = "BEFORE" resultType="int">
+	<insert id = "InsertBuyerAccount" parameterType = "BuyerVO" >
+		<selectKey keyProperty="seqNum" order = "BEFORE" resultType="int">
 			SELECT buyer_num_seq.nextval from dual
 		</selectKey>
 		INSERT INTO member_buyer (buyer_id, password, name, tel, email, address, buyer_num)
-		VALUES (#{id}, #{password}, #{name}, #{tel}, #{email}, #{address}, #{buyerNum} )
+		VALUES (#{id}, #{password}, #{name}, #{tel}, #{email}, #{address}, #{seqNum} )
 	
 	</insert>
 	
-	<update id = "UpdateBuyerAccount" parameterType = "com.spring.buyer.BuyerVO"  >
-		UPDATE member_buyer SET password=#{password}, email=#{email}, tel=#{tel}
-		 WHERE buyer_id = #{id} AND password = #{password}
+	<update id = "UpdateBuyerAccount" parameterType = "BuyerVO"  >
+		UPDATE member_buyer SET password=#{password}, email=#{email}, tel={tel}
+		 WHERE buyer_id = #{id} password = #{password}
 	</update>
 	
-	<delete id = "DeleteBuyerAccount" parameterType ="com.spring.buyer.BuyerVO">
-		UPDATE member_buyer SET del_flag="Y", wthdr_date=sysdate 
-		WHERE buyer_id = #{id} AND password = #{password}
+	<delete id = "DeleteBuyerAccount" parameterType ="String">
+		DELETE FROM member_buyer WHERE buyer_id = #{id}
 	</delete>
 
 </mapper>

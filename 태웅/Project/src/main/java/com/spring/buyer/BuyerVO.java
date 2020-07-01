@@ -7,9 +7,17 @@ public class BuyerVO {
     private String id;   
     private String password;   
     private String name;       
-    private String tel;        
-    private String email;      
-    private String address;    
+    private String telCarrierNum;
+    private String telAllocationNum;
+    private String telDiscretionaryNum;
+    private String tel;     
+    private String emailId;
+    private String emailAddr;
+    private String email;
+    private String address;  
+    private String addrNum;
+    private String addrRoadName;
+    private String addrDetail;
     private int buyerNum;     
     private char grade;        
     private char memberType;  
@@ -36,23 +44,75 @@ public class BuyerVO {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+    public String getTelCarrierNum() {
+		return telCarrierNum;
+	}
+	public void setTelCarrierNum(String telCarrierNum) {
+		this.telCarrierNum = telCarrierNum;
+	}
+	public String getTelAllocationNum() {
+		return telAllocationNum;
+	}
+	public void setTelAllocationNum(String telAllocationNum) {
+		this.telAllocationNum = telAllocationNum;
+	}
+	public String getTelDiscretionaryNum() {
+		return telDiscretionaryNum;
+	}
+	public void setTelDiscretionaryNum(String telDiscretionaryNum) {
+		this.telDiscretionaryNum = telDiscretionaryNum;
+	}
+	
 	public String getTel() {
 		return tel;
 	}
-	public void setTel(String tel) {
-		this.tel = tel;
+	public void setTel(String telCarrierNum,String telAllocationNum, String telDiscretionaryNum) {
+		this.tel = telCarrierNum + telAllocationNum + telDiscretionaryNum;
 	}
+	
+	public String getEmailId() {
+		return emailId;
+	}
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+	public String getEmailAddr() {
+		return emailAddr;
+	}
+	public void setEmailAddr(String emailAddr) {
+		this.emailAddr = emailAddr;
+	}
+	
 	public String getEmail() {
 		return email;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmail(String emailId, String emailAddr) {
+		this.email = emailId + "@" + emailAddr;
+	}
+	public String getAddrNum() {
+		return addrNum;
+	}
+	public void setAddrNum(String addrNum) {
+		this.addrNum = addrNum;
+	}
+	public String getAddrRoadName() {
+		return addrRoadName;
+	}
+	public void setAddrRoadName(String addrRoadName) {
+		this.addrRoadName = addrRoadName;
+	}
+	public String getAddrDetail() {
+		return addrDetail;
+	}
+	public void setAddrDetail(String addrDetail) {
+		this.addrDetail = addrDetail;
 	}
 	public String getAddress() {
 		return address;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setAddress(String addrNum, String addrRoadName, String addrDetail) {
+		this.address = addrNum + " " + addrRoadName + " " + addrDetail;
 	}
 	public int getBuyerNum() {
 		return buyerNum;
