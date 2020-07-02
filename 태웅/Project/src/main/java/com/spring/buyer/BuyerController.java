@@ -82,7 +82,7 @@ public class BuyerController {
     		buyer.setAddress(addrNum, addrRoadName, addrDetail);
     		service.RegisterBuyerAccount(buyer);
     		
-    	return "index";
+    		return "redirect:/JoinBuyerComplete.ad";
     	
     }
 

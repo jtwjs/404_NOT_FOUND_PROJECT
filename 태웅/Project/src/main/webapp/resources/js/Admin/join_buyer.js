@@ -1,5 +1,41 @@
 
- /*유효성검사*/
+/*이용약관*/
+var allCheck = document.getElementById('agreementAll'),
+	checkBox = document.getElementsByName('agreement');
+	checkBoxLength = document.getElementsByName('agreement').length;
+
+	for(var i = 0; i < checkBoxLength; i++){
+		checkBox[i].addEventListener('click',function(){
+			if(this.checked == false && allCheck.checked == true){
+				allCheck.checked = false;
+				return;
+			}
+		});
+	}
+	
+allCheck.addEventListener('click',function(){
+	if(allCheck.checked){
+		check_all();
+	}else {
+		uncheck_all();
+	}
+});
+
+
+
+function check_all() {
+	for(var i = 0; i < checkBoxLength; i++){
+		checkBox[i].checked = true;
+	}
+}
+
+function uncheck_all() {
+	for(var i = 0; i < checkBoxLength; i++){
+		checkBox[i].checked = false;
+	}
+}
+
+/*유효성검사*/
 //정규표현식
   const userNameCheck =  /^[가-힣]+$/,
 		 userIdCheck = /^[a-z0-9-_]{5,20}$/,
@@ -10,7 +46,9 @@
   	   id = document.getElementById('userId'),
   	   pw = document.getElementById('userPw'),
 	   pwCheck = document.getElementById('userPwCheck'),
-	   email = document.getElementById('email01'),
+	   email1 = document.getElementById('email01'),
+	   email2 = document.getElementById('email02'),
+	   email3 = document.getElementById('email03'),
 	   phone1 = document.getElementById('mPhone2'),
 	   phone2 = document.getElementById('mPhone3');
 
@@ -133,28 +171,71 @@
 		  telCheckResult.classList.add('hide');
 	  }
   });
+
+
   
 
  /*이메일*/
   
   
-  email03.addEventListener('change',function(){
+  email3.addEventListener('change',function(){
 	  var eAddr = document.getElementById('email03').selectedIndex;
-	  var mail = document.getElementById('email02');
 		 
 		 switch(eAddr) {
 		 case 0:
-			 email02.value = '';
+			 email2.value = '';
 			 break;
 		 case 1:
-			 email02.value = 'naver.com';
+			 email2.value = 'naver.com';
 			 break;
 		 case 2:
-			 email02.value = 'daum.net';
+			 email2.value = 'daum.net';
 			 break;
 		 case 3:
-			 email02.value = 'gmail.com';
+			 email2.value = 'gmail.com';
+			 break;
+		 case 4:
+			 email2.value = 'hanmail.net';
+			 break;
+		 case 5:
+			 email2.value = 'hotmail.com';
+			 break;
+		 case 6:
+			 email2.value = 'nate.com';
+			 break;
+		 case 7:
+			 email2.value = 'tahoo.co.kr';
 			 break;
 		 }
 		 return true;
   });
+  
+//핸드폰인증번호 칸  
+  var sendAtNum = document.querySelector(".sendAtNum-btn"),
+  Authentication = document.querySelector(".Authentication");
+
+sendAtNum.addEventListener("click", function () {
+  Authentication.style.display = "flex";
+});
+
+
+/* submit 유효성 */
+ var form = document.getElementById('join_form'),
+ 	 submitBtn = document.querySelector('.submitBtn'),
+ 	requiredCheck1 = document.getElementById('agreement01'),
+ 	requiredCheck2 = document.getElementById('agreement02');
+ 	
+submitBtn.addEventListener('click',function(){
+	 if(!(requiredCheck1.checked && requiredCheck2.checked)){
+		 alert('이용약관에 동의하셔야 합니다.');
+		 return false;
+	 }else if(id.value == '' && pw.value == '' && pwCheck.value == '' 
+		 		&& phone1.value == '' && phone2.value == '' && email1.value == ''
+		 		&& email2.value == ''){
+		 alert('필수정보 모두 입력해주셔야 합니다.');
+	 }else {
+		 form.submit();
+	 }
+}) 
+
+ 

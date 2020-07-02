@@ -30,3 +30,7 @@ CREATE SEQUENCE buyer_num_seq
      
      
      select * from member_buyer;
+     
+     commit;
+     
+     
