@@ -251,7 +251,10 @@
   font-weight: 500;
   color: #fff;
   cursor: pointer;
+  transition: all 700ms ease-in-out;
 }
+
+
 .submitBtn {
   background: #27ae60;
 }
@@ -259,4 +262,13 @@
 .resetBtn {
   margin-left: 20px;
   background: #808080;
+}
+
+.submitBtn:hover {
+	background-color: #2F80ED;
+	
+}
+
+.resetBtn:hover {
+	background-color: #222;
 }

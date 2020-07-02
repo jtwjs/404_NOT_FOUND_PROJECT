@@ -16,7 +16,7 @@ create table member_buyer(          -- 구매자 테이블
     profile_img varchar2(150),
     constraint member_buyer_buyer_id_pk primary key(buyer_id)
 );
-
+select * from member_buyer;
 desc member_buyer;
 /*buyer_num Sequence*/
 CREATE SEQUENCE buyer_num_seq
@@ -51,4 +51,10 @@ CREATE SEQUENCE buyer_num_seq
     wdf_date date,                        -- 회원탈퇴일
     constraint member_seller_seller_id_pk primary key(seller_id)
 );
+
+CREATE SEQUENCE seller_num_seq
+    INCREMENT BY 1
+    START WITH 1
+    MAXVALUE 9999
+    NOCYCLE;
      
