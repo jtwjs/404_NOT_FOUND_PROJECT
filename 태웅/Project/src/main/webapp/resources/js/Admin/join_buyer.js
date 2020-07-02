@@ -129,10 +129,12 @@ function uncheck_all() {
 	  pwCheckResult.classList.remove('hide');
 	  if(!check(userPwCheck,pw,pwCheckResult)){
 		  pwCheckResult.classList.add('error');
+		  document.querySelector('.password').classList.remove('success');
 		  return false;
 	  }
 	  else {
 		  pwCheckResult.classList.add('hide');
+		  document.querySelector('.password').classList.add('success');
 	  }
   });
   
@@ -143,10 +145,12 @@ function uncheck_all() {
 		  pwConfirmCheckResult.classList.add('error');
 		  pwCheck.value= '';
 		  pwConfirmCheckResult.innerHTML = "비밀번호가 일치하지 않습니다."
+		  document.querySelector('.password-confirm').classList.remove('success');
 	  }
 	  else {
 		  pwConfirmCheckResult.classList.add('hide');
 		  pwConfirmCheckResult.classList.remove('error');
+		  document.querySelector('.password-confirm').classList.add('success');
 	  }
   });
   

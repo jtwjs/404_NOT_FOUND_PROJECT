@@ -108,6 +108,42 @@
   padding-top: 10px;
 }
 
+.password-confirm,
+.password {
+	position: relative;
+}
+
+.password::after,
+.password-confirm::after {
+	position: absolute;
+	top: 7px;
+	right: 10px;
+	width: 24px;
+	height: 24px;
+	background-image: url("../../Images/Admin/m_icon_pw_step.png");
+	background-size: 128px;
+	background-repeat: no-repeat;
+	content: '';
+}
+
+
+.password::after {
+	background-position: 0 0;	
+}
+
+.password.success::after {
+	background-position: -56px 0;	
+}
+
+.password-confirm::after {
+	background-position: -28px 0;
+}
+
+.password-confirm.success::after {
+	background-position: -83px 0;
+}
+
+
 .label-content--tel .label-content {
   display: flex;
   flex-direction: row;

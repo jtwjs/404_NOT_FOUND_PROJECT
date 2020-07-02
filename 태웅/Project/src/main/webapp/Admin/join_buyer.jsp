@@ -129,16 +129,10 @@
                       비밀번호
                     </label>
                     <div class="label-content">
-                      <input
-                        type="password"
-                        id="userPw"
-                        name="password"
-                        minlength="8"
-                        maxlength="16"
-                        autocomplete="off"
-                        placeholder="공백 없는 8 ~ 16자의 영문 대/소문자,숫자 및 특수문자 포함"
-                        required
-                      />
+                      <p class="password">
+                        <input type="password" id="userPw" name="password" minlength="8" maxlength="16" autocomplete="off"
+                        placeholder="공백 없는 8 ~ 16자의 영문 대/소문자,숫자 및 특수문자 포함"required/>
+                      </p>
                       <p id="pw_check" class="check hide"></p>
                     </div>
                   </div>
@@ -149,7 +143,9 @@
                       비밀번호 확인
                     </label>
                     <div class="label-content">
+                    <p class="password-confirm">
                       <input type="password" id="userPwCheck" minlength="8" maxlength="16" autocomplete="off" placeholder="비밀번호 확인을 위해 한번 더 입력하세요." required />
+                      </p>
                       <p id="pwConfirm_check" class="check hide"></p>
                     </div>
                   </div>
