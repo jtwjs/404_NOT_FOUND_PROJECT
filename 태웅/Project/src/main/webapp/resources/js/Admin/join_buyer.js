@@ -99,28 +99,42 @@ function uncheck_all() {
   /*아이디 유효성검사*/
   
   //아이디 중복검사 함수
-  function duplicateCheck() {
-	  return false;
+
+ function duplicateCheck() {
+	  var $idValue = $('#userId').val();
+	  $.ajax({
+		  url: '/project/duplicationCheck.by',
+		  type: 'POST',
+		  data: {id : $idValue},
+		  dataType: 'json',
+		  contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+		  success: function(data){
+			  if(data.result == "Fail"){
+				  idCheckResult.innerHTML = "이미 사용중이거나 탈퇴한 아이디입니다";
+				  idCheckResult.classList.remove('success');
+				  idCheckResult.classList.add('error');
+				  id.value = '';
+			  }
+		  }
+	  });  
   }
   
+ 
   id.addEventListener('blur',function(){
 	  idCheckResult.classList.remove('hide');
+	  duplicateCheck();
 	  if(!check(userIdCheck,id,idCheckResult)){
 		  idCheckResult.classList.remove('success');
-		  idCheckResult.classList.add('error');
-		  return false;
-	  }
-	  else if (duplicateCheck()/*DB ajax ID중복검사*/){
-		  idCheckResult.innerHTML = "이미 사용중이거나 탈퇴한 아이디입니다";
-		  idCheckResult.classList.remove('success');
-		  idCheckResult.classList.add('error');
-	  }
-	  else {
+		  idCheckResult.classList.add('error');  
+	  }else {
 		  idCheckResult.innerHTML = "멋진 아이디네요!";
 		  idCheckResult.classList.remove('error');
 		  idCheckResult.classList.add('success');
 	  }
+	  
+	 
   });
+  
 
   
   /*패스워드 유효성검사*/
@@ -141,7 +155,7 @@ function uncheck_all() {
 //패스워드확인 
   pwCheck.addEventListener('blur',function(){
 	  pwConfirmCheckResult.classList.remove('hide');
-	  if(!(pwCheck.value == pw.value)){
+	  if(!(pwCheck.value == pw.value)|| pwCheck.value == ""){
 		  pwConfirmCheckResult.classList.add('error');
 		  pwCheck.value= '';
 		  pwConfirmCheckResult.innerHTML = "비밀번호가 일치하지 않습니다."

@@ -68,7 +68,8 @@
                             </div>
                             <div class="find">
 	                            <div class="check_id">
-	                                <input type="checkbox" class="chk_Id" name="chk_Id" id="Id_button" checked> 아이디 저장
+	                                <input type="checkbox" class="chk_Id" name="chk_Id" id="Id_button" checked>
+									<label for="Id_button">아이디 저장</label>
 	                            </div>
 	                            <div class="loginfind_btn">
 	                                <a href="#" id="findIdBtn" class="findIdBtn" onclick="location.href='#'">아이디

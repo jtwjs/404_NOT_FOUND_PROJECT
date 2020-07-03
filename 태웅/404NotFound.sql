@@ -27,7 +27,9 @@ CREATE SEQUENCE buyer_num_seq
 --     select buyer_num_seq.nextval from DUAL;
 --     select buyer_num_seq.currval from dual;   
     
-
+    select * from member_buyer;
+    select count(*) from member_buyer where buyer_Id = 'asdf95032';
+commit;
      
      /*판매자*/
      create table member_seller(               -- 판매자 테이블

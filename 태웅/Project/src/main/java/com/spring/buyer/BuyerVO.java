@@ -156,4 +156,11 @@ public class BuyerVO {
 	public void setSavePoint(int savePoint) {
 		this.savePoint = savePoint;
 	}
+	
+	@Override
+	public String toString() { 
+		return "BuyerVO [id = " + id + ", pw = " + password + ", name = " + name
+				+ ", tel = " + tel + ", email = " + email + ", addr = " + address
+				+ "]";
+	}
 }

@@ -28,6 +28,10 @@
 		SELECT * FROM member_buyer WHERE buyer_id = #{id}
 	</select>
 	
+	<select id = "selectCountById" resultType = "int" >
+		SELECT count(*) FROM member_buyer WHERE buyer_id = #{id}
+	</select>
+	
 	<insert id = "InsertBuyerAccount" parameterType = "com.spring.buyer.BuyerVO" >
 		<selectKey keyProperty="buyerNum" order = "BEFORE" resultType="int">
 			SELECT buyer_num_seq.nextval from dual

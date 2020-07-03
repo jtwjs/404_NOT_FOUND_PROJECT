@@ -1,10 +1,13 @@
 package com.spring.buyer;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class BuyerController {
@@ -83,6 +86,25 @@ public class BuyerController {
     		service.RegisterBuyerAccount(buyer);
     		
     		return "redirect:/JoinBuyerComplete.ad";
+    	
+    }
+    
+    @RequestMapping(value = "/duplicationCheck.by",
+    		method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public HashMap<String, Object> idDuplicationCheck(BuyerVO buyer) {
+    	HashMap<String, Object> result = new HashMap<String, Object>();
+    	String id = buyer.getId();
+    	System.out.println("id받아온 값=" + id);
+		boolean isDuplication = service.duplicateCheck(id);
+		
+		if( isDuplication ) {
+			result.put("result", "Fail");
+		}else {
+			result.put("result", "OK");
+		}
+		System.out.println("result값=" + result.get("result"));
+		return result;
     	
     }
 
