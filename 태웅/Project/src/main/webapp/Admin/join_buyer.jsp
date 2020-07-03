@@ -157,18 +157,20 @@
                     </label>
                     <div class="label-content--tel">
                       <div class="label-content">
-                        <select id="mPhone1" name="telCarrierNum">
-                          <option value="010" selected>010</option>
-                          <option value="011">011</option>
-                          <option value="016">017</option>
-                          <option value="018">018</option>
-                          <option value="019">019</option>
-                        </select>
-                        <input type="text" id="mPhone2" name="telAllocationNum" value="" size="4" maxlength="4" required />
-                        <input type="text" id="mPhone3" name="telDiscretionaryNum" value="" size="4" maxlength="4" required />
-                        <a href="#" class="sendAtNum-btn">인증번호 발송</a>
+                      <p class="tel">
+                          <select id="mPhone1" name="telCarrierNum">
+                            <option value="010" selected>010</option>
+                            <option value="011">011</option>
+                            <option value="016">017</option>
+                            <option value="018">018</option>
+                            <option value="019">019</option>
+                          </select>
+                          <input type="text" id="mPhone2" name="telAllocationNum" value="" size="4" maxlength="4" required />
+                          <input type="text" id="mPhone3" name="telDiscretionaryNum" value="" size="4" maxlength="4" required />
+                          <a href="#" class="sendAtNum-btn">인증번호 발송</a>
+                          </p>
+                        <p id="tel_check" class="check hide"></p>
                       </div>
-                      <p id="tel_check" class="check hide"></p>
                       <div class="Authentication">
                         <input type="text" id="Authentication-num" placeholder="인증정보확인" />
                         <a href="#" class="AtNum-confirm-btn">확인</a>

@@ -146,11 +146,25 @@
 
 .label-content--tel .label-content {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   width: 446px;
   padding: 0 0 10px 20px;
 }
+
+#tel-input {
+  height: 100%;
+}
+
+
+#tel-input .tel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 446px;
+    padding: 0 20px 0 0;
+}
+
 .required-info--input input,
 #mPhone1,
 #email03 {
@@ -171,9 +185,6 @@
   opacity: 0.6;
 }
 
-#tel-input {
-  height: 100%;
-}
 
 #mPhone1,
 #mPhone2,
