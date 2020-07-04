@@ -95,7 +95,6 @@ public class BuyerController {
     public HashMap<String, Object> idDuplicationCheck(BuyerVO buyer) {
     	HashMap<String, Object> result = new HashMap<String, Object>();
     	String id = buyer.getId();
-    	System.out.println("id받아온 값=" + id);
 		boolean isDuplication = service.duplicateCheck(id);
 		
 		if( isDuplication ) {

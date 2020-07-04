@@ -41,11 +41,8 @@ public class BuyerServiceImpl implements BuyerService {
 	public boolean duplicateCheck(String id) {
 		int count = mapper.selectCountById(id);
 		System.out.println("count :" + count);
-		if( count == 1) {
-			return true;
-		}else { 
-			return false;
-			}
+		
+		return count==1?true:false;
 	}
 
 }

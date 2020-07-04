@@ -14,10 +14,11 @@ public class BuyerVO {
     private String emailId;
     private String emailAddr;
     private String email;
-    private String address;  
     private String addrNum;
     private String addrRoadName;
     private String addrDetail;
+    private String address;  
+    private String profileImg;
     private int buyerNum;     
     private char grade;        
     private char memberType;  
@@ -25,6 +26,7 @@ public class BuyerVO {
     private Date joinDate;    
     private Date wthdrDate;   
     private int savePoint;    
+    
 	
     public String getId() {
         return id;
@@ -110,6 +112,12 @@ public class BuyerVO {
 	}
 	public String getAddress() {
 		return address;
+	}
+	public String getProfileImg() {
+		return profileImg;
+	}
+	public void setProfileImg(String profileImg) {
+		this.profileImg = profileImg;
 	}
 	public void setAddress(String addrNum, String addrRoadName, String addrDetail) {
 		this.address = addrNum + " " + addrRoadName + " " + addrDetail;

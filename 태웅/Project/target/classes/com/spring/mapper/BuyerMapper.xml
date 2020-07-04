@@ -22,6 +22,7 @@
 		<result column = "join_date" property = "joinDate" />
 		<result column = "wthdr_date" property = "wthdrDate" />
 		<result column = "save_point" property = "savePoint" />
+		<result column = "profile_img" property = "profileImg" />
 	</resultMap>
 	
 	<select id = "selectOneById" resultMap = "buyerResultMap" >
@@ -34,7 +35,7 @@
 	
 	<insert id = "InsertBuyerAccount" parameterType = "com.spring.buyer.BuyerVO" >
 		<selectKey keyProperty="buyerNum" order = "BEFORE" resultType="int">
-			SELECT buyer_num_seq.nextval from dual
+			SELECT buyer_num_seq.nextval FROM dual
 		</selectKey>
 		INSERT INTO member_buyer (buyer_id, password, name, tel, email, address, buyer_num)
 		VALUES (#{id}, #{password}, #{name}, #{tel}, #{email}, #{address}, #{buyerNum} )
@@ -42,7 +43,7 @@
 	</insert>
 	
 	<update id = "UpdateBuyerAccount" parameterType = "com.spring.buyer.BuyerVO"  >
-		UPDATE member_buyer SET password=#{password}, email=#{email}, tel=#{tel}
+		UPDATE member_buyer SET password=#{password}, email=#{email}, tel=#{tel}, profile_img=#{profileImg}
 		 WHERE buyer_id = #{id} AND password = #{password}
 	</update>
 	

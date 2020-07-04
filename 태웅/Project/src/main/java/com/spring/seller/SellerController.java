@@ -5,6 +5,7 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.HashMap;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -16,70 +17,76 @@ import javax.net.ssl.X509TrustManager;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class SellerController {
+	
+	@Autowired
+	SellerServiceImpl service;
 
-	@RequestMapping(value = "/SellerMyPage.se")  // 판매자 마이페이지 메인
+	@RequestMapping(value = "/SellerMyPage.se")  // �뙋留ㅼ옄 留덉씠�럹�씠吏� 硫붿씤
 	public String sellerMyPage() {
 		
 		return "Seller/mypage_main";
 	}
 	
-	@RequestMapping(value = "/SellerInfoModify.se")  // 프로필 수정
+	@RequestMapping(value = "/SellerInfoModify.se")  // �봽濡쒗븘 �닔�젙
 	public String sellerInfoModify() {
 		
 		return "Seller/mypage_infoModify";
 	}
 	
 	
-	@RequestMapping(value = "/SellerProductRegister.se")  // 상품내역 - 상품등록
+	@RequestMapping(value = "/SellerProductRegister.se")  // �긽�뭹�궡�뿭 - �긽�뭹�벑濡�
 	public String sellerProductRegister() {
 		
 		return "Seller/mypage_productRegister";
 	}
 	
-	@RequestMapping(value = "/SellerProductList.se")    // 상품내역 - 상품내역
+	@RequestMapping(value = "/SellerProductList.se")    // �긽�뭹�궡�뿭 - �긽�뭹�궡�뿭
 	public String sellerProductList() {
 		
 		return "Seller/mypage_productList";
 	}
 	
-	@RequestMapping(value = "/SellerProductModify.se")    // 상품내역 - 판매글 수정
+	@RequestMapping(value = "/SellerProductModify.se")    // �긽�뭹�궡�뿭 - �뙋留ㅺ� �닔�젙
 	public String sellerProductModify() {
 		
 		return "Seller/mypage_productModify";
 	}
 	
-	@RequestMapping(value = "/SellerOrderStatus.se")    // 거래내역 - 주문관리
+	@RequestMapping(value = "/SellerOrderStatus.se")    // 嫄곕옒�궡�뿭 - 二쇰Ц愿�由�
 	public String sellerOrderStatus() {
 		
 		return "Seller/mypage_orderStatus";
 	}
 	
-	@RequestMapping(value = "/SellerTransactionList.se")    // 거래내역 - 거래목록
+	@RequestMapping(value = "/SellerTransactionList.se")    // 嫄곕옒�궡�뿭 - 嫄곕옒紐⑸줉
 	public String sellerTransactionList() {
 		
 		return "Seller/mypage_transactionList";
 	}
 	
-	@RequestMapping(value = "/SellerCalculateManager.se")    // 거래내역 - 거래목록
+	@RequestMapping(value = "/SellerCalculateManager.se")    // 嫄곕옒�궡�뿭 - 嫄곕옒紐⑸줉
 	public String sellerCalculateManager() {
 		
 		return "Seller/mypage_calculateManager";
 	}
 	
-	@RequestMapping(value = "/SellerMarketPriceInfo.se")  // 상품 시세정보
+	@RequestMapping(value = "/SellerMarketPriceInfo.se")  // �긽�뭹 �떆�꽭�젙蹂�
 	public String sellerMarketPriceInfo() {
 		
 		return "Seller/mypage_marketPriceInfo";
 	}
 	
-	// 상품 시세정보 조회하기
+	// �긽�뭹 �떆�꽭�젙蹂� 議고쉶�븯湲�
 	
 	@RequestMapping(value = "/SellerMarketPriceInfoSearch.se", method = RequestMethod.GET)
 	public String sellerMarketPriceInfoSearch(Model model, String regday, String countycode, String itemcategorycode) {
@@ -87,9 +94,9 @@ public class SellerController {
 		String url = "https://www.kamis.or.kr/customer/price/wholesale/catalogue.do?action=daily&regday=" 
 		    + regday + "&countycode=" + countycode + "&itemcategorycode=" + itemcategorycode + "&convert_kg_yn=N";
 		
-		// 이 파트 없으면 크롤링 안되니까 절대 건들지 말 것
+		// �씠 �뙆�듃 �뾾�쑝硫� �겕濡ㅻ쭅 �븞�릺�땲源� �젅�� 嫄대뱾吏� 留� 寃�
 		// =================================================================================
-		// 크롤링할 해당 사이트의 인증서 유효성 체크 비활성화
+		// �겕濡ㅻ쭅�븷 �빐�떦 �궗�씠�듃�쓽 �씤利앹꽌 �쑀�슚�꽦 泥댄겕 鍮꾪솢�꽦�솕
 		
 		TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
 
@@ -171,16 +178,57 @@ public class SellerController {
 	}
 	
 	
-	@RequestMapping(value = "/SellerProductQNA.se")  // Q&A - 상품문의
+	@RequestMapping(value = "/SellerProductQNA.se")  // Q&A - �긽�뭹臾몄쓽
 	public String sellerProductQNA() {
 		
 		return "Seller/mypage_productQNA";
 	}
 	
-	@RequestMapping(value = "/SellerProductReview.se")  // Q&A - 상품후기
+	@RequestMapping(value = "/SellerProductReview.se")  // Q&A - �긽�뭹�썑湲�
 	public String sellerProductReview() {
 		
 		return "Seller/mypage_productReview";
 	}
+	
+   @RequestMapping(value = "SellerJoin.se" ,method = RequestMethod.POST)
+    public String RegisterSellerAccount(@ModelAttribute("seller") SellerVO seller) {
+    		String telCarrierNum = seller.getTelCarrierNum();
+    		String telAllocationNum = seller.getTelAllocationNum();
+    		String telDiscretionaryNum = seller.getTelDiscretionaryNum();
+    		String emailId = seller.getEmailId();
+    		String emailAddr = seller.getEmailAddr();
+    		String addrNum = seller.getAddrNum();
+    		String addrRoadName = seller.getAddrRoadName();
+    		String addrDetail = seller.getAddrDetail();
+    		String bankName = seller.getBankName();
+    		String bankAccountNum = seller.getBankAccountNum();
+    		
+    		seller.setTel(telCarrierNum, telAllocationNum, telDiscretionaryNum);
+    		seller.setEmail(emailId, emailAddr);
+    		seller.setAddress(addrNum, addrRoadName, addrDetail);
+    		service.RegisterSellerAccout(seller);
+    		
+    		return "redirect:/JoinSellerComplete.ad";
+    	
+    }
+   
+   @RequestMapping(value ="/duplicationCheck.se",
+			method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	@ResponseBody
+	public HashMap<String, Object> idDuplicationCheck(SellerVO seller){
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		String id = seller.getId();
+		System.out.println("id받아온 값=" + id);
+		boolean isDuplication = service.duplicateCheck(id);
+		
+		if( isDuplication ) {
+			result.put("result", "Fail");
+		}else {
+			result.put("result", "OK");
+		}
+		System.out.println("result값=" + result.get("result"));
+		return result;
+	}
+	
 	
 }

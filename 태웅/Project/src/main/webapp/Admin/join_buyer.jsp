@@ -107,7 +107,7 @@
                       이름
                     </label>
                     <div class="label-content">
-                      <input type="text" id="userName" name="name" minlength="2" maxlength="20" placeholder="이름을 입력하세요" required />
+                      <input type="text" id="userName" name="name" minlength="2" maxlength="16" placeholder="이름을 입력하세요" required />
                       <p id="name_check" class="check hide"></p>
                     </div>
                   </div>
@@ -118,7 +118,7 @@
                       아이디
                     </label>
                     <div class="label-content">
-                      <input type="text" id="userId" name="id" minlength="5" maxlength="20" placeholder="공백 없는 5 ~ 20자의 영문 소문자,숫자 포함" required />
+                      <input type="text" id="userId" name="id" minlength="5" maxlength="16" placeholder="공백 없는 5 ~ 16자의 영문 소문자,숫자 포함" required />
                       <p id="id_check" class="check hide"></p>
                     </div>
                   </div>
@@ -153,7 +153,7 @@
                 <li>
                   <div id="tel-input" class="required-info--input">
                     <label for="mPhone1" class="label">
-                      휴대폰
+                      연락처
                     </label>
                     <div class="label-content--tel">
                       <div class="label-content">
@@ -201,11 +201,28 @@
                     </div>
                   </div>
                 </li>
+                <li>
+                  <div class="required-info--input addr">
+                    <label class="label">
+                      주소<span class="enter">(기본배송지)</span>
+                    </label>
+                    <div class="label-content">
+                    <div class="zip-code">
+                      <input type="text" id="sample4_postcode"  placeholder="우편번호" name="addrNum" readonly  required />
+                      <button type="button" id="zip-code-btn" onclick="sample4_execDaumPostcode()">우편번호찾기</button>
+                      </div>
+                      <input type="text" id="sample4_roadAddress" class="address--road" name="addrRoadName" id="sample4_roadAddress" placeholder="도로명주소" readonly required>
+                      <span id="guide" style="color:#999;display:none"></span>
+                      <input type="text" class="address--detail" id="sample4_detailAddress" name="addrDetail" placeholder="상세주소">
+
+                    </div>
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
           <div class="join_button">
-            <button type="button" class="submitBtn">회원가입</button>
+            <button type="button" class="submitBtn">가입완료</button>
             <button type="button" class="resetBtn" onclick="location.href='Index.in'">취소</button>
           </div>
         </form>

@@ -42,18 +42,7 @@
 	padding: 25px 0;
 }
 
-.loginfind_btn a:hover {
-	/*   筌띾뜆�뒭占쎈뮞 占쎌궞占쎌죬占쎌뱽 占쎈르    */
-	color: #ff7b00;
-	font-weight: 600;
-	text-decoration: underline;
-}
 
-.loginfind_btn a:active {
-	/*    占쎄깻�뵳占쏙옙六쏙옙�뱽 占쎈르    */
-	color: #008000;
-	text-decoration: none;
-}
 
 /* 嚥≪뮄�젃占쎌뵥, �뜮袁れ돳占쎌뜚雅뚯눖揆鈺곌퀬�돳 text*/
 .order_title {
@@ -83,10 +72,11 @@
 }
 
 /* input, button */
-.inputId, .inputPw, .inputIrum, .inputPhone {
+.inputId, .inputPw{
 	width: 420px;
 	height: 39px;
 	border-radius: 5px;
+	padding: 0 10px;
 }
 
 .submitBtn, .submitjoinBtn, .submitcartBtn {

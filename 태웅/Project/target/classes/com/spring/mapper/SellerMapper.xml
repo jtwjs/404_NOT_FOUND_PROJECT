@@ -7,7 +7,57 @@
 <!-- root-context에서 아래와 같이 typeAliasesPackage를 설정하면 패키지 경로 생략 가능. -->
 <mapper namespace="com.spring.mapper.SellerMapper">
 
-	<!-- id는 Mapper.java(여기선 MemberMapper.java)에 동일하게 사용해야된다. -->  
+	<!-- id는 Mapper.java(여기선 MemberMapper.java)에 동일하게 사용해야된다. -->
+	<resultMap id="sellerResultMap" type="com.spring.seller.SellerVO">
+		<result column = "seller_id" property = "id" />
+		<result column = "password" property = "password" />
+		<result column = "shop_name" property = "shopName" />
+		<result column = "representative" property = "represent" />
+		<result column = "address" property = "address" />
+		<result column = "manager_phone" property = "tel" />
+		<result column = "manager_email" property = "email" />
+		<result column = "manager_name" property = "name" />
+		<result column = "mail_order_report_num" property = "orderReportNum" />
+		<result column = "mail_order_report_img" property = "orderReportImg" />
+		<result column = "bank_name" property = "bankName" />
+		<result column = "bank_account" property = "bankAccountNum" />
+		<result column = "seller_reg_num" property = "sellerNum" />
+		<result column = "seller_grade" property = "grade" />
+		<result column = "member_type" property = "memberType" />
+		<result column = "del_flag" property = "delFlag" />
+		<result column = "wthder_date" property = "wtdrDate" />
+		<result column = "join_date" property = "joinDate" />
+		<result column = "profile_img" property = "profileImg" />
+	</resultMap>  
+	
+	<select id = "selectOneById" resultMap = "sellerResultMap" >
+		SELECT * FROM member_seller WHERE seller_id = #{id}
+	</select>
+	
+	<select id = "selectCountById" resultType = "int" >
+		SELECT count(*) FROM member_seller WHERE seller_id = #{id}
+	</select>
+	
+	<insert id = "InsertSellerAccout" parameterType = "com.spring.seller.SellerVO">
+		<selectKey keyProperty="sellerNum" order = "BEFORE" resultType="int">
+			SELECT seller_num_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO member_seller (seller_id, password, shop_name, representative, address,
+		manager_phone, manager_email, manager_name, mail_order_report_num, mail_order_report_img,
+		bank_name, bank_account, seller_reg_num)
+		VALUES (#{id},#{password},#{shopName},#{represent},#{address},#{tel},#{email},#{name},
+		 #{orderReportNum}, #{orderReportImg}, #{bankName}, #{bankAccountNum}, #{sellerNum})
+	</insert>
+	<update id = "UpdateSellerAccount" parameterType = "com.spring.seller.SellerVO"  >
+		UPDATE member_seller SET password=#{password}, email=#{email}, tel=#{tel}, profile_img=#{profileImg} 
+			bank_name=#{bankName}, bank_account=#{bankAccountNum}
+		 WHERE seller_id = #{id} AND password = #{password}
+	</update>
+	
+	<delete id = "DeleteSellerAccount" parameterType ="com.spring.seller.SellerVO">
+		UPDATE member_seller SET del_flag="Y", wthdr_date=sysdate 
+		WHERE seller_id = #{id} AND password = #{password}
+	</delete>
 	
 
 </mapper>
