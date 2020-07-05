@@ -16,7 +16,7 @@
 </head>
 <body>
 <!-- contents 시작 -->
-  <<section id="sub-main" class="serviceCenter">
+  <section id="sub-main" class="serviceCenter">
 	  <div class="sub-top">
 	  	<h2 class="sub-title">회원가입</h2>
 	  	<ul class="sub-location">

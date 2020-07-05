@@ -11,8 +11,10 @@
     <link href="<c:url value='/resources/css/module/footer.css?after'/>" rel="stylesheet" />
     <!-- header, css end -->
     <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/Admin/login_buyer.css?after'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Admin/login_buyer.css'/>" rel="stylesheet" />
     <title>로그인</title>
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8" ></script>
+    <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8" ></script>
 </head>
 <body>
   <section id="sub-main" class="login">
@@ -84,14 +86,12 @@
                                      onclick="javascript:location.href='JoinBuyer.ad'">회원가입하기</button>
     
                             <div class="other_login">
-                                <a id="naver-login-btn" href="#" role="button">
+                                <a id="naverIdLogin" href="#" role="button">
                                     <img src="resources/Images/Order/naver.png" width="37%" height="45" />
                                 </a>
-                                <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"></script>
     
                                 <a id="kakao-login-btn" href="#" role="button">
                                     <img src="./resources/Images/Order/kakao_login_medium_narrow.png" width="37%" height="45" />
-                                    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
                                 </a>
                             </div>
                         </form> 
@@ -106,6 +106,7 @@
     
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
+    <script type="text/javascript" src="<c:url value='/resources/js/Admin/login_buyer.js?after'/>" ></script>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    
     <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js?after'/>" ></script>
     <script type="text/javascript" src="<c:url value='/resources/js/module/header.js?after'/>" ></script>

@@ -165,15 +165,16 @@
 	margin-top: 25px;
 }
 
-#naver-login-btn, #kakao-login-btn {
+#naverIdLogin, #kakao-login-btn {
 	display: block;
 	width: 100%;
 }
 
-#naver-login-btn {
+#naverIdLogin {
 	margin-right: 20px;
 }
 
-#naver-login-btn img, #kakao-login-btn img {
+#naverIdLogin img, #kakao-login-btn img {
 	width: 200px;
+	height: 45px;
 }
