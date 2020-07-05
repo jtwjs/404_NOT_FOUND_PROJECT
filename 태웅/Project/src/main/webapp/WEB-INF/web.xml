@@ -39,6 +39,31 @@
 	<welcome-file-list> 
 		<welcome-file>/</welcome-file>
 	</welcome-file-list> 
+	<!-- 스프링 시큐리티 설정파일 추가 -->
+	<context-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>
+          /WEB-INF/spring/root-context.xml
+          /WEB-INF/spring/security/security-context.xml
+      </param-value>
+    </context-param>
+	
+	 <!-- 세션이벤트 처리 관련 리스너 -->
+     <listener>
+         <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+     </listener>
+	
+	<!-- Spring security Filter -->
+	<filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+ 
+    <filter-mapping>
+          <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+	
 	
 	<!-- Korean Filter -->
 	<filter>
