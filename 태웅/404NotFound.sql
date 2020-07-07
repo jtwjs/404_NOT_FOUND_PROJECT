@@ -1,7 +1,7 @@
 /*구매자*/
 create table member_buyer(          -- 구매자 테이블
     buyer_id varchar2(16) not null, -- 구매자 ID (기본키)
-    password varchar2(16) not null, -- 비밀번호
+    password varchar2(100) not null, -- 비밀번호 (*암호화때문에 크기늘림)
     name varchar2(16) not null,     -- 이름
     tel varchar2(13) not null,      -- 연락처
     email varchar2(33) not null,    -- 이메일
@@ -37,7 +37,7 @@ commit;
      /*판매자*/
      create table member_seller(               -- 판매자 테이블
     seller_id varchar2(16) not null,      -- 판매자 ID (기본키)
-    password varchar2(16) not null,       -- 비밀번호
+    password varchar2(100) not null,       -- 비밀번호(*암호화때문에 크기늘림)
     shop_name varchar2(16) not null,      -- 상호명
     representative varchar2(16) not null, -- 대표자
     address varchar2(100) not null,       -- 주소

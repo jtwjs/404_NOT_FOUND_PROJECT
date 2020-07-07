@@ -18,7 +18,7 @@ public class ContextDataSource {
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName("oracle.jdbc.OracleDriver");
 		dataSource.setUrl("jdbc:oracle:thin:@localhost:1521:orcl");
-		dataSource.setUsername("soctt");
+		dataSource.setUsername("scott");
 		dataSource.setPassword("123456");
 		dataSource.setDefaultAutoCommit(false);
 		return dataSource;
