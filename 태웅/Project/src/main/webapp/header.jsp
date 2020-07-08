@@ -17,8 +17,22 @@
         <div class="header__top">
           <div class="inner">
             <ul class="header__top__navi">
-              <li><a href="#" onclick="javascript:location.href='LoginBuyer.ad'">로그인</a></li>
-              <li><a href="#" onclick="javascript:location.href='JoinSelect.ad'">회원가입</a></li>
+        <c:choose> 
+			<c:when test="${not empty principal.username}">
+				<li>"${principal.username}님"</li>
+              <li>
+              	<a href="#" onclick="document.getElementById('logout-form').submit();">로그아웃</a>
+              	<form id="logout-form" action='<c:url value='/logout.ad' />' method="POST">
+              	</form>
+              </li>
+              <li><a href="#" onclick="javascript:location.href='BuyerMyPage.by'">마이페이지</a></li>
+			</c:when>
+			<c:otherwise>
+				<li><a href="#" onclick="javascript:location.href='LoginBuyer.ad'">로그인</a></li>
+				<li><a href="#" onclick="javascript:location.href='JoinSelect.ad'">회원가입</a></li>
+           	</c:otherwise>
+	   </c:choose>
+              
               <li><a href="#" onclick="javascript:location.href='OrderLogin.or'">주문배송</a></li>
               <li><a href="#" onclick="javascript:location.href='CartView.or'">장바구니</a></li>
               <li><a href="#" onclick="javascript:location.href='BoardNotice.sc'">고객센터</a></li>

@@ -15,10 +15,7 @@ public class BuyerServiceImpl implements BuyerService {
 	@Autowired
 	BuyerMapper mapper;
 	
-	@Autowired
-	PasswordEncoder passwordEncoder;
-	
-	
+
 	
 	@Override
 	public BuyerVO selectOnById(String id) {
@@ -31,7 +28,6 @@ public class BuyerServiceImpl implements BuyerService {
 
 	@Override
 	public void RegisterBuyerAccount(BuyerVO buyer) {
-		buyer.setPassword(passwordEncoder.encode(buyer.getPassword()));
 		 mapper.InsertBuyerAccount(buyer);
 		
 	}

@@ -55,18 +55,18 @@
                     	<div class="order__login--wrap">
                         <!-- 일반회원 주문조회 로그인-->
                             <h5 class="order_title">로그인</h5>                        
-                     <form name="order__login--form">
+                     <form name="order__login--form" id="login_form" action='<c:url value='/LoginBuyer.ad'/>' method="post">
     
                             <div class="id">
                             	<label for="userId">아이디</label>
-                                <input type="text" class="inputId" id="userId" name="userId" maxlength="20" value=""
-                                    placeholder="  아이디를 입력해 주세요.">
+                                <input type="text" class="inputId" id="userId" name="userId" maxlength="20" 
+                                    placeholder="  아이디를 입력해 주세요." required>
                             </div>
     
                             <div class="password">
                             	<label for="userPw">비밀번호</label>
                                 <input type="password" class="inputPw" id="userPw" name="userPw" maxlength="20"
-                                    placeholder="  비밀번호를 입력해 주세요.">
+                                    placeholder="  비밀번호를 입력해 주세요." required>
                             </div>
                             <div class="find">
 	                            <div class="check_id">
@@ -81,10 +81,10 @@
 	                            </div>
                             </div>
                           
-                            <button type="button" class="submitBtn" onclick="location.href='#'">로그인</button>
+                            <button type="button" value="Login" class="submitBtn" >로그인</button>
                             <button type="button" class="submitjoinBtn"
                                      onclick="javascript:location.href='JoinBuyer.ad'">회원가입하기</button>
-    
+    						<!-- <input name="${_csrf.parameterName}" type="hidden" value="${_crsf.token }"> -->
                             <div class="other_login">
                                 <a id="naverIdLogin" href="#" role="button">
                                     <img src="resources/Images/Order/naver.png" width="37%" height="45" />

@@ -1,15 +1,38 @@
 package com.spring.admin;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.spring.config.Security.CustomUserDetailsService;
 
 @Controller
 public class AdminController {
 
+	@Autowired
+	CustomUserDetailsService BuyerService;
+	
+	
     @RequestMapping(value = "/LoginBuyer.ad")  // 援щℓ�옄 濡쒓렇�씤
-    public String loginBuyer() {
+    public String loginBuyer() throws Exception {
     	
     	return "Admin/login_buyer";
+    }
+    
+    
+    @RequestMapping(value = "/logout.ad")
+    public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	if (auth != null) {
+    		new SecurityContextLogoutHandler().logout(request, response, auth);
+    	}
+    	return "redirect:/";
     }
     
     @RequestMapping(value = "/LoginSeller.ad")  // �뙋留ㅼ옄 濡쒓렇�씤
