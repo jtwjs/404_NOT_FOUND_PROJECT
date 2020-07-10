@@ -231,114 +231,118 @@ public class BoardProductController {
 		Date date = new Date();
 		String str = sdf.format(date);
 		
-		if(!thumbnail_origin.isEmpty()) {
-			File thum_origin_save = imgSave(thumbnail_origin, uploadFolder_thumbnail_origin);
-			String thum_thum_name = makeThumbnail(
-					thumbnail_origin, thum_origin_save, uploadFolder_thumbnail_thum, 215, 215);
-			vo.setThumbnail_origin(thum_origin_save.getName());
-			vo.setThumbnail_thum(thum_thum_name);
-			
-			StringBuilder img_path = new StringBuilder(
-					uploadFolder_thumbnail_origin.replace("C:\\Project156\\upload\\", "/img/") 
-					+ "\\" + str.replace("-", "\\") + "\\");
-			vo.setThumbnail_origin_path(img_path.toString());
-			img_path.setLength(0);
-			
-			img_path.append(uploadFolder_thumbnail_thum.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
-			vo.setThumbnail_thum_path(img_path.toString());
-		}else {
-			vo.setThumbnail_thum("no_image_thum.jpg");
-			vo.setThumbnail_thum_path("/img/common\\");
-		}
+//		if(!thumbnail_origin.isEmpty()) {
+//			File thum_origin_save = imgSave(thumbnail_origin, uploadFolder_thumbnail_origin);
+//			String thum_thum_name = makeThumbnail(
+//					thumbnail_origin, thum_origin_save, uploadFolder_thumbnail_thum, 215, 215);
+//			vo.setThumbnail_origin(thum_origin_save.getName());
+//			vo.setThumbnail_thum(thum_thum_name);
+//			
+//			StringBuilder img_path = new StringBuilder(
+//					uploadFolder_thumbnail_origin.replace("C:\\Project156\\upload\\", "/img/") 
+//					+ "\\" + str.replace("-", "\\") + "\\");
+//			vo.setThumbnail_origin_path(img_path.toString());
+//			img_path.setLength(0);
+//			
+//			img_path.append(uploadFolder_thumbnail_thum.replace("C:\\Project156\\upload\\", "/img/")
+//					+ "\\" + str.replace("-", "\\") + "\\");
+//			vo.setThumbnail_thum_path(img_path.toString());
+//		}else {
+//			vo.setThumbnail_thum("no_image_thum.jpg");
+//			vo.setThumbnail_thum_path("/img/common\\");
+//		}
 		
 		boolean imgFlag = false;
 				
-		if(!product_origin_1.isEmpty()) {
-			File product_origin_1_save = imgSave(product_origin_1, uploadFolder_product_origin);
-			String product_thum_1_name = makeThumbnail(
-			product_origin_1, product_origin_1_save, uploadFolder_product_thum, 100, 100);
-			vo.setProduct_origin_1(product_origin_1_save.getName());
-			vo.setProduct_thum_1(product_thum_1_name);
-			
-			StringBuilder img_path = new StringBuilder(
-					uploadFolder_product_origin.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
-			vo.setProduct_origin_path(img_path.toString());
-			img_path.setLength(0);
-			
-			img_path.append(uploadFolder_product_thum.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
-			vo.setProduct_thum_path(img_path.toString());
-			
-			imgFlag = true;
-		}
-				
-		if(!product_origin_2.isEmpty()) {
-			File product_origin_2_save = imgSave(product_origin_2, uploadFolder_product_origin);
-			String product_thum_2_name = makeThumbnail(
-					product_origin_2, product_origin_2_save, uploadFolder_product_thum, 100, 100);
-			vo.setProduct_origin_2(product_origin_2_save.getName());
-			vo.setProduct_thum_2(product_thum_2_name);
-			
-			StringBuilder img_path = new StringBuilder(
-					uploadFolder_product_origin.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
-			vo.setProduct_origin_path(img_path.toString());
-			img_path.setLength(0);
-			
-			img_path.append(uploadFolder_product_thum.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
-			vo.setProduct_thum_path(img_path.toString());
-			
-			
-			imgFlag = true;
-		}
-				
-		if(!product_origin_3.isEmpty()) {
-			File product_origin_3_save = imgSave(product_origin_3, uploadFolder_product_origin);
-			String product_thum_3_name = makeThumbnail(
-					product_origin_3, product_origin_3_save, uploadFolder_product_thum, 100, 100);
-			vo.setProduct_origin_3(product_origin_3_save.getName());
-			vo.setProduct_thum_3(product_thum_3_name);
-			
-			StringBuilder img_path = new StringBuilder(
-					uploadFolder_product_origin.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
-			vo.setProduct_origin_path(img_path.toString());
-			img_path.setLength(0);
-			
-			img_path.append(uploadFolder_product_thum.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
-			vo.setProduct_thum_path(img_path.toString());
-			
-			
-			imgFlag = true;
-		}
-				
-		if(!product_origin_4.isEmpty()) {
-			File product_origin_4_save = imgSave(product_origin_4, uploadFolder_product_origin);
-			String product_thum_4_name = makeThumbnail(
-					product_origin_4, product_origin_4_save, uploadFolder_product_thum, 100, 100);
-			vo.setProduct_origin_4(product_origin_4_save.getName());
-			vo.setProduct_thum_4(product_thum_4_name);
-			
-			StringBuilder img_path = new StringBuilder(
-					uploadFolder_product_origin.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
-			vo.setProduct_origin_path(img_path.toString());
-			img_path.setLength(0);
-			
-			img_path.append(uploadFolder_product_thum.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
-			vo.setProduct_thum_path(img_path.toString());
-			
-			
-			imgFlag = true;
-		}
+//		if(!product_origin_1.isEmpty()) {
+//			File product_origin_1_save = imgSave(product_origin_1, uploadFolder_product_origin);
+//			String product_thum_1_name = makeThumbnail(
+//			product_origin_1, product_origin_1_save, uploadFolder_product_thum, 100, 100);
+//			vo.setProduct_origin_1(product_origin_1_save.getName());
+//			vo.setProduct_thum_1(product_thum_1_name);
+//			
+//			StringBuilder img_path = new StringBuilder(
+//					uploadFolder_product_origin.replace("C:\\Project156\\upload\\", "/img/")
+//					+ "\\" + str.replace("-", "\\") + "\\");
+//			vo.setProduct_origin_path(img_path.toString());
+//			img_path.setLength(0);
+//			
+//			img_path.append(uploadFolder_product_thum.replace("C:\\Project156\\upload\\", "/img/")
+//					+ "\\" + str.replace("-", "\\") + "\\");
+//			vo.setProduct_thum_path(img_path.toString());
+//			
+//			imgFlag = true;
+//		}
+//				
+//		if(!product_origin_2.isEmpty()) {
+//			File product_origin_2_save = imgSave(product_origin_2, uploadFolder_product_origin);
+//			String product_thum_2_name = makeThumbnail(
+//					product_origin_2, product_origin_2_save, uploadFolder_product_thum, 100, 100);
+//			vo.setProduct_origin_2(product_origin_2_save.getName());
+//			vo.setProduct_thum_2(product_thum_2_name);
+//			
+//			StringBuilder img_path = new StringBuilder(
+//					uploadFolder_product_origin.replace("C:\\Project156\\upload\\", "/img/")
+//					+ "\\" + str.replace("-", "\\") + "\\");
+//			vo.setProduct_origin_path(img_path.toString());
+//			img_path.setLength(0);
+//			
+//			img_path.append(uploadFolder_product_thum.replace("C:\\Project156\\upload\\", "/img/")
+//					+ "\\" + str.replace("-", "\\") + "\\");
+//			vo.setProduct_thum_path(img_path.toString());
+//			
+//			
+//			imgFlag = true;
+//		}
+//				
+//		if(!product_origin_3.isEmpty()) {
+//			File product_origin_3_save = imgSave(product_origin_3, uploadFolder_product_origin);
+//			String product_thum_3_name = makeThumbnail(
+//					product_origin_3, product_origin_3_save, uploadFolder_product_thum, 100, 100);
+//			vo.setProduct_origin_3(product_origin_3_save.getName());
+//			vo.setProduct_thum_3(product_thum_3_name);
+//			
+//			StringBuilder img_path = new StringBuilder(
+//					uploadFolder_product_origin.replace("C:\\Project156\\upload\\", "/img/")
+//					+ "\\" + str.replace("-", "\\") + "\\");
+//			vo.setProduct_origin_path(img_path.toString());
+//			img_path.setLength(0);
+//			
+//			img_path.append(uploadFolder_product_thum.replace("C:\\Project156\\upload\\", "/img/")
+//					+ "\\" + str.replace("-", "\\") + "\\");
+//			vo.setProduct_thum_path(img_path.toString());
+//			
+//			
+//			imgFlag = true;
+//		}
+//				
+//		if(!product_origin_4.isEmpty()) {
+//			File product_origin_4_save = imgSave(product_origin_4, uploadFolder_product_origin);
+//			String product_thum_4_name = makeThumbnail(
+//					product_origin_4, product_origin_4_save, uploadFolder_product_thum, 100, 100);
+//			vo.setProduct_origin_4(product_origin_4_save.getName());
+//			vo.setProduct_thum_4(product_thum_4_name);
+//			
+//			StringBuilder img_path = new StringBuilder(
+//					uploadFolder_product_origin.replace("C:\\Project156\\upload\\", "/img/")
+//					+ "\\" + str.replace("-", "\\") + "\\");
+//			vo.setProduct_origin_path(img_path.toString());
+//			img_path.setLength(0);
+//			
+//			img_path.append(uploadFolder_product_thum.replace("C:\\Project156\\upload\\", "/img/")
+//					+ "\\" + str.replace("-", "\\") + "\\");
+//			vo.setProduct_thum_path(img_path.toString());
+//			
+//			
+//			imgFlag = true;
+//		}
 		
 		
 		if(!imgFlag) { // 아무런 대표이미지도 저장되지 않았을 때
+			
+			vo.setThumbnail_thum("no_image_thum.jpg");
+			vo.setThumbnail_thum_path("/img/common\\");
+			
 			vo.setProduct_origin_1("no_image.jpg");
 			vo.setProduct_thum_1("no_image_thum.jpg");
 			vo.setProduct_origin_path("/img/common\\");
