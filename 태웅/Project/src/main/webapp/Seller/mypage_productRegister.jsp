@@ -57,30 +57,25 @@
                     
                         <div class="mypage-upload">
                         
-                            <form id="productUploadForm" method="post" onsubmit="return registCheck()" 
-                                action="">
-                                
+                            <form id="productUploadForm" method="get" onsubmit="return registCheck();" 
+                                action="BoardProductRegist.bo" enctype="multipart/form-data">
+                            <input type="hidden" name="seller_id" value="" />
+                            
                             <div class="uploadBox">
                                 <table class="uploadBox__table">
-                                    <tr>
-                                        <th>이름</th>
-                                        <td>
-                                            <input type="text" name="pd_name" value="윤기석" readonly="readonly" />
-                                            <input type="hidden" name="seller_id" value="" />
-                                        </td>
-                                    </tr>
                                     <tr>
                                         <th>제목</th>
                                         <td>
                                             <input type="text" name="title" value="" 
-                                                placeholder="제목을 입력하세요." id="setTitle" />
+                                                placeholder="제목을 입력하세요." id="setTitle" maxlength="100" />
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>상품 카테고리</th>
                                         <td class="select-btn">
                                             <p>
-                                                <select name="code01_idx" id="code01_idx" onchange="selectedOption_1()">
+                                                <select name="category_1" id="code01_idx" class="select-btn1"
+                                                    onchange="selectedOption_1();">
                                                     <option value="" selected disabled>선택하세요.</option>
                                                     <option value=1>쌀/잡곡</option>
                                                     <option value=2>채소류</option>
@@ -95,8 +90,7 @@
                                                 </select>
                                             </p>
                                             <p>
-                                                <select name="code02_idx" id="code02_idx" 
-                                                    class="select-btn2" onchange="selectedOption_2()">
+                                                <select name="category_2" id="code02_idx" class="select-btn2">
                                                     <option value="" selected disabled>선택하세요.</option>
                                                 </select>
                                             </p>
@@ -105,37 +99,114 @@
                                     <tr>
                                         <th>금액</th>
                                         <td>
-                                            <input type="text" name="price" value="" class="setComma" />
+                                            <input type="text" name="price" id="setPrice" class="setComma" />
                                             원
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>배송비</th>
                                         <td>
-                                            <input type="text" name="price" value="0" class="setComma" />
+                                            <input type="text" name="delivery_price" id="setDeliveryPrice" class="setComma" />
                                             원
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>단위</th>
+                                        <th>수량 (재고량)</th>
                                         <td>
-                                            <input type="text" name="pd_unit" value="0" class=""
-                                                onKeyUp="removeChar(event);inputNumberFormat(this);"
-                                                onKeyDown="inputNumberFormat(this);" />
-                                            <select name="pd_symbol">
-                                                <option value="21">Kg</option>
-                                                <option value="22">근</option>
-                                                <option value="23">개</option>
-                                                <option value="24">g</option>
-                                                <option value="25">톤</option>
-                                                <option value="26">묶음</option>
-                                            </select>
+                                            <input type="text" name="quantity" id="setQuantity" class="setComma" />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>거래량</th>
+                                        <th>판매생산자</th>
                                         <td>
-                                            <input type="text" name="pd_quantity" value="0" class="setComma" />
+                                            <input type="text" name="sales_producer" maxlength="32" 
+                                                id="setSalesProducer" value="윤기석" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>상품명</th>
+                                        <td>
+                                            <input type="text" name="product_name" maxlength="32" 
+                                                id="setProductName" value="" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>중량</th>
+                                        <td>
+                                            <input type="text" name="pd_unit" id="pd_unit" maxlength="28" />
+                                            <select name="pd_symbol" id="pd_symbol">
+                                                <option value="Kg">Kg</option>
+                                                <option value="근">근</option>
+                                                <option value="개">개</option>
+                                                <option value="g">g</option>
+                                                <option value="톤">톤</option>
+                                                <option value="묶음">묶음</option>
+                                            </select>
+                                            <input type="hidden" name="product_weight" 
+                                                id="setProductWeight" value="" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>크기</th>
+                                        <td>
+                                            <input type="text" name="product_size" id="setProductSize" maxlength="32" 
+                                                placeholder="예) 215 * 50 * 30 mm 혹은 -" value="" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>원산지</th>
+                                        <td class="select-btn">
+                                            <select name="category_local" id="code03_idx" class="select-btn1">
+                                                <option value="" selected disabled>선택하세요.</option>
+                                                <option value=1>강원도</option>
+                                                <option value=2>경기도</option>
+                                                <option value=3>경상북도</option>
+                                                <option value=4>경상남도</option>
+                                                <option value=5>전라북도</option>
+                                                <option value=6>전라남도</option>
+                                                <option value=7>충청북도</option>
+                                                <option value=8>충청남도</option>
+                                                <option value=9>제주도</option>
+                                                <option value=10>울릉도/독도</option>
+                                            </select>
+                                            <input type="text" value ="" placeholder="나머지 입력  예) 속초" 
+                                                id="code04_idx" maxlength="53" />
+                                            <input type="hidden" value="" name="product_country" id="setProductCountry">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>제조년월일</th>
+                                        <td>
+                                            <input type="text" name="date_manufacture" id="setDateManufacture"
+                                                placeholder="예) 2020년 06월 30일 생산" maxlength="32" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>품질유지기한(유통기한)</th>
+                                        <td>
+                                            <input type="text" name="best_before_date" id="setBestBeforeDate"
+                                                placeholder="예) 2020년 09월 30일 까지" maxlength="32" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>유전자 변형 농수산물 표시</th>
+                                        <td>
+                                            <input type="text" name="transgenic" id="setTransGenic"
+                                                placeholder="예) 특이사항 혹은 o,x 표기" maxlength="32" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>보관방법</th>
+                                        <td>
+                                            <input type="text" name="storage_method" id="setStorageMethod"
+                                                placeholder="예) 냉장보관" maxlength="32" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>소비자상담문의</th>
+                                        <td>
+                                            <input type="text" name="consumer_consulation" id="setConsumerConsulation"
+                                                placeholder="예) 010-0000-0000" maxlength="16" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -144,8 +215,9 @@
                                             <ul class="add_file">
                                                 <li class="on">
                                                     <div class="comment_add_file">
-                                                        <input name="file5_filename" type="file" />
-                                                        <input name="file5" type="hidden">
+                                                        <input name="thumbnail_origin" type="file" accept="image/*;capture=camera" 
+                                                            id="thumbnail_origin" onchange="return checkExtension(this, 1);" />
+                                                        <div id="image_container_thumbnail"></div>
                                                     </div>
                                                 </li>
                                             </ul>
@@ -157,26 +229,30 @@
                                             <ul class="add_file">
                                                 <li class="on">
                                                     <div class="comment_add_file">
-                                                        <input name="file1_filename" type="file" />
-                                                        <input name="file1" type="hidden">
+                                                        <input name="product_origin_1" type="file" accept="image/*;capture=camera" 
+                                                            id="product_origin_1" onchange="return checkExtension(this, 2);" />
+                                                        <div id="image_container_product_1"></div>
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div class="comment_add_file">
-                                                        <input name="file2_filename" type="file" />
-                                                        <input name="file2" type="hidden">
+                                                        <input name="product_origin_2" type="file" accept="image/*;capture=camera" 
+                                                            id="product_origin_2" onchange="return checkExtension(this, 3);" />
+                                                        <div id="image_container_product_2"></div>
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div class="comment_add_file">
-                                                        <input name="file3_filename" type="file" />
-                                                        <input name="file3" type="hidden">
+                                                        <input name="product_origin_3" type="file" accept="image/*;capture=camera" 
+                                                            id="product_origin_3" onchange="return checkExtension(this, 4);" />
+                                                        <div id="image_container_product_3"></div>
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div class="comment_add_file">
-                                                        <input name="file4_filename" type="file" />
-                                                        <input name="file4" type="hidden">
+                                                        <input name="product_origin_4" type="file" accept="image/*;capture=camera" 
+                                                            id="product_origin_4" onchange="return checkExtension(this, 5);" />
+                                                        <div id="image_container_product_4"></div>
                                                     </div>
                                                 </li>
                                             </ul>
@@ -191,7 +267,7 @@
                                     <tr>
                                         <td colspan="2">
                                             <div>
-                                                <div id="summernote"></div>
+                                                <textarea id="summernote"></textarea>
 
                                                 <script>
                                                     $(document).ready(function () {
@@ -206,6 +282,8 @@
                                                                 sendFile(files[0], editor, welEditable);
                                                             }
                                                         });
+                                                        
+                                                        
                                                     });
 
                                                 </script>

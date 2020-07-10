@@ -7,7 +7,7 @@
 	display:flex;
 	padding: 15px;
 }
-.menu-bar > a {
+.menu-bar a {
     background:#c8c8c8;
     display:block;
 	border-radius:20px;
@@ -23,16 +23,16 @@
     text-decoration:none;
     color:#000000;
 }
-.menu-bar > a:visited {
+.menu-bar a:visited {
     text-decoration:none;
     color:#000000;
 }
-.menu-bar > a:hover {
+.menu-bar a:hover {
     text-decoration:none !important;
     background:#91cf4a;
     color:#000000;
 }
-.menu-bar > a:active {
+.menu-bar a:active {
 	position:relative;
     top:1px;
     text-decoration:none;
@@ -77,19 +77,19 @@
     table-layout:fixed; 
 }
 
-#local__text > dt, 
-#local__text > dd{
+#local__text dt, 
+#local__text dd{
 	display:table-cell; 
     border:1px solid #d2d2d2; 
 	padding:5px 5px;
 }
 
-#local__text > dt {
+#local__text dt {
 	width: 70px;
 	font-size: 16px;
 	text-align: center;
 }
 
-#local__text > dd {
+#local__text dd {
 	font-size: 14px;
 }

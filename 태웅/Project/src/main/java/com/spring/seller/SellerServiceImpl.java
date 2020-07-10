@@ -41,4 +41,10 @@ public class SellerServiceImpl implements SellerService {
 		return isDelete;
 	}
 
+	@Override
+	public void UpdateProfileImg(SellerVO account) {
+		mapper.UpdateProfileImg(account);
+		
+	}
+	
 }

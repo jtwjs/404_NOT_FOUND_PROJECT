@@ -64,5 +64,9 @@
 		WHERE seller_id = #{id} AND password = #{password}
 	</delete>
 	
+	<update id = "UpdateProfileImg" parameterType = "com.spring.seller.SellerVO">
+		UPDATE member_seller SET profile_img=#{profileImg}
+		WHERE seller_id = #{id}
+	</update>
 
 </mapper>

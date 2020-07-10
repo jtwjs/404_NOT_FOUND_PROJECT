@@ -34,9 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	SellerDetailService sellerService;
 	
-	@Autowired public BuyerLoginSuccessHandler buyerLoginSuccessHandler;
+	@Autowired public LoginSuccessHandler LoginSuccessHandler;
 	
-	@Autowired public BuyerLoginFailureHandler buyerLoginFailureHandler;
+	@Autowired public LoginFailureHandler LoginFailureHandler;
 	
 	
 	public AccessDecisionManager accessDecisionManager() {
@@ -71,8 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .usernameParameter("userId")
                 .passwordParameter("userPw")
                 .defaultSuccessUrl("/Index.in")
-                .successHandler(buyerLoginSuccessHandler)
-                .failureHandler(buyerLoginFailureHandler)
+                .successHandler(LoginSuccessHandler)
+                .failureHandler(LoginFailureHandler)
                 .and().csrf().disable()
                 .logout()
                 .logoutUrl("/logout.ad")
@@ -81,7 +81,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .deleteCookies("JESSIONID")
                 .and()
                 .httpBasic();
-
+            
+            http.sessionManagement()
+            	.invalidSessionUrl("/Login.ad") // 유효하지않은 세션 redirect
+            	.maximumSessions(1)	//동시성제어
+            		.expiredUrl("/Login.ad");
+            	
 
              
         }

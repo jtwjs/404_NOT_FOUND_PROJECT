@@ -2,8 +2,8 @@ package com.spring.buyer;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.spring.mapper.BuyerMapper;
@@ -15,6 +15,9 @@ public class BuyerServiceImpl implements BuyerService {
 	@Autowired
 	BuyerMapper mapper;
 	
+	@Autowired
+    private SqlSession sqlSession;
+
 
 	
 	@Override
@@ -60,4 +63,21 @@ public class BuyerServiceImpl implements BuyerService {
 		return list;
 	}
 
+	public int getWishListOverlapCheck(String board_id, String buyer_id) {
+		
+		BuyerMapper buyerMapper = sqlSession.getMapper(BuyerMapper.class);
+		int result = buyerMapper.getWishListOverlapCheck(board_id, buyer_id);
+		
+		return result;
+	}
+	
+	public int insertWishList(WishListVO vo) {
+		
+		BuyerMapper buyerMapper = sqlSession.getMapper(BuyerMapper.class);
+		int result = buyerMapper.insertWishList(vo);
+		
+		return result;
+	}
+	
+	
 }

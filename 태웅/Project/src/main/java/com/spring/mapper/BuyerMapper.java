@@ -2,9 +2,11 @@ package com.spring.mapper;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.spring.buyer.BuyerVO;
+import com.spring.buyer.WishListVO;
 @Repository
 public interface BuyerMapper {
 	BuyerVO selectOneById(String id);
@@ -15,4 +17,8 @@ public interface BuyerMapper {
 	int DeleteBuyerAccount(String id);
 	void UpdateLoginDateBy(String id);
 	
+	
+	public int getWishListOverlapCheck(
+			@Param("board_id")String board_id, @Param("buyer_id")String buyer_id);
+	public int insertWishList(WishListVO vo);
 }

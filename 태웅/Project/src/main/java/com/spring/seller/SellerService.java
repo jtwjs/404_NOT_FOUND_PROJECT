@@ -8,4 +8,5 @@ public interface SellerService {
 	void RegisterSellerAccout(SellerVO seller);
 	int UpdateSellerAccount(SellerVO seller);
 	int DeleteSellerAccount(String id);
+	void UpdateProfileImg(SellerVO account);
 }

@@ -9,5 +9,7 @@ public interface BuyerService {
 	boolean duplicateCheck(String id);
 	void RegisterBuyerAccount(BuyerVO buyer);
 	int UpdateBuyerAccount(BuyerVO buyer);
-	int DeleteBuyerAccount(String id); 
+	int DeleteBuyerAccount(String id);
+    public int getWishListOverlapCheck(String board_id, String buyer_id);
+    public int insertWishList(WishListVO vo);
 }

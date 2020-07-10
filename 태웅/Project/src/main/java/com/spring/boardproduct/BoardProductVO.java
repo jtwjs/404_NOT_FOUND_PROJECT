@@ -1,18 +1,73 @@
 package com.spring.boardproduct;
 
+/* 테스트용 테이블
+drop table board_product;
+create table board_product(                     -- 판매게시판
+    board_id varchar2(32) not null,             -- 게시판 ID (기본키)
+    seller_id varchar2(16) not null,            -- 작성자 (member_seller테이블 외래키)
+    board_num number not null,                  -- 게시판 번호
+    title varchar2(100) not null,               -- 게시판 이름
+    price number not null,                      -- 판매가
+    delivery_price number not null,             -- 배송비
+	quantity number not null,                   -- 수량
+    satisfaction number(2,1),                   -- 평가점수
+    content varchar2(2000) not null,            -- 게시판 내용
+    register_date date not null,                -- 게시글 등록일
+    category_1 number not null,                 -- 1차 카테고리 (분류)
+    category_2 number not null,                 -- 2차 카테고리 (상품)
+    category_local number not null,             -- 원산지 코드 (지역 분류)
+    sales_producer varchar2(32) not null,       -- 상품정보 (판매생산자)
+    product_name varchar2(32) not null,         -- 상품정보 (상품명)
+    product_weight varchar2(32) not null,       -- 상품정보 (상품중량)
+    product_size varchar2(64) not null,         -- 상품정보 (상품크기)
+    product_country varchar2(32) not null,      -- 상품정보 (원산지)
+    date_manufacture varchar2(32) not null,     -- 상품정보 (제조년월일)
+    best_before_date varchar2(32) not null,     -- 상품정보 (품질유지기한)
+    transgenic varchar2(32) not null,           -- 상품정보 (유전자 변형 농수산물 표시)
+    storage_method varchar2(32) not null,       -- 상품정보 (보관방법)
+    consumer_consulation varchar2(16) not null, -- 상품정보 (소비자상담문의)
+	thumbnail_origin varchar2(100),             -- 썸네일 이미지 원본 이름
+	thumbnail_thum varchar2(100),               -- 썸네일 이미지 이름
+	product_origin_1 varchar2(100),             -- 대표 이미지1 이름
+	product_thum_1 varchar2(100),               -- 대표 이미지1 썸네일 이름
+	product_origin_2 varchar2(100),             -- 대표 이미지2 이름
+	product_thum_2 varchar2(100),               -- 대표 이미지2 썸네일 이름
+	product_origin_3 varchar2(100),             -- 대표 이미지3 이름
+	product_thum_3 varchar2(100),               -- 대표 이미지3 썸네일 이름
+	product_origin_4 varchar2(100),             -- 대표 이미지4 이름
+	product_thum_4 varchar2(100),               -- 대표 이미지4 썸네일 이름
+	content_origin varchar2(100),               -- 게시글 본문 이미지 이름
+    thumbnail_origin_path varchar2(100),        -- 썸네일 원본 경로
+    thumbnail_thum_path varchar2(100),          -- 썸네일 썸네일 경로
+    product_origin_path varchar2(100),          -- 대표이미지 원본 경로
+    product_thum_path varchar2(100),            -- 대표이미지 썸네일 경로
+    content_origin_path varchar2(100),          -- 본문이미지 원본 경로
+    sale_status char(1) not null,               -- 판매여부 (Y, N으로 구분)
+    hit number not null,                        -- 판매수
+    read_count number not null,                 -- 조회수
+    constraint board_product_board_id_pk primary key(board_id)
+);
+ */
+
+
+
 import java.util.Date;
 
 public class BoardProductVO {              // 판매게시판
 
     private String board_id;               // 게시판 ID (기본키)
-    private String seller_id;              // 작성자 (member_seller테이블과 비식별관계)
+    private String seller_id;              // 작성자 (member_seller테이블 외래키)
+    private int board_num;                 // 게시판 번호
     private String title;                  // 게시판 이름
     private int price;                     // 판매가
-    private int board_delivery;            // 배송비
+    private int delivery_price;            // 배송비
+    private int quantity;                  // 재고량
     private double satisfaction;           // 평가점수
     private String content;                // 게시판 내용
     private Date register_date;            // 게시글 등록일
-    private String category;               // 상품 카테고리
+    private int category_1;                // 1차 카테고리 (분류)
+    private int category_2;                // 2차 카테고리 (상품)
+    private int category_local;            // 원산지 코드 (지역 분류)
     private String sales_producer;         // 상품정보 (판매생산자)
     private String product_name;           // 상품정보 (상품명)
     private String product_weight;         // 상품정보 (상품중량)
@@ -23,8 +78,25 @@ public class BoardProductVO {              // 판매게시판
     private String transgenic;             // 상품정보 (유전자 변형 농수산물 표시)
     private String storage_method;         // 상품정보 (보관방법)
     private String consumer_consulation;   // 상품정보 (소비자상담문의)
+    private String thumbnail_origin;       // 썸네일 이미지 원본이름
+    private String thumbnail_thum;         // 썸네일 이미지 이름
+    private String product_origin_1;       // 대표 이미지1 이름
+    private String product_thum_1;         // 대표 이미지1 썸네일 이름
+    private String product_origin_2;       // 대표 이미지2 이름
+    private String product_thum_2;         // 대표 이미지2 썸네일 이름
+    private String product_origin_3;       // 대표 이미지3 이름
+    private String product_thum_3;         // 대표 이미지3 썸네일 이름
+    private String product_origin_4;       // 대표 이미지4 이름
+    private String product_thum_4;         // 대표 이미지4 썸네일 이름
+    private String thumbnail_origin_path;  // 썸네일 원본 경로
+    private String thumbnail_thum_path;    // 썸네일 썸네일 경로
+    private String product_origin_path;    // 대표이미지 원본 경로
+    private String product_thum_path;      // 대표이미지 썸네일 경로
+    private String content_origin_path;    // 본문이미지 원본 경로
+    private String content_origin;         // 본문 이미지 이름
     private char sale_status;              // 판매여부 (Y, N으로 구분)
-    private int hit;                       // 조회수
+    private int hit;                       // 판매수
+    private int read_count;                // 조회수
     
 	public String getBoard_id() {
 		return board_id;
@@ -50,11 +122,11 @@ public class BoardProductVO {              // 판매게시판
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	public int getBoard_delivery() {
-		return board_delivery;
+	public int getDelivery_price() {
+		return delivery_price;
 	}
-	public void setBoard_delivery(int board_delivery) {
-		this.board_delivery = board_delivery;
+	public void setDelivery_price(int delivery_price) {
+		this.delivery_price = delivery_price;
 	}
 	public double getSatisfaction() {
 		return satisfaction;
@@ -73,12 +145,6 @@ public class BoardProductVO {              // 판매게시판
 	}
 	public void setRegister_date(Date register_date) {
 		this.register_date = register_date;
-	}
-	public String getCategory() {
-		return category;
-	}
-	public void setCategory(String category) {
-		this.category = category;
 	}
 	public String getSales_producer() {
 		return sales_producer;
@@ -151,5 +217,137 @@ public class BoardProductVO {              // 판매게시판
 	}
 	public void setHit(int hit) {
 		this.hit = hit;
+	}
+	public int getBoard_num() {
+		return board_num;
+	}
+	public void setBoard_num(int board_num) {
+		this.board_num = board_num;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	public int getCategory_1() {
+		return category_1;
+	}
+	public void setCategory_1(int category_1) {
+		this.category_1 = category_1;
+	}
+	public int getCategory_2() {
+		return category_2;
+	}
+	public void setCategory_2(int category_2) {
+		this.category_2 = category_2;
+	}
+	public int getCategory_local() {
+		return category_local;
+	}
+	public void setCategory_local(int category_local) {
+		this.category_local = category_local;
+	}
+	public String getThumbnail_origin() {
+		return thumbnail_origin;
+	}
+	public void setThumbnail_origin(String thumbnail_origin) {
+		this.thumbnail_origin = thumbnail_origin;
+	}
+	public String getThumbnail_thum() {
+		return thumbnail_thum;
+	}
+	public void setThumbnail_thum(String thumbnail_thum) {
+		this.thumbnail_thum = thumbnail_thum;
+	}
+	public String getProduct_origin_1() {
+		return product_origin_1;
+	}
+	public void setProduct_origin_1(String product_origin_1) {
+		this.product_origin_1 = product_origin_1;
+	}
+	public String getProduct_thum_1() {
+		return product_thum_1;
+	}
+	public void setProduct_thum_1(String product_thum_1) {
+		this.product_thum_1 = product_thum_1;
+	}
+	public String getProduct_origin_2() {
+		return product_origin_2;
+	}
+	public void setProduct_origin_2(String product_origin_2) {
+		this.product_origin_2 = product_origin_2;
+	}
+	public String getProduct_thum_2() {
+		return product_thum_2;
+	}
+	public void setProduct_thum_2(String product_thum_2) {
+		this.product_thum_2 = product_thum_2;
+	}
+	public String getProduct_origin_3() {
+		return product_origin_3;
+	}
+	public void setProduct_origin_3(String product_origin_3) {
+		this.product_origin_3 = product_origin_3;
+	}
+	public String getProduct_thum_3() {
+		return product_thum_3;
+	}
+	public void setProduct_thum_3(String product_thum_3) {
+		this.product_thum_3 = product_thum_3;
+	}
+	public String getProduct_origin_4() {
+		return product_origin_4;
+	}
+	public void setProduct_origin_4(String product_origin_4) {
+		this.product_origin_4 = product_origin_4;
+	}
+	public String getProduct_thum_4() {
+		return product_thum_4;
+	}
+	public void setProduct_thum_4(String product_thum_4) {
+		this.product_thum_4 = product_thum_4;
+	}
+	public String getContent_origin() {
+		return content_origin;
+	}
+	public void setContent_origin(String content_origin) {
+		this.content_origin = content_origin;
+	}
+	public String getThumbnail_origin_path() {
+		return thumbnail_origin_path;
+	}
+	public void setThumbnail_origin_path(String thumbnail_origin_path) {
+		this.thumbnail_origin_path = thumbnail_origin_path;
+	}
+	public String getThumbnail_thum_path() {
+		return thumbnail_thum_path;
+	}
+	public void setThumbnail_thum_path(String thumbnail_thum_path) {
+		this.thumbnail_thum_path = thumbnail_thum_path;
+	}
+	public String getProduct_origin_path() {
+		return product_origin_path;
+	}
+	public void setProduct_origin_path(String product_origin_path) {
+		this.product_origin_path = product_origin_path;
+	}
+	public String getProduct_thum_path() {
+		return product_thum_path;
+	}
+	public void setProduct_thum_path(String product_thum_path) {
+		this.product_thum_path = product_thum_path;
+	}
+	public String getContent_origin_path() {
+		return content_origin_path;
+	}
+	public void setContent_origin_path(String content_origin_path) {
+		this.content_origin_path = content_origin_path;
+	}
+	public int getRead_count() {
+		return read_count;
+	}
+	public void setRead_count(int read_count) {
+		this.read_count = read_count;
 	}
 }

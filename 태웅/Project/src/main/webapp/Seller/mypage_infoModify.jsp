@@ -62,7 +62,7 @@
 	                    			    <label for="profilePhoto" class="virtual">사진</label>
 	                    			    <dl>
 	                    			    	<dt>
-	                    			    		<img src="./resources/Images/Seller/profile.jpg" alt="profile photo" />
+	                    			    		<img id="profile_img"src="./resources/Images/Seller/${profileImg}" alt="profile photo" />
 	                    			    	</dt>
 	                    			    	<dd>	
 												회원님을 알릴 수 있는 사진을 등록해 주세요.
@@ -87,77 +87,79 @@
                     			<div id="license_check">
                     			    <div>
                     			        <label for="business-license-number" class="virtual">사업자 등록번호</label>
-                    			        <input type="hidden" id="business-license-number" />사업자 등록번호
+                    			       214-85-24928
                     			    </div>
 	                                <div>
 	                                    <label for="corporate_regist_number" class="virtual">법인등록번호</label>
-	                                    <input type="hidden" id="corporate_regist_number" />법인등록번호
+	                                    110111-2138728
 	                                </div>
 	                                <div>
 	                                    <label for="direct-sales-reference-number" class="virtual">통신판매신고번호</label>
-	                                    <input type="hidden" id="direct-sales-reference-number" />통신판매신고번호
+	                                    ${reportNum}
 	                                </div>
 	                                <div>
 	                                    <label for="shopName" class="virtual">상호명</label>
-	                                    <input type="hidden"id="shopName" />상호명
+	                                    ${shopName}
 	                                    <span class="guide">상호명을 변경하려면 관리자에게 문의바랍니다</span>
 	                                </div>
 	                                <div>
 	                                    <label for="representativeName" class="virtual">대표자명</label>
-	                                    <input type="hidden"id="shopName" />대표자명
+	                                    <input type="hidden"id="shopName" />${represent}
 	                                    <span class="guide">대표자명을 변경하려면 관리자에게 문의바랍니다</span>
 	                                </div>
                     			</div>
                     			
 	                            <div class="update_id">
 	                                <label for="userId" class="virtual">아이디</label>
-	                                <input type="hidden" class="hiddenId" id="userId" name="userId" value="" />기존아이디                               
+	                                ${id}                               
 	                            </div>
 	
 	                            <div class="update_pw">
-	                            	<div class="update_pw-existing">
-		                                <label for="userPw" class="essential">기존 비밀번호</label>
-		                                <input type="password" class="inputPw" id="userPw" name="userpPw" maxlength="20" autocomplete="off">                                
-		                                <span class="guide">공백 없는 영문, 숫자 포함 6 ~ 20자 (회원정보를 변경하기 위해선 필수입력)</span>
+	                            	<div class="password_origin">
+		                            	<div class="update_pw-existing">
+			                                <label for="userPw" class="essential pw">기존 비밀번호</label>
+			                                <input type="password" class="inputPw" id="originalPw" name="userpPw" maxlength="20" autocomplete="off">
+			                                <p>                                
+			                                <span class="guide">공백 없는 영문, 숫자 포함 6 ~ 20자</span><span class="enter guide">(회원정보를 변경하기 위해선 필수입력)</span>
+			                                </p>
+		                                </div>
+		                                <button type="button" id="pw_changeBtn">비밀번호 변경</button>
 	                                </div>
-	                                <div class="update_pw-new">
-	                                    <label for="userPwCheck" class="virtual">신규 비밀번호</label>
-		                                <input type="password" class="inputPwCheck" id="userPwCheck" name="userPwCheck" maxlength="20" autocomplete="off">
-		                                <span class="guide">공백 없는 영문, 숫자 포함 6 ~ 20자</span>
-									</div>
-									<div class="update_pw-confirm">		                                
-		                                <label for="userPwCheck" class="virtual">신규 비밀번호 재입력</label>
-		                                <input type="password" class="inputPwCheck" id="userPwCheck-confirm" name="userPwCheck-confirm" maxlength="20" autocomplete="off">
-		                                <span class="guide">공백 없는 영문, 숫자 포함 6 ~ 20자</span>
+	                                <div id="password_change" class="hide">
+		                                <div class="update_pw-new">
+		                                    <label for="userPwCheck" class="virtual pw">신규 비밀번호</label>
+			                                <input type="password" class="inputPwCheck" id="newPw" name="userPwCheck" maxlength="20" autocomplete="off">
+			                                <span class="guide">공백 없는 영문, 숫자 포함 6 ~ 20자</span>
+										</div>
+										<div class="update_pw-confirm">		                                
+			                                <label for="userPwCheck" class="virtual pw">신규 비밀번호 재입력</label>
+			                                <input type="password" class="inputPwCheck" id="newPw-confirm" name="userPwCheck-confirm" maxlength="20" autocomplete="off">
+			                                <span class="guide">공백 없는 영문, 숫자 포함 6 ~ 20자</span>
+		                                </div>
 	                                </div>
 	                            </div>
 	                            
 	                            <div id="update_manager-name">
 	                                <div>
-	                                    <label for="managerName" class="virtual">기존 담당자명</label>
-	                                    <input type="hidden"id="managerName" />기존 담당자명
-	                                </div>
-	                                <div>
-	                                    <label for="updateManagerName" class="virtual">신규 담당자명</label>
-	                                    <input type="text" id="updateManagerName" />
+	                                    <label for="updateManagerName" class="virtual" }>신규 담당자명</label>
+	                                    <input type="text" id="updateManagerName" value="${name}"/>
 	                                </div>
 	                            </div>
 	
 	                            <div class="update_email">
 	                                <div>
-	                                    <label for="emailAddress" class="virtual">기존 이메일 주소</label>
-	                                    <input type="hidden" id="emailAddress" />기존 이메일 주소
-	                                </div>
-	                                <div>
 	                                    <label for="email1" class="virtual">신규 이메일 주소</label>
-	                                    <input type="text" class="inputEmail1" id="email01" name="email01" size="20" maxlength="20" value="">
+	                                    <input type="text" class="inputEmail1" id="email01" name="email01" size="20" maxlength="20" value="${mailId}">
 									    &#64;
-	                                    <input type="text" class="inputEmail2" id="email02" name="email02" size="20" maxlength="20" value="">
+	                                    <input type="text" class="inputEmail2" id="email02" name="email02" size="20" maxlength="20" value="${mailAddr}">
 	                                    <select class="selectEmail3" name="selectEmail3" id="email03">
 	                                        <option value="메일 선택" selected>메일 선택</option>
 	                                        <option value="naver.com">naver.com</option>
 	                                        <option value="daum.net">daum.net</option>
 	                                        <option value="gmail.com">gmail.com</option>
+	                                        <option value="hanmail.com">hanmail.net</option>
+	                                        <option value="hanmail.com">hotmail.com</option>
+	                                        <option value="hanmail.com">nate.com</option>
 	                                        <option value="yahoo.co.kr">yahoo.co.kr</option>
 	                                        <option value="직접 입력" >직접 입력</option>
 	                                    </select>
@@ -166,50 +168,47 @@
 	                            
 	                            <div class="update_mPhone">
 	                                <div>
-	                                    <label for="mPhoneNumber" class="virtual">기존 연락처</label>
-	                                    <input type="hidden" id="mPhoneNumber" />기존 연락처
-	                                </div>
-	                                <div>
 	                                    <label for="mPhone1" class="virtual">휴대폰번호</label>
 	                                    <select class="selectPhone" id="mPhone1" name="mPhone1">
-	                                        <option value="010" selected>010</option>
+	                                    	<option value="${tel1}">${tel1}</option>
+	                                        <option value="010">010</option>
 	                                        <option value="011">011</option>
 	                                        <option value="016">017</option>
 	                                        <option value="018">018</option>
 	                                        <option value="019">019</option>
 	                                    </select>
 	                                    -
-	                                    <input id="mPhone2" class="inputPhone2" name="mPhone2" type="text" value="" size="4" maxlength="4">
+	                                    <input id="mPhone2" class="inputPhone2" name="mPhone2" type="text" value="${tel2}" size="4" maxlength="4">
 	                                    -
-	                                    <input id="mPhone3" class="inputPhone3" name="mPhone3" type="text" value="" size="4" maxlength="4">
+	                                    <input id="mPhone3" class="inputPhone3" name="mPhone3" type="text" value="${tel3}" size="4" maxlength="4">
 	                                </div>
 	                            </div>
 	                            
                                 <div class="update_payment">
                                     <div>
-	                                    <label for="paymentMethod" class="virtual">기존 은행계좌</label>
-	                                    <input type="hidden" id="paymentMethod" />기존 은행계좌
-                                    </div>
-                                    <div>
-	                                    <label for="bankAccount" class="virtual">기존 계좌번호</label>
-	                                    <input type="hidden" id="bankAccount" />기존 계좌번호
-                                    </div>
-                                    <div>
                                         <label for="bankNum" class="virtual">계좌번호</label>
                                         <select class="selectBankNum1" id="bankNum1" name="bankNum1">
-                                            <option value="은행명" selected>은행명</option>
-                                            <option value="신한은행">신한은행</option>
-                                            <option value="국민은행">국민은행</option>
-                                            <option value="우리은행">우리은행</option>
-                                            <option value="기업은행">기업은행</option>
+                                            <option value="" selected>은행명</option>
+				                            <option value="신한은행">신한은행</option>
+				                            <option value="우리은행">우리은행</option>
+				                            <option value="농협은행">농협은행</option>
+				                            <option value="기업은행">기업은행</option>
+				                            <option value="하나은행">하나은행</option>
+				                            <option value="국민은행">국민은행</option>
+				                            <option value="BNK부산은행">BNK부산은행</option>
+				                            <option value="BNK경남은행">BNK경남은행</option>
+				                            <option value="DGB대구은행">DGB대구은행</option>
+				                            <option value="광주은행">광주은행</option>
+				                            <option value="전북은행">전북은행</option>
+				                            <option value="제주은행">제주은행</option>
                                         </select>
-                                        <input id="bankNum" type="text" value="" maxlength="20" placeholder="계좌번호">
+                                        <input id="bankNum" type="text" value="${bankAccount}" maxlength="20" placeholder="계좌번호">
                                     </div>
                                 </div>
 	                            
 	                            
 	                            <div class="update_finish">
-	                                <button type="button" id="submitBtn" onclick="location.href='#'">회원정보수정</button>
+	                                <button type="button" id="submitBtn" >회원정보수정</button>
 	                                <button type="button" id="resetBtn" onclick="location.href='#'">취소</button> 
 	                        	</div>                   
                         	</form>

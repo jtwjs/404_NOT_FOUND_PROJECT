@@ -24,12 +24,12 @@ public class BuyerDetailService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String buyerId) throws UsernameNotFoundException {
 		
-		/*인증하는 부분*/
+	
 		BuyerVO account = mapper.selectOneById(buyerId);
 		if (account == null) {
 			throw new UsernameNotFoundException(buyerId);
 		}
-		System.out.println("아이디"+account.getId()+"비번"+account.getPassword()+"권한"+account.getMemberType());
+	
 		
 		return new BuyerAccount(account);
 	}
@@ -42,7 +42,7 @@ public class BuyerDetailService implements UserDetailsService {
 
 	public void updateLoginDateBy(String id) {
 		mapper.UpdateLoginDateBy(id);
-		System.out.println("Test2:실행완료");
+
 	}
 	
 }

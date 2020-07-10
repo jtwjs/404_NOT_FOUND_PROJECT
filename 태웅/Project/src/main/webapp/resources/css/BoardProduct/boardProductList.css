@@ -12,12 +12,13 @@
     display: flex;
     flex-direction: column;
     width: 1200px;
-    padding: 50px;
+    margin: 50px 0;
 }
 
 .category-title {
     font-size: 20px;
 }
+
 
 /** 순서 표시 방식 1 시작 **/
 .contents-select {
@@ -60,7 +61,8 @@ ul {
 }
 
 #new img {
-    width:250px;
+    width: 215px;
+    height: 215px;
     padding:5px;
 }
 
@@ -80,4 +82,36 @@ ul {
 
 .clear {
 	clear: both;
+}
+
+
+
+.category-table__list {
+	width: 25%;
+	height: 30px;
+}
+
+#view-table {
+	margin-top: 50px;
+}
+
+#non-box {
+	width: 100%;
+	height: 250px;
+	line-height: 250px;
+	text-align: center;
+}
+
+#isPage {
+    margin-top: 50px;
+	padding: 0;
+    width: 100%;
+    text-align: center;
+}
+
+#isPage > input[type="button"] {
+	margin: 0 5px;
+	padding: 5px 10px;
+	text-align: center;
+	border: 1px solid #000;
 }

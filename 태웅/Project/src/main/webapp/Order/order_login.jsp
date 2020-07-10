@@ -10,7 +10,7 @@
     <link href="<c:url value='/resources/css/module/header.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css?after'/>" rel="stylesheet" />
     <!-- header, css end -->
-    <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Common/sub_main.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Order/order_login.css?after'/>" rel="stylesheet" />
     <title>주문조회</title>
 </head>
@@ -36,7 +36,7 @@
 	  		</li>
 	  		<li class="unselect">
 	  			<a href="OrderNonMember.or">
-	  				<span>비회원 주문조회</span>
+	  				<span>비회원 주문배송</span>
 	  			</a>
 	  		</li>
 	  	</ul>
@@ -75,9 +75,9 @@
 	                            </div>
                             </div>
                           
-                            <button type="button" class="submitBtn"  onclick="javascript:location.href='JoinBuyer.ad'">로그인</button>
+                            <button type="button" class="submitBtn" onclick="location.href='#'">로그인</button>
                             <button type="button" class="submitjoinBtn"
-                                     onclick="javascript:location.href='JoinBuyer.ad'">회원가입하기</button>
+                                    onclick="location.href='#'">회원가입하기</button>
     
                             <div class="other_login">
                                 <a id="naver-login-btn" href="#" role="button">

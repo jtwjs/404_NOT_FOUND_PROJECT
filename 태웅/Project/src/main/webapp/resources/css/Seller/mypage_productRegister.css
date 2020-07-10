@@ -44,12 +44,13 @@
     padding:0px 10px;
 }
 
-.uploadBox__table .select-btn {
+.select-btn {
     display: flex;
 }
 
-.uploadBox__table .select-btn2  {
-    margin-left: 20px;
+.select-btn1,
+.select-btn2 {
+    margin-right: 20px;
     width: 150px;
 }
 
@@ -95,4 +96,16 @@
 
 #setTitle {
 	width: 700px;
+}
+
+
+#code04_idx {
+	width: 300px;
+}
+
+#image_container_thumbnail,
+#image_container_product_1,
+#image_container_product_2,
+#image_container_product_3,
+#image_container_product_4 {
 }

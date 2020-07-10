@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.buyer.BuyerVO;
 import com.spring.config.Security.CurrentUser;
 import com.spring.config.Security.SellerDetailService;
 
@@ -41,61 +40,133 @@ public class SellerController {
 	@RequestMapping(value = "/SellerMyPage.se")  
 	public String sellerMyPage(Model model, @CurrentUser SellerVO account) {
 		model.addAttribute("name", account.getName());
-//    	model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
+    	model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
     	model.addAttribute("grade", account.getGrade());
+    	if(account.getProfileImg() == null || account.getProfileImg() == "") {
+    		model.addAttribute("profileImg", "profile-basic.png");
+    	}else {
+    		model.addAttribute("profileImg", account.getProfileImg());
+    	}
 		return "Seller/mypage_main";
 	}
 	
 	@RequestMapping(value = "/SellerInfoModify.se")  // �봽濡쒗븘 �닔�젙
-	public String sellerInfoModify() {
-
+	public String sellerInfoModify(Model model, @CurrentUser SellerVO account) {
+		
+		int mailIndex = account.getEmail().indexOf("@");
+		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
+		model.addAttribute("represent", account.getRepresent());
+		model.addAttribute("reportNum", account.getOrderReportNum());
+		model.addAttribute("shopName", account.getShopName());
+		model.addAttribute("name", account.getName());
+		model.addAttribute("id", account.getId());
+		model.addAttribute("tel1", account.getTel().substring(0,3));
+		model.addAttribute("tel2", account.getTel().substring(3,7));
+		model.addAttribute("tel3", account.getTel().substring(7,11));
+	
+		model.addAttribute("mailId", account.getEmail().substring(0,mailIndex));
+		model.addAttribute("mailAddr", account.getEmail().substring(mailIndex+1));
+		model.addAttribute("addr", account.getAddress());//주소넣어야함
+		model.addAttribute("bankName", account.getBankName());
+		model.addAttribute("bankAccount", account.getBankAccountNum());
+		
+		
+		
+		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+    		model.addAttribute("profileImg", "profile-basic.png");
+    	}else {
+    		model.addAttribute("profileImg", account.getProfileImg());
+    	}
+		
 		return "Seller/mypage_infoModify";
 	}
 	
 	
 	@RequestMapping(value = "/SellerProductRegister.se")  // �긽�뭹�궡�뿭 - �긽�뭹�벑濡�
-	public String sellerProductRegister() {
-
+	public String sellerProductRegister(Model model, @CurrentUser SellerVO account) {
+		model.addAttribute("name", account.getName());
+		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
+		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+    		model.addAttribute("profileImg", "profile-basic.png");
+    	}else {
+    		model.addAttribute("profileImg", account.getProfileImg());
+    	}
 		return "Seller/mypage_productRegister";
 	}
 	
 	@RequestMapping(value = "/SellerProductList.se")    // �긽�뭹�궡�뿭 - �긽�뭹�궡�뿭
-	public String sellerProductList() {
-
+	public String sellerProductList(Model model, @CurrentUser SellerVO account) {
+		model.addAttribute("name", account.getName());
+		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
+		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+    		model.addAttribute("profileImg", "profile-basic.png");
+    	}else {
+    		model.addAttribute("profileImg", account.getProfileImg());
+    	}
 		return "Seller/mypage_productList";
 	}
 	
 	@RequestMapping(value = "/SellerProductModify.se")    // �긽�뭹�궡�뿭 - �뙋留ㅺ� �닔�젙
-	public String sellerProductModify() {
-
+	public String sellerProductModify(Model model, @CurrentUser SellerVO account) {
+		model.addAttribute("name", account.getName());
+		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
+		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+    		model.addAttribute("profileImg", "profile-basic.png");
+    	}else {
+    		model.addAttribute("profileImg", account.getProfileImg());
+    	}
 		return "Seller/mypage_productModify";
 	}
 	
 	@RequestMapping(value = "/SellerOrderStatus.se")    // 嫄곕옒�궡�뿭 - 二쇰Ц愿�由�
-	public String sellerOrderStatus() {
-
+	public String sellerOrderStatus(Model model, @CurrentUser SellerVO account) {
+		model.addAttribute("name", account.getName());
+		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
+		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+    		model.addAttribute("profileImg", "profile-basic.png");
+    	}else {
+    		model.addAttribute("profileImg", account.getProfileImg());
+    	}
 		return "Seller/mypage_orderStatus";
 	}
 	
 	@RequestMapping(value = "/SellerTransactionList.se")    // 嫄곕옒�궡�뿭 - 嫄곕옒紐⑸줉
-	public String sellerTransactionList() {
-
+	public String sellerTransactionList(Model model, @CurrentUser SellerVO account) {
+		model.addAttribute("name", account.getName());
+		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
+		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+    		model.addAttribute("profileImg", "profile-basic.png");
+    	}else {
+    		model.addAttribute("profileImg", account.getProfileImg());
+    	}
 		return "Seller/mypage_transactionList";
 	}
 	
 	@RequestMapping(value = "/SellerCalculateManager.se")    // 嫄곕옒�궡�뿭 - 嫄곕옒紐⑸줉
-	public String sellerCalculateManager() {
-		
+	public String sellerCalculateManager(Model model, @CurrentUser SellerVO account) {
+		model.addAttribute("name", account.getName());
+		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
+		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+    		model.addAttribute("profileImg", "profile-basic.png");
+    	}else {
+    		model.addAttribute("profileImg", account.getProfileImg());
+    	}
 		return "Seller/mypage_calculateManager";
 	}
 	
 	@RequestMapping(value = "/SellerMarketPriceInfo.se")  // �긽�뭹 �떆�꽭�젙蹂�
-	public String sellerMarketPriceInfo() {
-
+	public String sellerMarketPriceInfo(Model model, @CurrentUser SellerVO account) {
+		model.addAttribute("name", account.getName());
+		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
+		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+    		model.addAttribute("profileImg", "profile-basic.png");
+    	}else {
+    		model.addAttribute("profileImg", account.getProfileImg());
+    	}
 		return "Seller/mypage_marketPriceInfo";
 	}
 	
-	// �긽�뭹 �떆�꽭�젙蹂� 議고쉶�븯湲�
+	// �상품시세정보조히
 	
 	@RequestMapping(value = "/SellerMarketPriceInfoSearch.se", method = RequestMethod.GET)
 	public String sellerMarketPriceInfoSearch(Model model, String regday, String countycode, String itemcategorycode) {
@@ -103,9 +174,9 @@ public class SellerController {
 		String url = "https://www.kamis.or.kr/customer/price/wholesale/catalogue.do?action=daily&regday=" 
 		    + regday + "&countycode=" + countycode + "&itemcategorycode=" + itemcategorycode + "&convert_kg_yn=N";
 		
-		// �씠 �뙆�듃 �뾾�쑝硫� �겕濡ㅻ쭅 �븞�릺�땲源� �젅�� 嫄대뱾吏� 留� 寃�
+		// 건들지말것
 		// =================================================================================
-		// �겕濡ㅻ쭅�븷 �빐�떦 �궗�씠�듃�쓽 �씤利앹꽌 �쑀�슚�꽦 泥댄겕 鍮꾪솢�꽦�솕
+		// �크롤링할 해당 사이트의 인증시 유효성 체크 비활성화
 		
 		TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
 
@@ -188,14 +259,26 @@ public class SellerController {
 	
 	
 	@RequestMapping(value = "/SellerProductQNA.se")  // Q&A - �긽�뭹臾몄쓽
-	public String sellerProductQNA() {
-		
+	public String sellerProductQNA(Model model, @CurrentUser SellerVO account) {
+		model.addAttribute("name", account.getName());
+		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
+		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+    		model.addAttribute("profileImg", "profile-basic.png");
+    	}else {
+    		model.addAttribute("profileImg", account.getProfileImg());
+    	}
 		return "Seller/mypage_productQNA";
 	}
 	
 	@RequestMapping(value = "/SellerProductReview.se")  // Q&A - �긽�뭹�썑湲�
-	public String sellerProductReview() {
-		
+	public String sellerProductReview(Model model, @CurrentUser SellerVO account) {
+		model.addAttribute("name", account.getName());
+		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
+		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+    		model.addAttribute("profileImg", "profile-basic.png");
+    	}else {
+    		model.addAttribute("profileImg", account.getProfileImg());
+    	}
 		return "Seller/mypage_productReview";
 	}
 	
@@ -238,5 +321,22 @@ public class SellerController {
 		return result;
 	}
 	
+   @RequestMapping(value = "/profile_Update.se", method = RequestMethod.POST)
+   public void profileUpdate(@CurrentUser SellerVO account) {
+	   service.UpdateSellerAccount(account);
+	   
+   }
+   
+   
+   @RequestMapping(value =" /profile_defaultImg.se",
+		   method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+   @ResponseBody
+   public void defultImg(@CurrentUser SellerVO account) {
+	   account.setProfileImg("");
+	   service.UpdateProfileImg(account);
+   }
+   
+   
+ 
 	
 }

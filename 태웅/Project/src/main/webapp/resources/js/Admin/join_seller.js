@@ -234,7 +234,7 @@ function uncheck_all() {
 			 email2.value = 'nate.com';
 			 break;
 		 case 7:
-			 email2.value = 'tahoo.co.kr';
+			 email2.value = 'yahoo.co.kr';
 			 break;
 		 }
 		 return true;

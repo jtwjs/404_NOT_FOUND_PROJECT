@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.spring.mapper.SellerMapper;
 import com.spring.seller.SellerVO;
 
-@Lazy
+
 @Service()
 public class SellerDetailService implements UserDetailsService{
 	
@@ -37,8 +37,6 @@ public class SellerDetailService implements UserDetailsService{
 	public void RegisterSellerAccout(SellerVO seller) {
 		seller.setPassword(passwordEncoder.encode(seller.getPassword()));
 		 mapper.InsertSellerAccout(seller);
-		
-		
 	}
 
 	public void updateLoginDateBy(String id) {

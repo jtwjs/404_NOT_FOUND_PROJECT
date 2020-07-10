@@ -1,10 +1,17 @@
 package com.spring.buyer;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.ByteBuffer;
 import java.util.HashMap;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,7 +24,7 @@ import com.spring.config.Security.CurrentUser;
 public class BuyerController {
 	
 	@Autowired
-	BuyerServiceImpl service;
+	BuyerService buyerService;
 	
 	@Autowired
 	BuyerDetailService SecurityService;
@@ -89,6 +96,45 @@ public class BuyerController {
     	return "Buyer/mypage_serviceQna";
     }
     
+    
+    @GetMapping(value = "/AddWishList.by")  // 위시리스트 추가 (BoardProductView.jsp 연결)
+    public void addWishList(HttpServletResponse response, String board_id) throws IOException {
+    	
+    	response.setContentType("text/html; charset=UTF-8");
+    	PrintWriter out = response.getWriter();
+    	
+        if(buyerService.getWishListOverlapCheck(board_id, "test") == 1) {
+        	
+        	out.println("<script>alert('이미 위시리스트에 담긴 상품입니다.');history.go(-1);</script>");
+        	
+        }else {
+        	WishListVO vo = new WishListVO();
+        	
+        	vo.setBoard_id(board_id);
+        	
+        	vo.setBuyer_id("test");  // 임시로 구매자 id test 설정 (세션값으로 받음)
+        	
+        	UUID uuid = UUID.randomUUID(); // 중복 방지를 위해 랜덤값 생성
+        	long getl = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
+        	
+        	StringBuilder wish_id = new StringBuilder(
+        			vo.getBuyer_id() + "-" + Long.toString(getl, 10));
+        	
+        	vo.setWish_id(wish_id.toString());
+        	
+    		
+    		if(buyerService.insertWishList(vo) == 1) {
+    			out.println("<script>alert('장바구니에 상품을 담았습니다.');history.go(-1);</script>");
+    		}
+
+        }
+        
+        out.flush();
+    }
+    
+    
+    
+    
     @RequestMapping(value = "JoinBuyer.by" ,method = RequestMethod.POST)
     public String RegisterBuyerAccount(@ModelAttribute("buyer") BuyerVO buyer) {
     		String telCarrierNum = buyer.getTelCarrierNum();
@@ -115,7 +161,7 @@ public class BuyerController {
     public HashMap<String, Object> idDuplicationCheck(BuyerVO buyer) {
     	HashMap<String, Object> result = new HashMap<String, Object>();
     	String id = buyer.getId();
-		boolean isDuplication = service.duplicateCheck(id);
+		boolean isDuplication = buyerService.duplicateCheck(id);
 		
 		if( isDuplication ) {
 			result.put("result", "Fail");

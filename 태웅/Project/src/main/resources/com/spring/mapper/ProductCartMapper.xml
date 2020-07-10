@@ -7,7 +7,37 @@
 <!-- root-context에서 아래와 같이 typeAliasesPackage를 설정하면 패키지 경로 생략 가능. -->
 <mapper namespace="com.spring.mapper.ProductCartMapper">
 
+    <resultMap type="com.spring.order.ProductCartVO" id="ProductCartMap">
+        <result property="cart_id" column="cart_id" />
+        <result property="board_id" column="board_id" />
+        <result property="buyer_id" column="buyer_id" />
+        <result property="quantity" column="quantity" />
+    </resultMap>
+
 	<!-- id는 Mapper.java(여기선 MemberMapper.java)에 동일하게 사용해야된다. -->  
 	
+	<select id="getCartNum" parameterType="String" resultType="int">
+	    SELECT NVL(MAX(ROWNUM), 0) FROM PRODUCT_CART WHERE buyer_id = #{buyer_id}
+	</select>
+	
+	<select id="getBoardId" resultType="int" parameterType="String">
+	    SELECT COUNT(*) FROM product_cart WHERE board_id = #{board_id} AND buyer_id = #{buyer_id}
+	</select>
+	
+	<insert id="insertCart" parameterType="com.spring.order.ProductCartVO">
+	    INSERT INTO product_cart VALUES(#{cart_id}, #{board_id}, #{buyer_id}, #{quantity})
+	</insert>
+	
+	<select id="getCartList" parameterType="String" resultMap="ProductCartMap">
+	    SELECT * FROM product_cart WHERE buyer_id = #{buyer_id}
+	</select>
+	
+	<update id="updateAmount" parameterType="com.spring.order.ProductCartVO">
+	    UPDATE product_cart SET quantity = #{quantity} WHERE cart_id = #{cart_id}
+	</update>
+	
+	<delete id="deleteCart" parameterType="String">
+	    DELETE FROM product_cart WHERE cart_id = #{cart_id}
+	</delete>
 
 </mapper>

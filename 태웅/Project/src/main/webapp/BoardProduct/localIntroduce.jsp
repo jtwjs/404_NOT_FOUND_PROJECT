@@ -15,7 +15,7 @@
     <title>지역특산물</title>
 </head>
 <body>
-   <section id="sub-main" class="product">
+   <section id="sub-main" class="seller">
 	  <div class="sub-top">
 	  	<h2 class="sub-title">지역특산물</h2>
 	  	<ul class="sub-location">

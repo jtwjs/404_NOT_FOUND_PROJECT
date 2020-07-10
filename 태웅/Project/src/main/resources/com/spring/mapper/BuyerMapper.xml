@@ -26,6 +26,12 @@
 		<result column = "last_loginDate" property = "loginDate" />
 	</resultMap>
 	
+	  <resultMap type="com.spring.buyer.WishListVO" id="WishListMap">
+        <result property="wish_id" column="wish_id" />
+        <result property="buyer_id" column="buyer_id" />
+        <result property="board_id" column="board_id" />
+    </resultMap>
+	
 	<select id = "selectListAll" resultMap ="buyerResultMap" >
 		SELECT * FROM member_buyer 
 	</select>
@@ -60,6 +66,15 @@
 		UPDATE member_buyer SET del_flag="Y", wthdr_date=sysdate 
 		WHERE buyer_id = #{id} AND password = #{password}
 	</delete>
+	
+	<!-- id는 Mapper.java(여기선 MemberMapper.java)에 동일하게 사용해야된다. -->  
+	<select id="getWishListOverlapCheck" parameterType="String" resultType="int">
+	    SELECT COUNT(*) FROM wish_list WHERE board_id = #{board_id} AND buyer_id = #{buyer_id}
+	</select>
+	
+	<insert id="insertWishList" parameterType="com.spring.buyer.WishListVO">
+	    INSERT INTO wish_list VALUES (#{wish_id}, #{buyer_id}, #{board_id})
+	</insert>
 	
 	
 </mapper>

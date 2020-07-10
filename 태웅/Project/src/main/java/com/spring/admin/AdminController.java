@@ -3,7 +3,6 @@ package com.spring.admin;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -11,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.spring.buyer.BuyerVO;
-import com.spring.config.Security.BuyerDetailService;
-import com.spring.config.Security.SellerDetailService;
 import com.spring.seller.SellerVO;
 
 @Controller
@@ -21,7 +18,7 @@ public class AdminController {
 	
 	
     @RequestMapping(value = "/Login.ad")  
-    public String loginBuyer() throws Exception {
+    public String login() throws Exception {
     	
     	return "Admin/login_buyer";
     }
@@ -34,6 +31,12 @@ public class AdminController {
     		new SecurityContextLogoutHandler().logout(request, response, auth);
     	}
     	return "redirect:/";
+    }
+    
+    @RequestMapping(value = "/LoginBuyer.ad")
+    public String loginBuyer() throws Exception {
+    	
+    	return "Admin/login_buyer";
     }
     
     @RequestMapping(value = "/LoginSeller.ad")  // �뙋留ㅼ옄 濡쒓렇�씤
