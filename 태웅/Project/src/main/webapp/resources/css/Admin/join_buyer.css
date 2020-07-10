@@ -1,143 +1,317 @@
-.container {
-    width: 1200px;
-    max-width: none !important;
+.hide {
+	visibility: hidden;
 }
 
-.main {
+.success {
+	color: #27AE60;
+}
+
+.error {
+	color: #EB5757;
+}
+
+.check {
+	font-size: 12px;
+
+	}
+
+#join_buyer {
+  max-width: 560px;
+  min-width: 560px;
+  margin: 0 auto;
+  margin-bottom: 30px;
+  padding: 50px 0;
+  overflow: hidden;
+}
+
+#join_buyer h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+#join_buyer ul {
+  margin-bottom: 20px;
+  border-top: 2px solid #312e2b;
+  border-bottom: 2px solid #312e2b;
+  padding: 10px 5px;
+
+}
+
+/* 약관동의 */
+.join_buyer--agreement {
+  margin-bottom: 80px;
+}
+
+.agreement--content {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.agreement--content li {
+  display: flex;
+  justify-content: space-between;
+  height: 30px;
+  margin-bottom: 5px;
+  padding: 0 0 0 10px;
+}
+
+.agreement--content li:last-child {
+  margin-bottom: 0;
+}
+
+.agreement--content label {
+  cursor: pointer;
+}
+
+.agreement--content a {
+  width: 100px;
+  height: 30px;
+  border: solid 1px #c9c9c9;
+  font-size: 13px;
+  line-height: 2.3076;
+  text-align: center;
+}
+
+/*필수정보입력*/
+
+.join_buyer--required-info {
+  margin-bottom: 50px;
+}
+
+.required-info--content {
+}
+
+.required-info--input li {
+}
+
+.required-info--input {
+  display: flex;
+  align-items: start;
+  height: 60px;
+  font-size: 16px;
+}
+
+.label {
+  width: 100px;
+  padding: 10px 0;
+}
+
+.label-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 446px;
+  padding: 0 0 10px 20px;
+}
+
+.label-content.first {
+  padding-top: 10px;
+}
+
+.password-confirm,
+.password {
+	position: relative;
+}
+
+.password::after,
+.password-confirm::after {
+	position: absolute;
+	top: 7px;
+	right: 10px;
+	width: 24px;
+	height: 24px;
+	background-image: url("../../Images/Admin/m_icon_pw_step.png");
+	background-size: 128px;
+	background-repeat: no-repeat;
+	content: '';
+}
+
+
+.password::after {
+	background-position: 0 0;	
+}
+
+.password.success::after {
+	background-position: -56px 0;	
+}
+
+.password-confirm::after {
+	background-position: -28px 0;
+}
+
+.password-confirm.success::after {
+	background-position: -83px 0;
+}
+
+
+
+
+.label-content--tel .label-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 446px;
+  min-height: 60px;
+  padding: 0 0 0 20px;
+}
+
+#tel-input {
+  height: 100%;
+  min-height: 60px;
+}
+
+
+#tel-input .tel {
     display: flex;
-    flex-direction: column;
-
+    flex-direction: row;
+    justify-content: space-between;
+    width: 446px;
+    padding: 0 20px 0 0;
 }
 
-.join__form--customer {
-    display: flex;
-    flex-direction: column;
-    width: 1200px;
-    padding: 50px;
-
+.required-info--input input,
+#mPhone1,
+#email03 {
+  width: 100%;
+  height: 40px;
+  border: none;
+  padding: 0 20px;
+  text-align: left;
+  font-size: 15px;
+  line-height: 1;
+  color: #666;
+  background-color: #f4f4f4;
+  transition: background 0.5s, border 0.5s ease;
+  z-index: 0;
 }
 
-.essential, .virtual {
-    width: 150px;
+.required-info--input input::placeholder {
+  opacity: 0.6;
 }
 
-.essential::before {
-    margin-right: 5px;
-    display: inline-block;
-    width: 12px;
-    height: 9px;
-    background-image: url("../../Images/Admin/Path.png");
-    content: "";
+
+#mPhone1,
+#mPhone2,
+#mPhone3 {
+  width: 95px;
 }
 
-.virtual::before {
-    display: inline-block;
-    width: 16px;
-    content: "";
+.sendAtNum-btn,
+.AtNum-confirm-btn {
+  height: 40px;
+  width: 131px;
+  min-width: 131px;
+  border: solid 1px #dedede;
+  text-align: center;
+  font-size: 15px;
+  line-height: 40px;
 }
 
-.join_name, .join_id, .join_pw, .join_pwcheck, 
-.join_mPhone, .join_email, .join_addr {
-    padding: 10px;
-    border-top: 2px solid #d3d3d3
+.Authentication {
+  display: none;
+  padding: 0 0 20px 20px;
 }
 
-.join_email {
-    margin-bottom: 35px;
+.AtNum-confirm-btn {
+  margin-left: 3px;
 }
 
-.join_addr {
-    margin-bottom: 10px;
-    padding-bottom: 30px;
-    border-bottom: 2px solid #d3d3d3;
+
+.label-content.e-mail {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 446px;
+  padding: 0 0 10px 20px;
 }
 
-.inputName, .inputId, .inputPw, .inputPwCheck,
-.inputEmail1, .inputEmail2, .inputPhone2, .inputPhone3,
-.inputChkSms, .inputAddrNum, .inputAddr1, .inputAddr2 {
-    border: 1px solid #808080;
-    border-radius: 5px;
+#email01 {
+  width: 135px;
+}
+
+#email02 {
+  width: 150px;
+  padding-left: 40px;
+}
+
+.email-address {
+  position: relative;
+}
+.email-address::after {
+  position: absolute;
+  left: 10px;
+  top: 0;
+  width: 20px;
+  color: #333;
+  text-align: center;
+  line-height: 2.6px‬;
+  z-index: 10;
+  content: "@";
+}
+
+#email03 {
+  width: 135px;
+}
+
+.required-info--input.addr {
+	height: 100%;
+}
+
+.zip-code {
+	display: flex;
+	justify-content: space-between;
+	max-width: 194px;
+	margin-bottom: 5px;
+}
+
+#sample4_postcode {
+	width: 95px;
+}
+
+#zip-code-btn {
+	height: 40px;
+    width: 95px;
+    border: solid 1px #dedede;
     text-align: center;
+    font-size: 15px;
+    line-height: 40px;
 }
 
-.inputName, .inputId, .inputPw, .inputPwCheck, 
-.inputEmail1, .inputEmail2 {
-    width: 200px;
+.address--road {
+	margin-bottom: 5px;
+}
+.join_button {
+  display: flex;
+  justify-content: center;
 }
 
-.inputPhone2, .inputPhone3 {
-    width: 80px;
+.submitBtn,
+.resetBtn {
+  width: 150px;
+  height: 60px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  transition: all 700ms ease-in-out;
 }
 
-.inputAddrNum {
-    width: 100px;
-}
-
-.inputAddr1 {
-    margin-left: 156px;
-}
-
-.inputAddr1, .inputAddr2 {
-    width: 350px;
-}
-
-.inputChkSms {
-    margin-left: 20px;
-}
-
-.selectPhone, .selectEmail3 {
-    border: 1px solid #808080;
-    border-radius: 5px;
-    text-align: center;
-}
-
-.selectPhone {
-    width: 80px;
-}
-
-.selectEmail3 {
-    width: 200px;
-}
-
-.guide {
-    margin-left: 10px;
-    font-family: 맑은 고딕,돋움,굴림;
-    color:#888888;
-    font-size: 8pt;
-}
-
-.join_mPhone .smsAgree {
-    margin-left: 240px;
-    font-family: 맑은 고딕,돋움,굴림;
-    font-size: 8pt;
-    color:#888888;
-}
-
-.addrNumBtn, .submitBtn, .resetBtn {
-    width: 200px;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    font: 16px 맑은고딕,굴림,돋움;
-    letter-spacing: 1px;
-	color: #ffffff;
-}
-
-.addrNumBtn {
-    width: 100px;
-    padding: 5px;
-    margin-left: 20px;
-    font: 12px 맑은고딕,굴림,돋움;
-    background: #d3d3d3;
-	color: black;
-}
 
 .submitBtn {
-    margin-left: 315px;
-    background: #17a542;
+  background: #27ae60;
 }
 
 .resetBtn {
-    margin-left: 20px;
-    background: #808080;
+  margin-left: 20px;
+  background: #808080;
+}
+
+.submitBtn:hover {
+	background-color: #2F80ED;
+	
+}
+
+.resetBtn:hover {
+	background-color: #222;
 }

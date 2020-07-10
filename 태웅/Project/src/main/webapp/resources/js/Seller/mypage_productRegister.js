@@ -1,13 +1,259 @@
 function registCheck(){
 	
+	var title_check= document.getElementById("setTitle");
 	
+	if(title_check.value == ""){
+		title_check.focus();
+		alert("제목을 입력해주십시오");
+		return false;
+	}
 	
+	var category1_check = document.getElementById("code01_idx");
+	if(category1_check.options[category1_check.selectedIndex].value == ""){
+		category1_check.focus();
+		alert("1차 카테고리를 선택해주십시오");
+		return false;
+	}
 	
+	var category2_check = document.getElementById("code02_idx");
+	if(category2_check.options[category2_check.selectedIndex].value == ""){
+		category2_check.focus();
+		alert("2차 카테고리를 선택해주십시오");
+		return false;
+	}
 	
+	var price_check = document.getElementById("setPrice");
+	if(price_check.value == ""){
+		price_check.focus();
+		alert("판매가격을 입력해주십시오");
+		return false;
+	}
+	
+	var deliveryPrice_check = document.getElementById("setDeliveryPrice");
+	if(deliveryPrice_check.value == ""){
+		deliveryPrice_check.focus();
+		alert("배송비를 입력해주십시오");
+		return false;
+	}
+	
+	var quantity_check = document.getElementById("setQuantity");
+	if(quantity_check.value == ""){
+		quantity_check.focus();
+		alert("판매수량(재고량)을 입력해주십시오");
+		return false;
+	}
+	
+	var salesProducer_check = document.getElementById("setSalesProducer");
+	if(salesProducer_check.value == ""){
+		salesProducer_check.focus();
+		alert("판매생산자를 입력해주십시오");
+		return false;
+	}
+	
+	var productName_check = document.getElementById("setProductName");
+	if(productName_check.value == ""){
+		productName_check.focus();
+		alert("상품명을 입력해주십시오");
+		return false;
+	}
+	
+	var productWeight_check = document.getElementById("pd_unit");
+	if(productWeight_check.value == ""){
+		productWeight_check.focus();
+		alert("중량을 입력해주십시오");
+		return false;
+	}
+	
+	var productWeight = document.getElementById("setProductWeight");
+	productWeight.value = productWeight_check.value;
+	var weightSymbol = document.getElementById("pd_symbol");
+	productWeight.value += weightSymbol.options[weightSymbol.selectedIndex].value;
+	
+	var productSize_check = document.getElementById("setProductSize");
+	if(productSize_check.value == ""){
+		productSize_check.value = " - ";
+	}
+	
+	var categoryLocal_check = document.getElementById("code03_idx");
+	if(categoryLocal_check.options[categoryLocal_check.selectedIndex].value == ""){
+		categoryLocal_check.focus();
+		alert("원산지를 입력해주십시오");
+		return false;
+	}
+	
+	var categoryLocal2 = document.getElementById("code04_idx");
+	var productCountry_check = document.getElementById("setProductCountry");
+	productCountry_check.value = categoryLocal_check.options[categoryLocal_check.selectedIndex].text
+	                      + " " + categoryLocal2.value;
+	
+	var dateManufacture_check = document.getElementById("setDateManufacture");
+	if(dateManufacture_check.value == ""){
+		dateManufacture_check.focus();
+		alert("제조년월일을 입력해주십시오");
+		return false;
+	}
+	
+	var bestBeforeDate_check = document.getElementById("setBestBeforeDate");
+	if(bestBeforeDate_check.value == ""){
+		bestBeforeDate_check.focus();
+		alert("품질유지기한을 입력해주십시오");
+		return false;
+	}
+	
+	var transGenic_check = document.getElementById("setTransGenic");
+	if(transGenic_check.value == ""){
+		transGenic_check.focus();
+		alert("유전자 변형 농수산물 표시를 입력해주십시오");
+		return false;
+	}
+	
+	var storageMethod_check = document.getElementById("setStorageMethod");
+	if(storageMethod_check.value == ""){
+		storageMethod_check.focus();
+		alert("보관방법을 입력해주십시오");
+		return false;
+	}
+	
+	var consumerConsulation_check = document.getElementById("setConsumerConsulation");
+	if(consumerConsulation_check.value == ""){
+		consumerConsulation_check.focus();
+		alert("소비자상담문의를 입력해주십시오");
+		return false;
+	}
+	
+	alert("제목: " + setTitle.value + "\n" + 
+			"1차 카테고리: " + category1_check.options[category1_check.selectedIndex].text + "\n" + 
+			"1차 카테고리 값: " + category1_check.options[category1_check.selectedIndex].value + "\n" + 
+			"2차 카테고리: " + category2_check.options[category2_check.selectedIndex].text + "\n" + 
+			"2차 카테고리 값: " + category2_check.options[category2_check.selectedIndex].value + "\n" + 
+			"원산지 지역 코드: " + categoryLocal_check.options[categoryLocal_check.selectedIndex].value + "\n" + 
+			"판매가격: " + price_check.value + "\n" + 
+			"배송비: " + deliveryPrice_check.value + "\n" + 
+			"재고량: " + quantity_check.value + "\n" + 
+			"판매생산자: " + salesProducer_check.value + "\n" + 
+			"상품명: " + productName_check.value + "\n" + 
+			"중량: " + productWeight.value + "\n" + 
+			"크기: " + productSize_check.value + "\n" + 
+			"원산지: " + productCountry_check.value + "\n" + 
+			"제조년월일: " + dateManufacture_check.value + "\n" + 
+			"품질유지기한: " + bestBeforeDate_check.value + "\n" + 
+			"유전자 변형 농수산물 표시: " + transGenic_check.value + "\n" + 
+			"보관방법: " + storageMethod_check.value + "\n" + 
+			"소비자 상담문의: " + consumerConsulation_check.value);
 	
 	return true;
 }
+// submit check ==============================================================
 
+
+// 업로드하는 파일 확장자와 크기 체크 ==================================================
+function checkExtension(file, code){
+	
+	var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|7z)$"); // 검사할 확장자 추가하면 됨
+	var maxSize = 10000000; // 10MB 조금 안됨
+	
+	var getFile = document.getElementById(file.id);
+	var fileSize = getFile.files[0].size; // 업로드 파일 사이즈
+	var fileName = getFile.files[0].name; // 업로드 파일 이름
+	
+	if(fileSize >= maxSize){
+		alert("파일 사이즈를 초과하셧습니다");
+		getFile.value = "";
+		return false;
+	}
+	
+	if(regex.test(fileName)){
+		alert("지원하지 않는 파일 형식입니다.");
+		getFile.value = "";
+		return false;
+	}
+	
+	if(getTextLength(fileName) > 50){
+		alert("업로드할 이미지 이름이 50자를 초과하였습니다.(한글은 2자씩 소모)");
+		getFile.value = "";
+		return false;
+	}
+	
+	LoadImg(event, code);
+	
+	return true;
+}
+// 업로드하는 파일 확장자와 크기 체크  end ==============================================
+
+
+// 글자 이미지 수 체크 (한글은 2byte) =================================================
+var getTextLength = function(str) {
+    var len = 0;
+    for (var i = 0; i < str.length; i++) {
+        if (escape(str.charAt(i)).length == 6) {
+            len++;
+        }
+        len++;
+    }
+    return len;
+}
+//글자 이미지 수 체크 (한글은 2byte) end =============================================
+
+
+// 선택된 파일 이미지 보여주기 ========================================================
+function LoadImg(event, code) { 
+	
+	var reader = new FileReader();
+	reader.onload = function(event){
+		var img = document.createElement("img"); 
+		img.setAttribute("src", event.target.result); 
+		
+		switch(code){
+		    case 1:
+		    	if(document.querySelector("div#image_container_thumbnail > img")){
+		    		document.querySelector("div#image_container_thumbnail > img").remove();
+		    	}
+		    	document.querySelector("div#image_container_thumbnail").appendChild(img);
+		    	document.querySelector("div#image_container_thumbnail > img").style.height = '300px';
+		    	document.querySelector("div#image_container_thumbnail > img").style.width = '300px';
+			break;
+		    case 2:
+		    	if(document.querySelector("div#image_container_product_1 > img")){
+		    		document.querySelector("div#image_container_product_1 > img").remove();
+		    	}
+		    	document.querySelector("div#image_container_product_1").appendChild(img);
+		    	document.querySelector("div#image_container_product_1 > img").style.height = '300px';
+		    	document.querySelector("div#image_container_product_1 > img").style.width = '300px';
+			break;
+		    case 3:
+		    	if(document.querySelector("div#image_container_product_2 > img")){
+		    		document.querySelector("div#image_container_product_2 > img").remove();
+		    	}
+		    	document.querySelector("div#image_container_product_2").appendChild(img);
+		    	document.querySelector("div#image_container_product_2 > img").style.height = '300px';
+		    	document.querySelector("div#image_container_product_2 > img").style.width = '300px';
+			break;
+		    case 4:
+		    	if(document.querySelector("div#image_container_product_3 > img")){
+		    		document.querySelector("div#image_container_product_3 > img").remove();
+		    	}
+		    	document.querySelector("div#image_container_product_3").appendChild(img);
+		    	document.querySelector("div#image_container_product_3 > img").style.height = '300px';
+		    	document.querySelector("div#image_container_product_3 > img").style.width = '300px';
+			break;
+		    case 5:
+		    	if(document.querySelector("div#image_container_product_4 > img")){
+		    		document.querySelector("div#image_container_product_4 > img").remove();
+		    	}
+		    	document.querySelector("div#image_container_product_4").appendChild(img);
+		    	document.querySelector("div#image_container_product_4 > img").style.height = '300px';
+		    	document.querySelector("div#image_container_product_4 > img").style.width = '300px';
+			break;
+		}
+	}
+	
+	reader.readAsDataURL(event.target.files[0]);
+
+}
+//선택된 파일 이미지 보여주기 end =====================================================
+
+
+// 카테고리 옵션 check ===========================================================================
 function selectedOption_1(){
 	
 	var category_1 = document.getElementById("code01_idx");
@@ -17,10 +263,6 @@ function selectedOption_1(){
 	if(category_1.options[category_1.selectedIndex].value == 1){
 		if(category_2 == null) {
 			return;
-		}else{
-			for(var i = 1; i < category_2.options.length; i++){
-				category_2.options[i] = null;
-			}
 		}
 		category_2.options.length = 1;
 		
@@ -57,10 +299,6 @@ function selectedOption_1(){
 	if(category_1.options[category_1.selectedIndex].value == 2){
 		if(category_2 == null) {
 			return;
-		}else{
-			for(var i = 1; i < category_2.options.length; i++){
-				category_2.options[i] = null;
-			}
 		}
 		category_2.options.length = 1;
 		
@@ -101,10 +339,6 @@ function selectedOption_1(){
 	if(category_1.options[category_1.selectedIndex].value == 3){
 		if(category_2 == null) {
 			return;
-		}else{
-			for(var i = 1; i < category_2.options.length; i++){
-				category_2.options[i] = null;
-			}
 		}
 		category_2.options.length = 1;
 		
@@ -138,10 +372,6 @@ function selectedOption_1(){
 	if(category_1.options[category_1.selectedIndex].value == 4){
 		if(category_2 == null) {
 			return;
-		}else{
-			for(var i = 1; i < category_2.options.length; i++){
-				category_2.options[i] = null;
-			}
 		}
 		category_2.options.length = 1;
 		
@@ -187,10 +417,6 @@ function selectedOption_1(){
 	if(category_1.options[category_1.selectedIndex].value == 5){
 		if(category_2 == null) {
 			return;
-		}else{
-			for(var i = 1; i < category_2.options.length; i++){
-				category_2.options[i] = null;
-			}
 		}
 		category_2.options.length = 1;
 		
@@ -220,10 +446,6 @@ function selectedOption_1(){
 	if(category_1.options[category_1.selectedIndex].value == 6){
 		if(category_2 == null) {
 			return;
-		}else{
-			for(var i = 1; i < category_2.options.length; i++){
-				category_2.options[i] = null;
-			}
 		}
 		category_2.options.length = 1;
 		
@@ -269,10 +491,6 @@ function selectedOption_1(){
 	if(category_1.options[category_1.selectedIndex].value == 7){
 		if(category_2 == null) {
 			return;
-		}else{
-			for(var i = 1; i < category_2.options.length; i++){
-				category_2.options[i] = null;
-			}
 		}
 		category_2.options.length = 1;
 		
@@ -306,10 +524,6 @@ function selectedOption_1(){
 	if(category_1.options[category_1.selectedIndex].value == 8){
 		if(category_2 == null) {
 			return;
-		}else{
-			for(var i = 1; i < category_2.options.length; i++){
-				category_2.options[i] = null;
-			}
 		}
 		category_2.options.length = 1;
 		
@@ -359,10 +573,6 @@ function selectedOption_1(){
 	if(category_1.options[category_1.selectedIndex].value == 9){
 		if(category_2 == null) {
 			return;
-		}else{
-			for(var i = 1; i < category_2.options.length; i++){
-				category_2.options[i] = null;
-			}
 		}
 		category_2.options.length = 1;
 		
@@ -408,10 +618,6 @@ function selectedOption_1(){
 	if(category_1.options[category_1.selectedIndex].value == 10){
 		if(category_2 == null) {
 			return;
-		}else{
-			for(var i = 1; i < category_2.options.length; i++){
-				category_2.options[i] = null;
-			}
 		}
 		category_2.options.length = 1;
 		
@@ -439,4 +645,6 @@ function selectedOption_1(){
 		
 	}
 	// 카테고리10 - 차류 end ============================================================
+	
 }
+// 카테고리 옵션 check end =====================================================================

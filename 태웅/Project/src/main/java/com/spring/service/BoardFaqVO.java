@@ -1,17 +1,21 @@
 package com.spring.service;
 
+import java.sql.Date;
+
 public class BoardFaqVO {    // 자주묻는질문 게시판
 
-    private String faq_id;   // 게시판 등록 ID (기본키)
+    private int num;		 // 리스트 번호
     private String title;    // 게시판 제목
     private String content;  // 게시판 내용
-    private char sortation;  // 분류
     
-	public String getFaq_id() {
-		return faq_id;
+    private Date boarddate;
+    
+    
+    public int getNum() {
+		return num;
 	}
-	public void setFaq_id(String faq_id) {
-		this.faq_id = faq_id;
+	public void setNum(int num) {
+		this.num = num;
 	}
 	public String getTitle() {
 		return title;
@@ -25,10 +29,11 @@ public class BoardFaqVO {    // 자주묻는질문 게시판
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public char getSortation() {
-		return sortation;
+	public Date getBoarddate() {
+		return boarddate;
 	}
-	public void setSortation(char sortation) {
-		this.sortation = sortation;
+	public void setBoarddate(Date boarddate) {
+		this.boarddate = boarddate;
 	}
+	
 }

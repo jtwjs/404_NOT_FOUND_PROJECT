@@ -61,7 +61,7 @@
 }
 
 #update_profile-showingPart dl {
-	margin-right: 40px;
+	margin-right: 53px;
 }
 
 #update_profile-showingPart dt {
@@ -133,12 +133,44 @@
 	
 }
 
-
 .update_pw {
 	display: flex;
 	flex-direction: column;
 	padding: 15px 10px;
 }
+
+.update_pw input {
+	height: 28px;
+}
+
+.update_pw-existing,
+.update_pw-new,
+.update_pw-confirm {
+	display: flex;
+	align-items: center;
+	height: 38px;
+}
+
+.update_pw-existing {
+	margin-right: 20px;
+}
+
+.password_origin {
+	display: flex;
+	
+}
+
+.essential.pw,
+.virtual.pw {
+	margin-right: 5px;
+}
+
+#pw_changeBtn {
+	border: 1px solid rgba(54,54,54,0.1);
+    padding: 0 8px;
+}
+
+
 
 
 .update_addr {

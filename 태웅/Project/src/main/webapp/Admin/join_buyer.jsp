@@ -42,96 +42,191 @@
 	  </div>
 	</section>
     <main id="main">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-
-                    <div class="join__form--customer">
-                        <h5><b>회원정보 입력</b></h5>
-                        <form name="join__form--customer">
-
-                            <div class="join_name">
-                                <label for="userName" class="essential">이름</label>
-                                <input type="text" class="inputName" id="userName" name="userName" maxlength="20" value="">
-                            </div>
-
-                            <div class="join_id">
-                                <label for="userId" class="essential">아이디</label>
-                                <input type="text" class="inputId" id="userId" name="userId" maxlength="20" value="">
-                                <span class="guide">공백 없는 영문, 숫자 포함 6 ~ 20자</span>
-                            </div>
-
-                            <div class="join_pw">
-                                <label for="userPw" class="essential">비밀번호</label>
-                                <input type="password" class="inputPw" id="userPw" name="userpPw" maxlength="20" autocomplete="off">
-                                <span class="guide">공백 없는 영문, 숫자 포함 6 ~ 20자</span>
-                            </div>
-
-                            <div class="join_pwcheck">
-                                <label for="userPwCheck" class="essential">비밀번호 확인</label>
-                                <input type="password" class="inputPwCheck" id="userPwCheck" name="userPwCheck" maxlength="20" autocomplete="off">
-                                <span class="guide">비밀번호 확인을 위해 한번 더 입력하세요.</span>
-                            </div>
-
-                            <div class="join_email">
-                                <label for="email1" class="virtual">이메일 주소</label>
-                                <input type="text" class="inputEmail1" id="email01" name="email01" size="20" maxlength="20" value="">
-                                @
-                                <input type="text" class="inputEmail2" id="email02" name="email02" size="20" maxlength="20" value="">
-                                <select class="selectEmail3" name="selectEmail3" id="email03">
-                                    <option value="메일 선택" selected>메일 선택</option>
-                                    <option value="naver.com">naver.com</option>
-                                    <option value="daum.net">daum.net</option>
-                                    <option value="gmail.com">gmail.com</option>
-                                    <option value="yahoo.co.kr">yahoo.co.kr</option>
-                                    <option value="직접 입력">직접 입력</option>
-                                </select>
-                            </div>
-
-                            <div class="join_mPhone">
-                                <label for="mPhone1" class="essential">휴대폰번호</label>
-                                <select class="selectPhone" id="mPhone1" name="mPhone1">
-                                    <option value="010" selected>010</option>
-                                    <option value="011">011</option>
-                                    <option value="016">017</option>
-                                    <option value="018">018</option>
-                                    <option value="019">019</option>
-                                </select>
-                                -
-                                <input type="text" class="inputPhone2" id="mPhone2" name="mPhone2" value="" size="4" maxlength="4">
-                                -
-                                <input type="text" class="inputPhone3" id="mPhone3" name="mPhone3" value="" size="4" maxlength="4">
-
-                                <input type="checkbox" class="inputChkSms" name="chk_sms" id="sms_button" checked> SMS를 수신하겠습니다.
-
-                                <div class="smsAgree">
-                                    <br />SMS 수신에 동의하시면 여러가지 할인혜택과 각종 이벤트 정보를 받아보실 수 있습니다.
-                                    <br />회원가입관련, 주문배송관련 등의 SMS는 수신동의와 상관없이 구매 회원에게 발송됩니다.
-                                </div>
-                            </div>
-
-                            <div class="join_addr">
-                                <label for="addr" class="virtual">주소</label>
-                                <input type="text" id="sample4_postcode" class="inputAddrNum" name="addr_num" placeholder="우편번호">
-                                <button type="button" class="addrNumBtn" onclick="sample4_execDaumPostcode()">우편번호찾기</button><br>
-                                <input type="text" id="sample4_roadAddress" class="inputAddr1" id="sample4_roadAddress" placeholder="도로명주소">
-                                <span id="guide" style="color:#999;display:none"></span>
-                                <input type="text" class="inputAddr2" id="sample4_detailAddress" placeholder="상세주소">
-
-                                
-
-                            </div>
-
-                            <div class="join_finish">
-                                <br />
-                                <button type="button" class="submitBtn" onclick="location.href='JoinBuyerComplete.ad'">회원가입</button>
-                                <button type="button" class="resetBtn" onclick="location.href='Index.in'">취소</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+      <article id="join_buyer">
+        <form id="join_form" name="join__form" action="JoinBuyer.by" method="post">
+          <div class="join_buyer--agreement">
+            <h2>약관동의</h2>
+            <div class="agreement--content">
+              <ul>
+                <li>
+                  <div class="agreement-input">
+                    <input type="checkbox" name="agreement" id="agreement01" class="chkBox" />
+                    <label for="agreement01">이용약관에 동의합니다.(필수)</label>
+                  </div>
+                  <a href="termsUse.ad" class="btn_detail" target="_blank">전체보기</a>
+                </li>
+                <li>
+                  <div class="agreement-input">
+                    <input type="checkbox" name="agreement" id="agreement02" class="chkBox"/>
+                    <label for="agreement02">개인정보취급방침에 동의합니다.(필수)</label>
+                  </div>
+                  <a href="privacyPolicy.ad" class="btn_detail" target="_blank">전체보기</a>
+                </li>
+                <li>
+                  <div class="agreement-input">
+                    <input type="checkbox" name="agreement" id="agreement03" class="chkBox" />
+                    <label for="agreement03">본인은 만 14세 이상입니다.(선택)</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="agreement-input">
+                    <input type="checkbox" name="agreement" id="agreement04" class="chkBox" />
+                    <label for="agreement04">문자 수신에 동의합니다.(선택)</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="agreement-input">
+                    <input type="checkbox" name="agreement" id="agreement05" class="chkBox" />
+                    <label for="agreement05">이메일 수신에 동의합니다.(선택)</label>
+                  </div>
+                </li>
+              </ul>
+              <p class="agreement-input">
+                <input type="checkbox" name="agreementAll" id="agreementAll" />
+                <label for="agreementAll">이용약관,개인정보취급방침,문자,이메일 수신에 모두 동의합니다.</label>
+              </p>
             </div>
-        </div>
+          </div>
+          <div class="join_buyer--required-info">
+            <h2>필수정보입력</h2>
+            <div class="required-info--content">
+              <ul>
+                <li>
+                  <div class="required-info--input">
+                    <div class="label">
+                      구분
+                    </div>
+                    <div class="label-content first">
+                      구매회원
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="required-info--input">
+                    <label for="userName" class="label">
+                      이름
+                    </label>
+                    <div class="label-content">
+                      <input type="text" id="userName" name="name" minlength="2" maxlength="16" placeholder="이름을 입력하세요" required />
+                      <p id="name_check" class="check hide"></p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="required-info--input">
+                    <label for="userId" class="label">
+                      아이디
+                    </label>
+                    <div class="label-content">
+                      <input type="text" id="userId" name="id" minlength="5" maxlength="16" placeholder="공백 없는 5 ~ 16자의 영문 소문자,숫자 포함" required />
+                      <p id="id_check" class="check hide"></p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="required-info--input">
+                    <label for="userPw" class="label">
+                      비밀번호
+                    </label>
+                    <div class="label-content">
+                      <p class="password">
+                        <input type="password" id="userPw" name="password" minlength="8" maxlength="16" autocomplete="off"
+                        placeholder="공백 없는 8 ~ 16자의 영문 대/소문자,숫자 및 특수문자 포함"required/>
+                      </p>
+                      <p id="pw_check" class="check hide"></p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="required-info--input">
+                    <label for="userPwCheck" class="label">
+                      비밀번호 확인
+                    </label>
+                    <div class="label-content">
+                    <p class="password-confirm">
+                      <input type="password" id="userPwCheck" minlength="8" maxlength="16" autocomplete="off" placeholder="비밀번호 확인을 위해 한번 더 입력하세요." required />
+                      </p>
+                      <p id="pwConfirm_check" class="check hide"></p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div id="tel-input" class="required-info--input">
+                    <label for="mPhone1" class="label">
+                      연락처
+                    </label>
+                    <div class="label-content--tel">
+                      <div class="label-content">
+                      <p class="tel">
+                          <select id="mPhone1" name="telCarrierNum">
+                            <option value="010" selected>010</option>
+                            <option value="011">011</option>
+                            <option value="016">017</option>
+                            <option value="018">018</option>
+                            <option value="019">019</option>
+                          </select>
+                          <input type="text" id="mPhone2" name="telAllocationNum" value="" size="4" maxlength="4" required />
+                          <input type="text" id="mPhone3" name="telDiscretionaryNum" value="" size="4" maxlength="4" required />
+                          <a href="#" class="sendAtNum-btn">인증번호 발송</a>
+                          </p>
+                        <p id="tel_check" class="check hide"></p>
+                      </div>
+                      <div class="Authentication">
+                        <input type="text" id="Authentication-num" placeholder="인증정보확인" />
+                        <a href="#" class="AtNum-confirm-btn">확인</a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="required-info--input">
+                    <label for="userPwCheck" class="label">
+                      이메일
+                    </label>
+                    <div class="label-content e-mail">
+                      <input type="text" id="email01" name="emailId" size="20" maxlength="20" />
+                      <p class="email-address">
+                        <input type="text" id="email02" name="emailAddr" size="20" maxlength="20" />
+                      </p>
+                      <select name="selectEmail3" id="email03">
+                        <option value="">직접 입력</option>
+                        <option value="naver.com">naver.com</option>
+                        <option value="daum.net">daum.net</option>
+                        <option value="gmail.com">gmail.com</option>
+                        <option value="hanmail.net">hanmail.net</option>
+                        <option value="hotmail.com">hotmail.com</option>
+                        <option value="nate.com">nate.com</option>
+                        <option value="yahoo.co.kr">yahoo.co.kr</option>
+                      </select>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="required-info--input addr">
+                    <label class="label">
+                      주소<span class="enter">(기본배송지)</span>
+                    </label>
+                    <div class="label-content">
+                    <div class="zip-code">
+                      <input type="text" id="sample4_postcode"  placeholder="우편번호" name="addrNum" readonly  required />
+                      <button type="button" id="zip-code-btn" onclick="sample4_execDaumPostcode()">우편번호찾기</button>
+                      </div>
+                      <input type="text" id="sample4_roadAddress" class="address--road" name="addrRoadName" id="sample4_roadAddress" placeholder="도로명주소" readonly required>
+                      <span id="guide" style="color:#999;display:none"></span>
+                      <input type="text" class="address--detail" id="sample4_detailAddress" name="addrDetail" placeholder="상세주소">
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="join_button">
+            <button type="button" class="submitBtn">가입완료</button>
+            <button type="button" class="resetBtn" onclick="location.href='Index.in'">취소</button>
+          </div>
+        </form>
+      </article>
     </main>
     <!-- contents 끝 -->
 
@@ -140,6 +235,7 @@
     <script type="text/javascript" src="<c:url value='/resources/js/Admin/post_search.js'/>" ></script>
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
+    <script type="text/javascript" src="<c:url value='/resources/js/Admin/join_buyer.js?after'/>" ></script>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    
     <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js?after'/>" ></script>
     <script type="text/javascript" src="<c:url value='/resources/js/module/header.js?after'/>" ></script>

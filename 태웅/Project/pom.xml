@@ -8,11 +8,13 @@
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
-		<java-version>1.8</java-version>
+		<java-version>11</java-version>
 		<org.springframework-version>5.0.7.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<spring.security.version>5.0.6.RELEASE</spring.security.version>
 	</properties>
+	
 	
 	<!-- Oracle -->
 	<repositories>
@@ -41,7 +43,39 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-				
+			
+		<!-- Spring Security 사용을 위한 dependency -->
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-core</artifactId>
+        <version>${spring.security.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-web</artifactId>
+        <version>${spring.security.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-config</artifactId>
+        <version>${spring.security.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-taglibs</artifactId>
+        <version>${spring.security.version}</version>
+        <type>jar</type>
+ 		<scope>compile</scope>
+    </dependency>
+    
+    <dependency>
+    	<groupId>org.springframework.security</groupId>
+    	<artifactId>spring-security-test</artifactId>
+    	<scope>test</scope>
+    	<version>${spring.security.version}</version>
+    </dependency>
+    <!-- Spring Security 사용을 위한 dependency -->
+					
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -117,7 +151,8 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-	
+		
+
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -214,9 +249,25 @@
 		    <version>1.11.3</version>
 		</dependency>
 		
+		
+
+
+
+		
 	</dependencies>
     <build>
         <plugins>
+        
+        <!-- web.xml이 없어도 문제삼지않겠다는 설정 -->
+        	<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-war-plugin</artifactId>
+			    <version>3.2.3</version>
+			    <configuration>
+			        <failOnMissingWebXml>false</failOnMissingWebXml>
+			    </configuration>
+			</plugin>    
+        
             <plugin>
                 <artifactId>maven-eclipse-plugin</artifactId>
                 <version>2.9</version>
@@ -236,8 +287,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.5.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>11</source>
+                    <target>11</target>
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>

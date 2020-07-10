@@ -1,33 +1,42 @@
 package com.spring.seller;
 
-import java.util.Date;
 
-public class SellerVO {              // 판매자 (개인사업자)
+public class SellerVO {     
+
+	private String id;
+	private String password;
+	private String shopName;
+	private String represent;
+	private String telCarrierNum;
+    private String telAllocationNum;
+    private String telDiscretionaryNum;
+	private String tel;
+	private String emailId;
+    private String emailAddr;
+	private String email;
+	private String addrNum;
+    private String addrRoadName;
+    private String addrDetail;
+    private String address;  
+	private String name;
+	private String orderReportNum;
+	private String orderReportImg;
+	private String bankName;
+	private String bankAccountNum;
+	private String profileImg;
+	private String memberType;
+	private String joinDate;
+	private String wtdrDate;
+	private String loginDate;
+	private int sellerNum;
+	private char grade;
+	private char delFlag;
 	
-    private String seller_id;        // 판매자 ID (기본키)
-    private String password;         // 비밀번호
-    private String license;          // 사업자등록번호
-    private String shop_name;        // 상호명
-    private String representative;   // 대표자
-    private String manager_phone;    // 담당자 연락처
-    private String manager_email;    // 담당자 이메일
-    private String manager_name;     // 담당자 이름
-    private String corp_reg_num;     // 법인등록번호
-    private String sales_ref_num;    // 통신판매신고번호
-    private String method_payment;   // 정산대금수령방법
-    private String bank_account;     // 정산대금입금계좌
-    private int seller_reg_num;      // 판매자 등록번호
-    private char seller_grade;       // 판매자 등급
-    private char member_type;         // 멤버타입 (2, 판매자)
-    private char del_flag;           // 탈퇴여부 (Y,N으로 구분)
-    private Date join_date;          // 회원가입일
-    private Date wdf_date;           // 회원탈퇴일
-    
-	public String getSeller_id() {
-		return seller_id;
+	public String getId() {
+		return id;
 	}
-	public void setSeller_id(String seller_id) {
-		this.seller_id = seller_id;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getPassword() {
 		return password;
@@ -35,102 +44,165 @@ public class SellerVO {              // 판매자 (개인사업자)
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getLicense() {
-		return license;
+	public String getShopName() {
+		return shopName;
 	}
-	public void setLicense(String license) {
-		this.license = license;
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
 	}
-	public String getShop_name() {
-		return shop_name;
+	public String getRepresent() {
+		return represent;
 	}
-	public void setShop_name(String shop_name) {
-		this.shop_name = shop_name;
+	public void setRepresent(String represent) {
+		this.represent = represent;
 	}
-	public String getRepresentative() {
-		return representative;
+	public String getTelCarrierNum() {
+		return telCarrierNum;
 	}
-	public void setRepresentative(String representative) {
-		this.representative = representative;
+	public void setTelCarrierNum(String telCarrierNum) {
+		this.telCarrierNum = telCarrierNum;
 	}
-	public String getManager_phone() {
-		return manager_phone;
+	public String getTelAllocationNum() {
+		return telAllocationNum;
 	}
-	public void setManager_phone(String manager_phone) {
-		this.manager_phone = manager_phone;
+	public void setTelAllocationNum(String telAllocationNum) {
+		this.telAllocationNum = telAllocationNum;
 	}
-	public String getManager_email() {
-		return manager_email;
+	public String getTelDiscretionaryNum() {
+		return telDiscretionaryNum;
 	}
-	public void setManager_email(String manager_email) {
-		this.manager_email = manager_email;
+	public void setTelDiscretionaryNum(String telDiscretionaryNum) {
+		this.telDiscretionaryNum = telDiscretionaryNum;
 	}
-	public String getManager_name() {
-		return manager_name;
+	public String getTel() {
+		return tel;
 	}
-	public void setManager_name(String manager_name) {
-		this.manager_name = manager_name;
+	public void setTel(String telCarrierNum,String telAllocationNum, String telDiscretionaryNum) {
+		this.tel = telCarrierNum + telAllocationNum + telDiscretionaryNum;
 	}
-	public String getCorp_reg_num() {
-		return corp_reg_num;
+	public String getEmailId() {
+		return emailId;
 	}
-	public void setCorp_reg_num(String corp_reg_num) {
-		this.corp_reg_num = corp_reg_num;
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
 	}
-	public String getSales_ref_num() {
-		return sales_ref_num;
+	public String getEmailAddr() {
+		return emailAddr;
 	}
-	public void setSales_ref_num(String sales_ref_num) {
-		this.sales_ref_num = sales_ref_num;
+	public void setEmailAddr(String emailAddr) {
+		this.emailAddr = emailAddr;
 	}
-	public String getMethod_payment() {
-		return method_payment;
+	public String getEmail() {
+		return email;
 	}
-	public void setMethod_payment(String method_payment) {
-		this.method_payment = method_payment;
+	public void setEmail(String emailId, String emailAddr) {
+		this.email = emailId + "@" + emailAddr;
 	}
-	public String getBank_account() {
-		return bank_account;
+	public String getAddrNum() {
+		return addrNum;
 	}
-	public void setBank_account(String bank_account) {
-		this.bank_account = bank_account;
+	public void setAddrNum(String addrNum) {
+		this.addrNum = addrNum;
 	}
-	public int getSeller_reg_num() {
-		return seller_reg_num;
+	public String getAddrRoadName() {
+		return addrRoadName;
 	}
-	public void setSeller_reg_num(int seller_reg_num) {
-		this.seller_reg_num = seller_reg_num;
+	public void setAddrRoadName(String addrRoadName) {
+		this.addrRoadName = addrRoadName;
 	}
-	public char getSeller_grade() {
-		return seller_grade;
+	public String getAddrDetail() {
+		return addrDetail;
 	}
-	public void setSeller_grade(char seller_grade) {
-		this.seller_grade = seller_grade;
+	public void setAddrDetail(String addrDetail) {
+		this.addrDetail = addrDetail;
 	}
-	public char getMember_type() {
-		return member_type;
+	public String getAddress() {
+		return address;
 	}
-	public void setMember_type(char member_type) {
-		this.member_type = member_type;
+	public void setAddress(String addrNum, String addrRoadName, String addrDetail) {
+		this.address = addrNum + " " + addrRoadName + " " + addrDetail;
 	}
-	public char getDel_flag() {
-		return del_flag;
+	public String getName() {
+		return name;
 	}
-	public void setDel_flag(char del_flag) {
-		this.del_flag = del_flag;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public Date getJoin_date() {
-		return join_date;
+	public String getOrderReportNum() {
+		return orderReportNum;
 	}
-	public void setJoin_date(Date join_date) {
-		this.join_date = join_date;
+	public void setOrderReportNum(String orderReportNum) {
+		this.orderReportNum = orderReportNum;
 	}
-	public Date getWdf_date() {
-		return wdf_date;
+	public String getOrderReportImg() {
+		return orderReportImg;
 	}
-	public void setWdf_date(Date wdf_date) {
-		this.wdf_date = wdf_date;
+	public void setOrderReportImg(String orderReportImg) {
+		this.orderReportImg = orderReportImg;
 	}
-    
+	public String getBankName() {
+		return bankName;
+	}
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+	public String getBankAccountNum() {
+		return bankAccountNum;
+	}
+	public void setBankAccountNum(String bankAccountNum) {
+		this.bankAccountNum = bankAccountNum;
+	}
+
+	public String getProfileImg() {
+		return profileImg;
+	}
+	public void setProfileImg(String profileImg) {
+		this.profileImg = profileImg;
+	}
+	public int getSellerNum() {
+		return sellerNum;
+	}
+	public void setSellerNum(int sellerNum) {
+		this.sellerNum = sellerNum;
+	}
+	public char getGrade() {
+		return grade;
+	}
+	public void setGrade(char grade) {
+		this.grade = grade;
+	}
+	public String getMemberType() {
+		return memberType;
+	}
+	public void setMemberType(String memberType) {
+		this.memberType = memberType;
+	}
+	public char getDelFlag() {
+		return delFlag;
+	}
+	public void setDelFlag(char delFlag) {
+		this.delFlag = delFlag;
+	}
+	public String getJoinDate() {
+		return joinDate;
+	}
+	public void setJoinDate(String joinDate) {
+		this.joinDate = joinDate;
+	}
+	public String getWtdrDate() {
+		return wtdrDate;
+	}
+	public void setWtdrDate(String wtdrDate) {
+		this.wtdrDate = wtdrDate;
+	}
+	public String getLoginDate() {
+		return loginDate;
+	}
+	public void setLoginDate(String loginDate) {
+		this.loginDate = loginDate;
+	}
+	
+	
+              
     
 }

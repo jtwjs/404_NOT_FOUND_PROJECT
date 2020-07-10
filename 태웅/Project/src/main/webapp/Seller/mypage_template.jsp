@@ -6,12 +6,12 @@
                             <article id="side__profile">
                                 <dl>
                                     <dt class="profile-img">
-                                        <img src="./resources/Images/Seller/profile.jpg" alt="profile" />
+                                        <img src="./resources/Images/Seller/${profileImg}" alt="profile" />
                                     </dt>
                                     <dd class="profile-content">
                                         <p class="seller">판매자</p>
-                                        <p><span id="profile-name">윤기석</span> 님</p>
-                                        <p>마지막 접속일자: <span id="last_access_date">2020.06.23</span></p>
+                                        <p><span id="profile-name">${name}</span> 님</p>
+                                        <p>마지막 접속일자: <span id="last_access_date">${loginDate}</span></p>
                                     </dd>
                                 </dl>
                             </article>

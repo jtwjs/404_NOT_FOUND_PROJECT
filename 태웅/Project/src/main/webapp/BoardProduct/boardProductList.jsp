@@ -1,11 +1,57 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="org.springframework.web.util.UrlPathHelper" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.spring.boardproduct.BoardProductVO" %>
+<%@ page import="com.spring.boardproduct.PageMaker" %>
 <%
-    int nowpage = 0;
-    int startpage = 0;
-    int endpage = 0;
-    int maxpage = 0;
+	UrlPathHelper urlPathHelper = new UrlPathHelper(); 
+    String originalURL = urlPathHelper.getOriginatingRequestUri(request); // 현재 view url 경로 찾기
+    
+    String category_param_name = null;
+    String category_param_code = null;
+    
+    if(request.getParameter("category_1") != null){
+    	category_param_name = "category_1";
+    	category_param_code = request.getParameter("category_1");
+    }
+    
+    if(request.getParameter("category_2") != null){
+    	category_param_name = "category_2";
+    	category_param_code = request.getParameter("category_2");
+    }
+    
+    if(request.getParameter("category_local") != null){
+    	category_param_name = "category_local";
+    	category_param_code = request.getParameter("category_local");
+    }
+    
+    int sort_list = 0;
+    if((int)request.getAttribute("sort_list") != 0){
+    	sort_list = (int)request.getAttribute("sort_list");
+    }
+    
+    ArrayList<BoardProductVO> vo_list = null;
+    if((ArrayList<BoardProductVO>)request.getAttribute("vo_list") != null){
+    	vo_list = (ArrayList<BoardProductVO>)request.getAttribute("vo_list");
+    }
+    
+    String category_title = null;
+    ArrayList<String> category_sub = null;
+    int category_code = 0;
+    if((String)request.getAttribute("category_title") != null){
+    	category_title = (String)request.getAttribute("category_title");
+    }
+    if((ArrayList<String>)request.getAttribute("category_sub") != null){
+    	category_sub = (ArrayList<String>)request.getAttribute("category_sub");
+    }
+    
+    PageMaker pageMaker = null;
+    if((PageMaker)request.getAttribute("pageMaker") != null){
+    	pageMaker = (PageMaker)request.getAttribute("pageMaker");
+    }
+    
 %>
 <!DOCTYPE html>
 <html>
@@ -52,52 +98,66 @@
 
                     <div class="category-table">
                         <div class="category-title">
-                            <b><a href="#">쌀 / 잡곡</a></b>
+                            <%if(request.getParameter("category_local") != null){ %>
+                            <b><%=category_title %></b>
+                            <%}else{ %>
+                            <b><a href="BoardProductList.bo?category_1=<%=category_param_code.charAt(0) %>">
+                                <%=category_title %></a></b>
+                            <%} %>
                         </div>
-
-                        <hr />
 
                         <table>
                             <tr>
                                 <td>
                                     <div class="category_contents"></div>
-                            </tr>
-                            <tr>
-                                <td><a href="#">· 백미</a></td>
-                                <td><a href="#">· 현미 / 찹쌀 / 흑미</a></td>
-                                <td><a href="#">· 콩 / 팥 / 보리</a></td>
-                                <td><a href="#">· 조 / 수수 / 깨 / 기타</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <br />
                                 </td>
                             </tr>
-                            <tr>
-                                <td><a href="#">· 곡류선물세트</a></td>
-                            </tr>
+                            
+                            <hr />
+                            
+                            <%
+                            String param_code = category_param_code.charAt(0) + "0";
+                                for(int i = 1; i <= category_sub.size(); i++){ 
+                                if(i % 4 == 1){ %>
+                                <tr>
+                                <%} %>
+                                    <td class="category-table__list">
+                                    <%if(request.getParameter("category_local") != null){ %>
+                                    <a href="BoardProductList.bo?category_local=<%=i%>">
+                                        · <%=category_sub.get(i-1) %></a>
+                                    <%}else{ %>
+                                    <a href="BoardProductList.bo?category_2=<%=param_code + i%>">
+                                        · <%=category_sub.get(i-1) %></a>
+                                    <%} %>
+                                    </td>
+                                <%if(i % 4 == 0){ %>
+                                </tr>
+                                <%} 
+                                }%>
+                            
                         </table>
-            
+                        
                         <hr />
-
-                        <div>
+            
+                        <div id="view-table">
                             <table width="100%" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
                                     <td align="left">
-                                        전체 상품 () 개
+                                        전체 상품 <%=pageMaker.getTotal() %> 개
                                     </td>
                                     <td align="right">
-                                        <a href="#">인기순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                                        <a href="#">최근등록순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                                        <a href="#">판매인기순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                                        <a href="#">낮은가격순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                                        <a href="#">높은가격순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                                        <select class="qty_view" name="perpage"
-                                            onchange="document.location.href='?perpage='+this.value+'&code=0004'">
-                                            <option value="32">32개씩 보기</option>
-                                            <option value="64">64개씩 보기</option>
-                                            <option value="96">96개씩 보기</option>
-                                            <option value="192">192개씩 보기</option>
+                                        <a href="#" onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', 1, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">인기순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                        <a href="#" onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', 2, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">최근등록순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                        <a href="#" onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', 3, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">판매인기순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                        <a href="#" onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', 4, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">낮은가격순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                        <a href="#" onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', 5, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">높은가격순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                        
+                                        <select class="qty_view" name="perpage" id="qty_view" 
+                                            onchange="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', '<%=sort_list %>', '<%=pageMaker.getPage_num()%>', this.value);">
+                                            <option value="5" <c:if test="$('#qty_view option:selected').val() == 5"> selected </c:if>>5개씩 보기</option>
+                                            <option value="10" <c:if test="$('#qty_view option:selected').val() == 10"> selected </c:if>>10개씩 보기</option>
+                                            <option value="15" <c:if test="$('#qty_view option:selected').val() == 15"> selected </c:if>>15개씩 보기</option>
+                                            <option value="20" <c:if test="$('#qty_view option:selected').val() == 20"> selected </c:if>>20개씩 보기</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -107,110 +167,26 @@
                         <div class="clear"></div>
 
                         <hr />
-
+                        
+                        <%if(vo_list.size() == 0){ %>
+                        <div id="non-box">검색된 상품이 없습니다</div>
+                        <%} %>
                         <div id="new">
-                            <div class="item_box" onclick="javascript:location.href='BoardProductView.bo'">
+                            <%for(int i = 0; i < vo_list.size(); i++){ %>
+                            <div class="item_box" 
+                            onclick="javascript:location.href='BoardProductView.bo?board_id=<%=vo_list.get(i).getBoard_id()%>'">
                                 <ul class="item">
-                                    <li><img src="./resources/Images/BoardProduct/exRice.png"></li>
-                                    <li class="subject">홍천곡산 고향찰현미 10kg</li>
-                                    <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
-                                    <li class="price">40,000원</li>
+                                    <li><img src="<%=vo_list.get(i).getThumbnail_thum_path() %><%=vo_list.get(i).getThumbnail_thum()%>"></li>
+                                    <li class="subject"><%=vo_list.get(i).getTitle() %></li>
+                                    <li class="price"><%=vo_list.get(i).getPrice() %>원</li>
+                                    <%if(vo_list.get(i).getDelivery_price() != 0){ %>
+                                    <li class="comment">배송비 <%=vo_list.get(i).getDelivery_price() %>원</li>
+                                    <%}else{ %>
+                                    <li class="comment">무료배송</li>
+                                    <%} %>
                                 </ul>
                             </div>
-                            <div class="item_box">
-                                <ul class="item">
-                                    <li><img src="./resources/Images/BoardProduct/exRice.png"></li>
-                                    <li class="subject">홍천곡산 고향찰현미 4kg</li>
-                                    <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
-                                    <li class="price">20,000원</li>
-                                </ul>
-                            </div>
-                            <div class="item_box">
-                                <ul class="item">
-                                    <li><img src="./resources/Images/BoardProduct/exRice.png"></li>
-                                    <li class="subject">홍천곡산 고향찰현미 20kg</li>
-                                    <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
-                                    <li class="price">75,000원</li>
-                                </ul>
-                            </div>
-                            <div class="item_box">
-                                <ul class="item">
-                                    <li><img src="./resources/Images/BoardProduct/exRice.png"></li>
-                                    <li class="subject">홍천곡산 고향찹쌀 10kg</li>
-                                    <li class="comment">구수한 누룽지 향이 일품인 찹쌀입니다.</li>
-                                    <li class="price">40,000원</li>
-                                </ul>
-                            </div>
-
-                            <div class="clear"></div>
-
-                            <div class="item_box">
-                                <ul class="item">
-                                    <li><img src="./resources/Images/BoardProduct/exRice.png"></li>
-                                    <li class="subject">홍천곡산 고향찰현미 10kg</li>
-                                    <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
-                                    <li class="price">40,000원</li>
-                                </ul>
-                            </div>
-                            <div class="item_box">
-                                <ul class="item">
-                                    <li><img src="./resources/Images/BoardProduct/exRice.png"></li>
-                                    <li class="subject">홍천곡산 고향찰현미 4kg</li>
-                                    <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
-                                    <li class="price">20,000원</li>
-                                </ul>
-                            </div>
-                            <div class="item_box">
-                                <ul class="item">
-                                    <li><img src="./resources/Images/BoardProduct/exRice.png"></li>
-                                    <li class="subject">홍천곡산 고향찰현미 20kg</li>
-                                    <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
-                                    <li class="price">75,000원</li>
-                                </ul>
-                            </div>
-                            <div class="item_box">
-                                <ul class="item">
-                                    <li><img src="./resources/Images/BoardProduct/exRice.png"></li>
-                                    <li class="subject">홍천곡산 고향찹쌀 10kg</li>
-                                    <li class="comment">구수한 누룽지 향이 일품인 찹쌀입니다.</li>
-                                    <li class="price">40,000원</li>
-                                </ul>
-                            </div>
-
-                            <div class="clear"></div>
-
-                            <div class="item_box">
-                                <ul class="item">
-                                    <li><img src="./resources/Images/BoardProduct/exRice.png"></li>
-                                    <li class="subject">홍천곡산 고향찰현미 10kg</li>
-                                    <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
-                                    <li class="price">40,000원</li>
-                                </ul>
-                            </div>
-                            <div class="item_box">
-                                <ul class="item">
-                                    <li><img src="./resources/Images/BoardProduct/exRice.png"></li>
-                                    <li class="subject">홍천곡산 고향찰현미 4kg</li>
-                                    <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
-                                    <li class="price">20,000원</li>
-                                </ul>
-                            </div>
-                            <div class="item_box">
-                                <ul class="item">
-                                    <li><img src="./resources/Images/BoardProduct/exRice.png"></li>
-                                    <li class="subject">홍천곡산 고향찰현미 20kg</li>
-                                    <li class="comment">구수한 누룽지 향이 일품인 찰현미입니다.</li>
-                                    <li class="price">75,000원</li>
-                                </ul>
-                            </div>
-                            <div class="item_box">
-                                <ul class="item">
-                                    <li><img src="./resources/Images/BoardProduct/exRice.png"></li>
-                                    <li class="subject">홍천곡산 고향찹쌀 10kg</li>
-                                    <li class="comment">구수한 누룽지 향이 일품인 찹쌀입니다.</li>
-                                    <li class="price">40,000원</li>
-                                </ul>
-                            </div>
+                            <%} %>
                         </div> 
                         <!-- new 끝-->
 
@@ -218,31 +194,22 @@
 
                         <div class="clear"></div>
 
-                        <div>
-                            <tr align="center" height="20">
-                                <td colspan=7 style=font-family:Tahoma;font-size:10pt;>
-                                    <%if(nowpage<=1){ %>
-                                    [이전]&nbsp;
-                                    <%}else{ %>
-                                    <a href="./boardlist.bo?page=<%=nowpage-1 %>">[이전]</a>&nbsp;
-                                    <%} %>
+                        <div id="isPage">
+                            <%if(pageMaker.isPrev()){ %>
+                                <input type="button" value="◀" onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', '<%=sort_list %>', '<%=pageMaker.getPage_num()-1%>', '<%=pageMaker.getPage_amount()%>')" />
+                            <%} %>
                                 
-                                    <%for(int a=startpage;a<=endpage;a++){
-                                          if(a==nowpage){%>
-                                        [<%=a %>]
-                                        <%}else{ %>
-                                        <a href="./boardlist.bo?page=<%=a %>">[<%=a %>]</a>
-                                        &nbsp;
-                                        <%} %>
-                                    <%} %>
+                            <%for(int a=pageMaker.getStartPage();a<=pageMaker.getEndPage();a++){
+                                  if(a==pageMaker.getPage_num()){%>
+                                    <input type="button" value="<%=a %>" readonly/>
+                                <%}else{ %>
+                                    <input type="button" value="<%=a %>"onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', '<%=sort_list %>', '<%=a%>', '<%=pageMaker.getPage_amount()%>')" />
+                                <%}
+                            } %>
                                 
-                                    <%if(nowpage>=maxpage){ %>
-                                    [다음]
-                                    <%}else{ %>
-                                    <a href="./boardlist.bo?page=<%=nowpage+1 %>">[다음]</a>
-                                    <%} %>
-                                </td>
-                            </tr>
+                            <%if(pageMaker.isNext()){ %>
+                                <input type="button" value="▶" onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', '<%=sort_list %>', '<%=pageMaker.getPage_num()+1%>', '<%=pageMaker.getPage_amount()%>')" />
+                            <%} %>
                         </div>
 
                         <br /><hr /><br />
@@ -254,7 +221,7 @@
     </main>
     <!-- contents 끝 -->
 
-
+    <script type="text/javascript" src="<c:url value='/resources/js/BoardProduct/boardProductList.js?after'/>" ></script>
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    

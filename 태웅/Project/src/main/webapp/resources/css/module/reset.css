@@ -20,6 +20,10 @@ a:hover {
   color: currentColor;
 }
 
+label {
+	margin-bottom: 0;
+}
+
 button,
 input,
 textarea {

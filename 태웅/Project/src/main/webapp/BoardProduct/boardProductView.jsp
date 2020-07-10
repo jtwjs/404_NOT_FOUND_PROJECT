@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.spring.boardproduct.BoardProductVO" %>
+<%
+    BoardProductVO vo = null;
+    if((BoardProductVO)request.getAttribute("vo") != null){
+    	vo = (BoardProductVO)request.getAttribute("vo");
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +19,7 @@
     <!-- header, css end -->
     <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/BoardProduct/boardProductView.css'/>" rel="stylesheet" />
-    <title></title>
+    <title><%=vo.getTitle() %></title>
 </head>
 <body>
    <section id="sub-main" class="seller">
@@ -51,13 +58,20 @@
 
                         <!-- 이미지 -->
                         <div class="seller__datathumb--img">
-                            <div class="seller-imgBig" style="background-image: url(#);">
-                                <img src="#" alt="">
+                            <div class="seller-imgBig">
+                                <img src="<%=vo.getProduct_origin_path() %><%=vo.getProduct_origin_1() %>" alt="">
                             </div>
                             
                             <div class="seller__img--thumb">
                                 <ul>
-                                    <li><img src="#" alt=""></li>
+                                    <li><img src="<%=vo.getProduct_thum_path() %><%=vo.getProduct_thum_1() %>" 
+                                        alt="" onclick="selectBigImg(1);"></li>
+                                    <li><img src="<%=vo.getProduct_thum_path() %><%=vo.getProduct_thum_2() %>" 
+                                        alt="" onclick="selectBigImg(2);"></li>
+                                    <li><img src="<%=vo.getProduct_thum_path() %><%=vo.getProduct_thum_3() %>" 
+                                        alt="" onclick="selectBigImg(3);"></li>
+                                    <li><img src="<%=vo.getProduct_thum_path() %><%=vo.getProduct_thum_4() %>" 
+                                        alt="" onclick="selectBigImg(4);"></li>
                                 </ul>
                             </div>
                         </div>
@@ -65,29 +79,25 @@
                         <!-- 제품 설명란 -->
                         <div class="seller__datatxt">
                             <div class="seller__datatxtBox">
-                                <div class="seller__datatitle">
-                                    상품명  대
-                                </div>
+                                <div class="seller__datatitle"><%=vo.getTitle() %></div>
                             </div>
                             
                             <div class="seller__datatxtBox">
-                                <div class="seller__datatxtarea">
-                                    상품명  소  
-                                </div>
+                                <div class="seller__datatxtarea"></div>
                             </div>
                             <hr />
 
                             <div class="seller__datatxtBox">
                                 <ul>
-                                    <li>판매가</li>
-                                    <li>금액</li>
+                                    <li class="dataBox__title">판매가</li>
+                                    <li class="dataBox__content"><%=vo.getPrice() %></li>
                                 </ul>
                             </div>
 
                             <div class="seller__datatxtBox">
                                 <ul>
-                                    <li>배송</li>
-                                    <li>
+                                    <li class="dataBox__title">배송</li>
+                                    <li class="dataBox__content">
                                         <select class="selectDelivery" name="selectDelivery" id="delivery">
                                             <option value="택배(선불)" selected>택배(선불)</option>
                                             <option value="후불">후불</option>
@@ -100,81 +110,89 @@
 
                             <div class="seller__datatxtBox">
                                 <ul>
-                                    <li>배송비</li>
-                                    <li>금액</li>
+                                    <li class="dataBox__title">배송비</li>
+                                    <li class="dataBox__content">
+                                        <%if(vo.getDelivery_price() == 0){ %>
+                                        <span>무료배송</span>
+                                        <%}else{ %>
+                                        <span><%=vo.getDelivery_price() %></span>
+                                        <%} %>
+                                    </li>
                                 </ul>
                             </div>
 
                             <div class="seller__datatxtBox">
                                 <ul>
-                                    <li>고객평가</li>
-                                    <li>()건 0.0/5</li>
+                                    <li class="dataBox__title">고객평가</li>
+                                    <li class="dataBox__content">()건 <%=vo.getSatisfaction() %>/5</li>
                                 </ul>
                             </div>
 
                             <div class="seller__datatxtBox">
                                 <ul>
-                                    <li>원산지</li>
-                                    <li>국내산</li>
+                                    <li class="dataBox__title">원산지</li>
+                                    <li class="dataBox__content"><%=vo.getProduct_country() %></li>
                                 </ul>
                             </div>
 
                             <div class="seller__datatxtBox">
                                 <ul>
-                                    <li>지역</li>
-                                    <li>강원</li>
-                                </ul>
-                            </div>
-
-                            <div class="seller__datatxtBox">
-                                <ul>
-                                    <li>단위</li>
-                                    <li>1Kg</li>
+                                    <li class="dataBox__title">단위</li>
+                                    <li class="dataBox__content"><%=vo.getProduct_weight() %></li>
                                 </ul>
                             </div>
                             <div class="seller__datatxtBox">
                                 <ul>
-                                    <li>수량</li>
-                                    <li class="etc__number">2,000</li>
+                                    <li class="dataBox__title">재고량</li>
+                                    <li class="dataBox__content"><%=vo.getQuantity() %></li>
                                 </ul>
                             </div>
                            
                             <hr />
+                            
                             <div class="seller__datatxtBox seller__dataValue">
                                 <ul>
-                                    <li>금액</li>
-                                    <li>
-                                        <span>18,000</span>원
+                                    <li class="dataBox__title"><span id="buy-quantity">수량</span></li>
+                                    <li class="dataBox__content"><input type="button" value="-" 
+                                        id="quantity-minus-btn" onclick="btnQuantityChange(this.value, '<%=vo.getPrice() %>', '<%=vo.getDelivery_price() %>', '<%=vo.getQuantity() %>');" />
+                                    <input type="text" value="1" id="quantity-text" name="quantity" maxlength="2" 
+                                        oninput="onInputCheck(this, '<%=vo.getQuantity() %>');" 
+                                        onchange="calcTotPrice(this.value, '<%=vo.getPrice() %>', '<%=vo.getDelivery_price() %>')" />
+                                    <input type="button" value="+" 
+                                        id="quantity-plus-btn" onclick="btnQuantityChange(this.value, '<%=vo.getPrice() %>', '<%=vo.getDelivery_price() %>', '<%=vo.getQuantity() %>');" /></li>
+                                </ul>
+                                <ul>
+                                    <li class="dataBox__title">총 금액</li>
+                                    <li class="dataBox__content">
+                                        <span id="tot-price-span"><%=(vo.getPrice() + vo.getDelivery_price()) %></span>원
+                                        <input type="hidden" value="" id="tot-price-input"/>
                                     </li>
                                 </ul>
                             </div>
 
                             <hr />
                             <!-- 농원소개 -->
-
-                            <script>
-                                $(function () {
-                                    $(".seller__datatxt .seller__data--btn > div  button").click(function (e) {
-                                        confirm_ok = confirm('로그인 후 이용가능합니다.\n로그인 페이지로 이동하시겠습니까?');
-                                        if (confirm_ok) {
-                                            location.href = '#';
-                                        } else {
-                                            return false;
-                                        }
-                                    });
-                                })
-                            </script>
+                            <form id="buyForm" method="post" action="OrderSheet.or">
+                            <input type="hidden" value="<%=vo.getBoard_id() %>" name="board_id" id="board_id" />
+                            </form>
                             <div class="seller__data--btn">
                                 <div class="seller__btnWrap">
-                                    <button type="button" class="button1"><b>구매하기</b></button>
+                                    <button type="button" class="button1" id="buy-btn" 
+                                        onclick="buyForm();">
+                                    <b>구매하기</b></button>
                                 </div>
                                 <div class="seller__btnWrap">
-                                    <button type="button" class="button2"><b>장바구니</b></button>
+                                    <button type="button" class="button2" id="cart-btn" 
+                                        onclick="cartForm();">
+                                    <b>장바구니</b></button>
                                 </div>
                                 <div class="seller__btnWrap">
-                                    <button type="button" class="button3"><b>♡위시리스트</b></button>
+                                    <button type="button" class="button3" id="wish-btn" 
+                                        onclick="wishForm();">
+                                    <b>♡위시리스트</b></button>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
 
@@ -204,84 +222,70 @@
                             <div class="rs-td-item">
                                 <dl class="rs-table-box">
                                     <dt>판매 생산자</dt>
-                                    <dd>홍길동</dd>
+                                    <dd><%=vo.getSales_producer() %></dd>
                                 </dl>
                             </div>
                             
                             <div class="rs-td-item">
                                 <dl class="rs-table-box">
                                     <dt>원산지</dt>
-                                    <dd>강원도 영월군</dd>
+                                    <dd><%=vo.getProduct_country() %></dd>
                                 </dl>
                             </div>
                             
                             <div class="rs-td-item">
                                 <dl class="rs-table-box">
                                     <dt>상품 중량</dt>
-                                    <dd>5kg</dd>
+                                    <dd><%=vo.getProduct_weight() %></dd>
                                 </dl>
                             </div>
 
                             <div class="rs-td-item">
                                 <dl class="rs-table-box">
                                     <dt>상품 크기</dt>
-                                    <dd>-</dd>
+                                    <dd><%=vo.getProduct_size() %></dd>
                                 </dl>
                             </div>
 
                             <div class="rs-td-item">
                                 <dl class="rs-table-box">
                                     <dt>수량</dt>
-                                    <dd>1 박스</dd>
+                                    <dd><%=vo.getQuantity() %></dd>
                                 </dl>
                             </div>
 
                             <div class="rs-td-item">
                                 <dl class="rs-table-box">
                                     <dt>제조년월일</dt>
-                                    <dd>2020 년산</dd>
+                                    <dd><%=vo.getDate_manufacture() %></dd>
                                 </dl>
                             </div>
 
                             <div class="rs-td-item">
                                 <dl class="rs-table-box">
                                     <dt>유통기한 품질유지기한</dt>
-                                    <dd>10개월</dd>
+                                    <dd><%=vo.getBest_before_date() %></dd>
                                 </dl>
                             </div>
 
                             <div class="rs-td-item">
                                 <dl class="rs-table-box">
                                     <dt>유전자 변형 농수산물 표시</dt>
-                                    <dd>해당사항 없음</dd>
-                                </dl>
-                            </div>
-
-                            <div class="rs-td-item">
-                                <dl class="rs-table-box">
-                                    <dt>지리적 표시</dt>
-                                    <dd>해당사항 없음</dd>
-                                </dl>
-                            </div>
-
-                            <div class="rs-td-item">
-                                <dl class="rs-table-box">
-                                    <dt>상품구성</dt>
-                                    <dd>-</dd>
+                                    <dd><%=vo.getTransgenic() %></dd>
                                 </dl>
                             </div>
 
                             <div class="rs-td-item">
                                 <dl class="rs-table-box">
                                     <dt>보관방법</dt>
-                                    <dd>서늘한 곳에 보관</dd>
+                                    <dd><%=vo.getStorage_method() %></dd>
                                 </dl>
                             </div>
 
                             <div class="rs-td-item">
                                 <dl class="rs-table-box">
                                     <dt>소비자 상담 문의</dt>
-                                    <dd>-</dd>
+                                    <dd><%=vo.getConsumer_consulation() %></dd>
                                 </dl>
                             </div>   
 
@@ -410,8 +414,8 @@
     <!-- contents 끝 -->
 
 
-
-
+    <script type="text/javascript" src="<c:url value='/resources/js/BoardProduct/boardProductView.js?after'/>" ></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    

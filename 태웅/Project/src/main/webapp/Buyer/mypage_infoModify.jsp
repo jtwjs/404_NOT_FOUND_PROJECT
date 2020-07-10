@@ -144,15 +144,6 @@
 	                                    <br />회원가입관련, 주문배송관련 등의 SMS는 수신동의와 상관없이 구매 회원에게 발송됩니다.
 	                                </div>
 	                            </div>
-	                            <div class="update_addr">
-	                                <label for="addr" class="virtual">주소 (기본배송지)</label>
-	                                <input type="text" id="sample4_postcode" class="inputAddrNum" name="addr_num" placeholder="우편번호">
-	                                <button type="button" class="addrNumBtn" onclick="sample4_execDaumPostcode()">우편번호찾기</button>
-	                                <input type="text" id="sample4_roadAddress" class="inputAddr1" id="sample4_roadAddress" placeholder="도로명주소">
-	                                <span id="guide" style="color:#999;display:none"></span>                                
-	                                <input type="text" class="inputAddr2" id="sample4_detailAddress" placeholder="상세주소">
-									<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	                            </div>
 	                            <div class="update_finish">
 	                                <button type="button" id="submitBtn" onclick="location.href='#'">회원정보수정</button>
 	                                <button type="button" id="resetBtn" onclick="location.href='#'">취소</button> 

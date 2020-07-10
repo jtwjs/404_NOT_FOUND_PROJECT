@@ -7,7 +7,211 @@
 <!-- root-context에서 아래와 같이 typeAliasesPackage를 설정하면 패키지 경로 생략 가능. -->
 <mapper namespace="com.spring.mapper.BoardProductMapper">
 
+    <resultMap type="com.spring.boardproduct.BoardProductVO" id="BoardProductMap">
+		<result property="board_id" column="board_id" />
+		<result property="seller_id" column="seller_id" />
+		<result property="board_num" column="board_num" />
+		<result property="title" column="title" />
+		<result property="price" column="price" />
+		<result property="delivery_price" column="delivery_price" />
+		<result property="quantity" column="quantity" />
+		<result property="satisfaction" column="satisfaction" />
+		<result property="content" column="content" />
+		<result property="register_date" column="register_date" />
+		<result property="category_1" column="category_1" />
+		<result property="category_2" column="category_2" />
+		<result property="category_local" column="category_local" />
+		<result property="sales_producer" column="sales_producer" />
+		<result property="product_name" column="product_name" />
+		<result property="product_weight" column="product_weight" />
+		<result property="product_size" column="product_size" />
+		<result property="product_country" column="product_country" />
+		<result property="date_manufacture" column="date_manufacture" />
+		<result property="best_before_date" column="best_before_date" />
+		<result property="transgenic" column="transgenic" />
+		<result property="storage_method" column="storage_method" />
+		<result property="consumer_consulation" column="consumer_consulation" />
+		<result property="thumbnail_origin" column="thumbnail_origin" />
+		<result property="thumbnail_thum" column="thumbnail_thum" />
+		<result property="product_origin_1" column="product_origin_1" />
+		<result property="product_thum_1" column="product_thum_1" />
+		<result property="product_origin_2" column="product_origin_2" />
+		<result property="product_thum_2" column="product_thum_2" />
+		<result property="product_origin_3" column="product_origin_3" />
+		<result property="product_thum_3" column="product_thum_3" />
+		<result property="product_origin_4" column="product_origin_4" />
+		<result property="product_thum_4" column="product_thum_4" />
+		<result property="content_origin" column="content_origin" />
+		<result property="thumbnail_origin_path" column="thumbnail_origin_path" />
+		<result property="thumbnail_thum_path" column="thumbnail_thum_path" />
+		<result property="product_origin_path" column="product_origin_path" />
+		<result property="product_thum_path" column="product_thum_path" />
+		<result property="content_origin_path" column="content_origin_path" />
+		<result property="sale_status" column="sale_status" />
+		<result property="hit" column="hit" />
+		<result property="read_count" column="read_count" />
+	</resultMap>
+    
 	<!-- id는 Mapper.java(여기선 MemberMapper.java)에 동일하게 사용해야된다. -->  
 	
+	<select id="getBoardNum" resultType="int">
+	    SELECT NVL(MAX(board_num), 0) FROM board_product
+	</select>
+	
+	<insert id="insertBoardProduct" parameterType="com.spring.boardproduct.BoardProductVO">
+	    INSERT INTO board_product VALUES(#{board_id}, #{seller_id}, #{board_num}, #{title}, #{price}, 
+	        #{delivery_price}, #{quantity}, 0.0, #{content}, TO_DATE(SYSDATE,'YYYY. MM. DD HH24:MI:SS'),
+	        #{category_1}, #{category_2}, #{category_local}, #{sales_producer}, #{product_name}, 
+	        #{product_weight}, #{product_size}, #{product_country}, #{date_manufacture}, 
+	        #{best_before_date}, #{transgenic}, #{storage_method}, #{consumer_consulation}, 
+	        #{thumbnail_origin, jdbcType=VARCHAR}, #{thumbnail_thum, jdbcType=VARCHAR}, 
+	        #{product_origin_1, jdbcType=VARCHAR}, #{product_thum_1, jdbcType=VARCHAR}, 
+	        #{product_origin_2, jdbcType=VARCHAR}, #{product_thum_2, jdbcType=VARCHAR}, 
+	        #{product_origin_3, jdbcType=VARCHAR}, #{product_thum_3, jdbcType=VARCHAR}, 
+	        #{product_origin_4, jdbcType=VARCHAR}, #{product_thum_4, jdbcType=VARCHAR}, 
+	        #{content_origin}, #{thumbnail_origin_path, jdbcType=VARCHAR}, 
+	        #{thumbnail_thum_path, jdbcType=VARCHAR}, #{product_origin_path, jdbcType=VARCHAR}, 
+	        #{product_thum_path, jdbcType=VARCHAR}, #{content_origin_path, jdbcType=VARCHAR}, 'Y', 0, 0)
+	</insert>
+	
+	<select id="getBoardProductVO" parameterType="String" resultMap="BoardProductMap">
+	   
+	    SELECT * FROM board_product WHERE board_id = #{board_id}
+	</select>
+	
+	<select id="getBoardList_category1" parameterType="int" resultMap="BoardProductMap">
+	    <choose>
+	        <when test="sort_list == 1">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_1 = #{category_1} ORDER BY read_count DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <when test="sort_list == 2">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_1 = #{category_1} ORDER BY board_num DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <when test="sort_list == 3">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_1 = #{category_1} ORDER BY hit DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <when test="sort_list == 4">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_1 = #{category_1} ORDER BY price ASC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <when test="sort_list == 5">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_1 = #{category_1} ORDER BY price DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <otherwise>
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_1 = #{category_1} ORDER BY board_num DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </otherwise>
+	    </choose>
+	</select>
+	
+	<select id="getBoardList_category2" parameterType="int" resultMap="BoardProductMap">
+	    <choose>
+	        <when test="sort_list == 1">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_2 = #{category_2} ORDER BY read_count DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <when test="sort_list == 2">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_2 = #{category_2} ORDER BY board_num DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <when test="sort_list == 3">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_2 = #{category_2} ORDER BY hit DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <when test="sort_list == 4">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_2 = #{category_2} ORDER BY price ASC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <when test="sort_list == 5">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_2 = #{category_2} ORDER BY price DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <otherwise>
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_2 = #{category_2} ORDER BY board_num DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </otherwise>
+	    </choose>
+	</select>
+	
+	<select id="getBoardList_categoryLocal" parameterType="int" resultMap="BoardProductMap">
+	    <choose>
+	        <when test="sort_list == 1">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_local = #{category_local} ORDER BY read_count DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <when test="sort_list == 2">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_local = #{category_local} ORDER BY board_num DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <when test="sort_list == 3">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_local = #{category_local} ORDER BY hit DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <when test="sort_list == 4">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_local = #{category_local} ORDER BY price ASC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <when test="sort_list == 5">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_local = #{category_local} ORDER BY price DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <otherwise>
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product WHERE category_local = #{category_local} ORDER BY board_num DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </otherwise>
+	    </choose>
+	</select>
+	
+	<select id="getBoardListSize_1" parameterType="int" resultType="int">
+	    SELECT COUNT(*) FROM board_product WHERE category_1 = #{category_1}
+	</select>
+	
+	<select id="getBoardListSize_2" parameterType="int" resultType="int">
+	    SELECT COUNT(*) FROM board_product WHERE category_2 = #{category_2}
+	</select>
+	
+	<select id="getBoardListSize_local" parameterType="int" resultType="int">
+	    SELECT COUNT(*) FROM board_product WHERE category_local = #{category_local}
+	</select>
 
 </mapper>

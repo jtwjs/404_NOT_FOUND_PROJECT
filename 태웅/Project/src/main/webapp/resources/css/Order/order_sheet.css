@@ -71,6 +71,20 @@
 	color: #4a484a;
 }
 
+#order__list--check > table > tbody > tr {
+	text-align: center;
+	border-bottom: 1px solid #e0d8d8;
+}
+
+.list__thum{
+	width: 110px;
+	height: 110px;
+}
+
+.list__title {
+	text-align: left;
+}
+
 .list__name {
 	width: 400px;
 }

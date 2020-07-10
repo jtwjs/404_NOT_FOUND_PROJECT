@@ -1,28 +1,40 @@
 package com.spring.buyer;
 
-import java.util.Date;
 
-public class BuyerVO {         // 구매자 (일반회원)
 
-    private String buyer_id;   // 구매자 ID (기본키)
-    private String password;   // 비밀번호
-    private String name;       // 이름
-    private String tel;        // 연락처
-    private String email;      // 이메일
-    private String address;    // 주소
-    private int buyer_num;     // 구매자 등록번호
-    private char grade;        // 구매자 등급
-    private char member_type;   // 멤버타입 (1, 구매자)
-    private char del_flag;     // 탈퇴여부 (Y,N으로 구분)
-    private Date join_date;    // 회원가입일
-    private Date wthdr_date;   // 회원탈퇴일
-    private int save_point;    // 적립금
+public class BuyerVO {         
+
+    private String id;   
+    private String password;   
+    private String name;       
+    private String telCarrierNum;
+    private String telAllocationNum;
+    private String telDiscretionaryNum;
+    private String tel;     
+    private String emailId;
+    private String emailAddr;
+    private String email;
+    private String addrNum;
+    private String addrRoadName;
+    private String addrDetail;
+    private String address;  
+    private String profileImg;
+    private String joinDate;    
+    private String wthdrDate;   
+    private String loginDate;
+    private String memberType;  
+    private int buyerNum;     
+    private char grade;        
+    private char delFlag;     
+
+    private int savePoint;    
+    
 	
-    public String getBuyer_id() {
-        return buyer_id;
+    public String getId() {
+        return id;
     }
-    public void setBuyer_id(String buyer_id) {
-        this.buyer_id = buyer_id;
+    public void setId(String id) {
+        this.id = id;
     }
     public String getPassword() {
        return password;
@@ -36,29 +48,106 @@ public class BuyerVO {         // 구매자 (일반회원)
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+    public String getTelCarrierNum() {
+		return telCarrierNum;
+	}
+	public void setTelCarrierNum(String telCarrierNum) {
+		this.telCarrierNum = telCarrierNum;
+	}
+	public String getTelAllocationNum() {
+		return telAllocationNum;
+	}
+	public void setTelAllocationNum(String telAllocationNum) {
+		this.telAllocationNum = telAllocationNum;
+	}
+	public String getTelDiscretionaryNum() {
+		return telDiscretionaryNum;
+	}
+	public void setTelDiscretionaryNum(String telDiscretionaryNum) {
+		this.telDiscretionaryNum = telDiscretionaryNum;
+	}
+	
 	public String getTel() {
 		return tel;
 	}
-	public void setTel(String tel) {
-		this.tel = tel;
+	public void setTel(String telCarrierNum,String telAllocationNum, String telDiscretionaryNum) {
+		this.tel = telCarrierNum + telAllocationNum + telDiscretionaryNum;
 	}
+	
+	public String getEmailId() {
+		return emailId;
+	}
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+	public String getEmailAddr() {
+		return emailAddr;
+	}
+	public void setEmailAddr(String emailAddr) {
+		this.emailAddr = emailAddr;
+	}
+	
 	public String getEmail() {
 		return email;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmail(String emailId, String emailAddr) {
+		this.email = emailId + "@" + emailAddr;
+	}
+	public String getAddrNum() {
+		return addrNum;
+	}
+	public void setAddrNum(String addrNum) {
+		this.addrNum = addrNum;
+	}
+	public String getAddrRoadName() {
+		return addrRoadName;
+	}
+	public void setAddrRoadName(String addrRoadName) {
+		this.addrRoadName = addrRoadName;
+	}
+	public String getAddrDetail() {
+		return addrDetail;
+	}
+	public void setAddrDetail(String addrDetail) {
+		this.addrDetail = addrDetail;
 	}
 	public String getAddress() {
 		return address;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public String getProfileImg() {
+		return profileImg;
 	}
-	public int getBuyer_num() {
-		return buyer_num;
+	public void setProfileImg(String profileImg) {
+		this.profileImg = profileImg;
 	}
-	public void setBuyer_num(int buyer_num) {
-		this.buyer_num = buyer_num;
+	public void setAddress(String addrNum, String addrRoadName, String addrDetail) {
+		this.address = addrNum + " " + addrRoadName + " " + addrDetail;
+	}
+	
+	public String getLoginDate() {
+		return loginDate;
+	}
+	public void setLoginDate(String loginDate) {
+		this.loginDate = loginDate;
+	}
+	public String getJoinDate() {
+		return joinDate;
+	}
+	public void setJoinDate(String joinDate) {
+		this.joinDate = joinDate;
+	}
+	public String getWthdrDate() {
+		return wthdrDate;
+	}
+	public void setWthdrDate(String wthdrDate) {
+		this.wthdrDate = wthdrDate;
+	}
+	public int getBuyerNum() {
+		return buyerNum;
+	}
+	public void setBuyerNum(int buyerNum) {
+		this.buyerNum = buyerNum;
 	}
 	public char getGrade() {
 		return grade;
@@ -66,34 +155,32 @@ public class BuyerVO {         // 구매자 (일반회원)
 	public void setGrade(char grade) {
 		this.grade = grade;
 	}
-	public char getMember_type() {
-		return member_type;
+	public String getMemberType() {
+		return memberType;
 	}
-	public void setMember_type(char member_type) {
-		this.member_type = member_type;
+	public void setMemberType(String memberType) {
+		this.memberType = memberType;
 	}
-	public char getDel_flag() {
-		return del_flag;
+	public char getDelFlag() {
+		return delFlag;
 	}
-	public void setDel_flag(char del_flag) {
-		this.del_flag = del_flag;
+	public void setDelFlag(char delFlag) {
+		this.delFlag = delFlag;
 	}
-	public Date getJoin_date() {
-		return join_date;
+
+	
+	public int getSavePoint() {
+		return savePoint;
 	}
-	public void setJoin_date(Date join_date) {
-		this.join_date = join_date;
+	public void setSavePoint(int savePoint) {
+		this.savePoint = savePoint;
 	}
-	public Date getWthdr_date() {
-		return wthdr_date;
-	}
-	public void setWthdr_date(Date wthdr_date) {
-		this.wthdr_date = wthdr_date;
-	}
-	public int getSave_point() {
-		return save_point;
-	}
-	public void setSave_point(int save_point) {
-		this.save_point = save_point;
+	
+
+	@Override
+	public String toString() { 
+		return "BuyerVO [id = " + id + ", pw = " + password + ", name = " + name
+				+ ", tel = " + tel + ", email = " + email + ", addr = " + address
+				+ "]";
 	}
 }

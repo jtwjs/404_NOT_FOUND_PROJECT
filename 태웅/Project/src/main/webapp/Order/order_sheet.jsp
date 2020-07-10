@@ -1,6 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.spring.boardproduct.BoardProductVO" %>
+<%@ page import="java.util.ArrayList" %>
+<%
+
+    int discount = (request.getParameter("discount") == null) ? 0 : Integer.parseInt(request.getParameter("discount"));
+    int totProductPrice = 0;
+    int totDeliveryPrice = 0;
+    int totPrice = 0;
+
+    ArrayList<BoardProductVO> vo_list = null;
+    if((ArrayList<BoardProductVO>)request.getAttribute("vo_list") != null){
+    	vo_list = (ArrayList<BoardProductVO>)request.getAttribute("vo_list");
+    	
+    }
+    
+    ArrayList<Integer> quantity_list = null;
+    if((ArrayList<Integer>)request.getAttribute("quantity_list") != null){
+    	quantity_list = (ArrayList<Integer>)request.getAttribute("quantity_list");
+    }
+    
+    for(int i = 0; i < vo_list.size(); i++){
+    	totProductPrice += (vo_list.get(i).getPrice() * quantity_list.get(i));
+    	totDeliveryPrice += vo_list.get(i).getDelivery_price();
+    }
+    totPrice = totProductPrice + totDeliveryPrice;
+    
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,9 +89,8 @@
                 <b>주문접수/완료</b>
             </div>
             
-            
-            <form id="order__form" action="OrderComplete.or" method="post" onsubmit="">
-            
+            <form id="orerSheetForm" method="post" action="OrderComplete.or" 
+                onsubmit="return orderSheetCheck();">
             <div class="col-xs-12" id="order__list--check">
                 <div class="order__title">
                     <span>주문상품 확인 및 할인적용</span>
@@ -72,19 +98,49 @@
                 <table>
                     <thead>
                         <tr>
-                            <td class="list__name">주문상품</td>
+                            <td class="list__name" colspan="2">주문상품</td>
                             <td class="list__amount">수량</td>
                             <td class="list__price">상품금액</td>
                             <td class="list__discount">할인</td>
-                            <td class="list__discount-price">할인가격</td>
+                            <td class="list__discount-price">가격</td>
                             <td class="list__save-point">적립</td>
                             <td class="list__delivery-price">배송비</td>
                         </tr>
                     </thead>
                     <tbody>
+                        <%if(vo_list != null){ %>
+                        <%for(int i = 0; i < vo_list.size(); i++){ %>
                         <tr>
-                            
+                            <td class="list__thum"><img src="<%=vo_list.get(i).getThumbnail_thum_path() %><%=vo_list.get(i).getThumbnail_thum()%>"></td>
+                            <td class="list__title">
+                            <input type="text" name="board_title" class="board_title" 
+                                value="<%=vo_list.get(i).getTitle() %>" readonly />
+                            <input type="hidden" name="board_id" class="board_id" 
+                                value="<%=vo_list.get(i).getBoard_id() %>" />
+                            <input type="hidden" name="seller_id" class="seller_id"  
+                                value="<%=vo_list.get(i).getSeller_id() %>" />
+                            </td>
+                            <td>
+                            <input type="text" name="amount" class="amount" 
+                                value="<%=quantity_list.get(i) %>" readonly />
+                            </td>
+                            <td>
+                            <input type="text" name="price" class="price" 
+                                value="<%=vo_list.get(i).getPrice() %>" readonly />
+                            </td>
+                            <td><%=discount %></td>
+                            <td>
+                            <input type="text" name="tot_price" class="tot_price" 
+                                value="<%=(vo_list.get(i).getPrice() * quantity_list.get(i)) - discount %>" readonly />
+                            </td>
+                            <td><%=(int)(((vo_list.get(i).getPrice() * quantity_list.get(i)) - discount) / 10) %></td>
+                            <td>
+                            <input type="text" name="delivery_price" class="delivery_price" 
+                                value="<%=vo_list.get(i).getDelivery_price() %>" readonly />
+                            </td>
                         </tr>
+                        <%} 
+                        }%>
                     </tbody>
                 </table>
             </div>
@@ -130,23 +186,23 @@
                        <div>
                            <div>
                                <span>총 상품금액</span>
-                               <span class="order__final-payment--price-check">원</span>
+                               <span class="order__final-payment--price-check"><%=totProductPrice %> 원</span>
                            </div>
                            <div>
                                <span>총 배송비</span>
-                               <span class="order__final-payment--price-check">원</span>
+                               <span class="order__final-payment--price-check"><%=totDeliveryPrice %> 원</span>
                            </div>
                            <div>
                                <span>총 할인</span>
-                               <span class="order__final-payment--price-check">원</span>
+                               <span class="order__final-payment--price-check">0 원</span>
                            </div>
                            <div>
                                <span>사용 적립금</span>
-                               <span class="order__final-payment--price-check">원</span>
+                               <span class="order__final-payment--price-check">0 원</span>
                            </div>
                            <div class="order__final-payment--total-price-check">
                                <span><b>총 결제금액</b></span>
-                               <span class="order__final-payment--price-check"><b>원</b></span>
+                               <span class="order__final-payment--price-check"><b><%=totPrice %> 원</b></span>
                            </div>  
                            
                        </div>
@@ -166,21 +222,24 @@
                         <div>
                             <span class="order__info--check">*</span>
                             <span class="order__info--classification">이름</span>
-                            <input type="text" class="order__info--input-name"/>
+                            <input type="text" class="order__info--input-name" value="test" 
+                                name="buyer_name" id="buyer_name" maxlength="16" />
                         </div>
                         <div>
                             <span class="order__info--check">*</span>
                             <span class="order__info--classification">휴대폰</span>
                             <span class="order__info--input-phone-data">
-                            <input type="text" class="order__info--input-phone" /> - 
-                            <input type="text" class="order__info--input-phone" /> - 
-                            <input type="text" class="order__info--input-phone" />
+                            <input type="text" class="order__info--input-phone" value="000" maxlength="3" /> - 
+                            <input type="text" class="order__info--input-phone" value="1111" maxlength="4" /> - 
+                            <input type="text" class="order__info--input-phone" value="2222" maxlength="4" />
+                            <input type="hidden" value="" name="buyer_phone" id="buyer_phone" />
                             </span>
                         </div>
                         <div>
                             <span class="order__info--check">*</span>
                             <span class="order__info--classification">이메일</span>
-                            <input type="text" class="order__info--input-email"/>
+                            <input type="text" class="order__info--input-email" maxlength="33" 
+                                value="test@email.test" name="buyer_email" id="buyer_email" />
                         </div>
                     </div>
                     <div id="order__info--precautions">
@@ -216,7 +275,8 @@
                                 <span>배송주소</span>
                             </div>
                             <div class="order__delivery--info-body">
-                                <input type="text" id="postal-code__text" /> 
+                                <input type="text" id="postal-code__text" value="test" 
+                                    name="order_postalCode" maxlength="5" /> 
                                 <input type="button" value="우편번호 검색" class="order__delivery--search-btn" />
                                 <input type="checkbox" /> 기본 배송지로 저장
                             </div>
@@ -224,8 +284,9 @@
                         <div>
                             <div class="order__delivery--info-head">&nbsp;</div>
                             <div class="order__delivery--info-body">
-                                <input type="text" class="address__text" /> 
-                                <input type="text" placeholder="나머지 주소를 입력해주세요" class="address__text" />
+                                <input type="text" class="address__text" maxlength="50" /> 
+                                <input type="text" placeholder="나머지 주소를 입력해주세요" class="address__text" maxlength="50" />
+                                <input type="hidden" value="" name="order_address" id="order_address" />
                             </div>
                         </div>
                         
@@ -235,8 +296,8 @@
                                 <span>받는 분</span>
                             </div>
                             <div class="order__delivery--info-body">
-                                <input type="text" id="recipient__text--name" /> 
-                                <input type="checkbox" /> 주문자 정보와 동일
+                                <input type="text" id="recipient__text--name" name="order_name" maxlength="16" /> 
+                                <input type="checkbox" onclick="data_check();" class="data-checkBox" /> 주문자 정보와 동일
                             </div>
                         </div>
                         
@@ -246,9 +307,10 @@
                                 <span>받는 분 전화</span>
                             </div>
                             <div class="order__delivery--info-body">
-                                <input type="text" class="recipient__text--phone" /> - 
-                                <input type="text" class="recipient__text--phone" /> - 
-                                <input type="text" class="recipient__text--phone" />
+                                <input type="text" class="recipient__text--phone" maxlength="3" /> - 
+                                <input type="text" class="recipient__text--phone" maxlength="4" /> - 
+                                <input type="text" class="recipient__text--phone" maxlength="4" />
+                                <input type="hidden" value="" name="order_phone" id="order_phone" />
                             </div>
                         </div>
                         
@@ -258,7 +320,7 @@
                                 <span>배송요청사항</span>
                             </div>
                             <div class="order__delivery--info-body">
-                                <textarea id="order__delivery--message" 
+                                <textarea id="order__delivery--message" name="order_demand" maxlength="200" 
                                     placeholder="이 곳은 집배원님이 보시는 메시지입니다. 전달사항이 있으신 분들은 게시판을 이용해주세요"></textarea>
                             </div>
                         </div>
@@ -310,7 +372,7 @@
                         <div id="order__payment--total-price">
                             <div id="total-price__title">최종결제금액</div>
                             <div id="total-price__bar">
-                                <span id="total-price__total-price">29000</span>
+                                <span id="total-price__total-price"><%=totPrice %></span>
                                 <span>원</span>
                             </div>
                         </div>
@@ -320,10 +382,9 @@
             
             <!-- 결제 정보 end -->
             
-            
             <div class="col-xs-12" id="order__submit">
                 <div id="order__submit--check">
-                    <input type="checkbox" /> 
+                    <input type="checkbox" class="agree_checkBox" /> 
                     <span>주문 상품, 가격, 배송정보, 할인내역 등을 최종 확인 후 구매 동의 (전자상거래법 제 8조 제 2항)</span>
                 </div>
                 <div id="order__submit--payment">
@@ -332,13 +393,16 @@
                 </div>
             </div>
             
+            </form>
+            
             <!-- 상품 결제 버튼 end -->
             
-            </form>
         </div>
     </div>
 </main>
     
+    
+    <script type="text/javascript" src="<c:url value='/resources/js/Order/order_sheet.js?after'/>" ></script>  
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    

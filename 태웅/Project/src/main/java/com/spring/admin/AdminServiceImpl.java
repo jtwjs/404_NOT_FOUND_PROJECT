@@ -2,7 +2,7 @@ package com.spring.admin;
 
 import org.springframework.stereotype.Service;
 
-@Service("adminService")
+@Service
 public class AdminServiceImpl implements AdminService {
 
 }
