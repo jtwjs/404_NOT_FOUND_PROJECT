@@ -55,7 +55,7 @@
                     	<div class="order__login--wrap">
                         <!-- 일반회원 주문조회 로그인-->
                             <h5 class="order_title">로그인</h5>                        
-                     <form name="order__login--form" id="login_form" action='<c:url value='/LoginBuyer.ad'/>' method="post">
+                     <form name="order__login--form" id="login_form" action='<c:url value='/Login.ad'/>' method="post">
     
                             <div class="id">
                             	<label for="userId">아이디</label>

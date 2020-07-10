@@ -25,52 +25,61 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.buyer.BuyerVO;
+import com.spring.config.Security.CurrentUser;
+import com.spring.config.Security.SellerDetailService;
+
 @Controller
 public class SellerController {
 	
 	@Autowired
 	SellerServiceImpl service;
+	
+	@Autowired
+	SellerDetailService Securityservice; 
 
-	@RequestMapping(value = "/SellerMyPage.se")  // �뙋留ㅼ옄 留덉씠�럹�씠吏� 硫붿씤
-	public String sellerMyPage() {
-		
+	@RequestMapping(value = "/SellerMyPage.se")  
+	public String sellerMyPage(Model model, @CurrentUser SellerVO account) {
+		model.addAttribute("name", account.getName());
+//    	model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
+    	model.addAttribute("grade", account.getGrade());
 		return "Seller/mypage_main";
 	}
 	
 	@RequestMapping(value = "/SellerInfoModify.se")  // �봽濡쒗븘 �닔�젙
 	public String sellerInfoModify() {
-		
+
 		return "Seller/mypage_infoModify";
 	}
 	
 	
 	@RequestMapping(value = "/SellerProductRegister.se")  // �긽�뭹�궡�뿭 - �긽�뭹�벑濡�
 	public String sellerProductRegister() {
-		
+
 		return "Seller/mypage_productRegister";
 	}
 	
 	@RequestMapping(value = "/SellerProductList.se")    // �긽�뭹�궡�뿭 - �긽�뭹�궡�뿭
 	public String sellerProductList() {
-		
+
 		return "Seller/mypage_productList";
 	}
 	
 	@RequestMapping(value = "/SellerProductModify.se")    // �긽�뭹�궡�뿭 - �뙋留ㅺ� �닔�젙
 	public String sellerProductModify() {
-		
+
 		return "Seller/mypage_productModify";
 	}
 	
 	@RequestMapping(value = "/SellerOrderStatus.se")    // 嫄곕옒�궡�뿭 - 二쇰Ц愿�由�
 	public String sellerOrderStatus() {
-		
+
 		return "Seller/mypage_orderStatus";
 	}
 	
 	@RequestMapping(value = "/SellerTransactionList.se")    // 嫄곕옒�궡�뿭 - 嫄곕옒紐⑸줉
 	public String sellerTransactionList() {
-		
+
 		return "Seller/mypage_transactionList";
 	}
 	
@@ -82,7 +91,7 @@ public class SellerController {
 	
 	@RequestMapping(value = "/SellerMarketPriceInfo.se")  // �긽�뭹 �떆�꽭�젙蹂�
 	public String sellerMarketPriceInfo() {
-		
+
 		return "Seller/mypage_marketPriceInfo";
 	}
 	
@@ -190,7 +199,7 @@ public class SellerController {
 		return "Seller/mypage_productReview";
 	}
 	
-   @RequestMapping(value = "SellerJoin.se" ,method = RequestMethod.POST)
+   @RequestMapping(value = "JoinSeller.se" ,method = RequestMethod.POST)
     public String RegisterSellerAccount(@ModelAttribute("seller") SellerVO seller) {
     		String telCarrierNum = seller.getTelCarrierNum();
     		String telAllocationNum = seller.getTelAllocationNum();
@@ -200,13 +209,12 @@ public class SellerController {
     		String addrNum = seller.getAddrNum();
     		String addrRoadName = seller.getAddrRoadName();
     		String addrDetail = seller.getAddrDetail();
-    		String bankName = seller.getBankName();
-    		String bankAccountNum = seller.getBankAccountNum();
+ 
     		
     		seller.setTel(telCarrierNum, telAllocationNum, telDiscretionaryNum);
     		seller.setEmail(emailId, emailAddr);
     		seller.setAddress(addrNum, addrRoadName, addrDetail);
-    		service.RegisterSellerAccout(seller);
+    		Securityservice.RegisterSellerAccout(seller);
     		
     		return "redirect:/JoinSellerComplete.ad";
     	

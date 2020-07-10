@@ -1,6 +1,5 @@
 package com.spring.seller;
 
-import java.util.Date;
 
 public class SellerVO {     
 
@@ -25,12 +24,14 @@ public class SellerVO {
 	private String bankName;
 	private String bankAccountNum;
 	private String profileImg;
+	private String memberType;
+	private String joinDate;
+	private String wtdrDate;
+	private String loginDate;
 	private int sellerNum;
 	private char grade;
-	private char memberType;
 	private char delFlag;
-	private Date joinDate;
-	private Date wtdrDate;
+	
 	public String getId() {
 		return id;
 	}
@@ -170,10 +171,10 @@ public class SellerVO {
 	public void setGrade(char grade) {
 		this.grade = grade;
 	}
-	public char getMemberType() {
+	public String getMemberType() {
 		return memberType;
 	}
-	public void setMemberType(char memberType) {
+	public void setMemberType(String memberType) {
 		this.memberType = memberType;
 	}
 	public char getDelFlag() {
@@ -182,18 +183,25 @@ public class SellerVO {
 	public void setDelFlag(char delFlag) {
 		this.delFlag = delFlag;
 	}
-	public Date getJoinDate() {
+	public String getJoinDate() {
 		return joinDate;
 	}
-	public void setJoinDate(Date joinDate) {
+	public void setJoinDate(String joinDate) {
 		this.joinDate = joinDate;
 	}
-	public Date getWtdrDate() {
+	public String getWtdrDate() {
 		return wtdrDate;
 	}
-	public void setWtdrDate(Date wtdrDate) {
+	public void setWtdrDate(String wtdrDate) {
 		this.wtdrDate = wtdrDate;
 	}
+	public String getLoginDate() {
+		return loginDate;
+	}
+	public void setLoginDate(String loginDate) {
+		this.loginDate = loginDate;
+	}
+	
 	
               
     

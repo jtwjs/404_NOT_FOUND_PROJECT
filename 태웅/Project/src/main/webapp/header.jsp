@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<meta charset="UTF-8">
+<%@ taglib  prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Stylish&display=swap" rel="stylesheet">
@@ -11,27 +11,29 @@
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-
+<!--<sec:authentication var="principal" property="principal" /> -->
   <header id="header" role="banner">
       <div id="header__content">
         <div class="header__top">
           <div class="inner">
             <ul class="header__top__navi">
-        <c:choose> 
-			<c:when test="${not empty principal.username}">
-				<li>"${principal.username}님"</li>
+  		<sec:authorize access = "isAnonymous()">
+				<li><a href="#" onclick="javascript:location.href='Login.ad'">로그인</a></li>
+				<li><a href="#" onclick="javascript:location.href='JoinSelect.ad'">회원가입</a></li>
+		</sec:authorize>
+		<sec:authorize access = "isAuthenticated()">
               <li>
               	<a href="#" onclick="document.getElementById('logout-form').submit();">로그아웃</a>
               	<form id="logout-form" action='<c:url value='/logout.ad' />' method="POST">
               	</form>
               </li>
+                <sec:authorize access="hasRole('ROLE_BUYER')">
               <li><a href="#" onclick="javascript:location.href='BuyerMyPage.by'">마이페이지</a></li>
-			</c:when>
-			<c:otherwise>
-				<li><a href="#" onclick="javascript:location.href='LoginBuyer.ad'">로그인</a></li>
-				<li><a href="#" onclick="javascript:location.href='JoinSelect.ad'">회원가입</a></li>
-           	</c:otherwise>
-	   </c:choose>
+              </sec:authorize>
+              <sec:authorize access="hasRole('ROLE_SELLER')">
+              <li><a href="#" onclick="javascript:location.href='SellerMyPage.se'">마이페이지</a></li>
+              </sec:authorize>
+		</sec:authorize>
               
               <li><a href="#" onclick="javascript:location.href='OrderLogin.or'">주문배송</a></li>
               <li><a href="#" onclick="javascript:location.href='CartView.or'">장바구니</a></li>

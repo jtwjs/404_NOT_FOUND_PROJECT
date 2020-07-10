@@ -43,7 +43,7 @@
 	</section>
     <main id="main">
       <article id="join_buyer">
-        <form id="join_form" name="join__form" action="buyerJoin.by" method="post">
+        <form id="join_form" name="join__form" action="JoinBuyer.by" method="post">
           <div class="join_buyer--agreement">
             <h2>약관동의</h2>
             <div class="agreement--content">

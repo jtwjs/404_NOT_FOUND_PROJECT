@@ -13,5 +13,6 @@ public interface BuyerMapper {
 	void InsertBuyerAccount(BuyerVO buyer);
 	int UpdateBuyerAccount(BuyerVO buyer);
 	int DeleteBuyerAccount(String id);
+	void UpdateLoginDateBy(String id);
 	
 }

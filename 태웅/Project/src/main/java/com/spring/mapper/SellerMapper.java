@@ -13,4 +13,5 @@ public interface SellerMapper {
 	void InsertSellerAccout(SellerVO buyer);
 	int UpdateSellerAccount(SellerVO buyer);
 	int DeleteSellerAccount(String id);
+	void UpdateLoginDateBy(String id);
 }

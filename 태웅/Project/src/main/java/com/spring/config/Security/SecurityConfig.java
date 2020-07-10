@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
@@ -26,9 +27,17 @@ import org.springframework.security.web.access.expression.WebExpressionVoter;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
-		
+	@Lazy	
 	@Autowired
-	CustomUserDetailsService accountService;
+	BuyerDetailService buyerService;
+	@Lazy
+	@Autowired
+	SellerDetailService sellerService;
+	
+	@Autowired public BuyerLoginSuccessHandler buyerLoginSuccessHandler;
+	
+	@Autowired public BuyerLoginFailureHandler buyerLoginFailureHandler;
+	
 	
 	public AccessDecisionManager accessDecisionManager() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
@@ -47,27 +56,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
+        	
+  
             http.authorizeRequests()
-            		
-            		.mvcMatchers("/BuyerMyPage.by").hasRole("BUYER")
+            
+            		.mvcMatchers("/Buyer**").hasRole("BUYER")
+            		.mvcMatchers("/Seller**e").hasRole("SELLER")
             		.mvcMatchers("/**").permitAll()
             		.anyRequest().authenticated()
                     .accessDecisionManager(accessDecisionManager())
-                    ;
-                http.formLogin()
-                .loginPage("/LoginBuyer.ad").permitAll()
+                    .and()
+                    .formLogin()
+                .loginPage("/Login.ad").permitAll()
                 .usernameParameter("userId")
                 .passwordParameter("userPw")
                 .defaultSuccessUrl("/Index.in")
-                .and().csrf().disable();
-                
-                http.logout()
+                .successHandler(buyerLoginSuccessHandler)
+                .failureHandler(buyerLoginFailureHandler)
+                .and().csrf().disable()
+                .logout()
                 .logoutUrl("/logout.ad")
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
-                .deleteCookies("JESSIONID");
-                
-                http.httpBasic();
+                .deleteCookies("JESSIONID")
+                .and()
+                .httpBasic();
+
+
              
         }
         
@@ -76,19 +91,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
          webSecurity.ignoring().antMatchers("/resources/**", "/css/**", "/js/**","/Images/**"); 
         }
 	
-        
-        
-        /*@Override 안해도 빈으로 등록만되있으면 알아서 갖다씀*/
+      
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        	auth.userDetailsService(accountService);
+        	auth.userDetailsService(buyerService);
+        	auth.userDetailsService(sellerService);
         }
    
         
-        
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
+	
+
 }

@@ -13,10 +13,11 @@ create table member_buyer(          -- 구매자 테이블
     join_date date default sysdate not null,        -- 회원가입일
     wthdr_date date,                -- 회원탈퇴일
     save_point number  default 0 not null,     -- 적립금
-    profile_img varchar2(200),
+    profile_img varchar2(200),          --프로필사진
+    last_loginDate date,                --마지막접속일자
     constraint member_buyer_buyer_id_pk primary key(buyer_id)
 );
-
+select * from member_buyer;
 
 
 select * from member_buyer;
@@ -50,11 +51,12 @@ commit;
     bank_account varchar2(20) not null,   -- 정산대금입금계좌
     seller_reg_num number not null,       -- 판매자 등록번호
     seller_grade char(1) default 0 not null,        -- 판매자 등급 
-    member_type varchar2(10) default 'Seller' not null,          -- 멤버타입 (판매자) (구매자:B 판매자:S 관리자:A)
+    member_type varchar2(10) default 'SELLER' not null,          -- 멤버타입 (판매자) (구매자:B 판매자:S 관리자:A)
     del_flag char(1) default 'N' not null,            -- 탈퇴여부 (Y,N으로 구분)
     join_date date default sysdate not null,              -- 회원가입일
     wthdr_date date,                        -- 회원탈퇴일
     profile_img varchar2(200),
+    last_loginDate date,
     constraint member_seller_seller_id_pk primary key(seller_id)
 );
 
@@ -65,5 +67,6 @@ CREATE SEQUENCE seller_num_seq
     NOCYCLE;
      
      select * from member_buyer;
+     select * from member_seller;
     
      

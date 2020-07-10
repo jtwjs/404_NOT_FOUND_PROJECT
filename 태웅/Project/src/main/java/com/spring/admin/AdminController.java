@@ -10,16 +10,17 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.spring.config.Security.CustomUserDetailsService;
+import com.spring.buyer.BuyerVO;
+import com.spring.config.Security.BuyerDetailService;
+import com.spring.config.Security.SellerDetailService;
+import com.spring.seller.SellerVO;
 
 @Controller
 public class AdminController {
 
-	@Autowired
-	CustomUserDetailsService BuyerService;
 	
 	
-    @RequestMapping(value = "/LoginBuyer.ad")  // 援щℓ�옄 濡쒓렇�씤
+    @RequestMapping(value = "/Login.ad")  
     public String loginBuyer() throws Exception {
     	
     	return "Admin/login_buyer";
@@ -36,7 +37,7 @@ public class AdminController {
     }
     
     @RequestMapping(value = "/LoginSeller.ad")  // �뙋留ㅼ옄 濡쒓렇�씤
-    public String loginSeller() {
+    public String loginSeller() throws Exception{
     	
     	return "Admin/login_seller";
     }
@@ -48,7 +49,8 @@ public class AdminController {
     }
     
     @RequestMapping(value = "/JoinBuyer.ad")  // 援щℓ�옄 �쉶�썝媛��엯
-    public String joinBuyer() {
+    public String joinBuyer(BuyerVO buyer) {
+    	
     	
     	return "Admin/join_buyer";
     }
@@ -60,7 +62,8 @@ public class AdminController {
     }
     
     @RequestMapping(value = "/JoinSeller.ad")  // �뙋留ㅼ옄 �쉶�썝媛��엯
-    public String joinSeller() {
+    public String joinSeller(SellerVO seller) {
+
     	
     	return "Admin/join_seller";
     }

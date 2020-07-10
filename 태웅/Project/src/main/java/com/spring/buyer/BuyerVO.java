@@ -1,6 +1,6 @@
 package com.spring.buyer;
 
-import java.util.Date;
+
 
 public class BuyerVO {         
 
@@ -19,12 +19,14 @@ public class BuyerVO {
     private String addrDetail;
     private String address;  
     private String profileImg;
+    private String joinDate;    
+    private String wthdrDate;   
+    private String loginDate;
+    private String memberType;  
     private int buyerNum;     
     private char grade;        
-    private String memberType;  
     private char delFlag;     
-    private Date joinDate;    
-    private Date wthdrDate;   
+
     private int savePoint;    
     
 	
@@ -122,6 +124,25 @@ public class BuyerVO {
 	public void setAddress(String addrNum, String addrRoadName, String addrDetail) {
 		this.address = addrNum + " " + addrRoadName + " " + addrDetail;
 	}
+	
+	public String getLoginDate() {
+		return loginDate;
+	}
+	public void setLoginDate(String loginDate) {
+		this.loginDate = loginDate;
+	}
+	public String getJoinDate() {
+		return joinDate;
+	}
+	public void setJoinDate(String joinDate) {
+		this.joinDate = joinDate;
+	}
+	public String getWthdrDate() {
+		return wthdrDate;
+	}
+	public void setWthdrDate(String wthdrDate) {
+		this.wthdrDate = wthdrDate;
+	}
 	public int getBuyerNum() {
 		return buyerNum;
 	}
@@ -146,18 +167,8 @@ public class BuyerVO {
 	public void setDelFlag(char delFlag) {
 		this.delFlag = delFlag;
 	}
-	public Date getJoinDate() {
-		return joinDate;
-	}
-	public void setJoinDate(Date joinDate) {
-		this.joinDate = joinDate;
-	}
-	public Date getWthdrDate() {
-		return wthdrDate;
-	}
-	public void setWthdrDate(Date wthdrDate) {
-		this.wthdrDate = wthdrDate;
-	}
+
+	
 	public int getSavePoint() {
 		return savePoint;
 	}

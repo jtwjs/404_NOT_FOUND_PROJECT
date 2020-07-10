@@ -53,7 +53,7 @@
                     	<div class="order__login--wrap">
                         <!-- 일반회원 주문조회 로그인-->
                             <h5 class="order_title">로그인</h5>                        
-                     <form name="order__login--form">
+                     <form name="order__login--form" id="login_form" action='<c:url value='/Login.ad'/>' method="post">
     
                             <div class="id">
                             	<label for="userId">아이디</label>
@@ -79,7 +79,7 @@
 	                            </div>
                             </div>
                           
-                            <button type="button" class="submitBtn" onclick="location.href='#'">로그인</button>
+                            <button type="button" class="submitBtn" value="Login">로그인</button>
                             <button type="button" class="submitjoinBtn"
                                      onclick="javascript:location.href='JoinSeller.ad'">회원가입하기</button>
     
@@ -106,6 +106,7 @@
 
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
+     <script type="text/javascript" src="<c:url value='/resources/js/Admin/login_seller.js?after'/>" ></script>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    
     <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js?after'/>" ></script>
     <script type="text/javascript" src="<c:url value='/resources/js/module/header.js?after'/>" ></script>

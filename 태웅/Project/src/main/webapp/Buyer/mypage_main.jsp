@@ -68,8 +68,8 @@
                                         <h2 class="overall-rating--title">구매자 등급</h2>
                                         <ul class="rating">
                                             <li><span class="rating-grade">회원등급</span></li>
-                                            <li class="my_rating-grade"><h2 id="my-rating">LV.2 브론즈</h2> <a class="rating-benefit" href="#">등급 혜택 보기</a> </li>
-                                            <li id="rating-explain">* 다음 등급인 <span class="next-level">실버</span>까지 <span class="required-score">61,670</span>점 남았습니다<span class="register-date">가입일: 2014.05.22</span></li>
+                                            <li class="my_rating-grade"><h2 id="my-rating">LV.${grade}</h2> <a class="rating-benefit" href="#">등급 혜택 보기</a> </li>
+                                            <li id="rating-explain">* 다음 등급인 <span class="next-level">실버</span>까지 <span class="required-score">61,670</span>점 남았습니다<span class="register-date">가입일: ${joinDate}</span></li>
                                         </ul>
                                     </div>
                                     
@@ -79,7 +79,7 @@
                                         <img src="./resources/Images/Buyer/Money.png" alt="saving point image"/>
                                         <dl>
                                             <dt>적립금</dt>
-                                            <dd>5.998</dd>
+                                            <dd>${savePoint}</dd>
                                         </dl>
                                     </div>
                                     <div class="write-review">

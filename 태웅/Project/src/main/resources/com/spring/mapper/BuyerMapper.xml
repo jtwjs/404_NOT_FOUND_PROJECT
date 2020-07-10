@@ -23,6 +23,7 @@
 		<result column = "wthdr_date" property = "wthdrDate" />
 		<result column = "save_point" property = "savePoint" />
 		<result column = "profile_img" property = "profileImg" />
+		<result column = "last_loginDate" property = "loginDate" />
 	</resultMap>
 	
 	<select id = "selectListAll" resultMap ="buyerResultMap" >
@@ -51,9 +52,14 @@
 		 WHERE buyer_id = #{id} AND password = #{password}
 	</update>
 	
+	<update id = "UpdateLoginDateBy" parameterType = "com.spring.buyer.BuyerVO" >
+		UPDATE member_buyer SET last_loginDate=sysdate WHERE buyer_id = #{id}
+	</update>
+	
 	<delete id = "DeleteBuyerAccount" parameterType ="com.spring.buyer.BuyerVO">
 		UPDATE member_buyer SET del_flag="Y", wthdr_date=sysdate 
 		WHERE buyer_id = #{id} AND password = #{password}
 	</delete>
-
+	
+	
 </mapper>

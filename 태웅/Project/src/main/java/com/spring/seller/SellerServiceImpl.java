@@ -10,6 +10,8 @@ public class SellerServiceImpl implements SellerService {
 	@Autowired
 	SellerMapper mapper;
 	
+
+	
 	@Override
 	public SellerVO selectOneById(String id) {
 		SellerVO sellerAccount = mapper.selectOneById(id);
@@ -25,7 +27,6 @@ public class SellerServiceImpl implements SellerService {
 	@Override
 	public void RegisterSellerAccout(SellerVO seller) {
 		mapper.InsertSellerAccout(seller);
-		
 	}
 
 	@Override

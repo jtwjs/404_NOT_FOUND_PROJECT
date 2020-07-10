@@ -28,6 +28,7 @@
 		<result column = "wthder_date" property = "wtdrDate" />
 		<result column = "join_date" property = "joinDate" />
 		<result column = "profile_img" property = "profileImg" />
+		<result column = "last_loginDate" property = "loginDate" />
 	</resultMap>  
 	
 	<select id = "selectOneById" resultMap = "sellerResultMap" >
@@ -52,6 +53,10 @@
 		UPDATE member_seller SET password=#{password}, email=#{email}, tel=#{tel}, profile_img=#{profileImg} 
 			bank_name=#{bankName}, bank_account=#{bankAccountNum}
 		 WHERE seller_id = #{id} AND password = #{password}
+	</update>
+	
+	<update id = "UpdateLoginDateBy" parameterType = "com.spring.seller.SellerVO" >
+		UPDATE member_seller SET last_loginDate=sysdate WHERE seller_id = #{id}
 	</update>
 	
 	<delete id = "DeleteSellerAccount" parameterType ="com.spring.seller.SellerVO">
