@@ -303,6 +303,7 @@
             </div>
           </div>
           <div class="join_button">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             <button type="button" class="submitBtn">가입완료</button>
             <button type="button" class="resetBtn" onclick="location.href='Index.in'">취소</button>
           </div>

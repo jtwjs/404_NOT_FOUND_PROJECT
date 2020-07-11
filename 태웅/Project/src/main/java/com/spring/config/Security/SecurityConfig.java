@@ -73,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .defaultSuccessUrl("/Index.in")
                 .successHandler(LoginSuccessHandler)
                 .failureHandler(LoginFailureHandler)
-                .and().csrf().disable()
+                .and()
                 .logout()
                 .logoutUrl("/logout.ad")
                 .logoutSuccessUrl("/")

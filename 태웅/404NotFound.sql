@@ -19,8 +19,6 @@ create table member_buyer(          -- 구매자 테이블
 );
 select * from member_buyer;
 
-
-select * from member_buyer;
 desc member_buyer;
 /*buyer_num Sequence*/
 CREATE SEQUENCE buyer_num_seq
@@ -187,4 +185,5 @@ create table product_cart(          -- 장바구니
     quantity number,                -- 수량
     constraint product_cart_cart_id_pk primary key(cart_id)
 );
+ 
  

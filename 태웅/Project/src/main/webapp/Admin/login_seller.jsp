@@ -78,7 +78,7 @@
 	                                        찾기</a>
 	                            </div>
                             </div>
-                          
+                          	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                             <button type="button" class="submitBtn" value="Login">로그인</button>
                             <button type="button" class="submitjoinBtn"
                                      onclick="javascript:location.href='JoinSeller.ad'">회원가입하기</button>

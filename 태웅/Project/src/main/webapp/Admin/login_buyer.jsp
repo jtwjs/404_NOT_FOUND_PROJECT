@@ -80,7 +80,7 @@
 	                                        찾기</a>
 	                            </div>
                             </div>
-                          
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                             <button type="button" value="Login" class="submitBtn" >로그인</button>
                             <button type="button" class="submitjoinBtn"
                                      onclick="javascript:location.href='JoinBuyer.ad'">회원가입하기</button>
