@@ -29,10 +29,20 @@ CREATE SEQUENCE buyer_num_seq
 --     select buyer_num_seq.nextval from DUAL;
 --     select buyer_num_seq.currval from dual;   
     
-    select * from member_buyer;
+    select * from member_seller;
     select count(*) from member_buyer where buyer_Id = 'asdf95032';
 commit;
+     select sum(s.count) from (
+     select count(*) as count
+     from member_buyer 
+     where buyer_id='zkfna123'
+     union all
+     select count(*) as count
+     from member_seller
+     where seller_id='zkfna123'
+     )s;
      
+     select * from member_seller;
      /*판매자*/
      create table member_seller(               -- 판매자 테이블
     seller_id varchar2(16) not null,      -- 판매자 ID (기본키)

@@ -20,11 +20,8 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 	
 	@Lazy
 	@Autowired
-	private BuyerDetailService buyerService;
+	private CustomDetailService buyerService;
 	
-	@Lazy
-	@Autowired
-	private SellerDetailService sellerService;
 
 	
 	@Override
@@ -33,11 +30,11 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 			throws ServletException, IOException {
 		request.getSession().setMaxInactiveInterval(TIME);
 		if(authentication.getAuthorities().toString().equals("[ROLE_BUYER]")) {
-			buyerService.updateLoginDateBy(((User) authentication.getPrincipal()).getUsername());
+			buyerService.updateBuyerLoginDateBy(((User) authentication.getPrincipal()).getUsername());
 			System.out.println("BUYER");
 		}
 		else if(authentication.getAuthorities().toString().equals("[ROLE_SELLER]")) {
-			sellerService.updateLoginDateBy(((User) authentication.getPrincipal()).getUsername());
+			buyerService.updateSellerLoginDateBy(((User) authentication.getPrincipal()).getUsername());
 			System.out.println("SELLER");
 
 		}

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.config.Security.BuyerDetailService;
+import com.spring.config.Security.CustomDetailService;
 import com.spring.config.Security.CurrentUser;
 
 @Controller
@@ -27,7 +27,7 @@ public class BuyerController {
 	BuyerService buyerService;
 	
 	@Autowired
-	BuyerDetailService SecurityService;
+	CustomDetailService SecurityService;
 	
     @RequestMapping(value = "/BuyerMyPage.by")  
     public String buyerMyPage(Model model, @CurrentUser BuyerVO account) {

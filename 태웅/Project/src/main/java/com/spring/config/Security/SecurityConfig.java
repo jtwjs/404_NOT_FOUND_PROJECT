@@ -29,10 +29,8 @@ import org.springframework.security.web.access.expression.WebExpressionVoter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Lazy	
 	@Autowired
-	BuyerDetailService buyerService;
-	@Lazy
-	@Autowired
-	SellerDetailService sellerService;
+	CustomDetailService AccountService;
+	
 	
 	@Autowired public LoginSuccessHandler LoginSuccessHandler;
 	
@@ -61,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             http.authorizeRequests()
             
             		.mvcMatchers("/Buyer**").hasRole("BUYER")
-            		.mvcMatchers("/Seller**e").hasRole("SELLER")
+            		.mvcMatchers("/Seller**").hasRole("SELLER")
             		.mvcMatchers("/**").permitAll()
             		.anyRequest().authenticated()
                     .accessDecisionManager(accessDecisionManager())
@@ -73,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .defaultSuccessUrl("/Index.in")
                 .successHandler(LoginSuccessHandler)
                 .failureHandler(LoginFailureHandler)
+                .and().csrf().ignoringAntMatchers("/duplicationCheck**")
                 .and()
                 .logout()
                 .logoutUrl("/logout.ad")
@@ -86,6 +85,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             	.invalidSessionUrl("/Login.ad") // 유효하지않은 세션 redirect
             	.maximumSessions(1)	//동시성제어
             		.expiredUrl("/Login.ad");
+            http.rememberMe()
+            	.rememberMeParameter("remember")
+            	.userDetailsService(AccountService)
+            	.key("remember-me");
             	
 
              
@@ -93,14 +96,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         
         @Override
         public void configure(WebSecurity webSecurity) throws Exception {
-         webSecurity.ignoring().antMatchers("/resources/**", "/css/**", "/js/**","/Images/**"); 
+         webSecurity.ignoring().antMatchers("/resources/**/**", "/css/**", "/js/**","/Images/**"); 
         }
 	
       
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        	auth.userDetailsService(buyerService);
-        	auth.userDetailsService(sellerService);
+        	auth.userDetailsService(AccountService);
         }
    
         

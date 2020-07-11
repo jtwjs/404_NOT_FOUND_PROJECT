@@ -99,13 +99,26 @@ function uncheck_all() {
   /*아이디 유효성검사*/
   
   //아이디 중복검사 함수
-
- function duplicateCheck() {
+  $(function() {
+      var csrfToken = '${_csrf.token}';
+      var csrfHeader = '${_csrf.headerName}';
+      $(document).ajaxSend(function (e, xhr, options) {
+          xhr.setRequestHeader(csrfHeader, csrfToken);
+      });
+  });
+  
+  function duplicateCheck() {
 	  var $idValue = $('#userId').val();
+	  var token = $("meta[name='_csrf']").attr("content");
+	  var header = $("meta[name='_csrf_header']").attr("content");
 	  $.ajax({
 		  url: '/project/duplicationCheck.by',
 		  type: 'POST',
 		  data: {id : $idValue},
+		  beforeSend: function(xhr){
+			  /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+			  xhr.setRequestHeader(header,token);
+		  },
 		  dataType: 'json',
 		  contentType: 'application/x-www-form-urlencoded; charset=utf-8',
 		  success: function(data){
@@ -115,6 +128,9 @@ function uncheck_all() {
 				  idCheckResult.classList.add('error');
 				  id.value = '';
 			  }
+		  },
+		  error: function(xhr,status,error){
+			  console.log('error:'+error);
 		  }
 	  });  
   }

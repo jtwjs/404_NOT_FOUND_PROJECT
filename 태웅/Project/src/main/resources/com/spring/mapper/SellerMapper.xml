@@ -36,7 +36,15 @@
 	</select>
 	
 	<select id = "selectCountById" resultType = "int" >
-		SELECT count(*) FROM member_seller WHERE seller_id = #{id}
+		 select sum(s.count) from (
+     select count(*) as count
+     from member_buyer 
+     where buyer_id=#{id}
+     union all
+     select count(*) as count
+     from member_seller
+     where seller_id=#{id}
+     )s
 	</select>
 	
 	<insert id = "InsertSellerAccout" parameterType = "com.spring.seller.SellerVO">
