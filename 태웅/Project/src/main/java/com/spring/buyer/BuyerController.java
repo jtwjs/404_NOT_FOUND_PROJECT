@@ -3,6 +3,7 @@ package com.spring.buyer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -17,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.config.Security.CustomDetailService;
 import com.spring.config.Security.CurrentUser;
+import com.spring.config.Security.CustomDetailService;
 
 @Controller
 public class BuyerController {
@@ -49,8 +50,11 @@ public class BuyerController {
     
     @RequestMapping(value = "/BuyerMyPageDeliveryManager.by")  // �봽濡쒗븘 - 諛곗넚吏� 愿�由�
     public String buyerMyPageDeliveryManager(Model model, @CurrentUser BuyerVO account) {
+    	ArrayList<deliveryVO> list = buyerService.deliveryListAll(account.getId());
+    	model.addAttribute("list",list);
     	model.addAttribute("name",account.getName());
     	model.addAttribute("loginDate",account.getLoginDate().substring(0,10));
+    	
     	return "Buyer/mypage_deliveryManager";
     }
     

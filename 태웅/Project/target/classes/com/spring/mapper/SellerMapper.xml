@@ -36,7 +36,7 @@
 	</select>
 	
 	<select id = "selectCountById" resultType = "int" >
-		 select sum(s.count) from (
+			 select sum(s.count) from (
      select count(*) as count
      from member_buyer 
      where buyer_id=#{id}
@@ -44,6 +44,10 @@
      select count(*) as count
      from member_seller
      where seller_id=#{id}
+     union all
+     select count(*) as count
+     from admin
+     where admin_id=#{id}
      )s
 	</select>
 	

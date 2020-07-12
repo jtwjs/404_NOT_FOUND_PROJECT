@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
@@ -28,9 +29,7 @@ import org.springframework.security.web.access.expression.WebExpressionVoter;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Lazy	
-	@Autowired
-	CustomDetailService AccountService;
-	
+	@Autowired CustomDetailService AccountService;
 	
 	@Autowired public LoginSuccessHandler LoginSuccessHandler;
 	
@@ -40,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	public AccessDecisionManager accessDecisionManager() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
         roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_BUYER");
+        roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_SELLER");
 
         DefaultWebSecurityExpressionHandler handler = new DefaultWebSecurityExpressionHandler();
         handler.setRoleHierarchy(roleHierarchy);
@@ -57,7 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         	
   
             http.authorizeRequests()
-            
+            		.mvcMatchers("/BordNoticeWrite.sc","//Boardnoticemodify.sc",
+            				"/FaqBoardWrite.sc","/FaqBoardModify.sc").hasRole("ADMIN")
             		.mvcMatchers("/Buyer**").hasRole("BUYER")
             		.mvcMatchers("/Seller**").hasRole("SELLER")
             		.mvcMatchers("/**").permitAll()
@@ -74,10 +75,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .and().csrf().ignoringAntMatchers("/duplicationCheck**")
                 .and()
                 .logout()
-                .logoutUrl("/logout.ad")
+                .logoutUrl("/logout.ad").permitAll()
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
-                .deleteCookies("JESSIONID")
+                .deleteCookies("JESSIONID","remember-me")
                 .and()
                 .httpBasic();
             

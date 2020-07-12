@@ -1,20 +1,46 @@
-/*±¸¸ÅÀÚ*/
-create table member_buyer(          -- ±¸¸ÅÀÚ Å×ÀÌºí
-    buyer_id varchar2(16) not null, -- ±¸¸ÅÀÚ ID (±âº»Å°)
-    password varchar2(100) not null, -- ºñ¹Ğ¹øÈ£ (*¾ÏÈ£È­¶§¹®¿¡ Å©±â´Ã¸²)
-    name varchar2(16) not null,     -- ÀÌ¸§
-    tel varchar2(13) not null,      -- ¿¬¶ôÃ³
-    email varchar2(33) not null,    -- ÀÌ¸ŞÀÏ
-    address varchar2(100) not null, -- ÁÖ¼Ò
-    buyer_num number not null,      -- ±¸¸ÅÀÚ µî·Ï¹øÈ£
-    grade char(1) default 0 not null,         -- ±¸¸ÅÀÚ µî±Ş
-    member_type varchar(10) default 'BUYER' not null,    -- ¸â¹öÅ¸ÀÔ (±¸¸ÅÀÚ:B ÆÇ¸ÅÀÚ:S °ü¸®ÀÚ:A)
-    del_flag char(1) default 'N' not null,      -- Å»Åğ¿©ºÎ (Y,NÀ¸·Î ±¸ºĞÇØ¼­ º¸°ü)
-    join_date date default sysdate not null,        -- È¸¿ø°¡ÀÔÀÏ
-    wthdr_date date,                -- È¸¿øÅ»ÅğÀÏ
-    save_point number  default 0 not null,     -- Àû¸³±İ
-    profile_img varchar2(200),          --ÇÁ·ÎÇÊ»çÁø
-    last_loginDate date default sysdate,                --¸¶Áö¸·Á¢¼ÓÀÏÀÚ
+drop table admin;
+create table admin(                 -- ê´€ë¦¬ì í…Œì´ë¸”
+    admin_id varchar2(16) not null, -- ê´€ë¦¬ì ID (ê¸°ë³¸í‚¤)
+    password varchar2(100) not null, -- ë¹„ë°€ë²ˆí˜¸
+    name varchar2(16) not null,     -- ì´ë¦„
+    admin_num number not null,      -- ê´€ë¦¬ì ë²ˆí˜¸
+    member_type varchar(10) default 'ADMIN' not null,    -- ë©¤ë²„íƒ€ì… (ê´€ë¦¬ì)
+    constraint admin_admin_id_pk primary key(admin_id)
+);
+commit;
+select * from member_buyer;
+desc admin;
+update admin set password='{bcrypt}$2a$10$YDrBdse01oq9eSS/zGjm6.wDoJvotAnjw/l/cikIwmRlSGBrOTMYy'/*1234*/
+where admin_id = 'admin';
+--insert into admin 
+--values ('admin','1234','ê´€ë¦¬ì',admin_num_seq.nextval,'ADMIN');
+select * from admin;
+select * from member_buyer;
+CREATE SEQUENCE admin_num_seq
+    INCREMENT BY 1
+    START WITH 1
+    MAXVALUE 9999
+    NOCYCLE;
+
+
+/*êµ¬ë§¤ì*/
+select* from member_buyer;
+create table member_buyer(          -- êµ¬ë§¤ì í…Œì´ë¸”
+    buyer_id varchar2(16) not null, -- êµ¬ë§¤ì ID (ê¸°ë³¸í‚¤)
+    password varchar2(100) not null, -- ë¹„ë°€ë²ˆí˜¸ (*ì•”í˜¸í™”ë•Œë¬¸ì— í¬ê¸°ëŠ˜ë¦¼)
+    name varchar2(16) not null,     -- ì´ë¦„
+    tel varchar2(13) not null,      -- ì—°ë½ì²˜
+    email varchar2(33) not null,    -- ì´ë©”ì¼
+    address varchar2(100) not null, -- ì£¼ì†Œ
+    buyer_num number not null,      -- êµ¬ë§¤ì ë“±ë¡ë²ˆí˜¸
+    grade char(1) default 0 not null,         -- êµ¬ë§¤ì ë“±ê¸‰
+    member_type varchar(10) default 'BUYER' not null,    -- ë©¤ë²„íƒ€ì… (êµ¬ë§¤ì:B íŒë§¤ì:S ê´€ë¦¬ì:A)
+    del_flag char(1) default 'N' not null,      -- íƒˆí‡´ì—¬ë¶€ (Y,Nìœ¼ë¡œ êµ¬ë¶„í•´ì„œ ë³´ê´€)
+    join_date date default sysdate not null,        -- íšŒì›ê°€ì…ì¼
+    wthdr_date date,                -- íšŒì›íƒˆí‡´ì¼
+    save_point number  default 0 not null,     -- ì ë¦½ê¸ˆ
+    profile_img varchar2(200),          --í”„ë¡œí•„ì‚¬ì§„
+    last_loginDate date default sysdate,                --ë§ˆì§€ë§‰ì ‘ì†ì¼ì
     constraint member_buyer_buyer_id_pk primary key(buyer_id)
 );
 select * from member_buyer;
@@ -28,41 +54,63 @@ CREATE SEQUENCE buyer_num_seq
     NOCYCLE;
 --     select buyer_num_seq.nextval from DUAL;
 --     select buyer_num_seq.currval from dual;   
-    
-    select * from member_seller;
-    select count(*) from member_buyer where buyer_Id = 'asdf95032';
-commit;
-     select sum(s.count) from (
-     select count(*) as count
-     from member_buyer 
-     where buyer_id='zkfna123'
-     union all
-     select count(*) as count
-     from member_seller
-     where seller_id='zkfna123'
-     )s;
+
+    /*ê°œì¸ë°°ì†¡ì§€(êµ¬ë§¤ì)*/
+drop table list_delivery;
+select * from list_delivery;
+create table list_delivery(                 -- ê°œì¸ì €ì¥ ë°°ì†¡ì§€ ëª©ë¡
+    buyer_id varchar2(16) not null,         -- êµ¬ë§¤ì ID(member_buyerí…Œì´ë¸” ì™¸ë˜í‚¤)
+    delivery_name varchar2(20) default 'ê¸°ë³¸ ë°°ì†¡ì§€' not null,    -- ë°°ì†¡ì§€ëª…
+    address varchar2(100) not null,          -- ë°°ì†¡ì§€ ì£¼ì†Œ
+    receiver_name varchar2(20) not null,    -- ìˆ˜ë ¹ì¸
+    receiver_phone varchar2(13) not null,   -- ì—°ë½ì²˜
+    constraint list_delivery_buyer_id_fk foreign key(buyer_id)
+        references member_buyer(buyer_id) on delete cascade
+);
+ desc list_delivery;
+/*êµ¬ë§¤ì íšŒì›ê°€ì…ì‹œ ê°œì¸ë°°ì†¡ì§€ ì¶”ê°€ íŠ¸ë¦¬ê±°*/
+create or replace trigger TRG_Buyer_delivery
+AFTER INSERT ON member_buyer
+for each row
+BEGIN
+insert into list_delivery (BUYER_ID, ADDRESS, RECEIVER_NAME, RECEIVER_PHONE)
+values (:new.buyer_id, :new.address, :new.name, :new.tel);
+END;
+--     select sum(s.count) from (
+--     select count(*) as count
+--     from member_buyer 
+--     where buyer_id='zkfna123'
+--     union all
+--     select count(*) as count
+--     from member_seller
+--     where seller_id='zkfna123'
+--     union all
+--     select count(*) as count
+--     from admin
+--     where admin_id='zkfna123'
+--     )s;
      
      select * from member_seller;
-     /*ÆÇ¸ÅÀÚ*/
-     create table member_seller(               -- ÆÇ¸ÅÀÚ Å×ÀÌºí
-    seller_id varchar2(16) not null,      -- ÆÇ¸ÅÀÚ ID (±âº»Å°)
-    password varchar2(100) not null,       -- ºñ¹Ğ¹øÈ£(*¾ÏÈ£È­¶§¹®¿¡ Å©±â´Ã¸²)
-    shop_name varchar2(16) not null,      -- »óÈ£¸í
-    representative varchar2(16) not null, -- ´ëÇ¥ÀÚ
-    address varchar2(100) not null,       -- ÁÖ¼Ò
-    manager_phone varchar2(13) not null,  -- ´ã´çÀÚ ¿¬¶ôÃ³
-    manager_email varchar2(33) not null,  -- ´ã´çÀÚ ÀÌ¸ŞÀÏ
-    manager_name varchar2(16) not null,   -- ´ã´çÀÚ ÀÌ¸§
-    mail_order_report_num varchar2(20) not null,  -- Åë½ÅÆÇ¸Å½Å°í¹øÈ£
+     /*íŒë§¤ì*/
+     create table member_seller(               -- íŒë§¤ì í…Œì´ë¸”
+    seller_id varchar2(16) not null,      -- íŒë§¤ì ID (ê¸°ë³¸í‚¤)
+    password varchar2(100) not null,       -- ë¹„ë°€ë²ˆí˜¸(*ì•”í˜¸í™”ë•Œë¬¸ì— í¬ê¸°ëŠ˜ë¦¼)
+    shop_name varchar2(16) not null,      -- ìƒí˜¸ëª…
+    representative varchar2(16) not null, -- ëŒ€í‘œì
+    address varchar2(100) not null,       -- ì£¼ì†Œ
+    manager_phone varchar2(13) not null,  -- ë‹´ë‹¹ì ì—°ë½ì²˜
+    manager_email varchar2(33) not null,  -- ë‹´ë‹¹ì ì´ë©”ì¼
+    manager_name varchar2(16) not null,   -- ë‹´ë‹¹ì ì´ë¦„
+    mail_order_report_num varchar2(20) not null,  -- í†µì‹ íŒë§¤ì‹ ê³ ë²ˆí˜¸
     mail_order_report_img varchar2(200) not null,
     bank_name varchar2(20) not null,
-    bank_account varchar2(20) not null,   -- Á¤»ê´ë±İÀÔ±İ°èÁÂ
-    seller_reg_num number not null,       -- ÆÇ¸ÅÀÚ µî·Ï¹øÈ£
-    seller_grade char(1) default 0 not null,        -- ÆÇ¸ÅÀÚ µî±Ş 
-    member_type varchar2(10) default 'SELLER' not null,          -- ¸â¹öÅ¸ÀÔ (ÆÇ¸ÅÀÚ) (±¸¸ÅÀÚ:B ÆÇ¸ÅÀÚ:S °ü¸®ÀÚ:A)
-    del_flag char(1) default 'N' not null,            -- Å»Åğ¿©ºÎ (Y,NÀ¸·Î ±¸ºĞ)
-    join_date date default sysdate not null,              -- È¸¿ø°¡ÀÔÀÏ
-    wthdr_date date,                        -- È¸¿øÅ»ÅğÀÏ
+    bank_account varchar2(20) not null,   -- ì •ì‚°ëŒ€ê¸ˆì…ê¸ˆê³„ì¢Œ
+    seller_reg_num number not null,       -- íŒë§¤ì ë“±ë¡ë²ˆí˜¸
+    seller_grade char(1) default 0 not null,        -- íŒë§¤ì ë“±ê¸‰ 
+    member_type varchar2(10) default 'SELLER' not null,          -- ë©¤ë²„íƒ€ì… (íŒë§¤ì) (êµ¬ë§¤ì:B íŒë§¤ì:S ê´€ë¦¬ì:A)
+    del_flag char(1) default 'N' not null,            -- íƒˆí‡´ì—¬ë¶€ (Y,Nìœ¼ë¡œ êµ¬ë¶„)
+    join_date date default sysdate not null,              -- íšŒì›ê°€ì…ì¼
+    wthdr_date date,                        -- íšŒì›íƒˆí‡´ì¼
     profile_img varchar2(200),
     last_loginDate date default sysdate,
     constraint member_seller_seller_id_pk primary key(seller_id)
@@ -78,121 +126,121 @@ CREATE SEQUENCE seller_num_seq
      select * from member_seller;
     
     
- create table board_faq(          -- ÀÚÁÖ¹¯´ÂÁú¹® °Ô½ÃÆÇ
-num number not null,         -- ¸®½ºÆ® ¹øÈ£ (±âº»Å°)
-title varchar2(50),          -- °Ô½ÃÆÇ Á¦¸ñ
-content varchar2(2000),      -- °Ô½ÃÆÇ ³»¿ë
+ create table board_faq(          -- ìì£¼ë¬»ëŠ”ì§ˆë¬¸ ê²Œì‹œíŒ
+num number not null,         -- ë¦¬ìŠ¤íŠ¸ ë²ˆí˜¸ (ê¸°ë³¸í‚¤)
+title varchar2(50),          -- ê²Œì‹œíŒ ì œëª©
+content varchar2(2000),      -- ê²Œì‹œíŒ ë‚´ìš©
 boarddate date,
 constraint board_faq_num_pk primary key(num)
 );
 
-create table board_notice(            -- °øÁö»çÇ×
+create table board_notice(            -- ê³µì§€ì‚¬í•­
 
-    num number not null,                -- °øÁö»çÇ× ±Û¹øÈ£
-    title varchar2(1600) not null,      -- °øÁö»çÇ× Á¦¸ñ
-    content varchar2(4000) not null,    -- °øÁö»çÇ× ±Û³»¿ë
-    hit number not null,                   -- Á¶È¸¼ö
-    register_date date not null            -- °øÁö»çÇ× µî·ÏÀÏ
+    num number not null,                -- ê³µì§€ì‚¬í•­ ê¸€ë²ˆí˜¸
+    title varchar2(1600) not null,      -- ê³µì§€ì‚¬í•­ ì œëª©
+    content varchar2(4000) not null,    -- ê³µì§€ì‚¬í•­ ê¸€ë‚´ìš©
+    hit number not null,                   -- ì¡°íšŒìˆ˜
+    register_date date not null            -- ê³µì§€ì‚¬í•­ ë“±ë¡ì¼
     
 );
-/*»óÇ°µî·Ï*/
+/*ìƒí’ˆë“±ë¡*/
 drop table board_product;
-create table board_product(                     -- ÆÇ¸Å°Ô½ÃÆÇ
-    board_id varchar2(32) not null,             -- °Ô½ÃÆÇ ID (±âº»Å°)
-    seller_id varchar2(16) not null,            -- ÀÛ¼ºÀÚ (member_sellerÅ×ÀÌºí ¿Ü·¡Å°)
-    board_num number not null,                  -- °Ô½ÃÆÇ ¹øÈ£
-    title varchar2(100) not null,               -- °Ô½ÃÆÇ ÀÌ¸§
-    price number not null,                      -- ÆÇ¸Å°¡
-    delivery_price number not null,             -- ¹è¼Ûºñ
-	quantity number not null,                   -- ¼ö·®
-    satisfaction number(2,1),                   -- Æò°¡Á¡¼ö
-    content varchar2(2000) not null,            -- °Ô½ÃÆÇ ³»¿ë
-    register_date date not null,                -- °Ô½Ã±Û µî·ÏÀÏ
-    category_1 number not null,                 -- 1Â÷ Ä«Å×°í¸® (ºĞ·ù)
-    category_2 number not null,                 -- 2Â÷ Ä«Å×°í¸® (»óÇ°)
-    category_local number not null,             -- ¿ø»êÁö ÄÚµå (Áö¿ª ºĞ·ù)
-    sales_producer varchar2(32) not null,       -- »óÇ°Á¤º¸ (ÆÇ¸Å»ı»êÀÚ)
-    product_name varchar2(32) not null,         -- »óÇ°Á¤º¸ (»óÇ°¸í)
-    product_weight varchar2(32) not null,       -- »óÇ°Á¤º¸ (»óÇ°Áß·®)
-    product_size varchar2(64) not null,         -- »óÇ°Á¤º¸ (»óÇ°Å©±â)
-    product_country varchar2(32) not null,      -- »óÇ°Á¤º¸ (¿ø»êÁö)
-    date_manufacture varchar2(32) not null,     -- »óÇ°Á¤º¸ (Á¦Á¶³â¿ùÀÏ)
-    best_before_date varchar2(32) not null,     -- »óÇ°Á¤º¸ (Ç°ÁúÀ¯Áö±âÇÑ)
-    transgenic varchar2(32) not null,           -- »óÇ°Á¤º¸ (À¯ÀüÀÚ º¯Çü ³ó¼ö»ê¹° Ç¥½Ã)
-    storage_method varchar2(32) not null,       -- »óÇ°Á¤º¸ (º¸°ü¹æ¹ı)
-    consumer_consulation varchar2(16) not null, -- »óÇ°Á¤º¸ (¼ÒºñÀÚ»ó´ã¹®ÀÇ)
-	thumbnail_origin varchar2(100),             -- ½æ³×ÀÏ ÀÌ¹ÌÁö ¿øº» ÀÌ¸§
-	thumbnail_thum varchar2(100),               -- ½æ³×ÀÏ ÀÌ¹ÌÁö ÀÌ¸§
-	product_origin_1 varchar2(100),             -- ´ëÇ¥ ÀÌ¹ÌÁö1 ÀÌ¸§
-	product_thum_1 varchar2(100),               -- ´ëÇ¥ ÀÌ¹ÌÁö1 ½æ³×ÀÏ ÀÌ¸§
-	product_origin_2 varchar2(100),             -- ´ëÇ¥ ÀÌ¹ÌÁö2 ÀÌ¸§
-	product_thum_2 varchar2(100),               -- ´ëÇ¥ ÀÌ¹ÌÁö2 ½æ³×ÀÏ ÀÌ¸§
-	product_origin_3 varchar2(100),             -- ´ëÇ¥ ÀÌ¹ÌÁö3 ÀÌ¸§
-	product_thum_3 varchar2(100),               -- ´ëÇ¥ ÀÌ¹ÌÁö3 ½æ³×ÀÏ ÀÌ¸§
-	product_origin_4 varchar2(100),             -- ´ëÇ¥ ÀÌ¹ÌÁö4 ÀÌ¸§
-	product_thum_4 varchar2(100),               -- ´ëÇ¥ ÀÌ¹ÌÁö4 ½æ³×ÀÏ ÀÌ¸§
-	content_origin varchar2(100),               -- °Ô½Ã±Û º»¹® ÀÌ¹ÌÁö ÀÌ¸§
-    thumbnail_origin_path varchar2(100),        -- ½æ³×ÀÏ ¿øº» °æ·Î
-    thumbnail_thum_path varchar2(100),          -- ½æ³×ÀÏ ½æ³×ÀÏ °æ·Î
-    product_origin_path varchar2(100),          -- ´ëÇ¥ÀÌ¹ÌÁö ¿øº» °æ·Î
-    product_thum_path varchar2(100),            -- ´ëÇ¥ÀÌ¹ÌÁö ½æ³×ÀÏ °æ·Î
-    content_origin_path varchar2(100),          -- º»¹®ÀÌ¹ÌÁö ¿øº» °æ·Î
-    sale_status char(1) not null,               -- ÆÇ¸Å¿©ºÎ (Y, NÀ¸·Î ±¸ºĞ)
-    hit number not null,                        -- ÆÇ¸Å¼ö
-    read_count number not null,                 -- Á¶È¸¼ö
+create table board_product(                     -- íŒë§¤ê²Œì‹œíŒ
+    board_id varchar2(32) not null,             -- ê²Œì‹œíŒ ID (ê¸°ë³¸í‚¤)
+    seller_id varchar2(16) not null,            -- ì‘ì„±ì (member_sellerí…Œì´ë¸” ì™¸ë˜í‚¤)
+    board_num number not null,                  -- ê²Œì‹œíŒ ë²ˆí˜¸
+    title varchar2(100) not null,               -- ê²Œì‹œíŒ ì´ë¦„
+    price number not null,                      -- íŒë§¤ê°€
+    delivery_price number not null,             -- ë°°ì†¡ë¹„
+	quantity number not null,                   -- ìˆ˜ëŸ‰
+    satisfaction number(2,1),                   -- í‰ê°€ì ìˆ˜
+    content varchar2(2000) not null,            -- ê²Œì‹œíŒ ë‚´ìš©
+    register_date date not null,                -- ê²Œì‹œê¸€ ë“±ë¡ì¼
+    category_1 number not null,                 -- 1ì°¨ ì¹´í…Œê³ ë¦¬ (ë¶„ë¥˜)
+    category_2 number not null,                 -- 2ì°¨ ì¹´í…Œê³ ë¦¬ (ìƒí’ˆ)
+    category_local number not null,             -- ì›ì‚°ì§€ ì½”ë“œ (ì§€ì—­ ë¶„ë¥˜)
+    sales_producer varchar2(32) not null,       -- ìƒí’ˆì •ë³´ (íŒë§¤ìƒì‚°ì)
+    product_name varchar2(32) not null,         -- ìƒí’ˆì •ë³´ (ìƒí’ˆëª…)
+    product_weight varchar2(32) not null,       -- ìƒí’ˆì •ë³´ (ìƒí’ˆì¤‘ëŸ‰)
+    product_size varchar2(64) not null,         -- ìƒí’ˆì •ë³´ (ìƒí’ˆí¬ê¸°)
+    product_country varchar2(32) not null,      -- ìƒí’ˆì •ë³´ (ì›ì‚°ì§€)
+    date_manufacture varchar2(32) not null,     -- ìƒí’ˆì •ë³´ (ì œì¡°ë…„ì›”ì¼)
+    best_before_date varchar2(32) not null,     -- ìƒí’ˆì •ë³´ (í’ˆì§ˆìœ ì§€ê¸°í•œ)
+    transgenic varchar2(32) not null,           -- ìƒí’ˆì •ë³´ (ìœ ì „ì ë³€í˜• ë†ìˆ˜ì‚°ë¬¼ í‘œì‹œ)
+    storage_method varchar2(32) not null,       -- ìƒí’ˆì •ë³´ (ë³´ê´€ë°©ë²•)
+    consumer_consulation varchar2(16) not null, -- ìƒí’ˆì •ë³´ (ì†Œë¹„ììƒë‹´ë¬¸ì˜)
+	thumbnail_origin varchar2(100),             -- ì¸ë„¤ì¼ ì´ë¯¸ì§€ ì›ë³¸ ì´ë¦„
+	thumbnail_thum varchar2(100),               -- ì¸ë„¤ì¼ ì´ë¯¸ì§€ ì´ë¦„
+	product_origin_1 varchar2(100),             -- ëŒ€í‘œ ì´ë¯¸ì§€1 ì´ë¦„
+	product_thum_1 varchar2(100),               -- ëŒ€í‘œ ì´ë¯¸ì§€1 ì¸ë„¤ì¼ ì´ë¦„
+	product_origin_2 varchar2(100),             -- ëŒ€í‘œ ì´ë¯¸ì§€2 ì´ë¦„
+	product_thum_2 varchar2(100),               -- ëŒ€í‘œ ì´ë¯¸ì§€2 ì¸ë„¤ì¼ ì´ë¦„
+	product_origin_3 varchar2(100),             -- ëŒ€í‘œ ì´ë¯¸ì§€3 ì´ë¦„
+	product_thum_3 varchar2(100),               -- ëŒ€í‘œ ì´ë¯¸ì§€3 ì¸ë„¤ì¼ ì´ë¦„
+	product_origin_4 varchar2(100),             -- ëŒ€í‘œ ì´ë¯¸ì§€4 ì´ë¦„
+	product_thum_4 varchar2(100),               -- ëŒ€í‘œ ì´ë¯¸ì§€4 ì¸ë„¤ì¼ ì´ë¦„
+	content_origin varchar2(100),               -- ê²Œì‹œê¸€ ë³¸ë¬¸ ì´ë¯¸ì§€ ì´ë¦„
+    thumbnail_origin_path varchar2(100),        -- ì¸ë„¤ì¼ ì›ë³¸ ê²½ë¡œ
+    thumbnail_thum_path varchar2(100),          -- ì¸ë„¤ì¼ ì¸ë„¤ì¼ ê²½ë¡œ
+    product_origin_path varchar2(100),          -- ëŒ€í‘œì´ë¯¸ì§€ ì›ë³¸ ê²½ë¡œ
+    product_thum_path varchar2(100),            -- ëŒ€í‘œì´ë¯¸ì§€ ì¸ë„¤ì¼ ê²½ë¡œ
+    content_origin_path varchar2(100),          -- ë³¸ë¬¸ì´ë¯¸ì§€ ì›ë³¸ ê²½ë¡œ
+    sale_status char(1) not null,               -- íŒë§¤ì—¬ë¶€ (Y, Nìœ¼ë¡œ êµ¬ë¶„)
+    hit number not null,                        -- íŒë§¤ìˆ˜
+    read_count number not null,                 -- ì¡°íšŒìˆ˜
     constraint board_product_board_id_pk primary key(board_id)
 );
 
 
 
-/*À§½Ã¸®½ºÆ®*/
+/*ìœ„ì‹œë¦¬ìŠ¤íŠ¸*/
 drop table wish_list;
 create table wish_list(
-    wish_id varchar2(32) not null,         -- À§½Ã¸®½ºÆ® ID°ª (±âº»Å°, ·£´ı»ı¼º)
-    buyer_id varchar2(16) not null,        -- ±¸¸ÅÀÚ ID (member_buyerÅ×ÀÌºí ¿Ü·¡Å°)
-    board_id varchar2(32) not null,        -- ÆÇ¸Å°Ô½ÃÆÇ ID (board_productÅ×ÀÌºí ¿Ü·¡Å°)
+    wish_id varchar2(32) not null,         -- ìœ„ì‹œë¦¬ìŠ¤íŠ¸ IDê°’ (ê¸°ë³¸í‚¤, ëœë¤ìƒì„±)
+    buyer_id varchar2(16) not null,        -- êµ¬ë§¤ì ID (member_buyerí…Œì´ë¸” ì™¸ë˜í‚¤)
+    board_id varchar2(32) not null,        -- íŒë§¤ê²Œì‹œíŒ ID (board_productí…Œì´ë¸” ì™¸ë˜í‚¤)
     constraint wish_list_wish_id_pk primary key(wish_id)
 );
 
 
-/*ÁÖ¹®±â·Ï*/
+/*ì£¼ë¬¸ê¸°ë¡*/
 drop table order_record;
-create table order_record(                   -- ÁÖ¹®±â·Ï
-    order_num number not null,               -- ÁÖ¹®¹øÈ£ (±âº»Å°)
-    order_id varchar2(32) not null,          -- ÁÖ¹®¹øÈ£ ID
-    board_id varchar2(32) not null,          -- »óÇ°ÆÇ¸Å±Û ID (member_buyerÅ×ÀÌºí ¿Ü·¡Å°)
-    board_title varchar2(100) not null,      -- »óÇ°ÆÇ¸Å±Û Á¦¸ñ
-	seller_id varchar2(16) not null,         -- ÆÇ¸ÅÀÚ ID
-	buyer_id varchar2(16) not null,          -- ±¸¸ÅÀÚ ID
-    amount number not null,                  -- ±¸¸Å¼ö·®
-    price number not null,                   -- »óÇ° ±İ¾×
-    delivery_price number not null,          -- ¹è¼Ûºñ
-    use_point number not null,               -- »ç¿ëÇÑ Àû¸³±İ
-	tot_price number not null,               -- ÃÑÇÕ ±İ¾×
-    status varchar2(16) not null,            -- ÁÖ¹®»óÅÂ
-    buyer_name varchar2(16) not null,        -- ÁÖ¹®ÀÚ ÀÌ¸§
-    buyer_phone varchar2(13) not null,       -- ÁÖ¹®ÀÚ ¹øÈ£
-    buyer_email varchar2(33) not null,       -- ÁÖ¹®ÀÚ ÀÌ¸ŞÀÏ
-    order_postalCode varchar2(5) not null,   -- ¿ìÆí¹øÈ£
-    order_address varchar2(100) not null,    -- ¹è¼Û ÁÖ¼Ò
-    order_name varchar2(16) not null,        -- ¹ŞÀ¸½Ç ºĞ
-    order_phone varchar2(13) not null,       -- ¹è¼Û ¿¬¶ôÃ³
-    order_demand varchar2(200),              -- ¹è¼Û ¿ä±¸»çÇ×
-    order_delivery varchar2(10) not null,    -- ¹è¼Û»ç
-    order_invoicenum varchar2(20),           -- ¼ÛÀå¹øÈ£
-    order_payment varchar2(20) not null,     -- °áÁ¦¹æ½Ä
-    order_account varchar2(20) not null,     -- °áÁ¦°èÁÂ/Ä«µå¹øÈ£
-    order_date date not null,                -- °áÁ¦ÀÏ
-    non_member_flag char(1) not null,        -- ºñÈ¸¿ø ¿©ºÎ ('Y', 'N' À¸·Î ±¸ºĞ)
+create table order_record(                   -- ì£¼ë¬¸ê¸°ë¡
+    order_num number not null,               -- ì£¼ë¬¸ë²ˆí˜¸ (ê¸°ë³¸í‚¤)
+    order_id varchar2(32) not null,          -- ì£¼ë¬¸ë²ˆí˜¸ ID
+    board_id varchar2(32) not null,          -- ìƒí’ˆíŒë§¤ê¸€ ID (member_buyerí…Œì´ë¸” ì™¸ë˜í‚¤)
+    board_title varchar2(100) not null,      -- ìƒí’ˆíŒë§¤ê¸€ ì œëª©
+	seller_id varchar2(16) not null,         -- íŒë§¤ì ID
+	buyer_id varchar2(16) not null,          -- êµ¬ë§¤ì ID
+    amount number not null,                  -- êµ¬ë§¤ìˆ˜ëŸ‰
+    price number not null,                   -- ìƒí’ˆ ê¸ˆì•¡
+    delivery_price number not null,          -- ë°°ì†¡ë¹„
+    use_point number not null,               -- ì‚¬ìš©í•œ ì ë¦½ê¸ˆ
+	tot_price number not null,               -- ì´í•© ê¸ˆì•¡
+    status varchar2(16) not null,            -- ì£¼ë¬¸ìƒíƒœ
+    buyer_name varchar2(16) not null,        -- ì£¼ë¬¸ì ì´ë¦„
+    buyer_phone varchar2(13) not null,       -- ì£¼ë¬¸ì ë²ˆí˜¸
+    buyer_email varchar2(33) not null,       -- ì£¼ë¬¸ì ì´ë©”ì¼
+    order_postalCode varchar2(5) not null,   -- ìš°í¸ë²ˆí˜¸
+    order_address varchar2(100) not null,    -- ë°°ì†¡ ì£¼ì†Œ
+    order_name varchar2(16) not null,        -- ë°›ìœ¼ì‹¤ ë¶„
+    order_phone varchar2(13) not null,       -- ë°°ì†¡ ì—°ë½ì²˜
+    order_demand varchar2(200),              -- ë°°ì†¡ ìš”êµ¬ì‚¬í•­
+    order_delivery varchar2(10) not null,    -- ë°°ì†¡ì‚¬
+    order_invoicenum varchar2(20),           -- ì†¡ì¥ë²ˆí˜¸
+    order_payment varchar2(20) not null,     -- ê²°ì œë°©ì‹
+    order_account varchar2(20) not null,     -- ê²°ì œê³„ì¢Œ/ì¹´ë“œë²ˆí˜¸
+    order_date date not null,                -- ê²°ì œì¼
+    non_member_flag char(1) not null,        -- ë¹„íšŒì› ì—¬ë¶€ ('Y', 'N' ìœ¼ë¡œ êµ¬ë¶„)
     constraint order_record_order_num_pk primary key(order_num)
 );
-/*Àå¹Ù±¸´Ï*/
+/*ì¥ë°”êµ¬ë‹ˆ*/
 drop table product_cart;
-create table product_cart(          -- Àå¹Ù±¸´Ï
-    cart_id varchar2(32) not null,  -- Àå¹Ù±¸´ÏID (±âº»Å°, ·£´ıÄÚµå »ı¼º)
-    board_id varchar2(32) not null, -- ÆÇ¸Å±Û ID
-    buyer_id varchar2(16) not null, -- ±¸¸ÅÀÚ ID (member_buyerÅ×ÀÌºí ¿Ü·¡Å°)
-    quantity number,                -- ¼ö·®
+create table product_cart(          -- ì¥ë°”êµ¬ë‹ˆ
+    cart_id varchar2(32) not null,  -- ì¥ë°”êµ¬ë‹ˆID (ê¸°ë³¸í‚¤, ëœë¤ì½”ë“œ ìƒì„±)
+    board_id varchar2(32) not null, -- íŒë§¤ê¸€ ID
+    buyer_id varchar2(16) not null, -- êµ¬ë§¤ì ID (member_buyerí…Œì´ë¸” ì™¸ë˜í‚¤)
+    quantity number,                -- ìˆ˜ëŸ‰
     constraint product_cart_cart_id_pk primary key(cart_id)
 );
  

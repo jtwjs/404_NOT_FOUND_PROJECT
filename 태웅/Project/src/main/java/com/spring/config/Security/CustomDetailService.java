@@ -8,7 +8,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.spring.admin.AdminVO;
 import com.spring.buyer.BuyerVO;
+import com.spring.mapper.AdminMapper;
 import com.spring.mapper.BuyerMapper;
 import com.spring.mapper.SellerMapper;
 import com.spring.seller.SellerVO;
@@ -17,6 +19,7 @@ import com.spring.seller.SellerVO;
 @Service()
 public class CustomDetailService implements UserDetailsService {
 	
+	@Autowired private  AdminMapper adminMapper;
 	@Autowired private  BuyerMapper buyerMapper;
 	@Autowired private  SellerMapper sellerMapper;
 	
@@ -26,12 +29,17 @@ public class CustomDetailService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 		
-	
+		AdminVO adminAccount = adminMapper.selectOndById(userId);
 		BuyerVO buyerAccount = buyerMapper.selectOneById(userId);
 		SellerVO sellerAccount = sellerMapper.selectOneById(userId);
-		if (buyerAccount == null && sellerAccount == null) {
+		
+		if (buyerAccount == null && sellerAccount == null && adminAccount == null) {
 			throw new UsernameNotFoundException(userId);
-		} else if (buyerAccount != null && sellerAccount == null) {
+		} else if (adminAccount != null && buyerAccount == null && sellerAccount == null ) {
+			System.out.println("아이디"+adminAccount.getId()+"비번"+adminAccount.getPassword()+"권한"+adminAccount.getMemberType());
+			return new AdminAccount(adminAccount);
+		}
+		else if (buyerAccount != null && sellerAccount == null && adminAccount == null) {
 			System.out.println("아이디"+buyerAccount.getId()+"비번"+buyerAccount.getPassword()+"권한"+buyerAccount.getMemberType());
 			return new BuyerAccount(buyerAccount);
 		} else {

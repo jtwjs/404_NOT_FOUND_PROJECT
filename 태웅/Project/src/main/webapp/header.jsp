@@ -25,6 +25,7 @@
               <li>
               	<a href="#" onclick="document.getElementById('logout-form').submit();">로그아웃</a>
               	<form id="logout-form" action='<c:url value='/logout.ad' />' method="POST">
+              	 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
               	</form>
               </li>
               <sec:authorize access="hasRole('ROLE_BUYER')">

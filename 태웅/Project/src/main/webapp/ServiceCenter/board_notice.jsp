@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib  prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="java.util.*"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="com.spring.service.BoardNoticeVO"%>
@@ -136,10 +137,12 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 									</tr>
 								</tbody>
 							</table>
+							<sec:authorize access="hasRole('ROLE_ADMIN')">
 							<div class="noticelist_btn">
 								<button name="boardnotice_wr" class="boardnotice_wr"
 									onclick="location.href='BoardNoticeWriteForm.sc'">글쓰기</button>
 							</div>
+							</sec:authorize>
 						</article>
 					</section>
 				</div>

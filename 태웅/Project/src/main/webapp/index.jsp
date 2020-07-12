@@ -11,7 +11,7 @@
     <link href="<c:url value='/resources/css/module/footer.css'/>" rel="stylesheet" />
     <!-- header, css end -->
     <link href="<c:url value='/resources/css/module/side.css'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/Home/index.css?after'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Home/index.css'/>" rel="stylesheet" />
     <title>Home</title>
 </head>
 <body>

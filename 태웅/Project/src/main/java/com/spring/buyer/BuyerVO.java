@@ -122,7 +122,7 @@ public class BuyerVO {
 		this.profileImg = profileImg;
 	}
 	public void setAddress(String addrNum, String addrRoadName, String addrDetail) {
-		this.address = addrNum + " " + addrRoadName + " " + addrDetail;
+		this.address = addrNum + "+" + addrRoadName + "/" + addrDetail;
 	}
 	
 	public String getLoginDate() {

@@ -12,4 +12,5 @@ public interface BuyerService {
 	int DeleteBuyerAccount(String id);
     public int getWishListOverlapCheck(String board_id, String buyer_id);
     public int insertWishList(WishListVO vo);
+    ArrayList<deliveryVO> deliveryListAll(String id);
 }

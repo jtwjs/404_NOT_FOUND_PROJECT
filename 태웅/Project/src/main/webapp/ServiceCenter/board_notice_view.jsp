@@ -3,6 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib  prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="java.util.*"%>
 <%@page import="com.spring.service.BoardNoticeVO"%>
 <%
@@ -80,8 +81,10 @@
 									<tr>
 										<td colspan="4">
 											<div class="notice_btn">	
+											<sec:authorize access="hasRole('ROLE_ADMIN')">
 											<button type="button" class="notice_modify" onclick="location.href='Boardnoticemodifyform.sc?num=<%=boardnotice.getNum() %>'">수정</button>	
-											<button type="button" class="notice_delete" onclick="location.href='BoardNoticeDelete.sc?num=<%=boardnotice.getNum() %>'">삭제</button>										
+											<button type="button" class="notice_delete" onclick="location.href='BoardNoticeDelete.sc?num=<%=boardnotice.getNum() %>'">삭제</button>
+											</sec:authorize>										
 											<button type="button" class="notice_main" onclick="location.href='BoardNotice.sc'">전체 게시물보기</button>
 											</div>
 										</td>
