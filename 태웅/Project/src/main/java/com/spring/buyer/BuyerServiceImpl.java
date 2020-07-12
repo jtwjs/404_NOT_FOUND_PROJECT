@@ -10,13 +10,9 @@ import com.spring.mapper.BuyerMapper;
 
 @Service
 public class BuyerServiceImpl implements BuyerService {
-
-		
-	@Autowired
-	BuyerMapper mapper;
 	
-	@Autowired
-    private SqlSession sqlSession;
+	@Autowired BuyerMapper mapper;
+	@Autowired private SqlSession sqlSession;
 
 
 	
@@ -77,6 +73,14 @@ public class BuyerServiceImpl implements BuyerService {
 		int result = buyerMapper.insertWishList(vo);
 		
 		return result;
+	}
+
+
+
+	@Override
+	public ArrayList<deliveryVO> deliveryListAll(String id) {
+		ArrayList<deliveryVO> list = mapper.deliveryListAll(id);
+		return list;
 	}
 	
 	

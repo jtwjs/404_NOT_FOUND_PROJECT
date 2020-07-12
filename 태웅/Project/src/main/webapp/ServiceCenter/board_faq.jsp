@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib  prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="java.util.*"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="com.spring.service.BoardFaqVO"%>
@@ -103,10 +104,10 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 										<td class="center-list__table--num"><%=num%></td>
 
 										<td align="center" class="center-list__table--title" colspan="3"><a href="#first" name="trigger"><%=bfl.getTitle()%></a></td>
-										<%-- <%if(faq_id!=null && faq_id.equals("admin")){%> --%>
+										<sec:authorize access="hasRole('ROLE_ADMIN')">
 										<td class="list__table--modify"><a href="./FaqBoardModifyform.sc?num=<%=bfl.getNum()%>">[수정]</a></td>
 										<td class="list__table--delete"><a href="./FaqBoardDelete.sc?num=<%=bfl.getNum()%>">[삭제]</a></td>
-										<%-- <%}%> --%>
+										</sec:authorize>
 
 									</tr>
 
@@ -160,12 +161,12 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 									</tr>
 								</tbody>
 							</table>
+							<sec:authorize access="hasRole('ROLE_ADMIN')">
 							<div class="faqList_btn">
-								<%-- <%if(faq_id!=null && faq_id.equals("admin")){%> --%>
 								<button name="boardFaq_wr" class="boardFaq_wr"
 									onclick="location.href='FaqBoardWriteForm.sc'">글쓰기</button>
-								<%-- <%}%> --%>
 							</div>
+							</sec:authorize>
 						</article>
 					</section>
 				</div>

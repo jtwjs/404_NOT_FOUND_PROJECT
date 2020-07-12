@@ -62,28 +62,34 @@
                                 <table class="setting_form">
                                     <thead class="setting_form--tabs">
                                         <tr>
-                                            <th>배송지</th>
+                                        	<th>배송지명
+                                            <th>수령인</th>
                                             <th>주소</th>
                                             <th>연락처</th>
-                                            <th>수정 / 삭제</th>
+                                            <th><span class="hide">수정/삭제</span></th>
                                         </tr>                                            
                                     </thead>
                                     <tbody class="setting_form--tabs2">
+                                    	<c:forEach items="${list}" var="list" >
                                         <tr>
-                                            <td class="setting_list">#<input type="text" name="delivery_list_name" 
-                                                class="member_delivery_irum" value="" readonly />
+                                            <td class="setting_list"><input type="text" name="delivery_list_deliveryName" 
+                                                class="member_delivery_deliveryName" value="${list.deliveryName}" readonly />
                                             </td>
-                                            <td class="setting_list">#<input type="text" name="delivery_list_add" 
-                                                class="member_delivery_add" value="" readonly />
+                                            <td class="setting_list"><input type="text" name="delivery_list_receiverName" 
+                                                class="member_delivery_reciverName" value="${list.receiverName}" readonly />
                                             </td>
-                                            <td class="setting_list">#<input type="text" name="delivery_list_phone1" 
-                                                class="member_delivery_phone1" value="" readonly /></td>
+                                            <td class="setting_list"><input type="text" name="delivery_list_address" 
+                                                class="member_delivery_address" value="${list.address}" readonly />
+                                            </td>
+                                            <td class="setting_list"><input type="text" name="delivery_list_phone" 
+                                                class="member_delivery_phone" value="${list.receiverPhone}" readonly /></td>
                                             <td class="setting_list"> <button type="button" class="modifyBtn"
                                                     onclick="location.href='#'">수정</button>
                                                 <button type="button" class="deleteBtn"
                                                     onclick="location.href='#'">삭제</button>
                                             </td> 
                                         </tr>
+                                        </c:forEach>
                                     </tbody>
                                 </table>
                             </div>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.spring.buyer.BuyerVO;
 import com.spring.buyer.WishListVO;
+import com.spring.buyer.deliveryVO;
 @Repository
 public interface BuyerMapper {
 	BuyerVO selectOneById(String id);
@@ -21,4 +22,6 @@ public interface BuyerMapper {
 	public int getWishListOverlapCheck(
 			@Param("board_id")String board_id, @Param("buyer_id")String buyer_id);
 	public int insertWishList(WishListVO vo);
+	
+	ArrayList<deliveryVO> deliveryListAll(String id);
 }

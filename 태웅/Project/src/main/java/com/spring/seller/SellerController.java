@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.config.Security.CurrentUser;
-import com.spring.config.Security.SellerDetailService;
+import com.spring.config.Security.CustomDetailService;
 
 @Controller
 public class SellerController {
@@ -35,8 +35,7 @@ public class SellerController {
 	SellerServiceImpl service;
 	
 	@Autowired
-	SellerDetailService Securityservice; 
-
+	CustomDetailService SecurityService;
 	@RequestMapping(value = "/SellerMyPage.se")  
 	public String sellerMyPage(Model model, @CurrentUser SellerVO account) {
 		model.addAttribute("name", account.getName());
@@ -297,7 +296,7 @@ public class SellerController {
     		seller.setTel(telCarrierNum, telAllocationNum, telDiscretionaryNum);
     		seller.setEmail(emailId, emailAddr);
     		seller.setAddress(addrNum, addrRoadName, addrDetail);
-    		Securityservice.RegisterSellerAccout(seller);
+    		SecurityService.RegisterSellerAccout(seller);
     		
     		return "redirect:/JoinSellerComplete.ad";
     	
@@ -317,7 +316,7 @@ public class SellerController {
 		}else {
 			result.put("result", "OK");
 		}
-		System.out.println("result값=" + result.get("result"));
+		System.out.println("sellerResult값=" + result.get("result"));
 		return result;
 	}
 	

@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
@@ -28,11 +29,7 @@ import org.springframework.security.web.access.expression.WebExpressionVoter;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Lazy	
-	@Autowired
-	BuyerDetailService buyerService;
-	@Lazy
-	@Autowired
-	SellerDetailService sellerService;
+	@Autowired CustomDetailService AccountService;
 	
 	@Autowired public LoginSuccessHandler LoginSuccessHandler;
 	
@@ -42,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	public AccessDecisionManager accessDecisionManager() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
         roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_BUYER");
+        roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_SELLER");
 
         DefaultWebSecurityExpressionHandler handler = new DefaultWebSecurityExpressionHandler();
         handler.setRoleHierarchy(roleHierarchy);
@@ -59,9 +57,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         	
   
             http.authorizeRequests()
-            
+            		.mvcMatchers("/BordNoticeWrite.sc","//Boardnoticemodify.sc",
+            				"/FaqBoardWrite.sc","/FaqBoardModify.sc").hasRole("ADMIN")
             		.mvcMatchers("/Buyer**").hasRole("BUYER")
-            		.mvcMatchers("/Seller**e").hasRole("SELLER")
+            		.mvcMatchers("/Seller**").hasRole("SELLER")
             		.mvcMatchers("/**").permitAll()
             		.anyRequest().authenticated()
                     .accessDecisionManager(accessDecisionManager())
@@ -73,12 +72,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .defaultSuccessUrl("/Index.in")
                 .successHandler(LoginSuccessHandler)
                 .failureHandler(LoginFailureHandler)
-                .and().csrf().disable()
+                .and().csrf().ignoringAntMatchers("/duplicationCheck**")
+                .and()
                 .logout()
-                .logoutUrl("/logout.ad")
+                .logoutUrl("/logout.ad").permitAll()
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
-                .deleteCookies("JESSIONID")
+                .deleteCookies("JESSIONID","remember-me")
                 .and()
                 .httpBasic();
             
@@ -86,6 +86,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             	.invalidSessionUrl("/Login.ad") // 유효하지않은 세션 redirect
             	.maximumSessions(1)	//동시성제어
             		.expiredUrl("/Login.ad");
+            http.rememberMe()
+            	.rememberMeParameter("remember")
+            	.userDetailsService(AccountService)
+            	.key("remember-me");
             	
 
              
@@ -93,14 +97,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         
         @Override
         public void configure(WebSecurity webSecurity) throws Exception {
-         webSecurity.ignoring().antMatchers("/resources/**", "/css/**", "/js/**","/Images/**"); 
+         webSecurity.ignoring().antMatchers("/resources/**/**", "/css/**", "/js/**","/Images/**"); 
         }
 	
       
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        	auth.userDetailsService(buyerService);
-        	auth.userDetailsService(sellerService);
+        	auth.userDetailsService(AccountService);
         }
    
         

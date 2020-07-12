@@ -21,6 +21,7 @@ public class SellerServiceImpl implements SellerService {
 	@Override
 	public boolean duplicateCheck(String id) {
 		int count = mapper.selectCountById(id);
+		System.out.println("시발왜안되냐고~"+count);
 		return count==1?true:false;
 	}
 
