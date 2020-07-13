@@ -65,7 +65,7 @@
 						<article id="center-list">
 							<h2 id="center-list__title">자주묻는질문</h2>
 							<h5 class="text-center">게시글 쓰기</h5>
-							<form action="FaqBoardWrite.sc" method="get" enctype="multipart/form-data" onsubmit="">
+							<form action="FaqBoardWrite.sc" method="post" enctype="multipart/form-data" onsubmit="">
 								<table class="table table-striped">
 									<tr>
 										<td>작성자</td>
@@ -84,6 +84,7 @@
 
 									<tr>
 										<td colspan="2" class="faqWrite_btn">
+										 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 										<input type="submit" class="faq_success" value="글쓰기"> 
 										<input type="reset"	class="faq_reset" value="다시작성" onclick="'FaqBoardWriteForm.sc'">
 										<button type="button" class="faq_main" onclick="location.href='BoardFaq.sc'">전체 게시글보기</button></td>

@@ -1,12 +1,22 @@
 package com.spring.config.javaConfig;
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer{
 
+	 private static int MAX_FILE_SIZE = 10 * 1024 * 1024;
+
+    @Override
+    protected void customizeRegistration(Dynamic registration) {
+       MultipartConfigElement multipartConfig = new MultipartConfigElement("C:/Project156/upload", MAX_FILE_SIZE, MAX_FILE_SIZE, 0);
+       registration.setMultipartConfig(multipartConfig);
+    }
+	
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
 		return new Class[] {RootConfig.class};
