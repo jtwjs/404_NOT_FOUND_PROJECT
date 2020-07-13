@@ -65,7 +65,7 @@ public class SellerController {
 	
 		model.addAttribute("mailId", account.getEmail().substring(0,mailIndex));
 		model.addAttribute("mailAddr", account.getEmail().substring(mailIndex+1));
-		model.addAttribute("addr", account.getAddress());//주소넣어야함
+		model.addAttribute("addr", account.getAddress());
 		model.addAttribute("bankName", account.getBankName());
 		model.addAttribute("bankAccount", account.getBankAccountNum());
 		
@@ -90,11 +90,14 @@ public class SellerController {
     	}else {
     		model.addAttribute("profileImg", account.getProfileImg());
     	}
+		
+		
 		return "Seller/mypage_productRegister";
 	}
 	
 	@RequestMapping(value = "/SellerProductList.se")    // �긽�뭹�궡�뿭 - �긽�뭹�궡�뿭
 	public String sellerProductList(Model model, @CurrentUser SellerVO account) {
+		model.addAttribute("userId", account.getId());
 		model.addAttribute("name", account.getName());
 		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
 		if(account.getProfileImg() == null || account.getProfileImg() == "") {

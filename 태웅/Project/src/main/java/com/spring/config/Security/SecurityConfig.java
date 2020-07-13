@@ -64,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             		.mvcMatchers("/BordNoticeWrite.sc","//Boardnoticemodify.sc",
             				"/FaqBoardWrite.sc","/FaqBoardModify.sc").hasRole("ADMIN")
             		.mvcMatchers("/Buyer**").hasRole("BUYER")
-            		.mvcMatchers("/Seller**").hasRole("SELLER")
+            		.mvcMatchers("/Seller**","BoardProductRegist.bo").hasRole("SELLER")
             		.mvcMatchers("/**").permitAll()
             		.anyRequest().authenticated()
                     .accessDecisionManager(accessDecisionManager())

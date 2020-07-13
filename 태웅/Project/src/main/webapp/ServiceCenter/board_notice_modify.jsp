@@ -61,7 +61,7 @@
 						<article id="center-list">
 							<h2 id="center-list__title">공지사항</h2>
 							<h5 class="text-center">게시글 수정</h5>
-							<form action="Boardnoticemodify.sc" method="get" enctype="multipart/form-data" onsubmit="">
+							<form action="Boardnoticemodify.sc" method="post" enctype="multipart/form-data" onsubmit="">
 							<input type="hidden" name="num" value="<%=boardnotice.getNum() %>">
 								<table class="table table-striped">
 									<tr>
@@ -76,6 +76,7 @@
 									<tr>
 										<td colspan="2">
 											<div class="notice_btn">
+												 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 												<input type="submit" class="notice_modify" value="확인" >
 												<input type="reset" class="notice_warning" value="다시작성" onclick="'BoardNoticeWriteForm.sc'" >
 												<button type="button" class="notice_main" onclick="location.href='BoardNotice.sc'">전체 게시글보기</button>
@@ -91,7 +92,7 @@
 		</div>
 	</main>
 
-   
+   		
        <script type="text/javascript"
 		src="<c:url value='/resources/js/ServiceCenter/boardnotice_modify.js?after'/>"></script>
 

@@ -57,9 +57,9 @@
                     
                         <div class="mypage-upload">
                         
-                            <form id="productUploadForm" method="get" onsubmit="return registCheck();" 
+                            <form id="productUploadForm" method="post" onsubmit="return registCheck();" 
                                 action="BoardProductRegist.bo" enctype="multipart/form-data">
-                            <input type="hidden" name="seller_id" value="" />
+                            <input type="hidden" name="seller_id" value="${userId}" />
                             
                             <div class="uploadBox">
                                 <table class="uploadBox__table">
@@ -120,7 +120,7 @@
                                         <th>판매생산자</th>
                                         <td>
                                             <input type="text" name="sales_producer" maxlength="32" 
-                                                id="setSalesProducer" value="윤기석" />
+                                                id="setSalesProducer" value="${name}" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -296,6 +296,7 @@
                             <!-- 등록 버튼 -->
                             <div class="finish">
                                 <br />
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                 <input type="submit" class="submitBtn" value="등록" />
                                 <input type="button" class="resetBtn" value="취소" onclick="location.href='SellerMyPage.se'" />
                             </div>

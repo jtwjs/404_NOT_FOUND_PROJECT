@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -64,7 +65,7 @@ public class ServiceController {
 		return "ServiceCenter/board_notice_write";
 	}
 	
-	@RequestMapping("/BoardNoticeWrite.sc") 
+	@RequestMapping(value = "/BoardNoticeWrite.sc",method = RequestMethod.POST) 
 	public String boardnoticeInsert(BoardNoticeVO vo) throws Exception {
 		int res = serviceService.boardnoticeInsert(vo);
 		
@@ -95,7 +96,7 @@ public class ServiceController {
 	  
 
 	  
-	 @RequestMapping(value = "/Boardnoticemodify.sc")
+	 @RequestMapping(value = "/Boardnoticemodify.sc", method = RequestMethod.POST)
 	 public String boardnoticeModify(BoardNoticeVO vo) { 
 		 int res = serviceService.boardnoticeModify(vo);
 	  
@@ -166,7 +167,7 @@ public class ServiceController {
 		return "ServiceCenter/board_faq_write";
 	}
 
-	@RequestMapping("/FaqBoardWrite.sc")
+	@RequestMapping(value = "/FaqBoardWrite.sc", method = RequestMethod.POST)
 	public String faqBoardInsert(BoardFaqVO vo) throws Exception {
 		int res = serviceService.faqBoardInsert(vo);
 
@@ -210,7 +211,7 @@ public class ServiceController {
 		return "ServiceCenter/board_faq_modify";
 	}
 
-	@RequestMapping("/FaqBoardModify.sc") 
+	@RequestMapping(value = "/FaqBoardModify.sc", method = RequestMethod.POST) 
 	public String faqBoardModify(@RequestParam(value="num", required=true) int num, BoardFaqVO vo) {
 		System.out.println("num=" + num);
 		System.out.println("11vo.getNum()=" + vo.getNum());
