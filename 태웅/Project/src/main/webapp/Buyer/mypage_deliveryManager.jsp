@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,41 +16,41 @@
     <title>배송지 관리</title>
 </head>
 <body>
- 	<section id="sub-main" class="">
-	  <div class="sub-top">
-	  	<h2 class="sub-title">마이페이지</h2>
-	  	<ul class="sub-location">
-	  		<li class="home">
-	  		  <a href="Index.in"><span class="hide-text">home</span></a>
-	  		</li>
-	  		<li>
-	  		  <strong>마이페이지</strong>
-	  		</li>
-  			<li>
-	  			<strong>배송지 관리</strong>
-	  		</li>
-	  	</ul>
-	  </div>
-	  <div class="sub-tab">
-	  	<ul>
-	  		<li>
-	  			<a href="BuyerMyPage.by">
-	  				<span>마이페이지</span>
-	  			</a>
-	  		</li>
-	  	</ul>
-	  </div>
-	</section>
+    <section id="sub-main" class="">
+     <div class="sub-top">
+        <h2 class="sub-title">마이페이지</h2>
+        <ul class="sub-location">
+           <li class="home">
+             <a href="Index.in"><span class="hide-text">home</span></a>
+           </li>
+           <li>
+             <strong>마이페이지</strong>
+           </li>
+           <li>
+              <strong>배송지 관리</strong>
+           </li>
+        </ul>
+     </div>
+     <div class="sub-tab">
+        <ul>
+           <li>
+              <a href="BuyerMyPage.by">
+                 <span>마이페이지</span>
+              </a>
+           </li>
+        </ul>
+     </div>
+   </section>
 <main id="main">
     <div class="container">
         <div class="row">
-        	<div class="col-xs-12">
-        		<section id="content">
-		            <jsp:include page="mypage_template.jsp" flush="false"/>
-		            <section id="myPage">
-		               <h2 class="content-title">배송지 목록</h2>
-		               
-		                    <div class="contnt__delivery">
+           <div class="col-xs-12">
+              <section id="content">
+                  <jsp:include page="mypage_template.jsp" flush="false"/>
+                  <section id="myPage">
+                     <h2 class="content-title">배송지 목록</h2>
+                     
+                          <div class="contnt__delivery">
                             <div class="site_content1">
                                 <h4 class="content-title--site">나의 배송지 목록</h4>
                                 <span class="content-pp">자주 쓰는 배송지를 등록 및 관리 하실 수 있습니다.</span>
@@ -62,7 +63,7 @@
                                 <table class="setting_form">
                                     <thead class="setting_form--tabs">
                                         <tr>
-                                        	<th>배송지명
+                                           <th>배송지명
                                             <th>수령인</th>
                                             <th>주소</th>
                                             <th>연락처</th>
@@ -70,7 +71,7 @@
                                         </tr>                                            
                                     </thead>
                                     <tbody class="setting_form--tabs2">
-                                    	<c:forEach items="${list}" var="list" >
+                                       <c:forEach items="${list}" var="list" >
                                         <tr>
                                             <td class="setting_list"><input type="text" name="delivery_list_deliveryName" 
                                                 class="member_delivery_deliveryName" value="${list.deliveryName}" readonly />
@@ -78,8 +79,11 @@
                                             <td class="setting_list"><input type="text" name="delivery_list_receiverName" 
                                                 class="member_delivery_reciverName" value="${list.receiverName}" readonly />
                                             </td>
+                                       <c:set var="address" value="${list.address}"/>
+                                       <c:set var="addrIndex" value="${fn:indexOf(address,'+')}"/>
+                                       <c:set var="addrLength" value="${fn:length(address)}"/>
                                             <td class="setting_list"><input type="text" name="delivery_list_address" 
-                                                class="member_delivery_address" value="${list.address}" readonly />
+                                                class="member_delivery_address" value="${fn:substring(address,addrIndex+1,addrLength)}" readonly />
                                             </td>
                                             <td class="setting_list"><input type="text" name="delivery_list_phone" 
                                                 class="member_delivery_phone" value="${list.receiverPhone}" readonly /></td>
@@ -96,8 +100,8 @@
                         </div>
 
 
-            	   	</section>    
-           	  	</section>      
+                     </section>    
+                   </section>      
             </div>
         </div>
     </div>

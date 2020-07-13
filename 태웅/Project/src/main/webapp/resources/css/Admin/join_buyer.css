@@ -245,7 +245,7 @@
   width: 20px;
   color: #333;
   text-align: center;
-  line-height: 2.6px‬;
+  line-height: 2.6;
   z-index: 10;
   content: "@";
 }

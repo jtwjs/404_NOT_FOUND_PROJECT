@@ -48,7 +48,7 @@ public class BuyerServiceImpl implements BuyerService {
 		int count = mapper.selectCountById(id);
 		System.out.println("count :" + count);
 		
-		return count==1?true:false;
+		return count!=0?true:false;
 	}
 
 

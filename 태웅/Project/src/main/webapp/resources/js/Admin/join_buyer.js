@@ -99,13 +99,7 @@ function uncheck_all() {
   /*아이디 유효성검사*/
   
   //아이디 중복검사 함수
-  $(function() {
-      var csrfToken = '${_csrf.token}';
-      var csrfHeader = '${_csrf.headerName}';
-      $(document).ajaxSend(function (e, xhr, options) {
-          xhr.setRequestHeader(csrfHeader, csrfToken);
-      });
-  });
+
   
   function duplicateCheck() {
 	  var $idValue = $('#userId').val();
