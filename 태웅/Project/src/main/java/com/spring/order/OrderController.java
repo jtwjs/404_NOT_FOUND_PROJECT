@@ -30,7 +30,7 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 	
-    @RequestMapping(value = "/OrderLogin.or")  // 주문배송 로그인 (회원)
+    @RequestMapping(value = "/OrderResearch.or")  // 주문배송 로그인 (회원)
     public String orderLogin() {
     	
     	return "Order/order_research";

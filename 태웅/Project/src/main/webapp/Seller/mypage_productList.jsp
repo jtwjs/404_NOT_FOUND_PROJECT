@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Calendar" %>
 <%
@@ -114,6 +115,10 @@
                                         </tr>   
                                     </thead>
                                     <tbody>
+
+                                    	<c:set var="list" value="${productList}" />
+                                    <c:choose>
+										<c:when test="${fn:length(list) == 0}" >
                                         <tr>
                                             <td class="non-post" colspan="5">
                                                 등록된 상품내역이 없습니다.
@@ -129,6 +134,44 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
+                                          <td>
+                                                <input type="button" value="상품수정" class="product-modify"
+                                                    onclick="javascript:location.href='SellerProductModify.se'" />
+                                            </td>
+                                               <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        </c:when>
+                                        <c:otherwise>
+                                        <c:forEach items="${productList}" var="productList" >
+                                        	<tr>
+                                            <td>
+                                               ${productList.board_num}
+                                            </td>
+                                            <td>
+                                               ${productList.title}
+                                            </td>
+                                            <td>
+                                               ${productList.satisfaction}
+                                            </td>
+                                            <td>
+                                               ${productList.register_date}
+                                            </td>
+                                            <td>
+                                               ${productList.content_origin}
+                                            </td>
+                                            <td>
+                                                <input type="button" value="상품수정" class="product-modify"
+                                                    onclick="javascript:location.href='SellerProductModify.se'" />
+                                            </td>
+                                        </tr>
+                                        </c:forEach>
+                                        </c:otherwise> 
+                                      </c:choose>
+                                        
                                     </tbody>
                                 </table>
                             </article>

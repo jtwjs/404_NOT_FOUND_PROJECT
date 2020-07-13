@@ -1,6 +1,8 @@
 package com.spring.seller;
 
+import java.util.ArrayList;
 
+import com.spring.boardproduct.BoardProductVO;
 
 public interface SellerService {
 	SellerVO selectOneById(String id);
@@ -9,4 +11,5 @@ public interface SellerService {
 	int UpdateSellerAccount(SellerVO seller);
 	int DeleteSellerAccount(String id);
 	void UpdateProfileImg(SellerVO account);
+	ArrayList<BoardProductVO> selectProductListById(String id);
 }

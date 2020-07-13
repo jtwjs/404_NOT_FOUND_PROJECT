@@ -1,8 +1,13 @@
 package com.spring.seller;
 
+import java.util.ArrayList;
+
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.boardproduct.BoardProductVO;
 import com.spring.mapper.SellerMapper;
 
 @Service
@@ -21,7 +26,6 @@ public class SellerServiceImpl implements SellerService {
 	@Override
 	public boolean duplicateCheck(String id) {
 		int count = mapper.selectCountById(id);
-		System.out.println("시발왜안되냐고~"+count);
 		return count==1?true:false;
 	}
 
@@ -46,6 +50,12 @@ public class SellerServiceImpl implements SellerService {
 	public void UpdateProfileImg(SellerVO account) {
 		mapper.UpdateProfileImg(account);
 		
+	}
+
+	@Override
+	public ArrayList<BoardProductVO> selectProductListById(String id) {
+		ArrayList<BoardProductVO> productList = mapper.selectProductListById(id);
+		return productList;
 	}
 	
 }

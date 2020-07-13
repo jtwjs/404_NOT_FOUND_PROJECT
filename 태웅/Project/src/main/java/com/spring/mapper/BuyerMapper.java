@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import com.spring.boardproduct.BoardProductVO;
 import com.spring.buyer.BuyerVO;
 import com.spring.buyer.WishListVO;
 import com.spring.buyer.deliveryVO;

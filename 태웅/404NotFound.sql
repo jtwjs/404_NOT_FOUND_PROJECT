@@ -8,7 +8,7 @@ create table admin(                 -- 愿�由ъ옄 �뀒�씠釉�
     constraint admin_admin_id_pk primary key(admin_id)
 );
 commit;
-select * from member_buyer;
+select * from member_seller;
 desc admin;
 insert into admin 
 values ('admin','{bcrypt}$2a$10$UgciI5e8vDo2uZlnRDSL4eZlPwkWMyd4pOCj90wja8UWqkX.GSAqu','관리자',admin_num_seq.nextval,'ADMIN');
@@ -43,6 +43,22 @@ create table member_buyer(          -- 援щℓ�옄 �뀒�씠釉�
     constraint member_buyer_buyer_id_pk primary key(buyer_id)
 );
 select * from member_buyer;
+
+	 select sum(s.count) from (
+     select count(*) as count
+     from member_buyer 
+     where buyer_id= 'test01'
+     union all
+     select count(*) as count
+     from member_seller
+     where seller_id='test01'
+     union all
+     select count(*) as count
+     from admin
+     where admin_id='test01'
+     )s;
+
+
 
 desc member_buyer;
 /*buyer_num Sequence*/
@@ -145,6 +161,7 @@ create table board_notice(            -- 怨듭��궗�빆
 );
 /*�긽�뭹�벑濡�*/
 drop table board_product;
+select* from board_product;
 create table board_product(                     -- �뙋留ㅺ쾶�떆�뙋
     board_id varchar2(32) not null,             -- 寃뚯떆�뙋 ID (湲곕낯�궎)
     seller_id varchar2(16) not null,            -- �옉�꽦�옄 (member_seller�뀒�씠釉� �쇅�옒�궎)
@@ -244,4 +261,30 @@ create table product_cart(          -- �옣諛붽뎄�땲
     constraint product_cart_cart_id_pk primary key(cart_id)
 );
  
+ /*주문기록*/
+ drop table order_record;
+create table order_record(                   -- 주문기록
+    order_id number not null,                -- 주문번호 ID
+    buyer_id varchar2(16) not null,          -- 구매자 ID (member_buyer테이블 외래키)
+    option_id number not null,               -- 옵션 ID (board_product_option테이블 외래키)
+    count number not null,                   -- 구매수량
+    price number not null,                   -- 상품 금액
+    sum_price number not null,               -- 총합 금액
+    board_delivery number not null,          -- 배송비
+    status varchar2(16) default '입금대기' not null ,            -- 주문상태
+    order_address varchar2(100) not null,    -- 배송 주소
+    order_phone varchar2(13) not null,       -- 배송 연락처
+    order_demand varchar2(100),              -- 배송 요구사항
+    order_delivery varchar2(10) not null,    -- 배송사
+    order_invoicenum varchar2(20) not null,  -- 송장번호
+    order_payment varchar2(20) not null,     -- 결제방식
+    order_account varchar2(20) not null,     -- 결제계좌/카드번호
+    order_date date not null,                -- 결제일
+    non_member_flag char(1) default 'N' not null,        -- 비회원 여부 (비회원:Y, 회원:N)
+    constraint order_record_order_id_pk primary key(order_id),
+    constraint order_record_buyer_id_fk foreign key(buyer_id)
+        references member_buyer(buyer_id) on delete cascade,
+    constraint order_record_option_id_fk foreign key(option_id)
+        references board_product_option(option_id) on delete cascade
+);
  

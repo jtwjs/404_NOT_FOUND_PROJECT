@@ -1,7 +1,10 @@
 package com.spring.mapper;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Repository;
 
+import com.spring.boardproduct.BoardProductVO;
 import com.spring.seller.SellerVO;
 
 
@@ -15,4 +18,5 @@ public interface SellerMapper {
 	int DeleteSellerAccount(String id);
 	void UpdateLoginDateBy(String id);
 	void UpdateProfileImg(SellerVO account);
+	ArrayList<BoardProductVO> selectProductListById(String id);
 }

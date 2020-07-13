@@ -51,6 +51,10 @@
      )s
 	</select>
 	
+	<select id = "selectProductListById" resultType = "com.spring.boardproduct.BoardProductVO" >
+		SELECT * FROM board_product WHERE seller_id = #{id}
+	</select>
+	
 	<insert id = "InsertSellerAccout" parameterType = "com.spring.seller.SellerVO">
 		<selectKey keyProperty="sellerNum" order = "BEFORE" resultType="int">
 			SELECT seller_num_seq.nextval FROM dual
@@ -80,5 +84,6 @@
 		UPDATE member_seller SET profile_img=#{profileImg}
 		WHERE seller_id = #{id}
 	</update>
+	
 
 </mapper>

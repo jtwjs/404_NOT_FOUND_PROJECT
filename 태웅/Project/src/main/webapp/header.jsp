@@ -36,7 +36,7 @@
               </sec:authorize>
 		</sec:authorize>
               
-              <li><a href="#" onclick="javascript:location.href='OrderLogin.or'">주문배송</a></li>
+              <li><a href="#" onclick="javascript:location.href='OrderResearch.or'">주문배송</a></li>
               <li><a href="#" onclick="javascript:location.href='CartView.or'">장바구니</a></li>
               <li><a href="#" onclick="javascript:location.href='BoardNotice.sc'">고객센터</a></li>
             </ul>

@@ -5,6 +5,7 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.net.ssl.HostnameVerifier;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.boardproduct.BoardProductVO;
 import com.spring.config.Security.CurrentUser;
 import com.spring.config.Security.CustomDetailService;
 
@@ -96,7 +98,11 @@ public class SellerController {
 	}
 	
 	@RequestMapping(value = "/SellerProductList.se")    // �긽�뭹�궡�뿭 - �긽�뭹�궡�뿭
-	public String sellerProductList(Model model, @CurrentUser SellerVO account) {
+	public String sellerProductList(Model model, @CurrentUser SellerVO account, BoardProductVO board) {
+		board.setSeller_id(account.getId());
+		ArrayList<BoardProductVO> productList = service.selectProductListById(board.getSeller_id());
+		
+		model.addAttribute("productList", productList);
 		model.addAttribute("userId", account.getId());
 		model.addAttribute("name", account.getName());
 		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
@@ -105,6 +111,8 @@ public class SellerController {
     	}else {
     		model.addAttribute("profileImg", account.getProfileImg());
     	}
+		
+		
 		return "Seller/mypage_productList";
 	}
 	
@@ -337,6 +345,8 @@ public class SellerController {
 	   account.setProfileImg("");
 	   service.UpdateProfileImg(account);
    }
+   
+ 
    
    
  
