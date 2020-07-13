@@ -84,7 +84,6 @@
                             <button type="button" value="Login" class="submitBtn" >로그인</button>
                             <button type="button" class="submitjoinBtn"
                                      onclick="javascript:location.href='JoinBuyer.ad'">회원가입하기</button>
-    						<!-- <input name="${_csrf.parameterName}" type="hidden" value="${_crsf.token }"> -->
                             <div class="other_login">
                                 <a id="naverIdLogin" href="#" role="button">
                                     <img src="resources/Images/Order/naver.png" width="37%" height="45" />
@@ -106,7 +105,7 @@
     
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
-    <script type="text/javascript" src="<c:url value='/resources/js/Admin/login_buyer.js?after'/>" ></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/Admin/login.js?after'/>" ></script>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    
     <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js?after'/>" ></script>
     <script type="text/javascript" src="<c:url value='/resources/js/module/header.js?after'/>" ></script>

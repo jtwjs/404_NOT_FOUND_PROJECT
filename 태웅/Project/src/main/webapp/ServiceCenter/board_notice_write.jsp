@@ -60,7 +60,7 @@
 						<article id="center-list">
 							<h2 id="center-list__title">공지사항</h2>
 							<h5 class="text-center">게시글 쓰기</h5>
-							<form action="BoardNoticeWrite.sc" method="get" enctype="multipart/form-data" onsubmit="">
+							<form action="BoardNoticeWrite.sc" method="post" enctype="multipart/form-data" onsubmit="">
 								<table class="table table-striped">
 									<tr>
 										<td>제목</td>
@@ -73,7 +73,8 @@
 									</tr>
 
 									<tr>
-										<td colspan="2" class="notice_btn">											
+										<td colspan="2" class="notice_btn">		
+										 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />									
 												<input type="submit" class="notice_success" value="확인" >
 												<input type="reset" class="notice_warning" value="다시작성" onclick="'BoardNoticeWriteForm.sc'" >
 												<button type="button" class="notice_main" onclick="location.href='BoardNotice.sc'">전체 게시글보기</button>											

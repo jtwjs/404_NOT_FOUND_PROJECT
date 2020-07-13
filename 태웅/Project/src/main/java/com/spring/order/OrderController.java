@@ -33,7 +33,7 @@ public class OrderController {
     @RequestMapping(value = "/OrderLogin.or")  // 주문배송 로그인 (회원)
     public String orderLogin() {
     	
-    	return "Order/order_login";
+    	return "Order/order_research";
     }
     
     @RequestMapping(value = "/OrderNonMember.or")  // 주문배송 로그인 (비회원)

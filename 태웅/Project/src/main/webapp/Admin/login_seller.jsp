@@ -106,7 +106,7 @@
 
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
-     <script type="text/javascript" src="<c:url value='/resources/js/Admin/login_seller.js?after'/>" ></script>
+     <script type="text/javascript" src="<c:url value='/resources/js/Admin/login.js?after'/>" ></script>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    
     <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js?after'/>" ></script>
     <script type="text/javascript" src="<c:url value='/resources/js/module/header.js?after'/>" ></script>
