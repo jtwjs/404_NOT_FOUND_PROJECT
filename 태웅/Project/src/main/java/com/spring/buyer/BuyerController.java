@@ -166,7 +166,7 @@ public class BuyerController {
     	HashMap<String, Object> result = new HashMap<String, Object>();
     	String id = buyer.getId();
 		boolean isDuplication = buyerService.duplicateCheck(id);
-		
+			System.out.println("중복체크결과: "+isDuplication);
 		if( isDuplication ) {
 			result.put("result", "Fail");
 		}else {

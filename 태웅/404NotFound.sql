@@ -1,21 +1,20 @@
 drop table admin;
-create table admin(                 -- 관리자 테이블
-    admin_id varchar2(16) not null, -- 관리자 ID (기본키)
-    password varchar2(100) not null, -- 비밀번호
-    name varchar2(16) not null,     -- 이름
-    admin_num number not null,      -- 관리자 번호
-    member_type varchar(10) default 'ADMIN' not null,    -- 멤버타입 (관리자)
+create table admin(                 -- 愿�由ъ옄 �뀒�씠釉�
+    admin_id varchar2(16) not null, -- 愿�由ъ옄 ID (湲곕낯�궎)
+    password varchar2(100) not null, -- 鍮꾨�踰덊샇
+    name varchar2(16) not null,     -- �씠由�
+    admin_num number not null,      -- 愿�由ъ옄 踰덊샇
+    member_type varchar(10) default 'ADMIN' not null,    -- 硫ㅻ쾭���엯 (愿�由ъ옄)
     constraint admin_admin_id_pk primary key(admin_id)
 );
 commit;
 select * from member_buyer;
 desc admin;
-update admin set password='{bcrypt}$2a$10$YDrBdse01oq9eSS/zGjm6.wDoJvotAnjw/l/cikIwmRlSGBrOTMYy'/*1234*/
-where admin_id = 'admin';
---insert into admin 
---values ('admin','1234','관리자',admin_num_seq.nextval,'ADMIN');
-select * from admin;
-select * from member_buyer;
+insert into admin 
+values ('admin','{bcrypt}$2a$10$UgciI5e8vDo2uZlnRDSL4eZlPwkWMyd4pOCj90wja8UWqkX.GSAqu','관리자',admin_num_seq.nextval,'ADMIN');
+
+
+
 CREATE SEQUENCE admin_num_seq
     INCREMENT BY 1
     START WITH 1
@@ -23,24 +22,24 @@ CREATE SEQUENCE admin_num_seq
     NOCYCLE;
 
 
-/*구매자*/
+/*援щℓ�옄*/
 select* from member_buyer;
-create table member_buyer(          -- 구매자 테이블
-    buyer_id varchar2(16) not null, -- 구매자 ID (기본키)
-    password varchar2(100) not null, -- 비밀번호 (*암호화때문에 크기늘림)
-    name varchar2(16) not null,     -- 이름
-    tel varchar2(13) not null,      -- 연락처
-    email varchar2(33) not null,    -- 이메일
-    address varchar2(100) not null, -- 주소
-    buyer_num number not null,      -- 구매자 등록번호
-    grade char(1) default 0 not null,         -- 구매자 등급
-    member_type varchar(10) default 'BUYER' not null,    -- 멤버타입 (구매자:B 판매자:S 관리자:A)
-    del_flag char(1) default 'N' not null,      -- 탈퇴여부 (Y,N으로 구분해서 보관)
-    join_date date default sysdate not null,        -- 회원가입일
-    wthdr_date date,                -- 회원탈퇴일
-    save_point number  default 0 not null,     -- 적립금
-    profile_img varchar2(200),          --프로필사진
-    last_loginDate date default sysdate,                --마지막접속일자
+create table member_buyer(          -- 援щℓ�옄 �뀒�씠釉�
+    buyer_id varchar2(16) not null, -- 援щℓ�옄 ID (湲곕낯�궎)
+    password varchar2(100) not null, -- 鍮꾨�踰덊샇 (*�븫�샇�솕�븣臾몄뿉 �겕湲곕뒛由�)
+    name varchar2(16) not null,     -- �씠由�
+    tel varchar2(13) not null,      -- �뿰�씫泥�
+    email varchar2(33) not null,    -- �씠硫붿씪
+    address varchar2(100) not null, -- 二쇱냼
+    buyer_num number not null,      -- 援щℓ�옄 �벑濡앸쾲�샇
+    grade char(1) default 0 not null,         -- 援щℓ�옄 �벑湲�
+    member_type varchar(10) default 'BUYER' not null,    -- 硫ㅻ쾭���엯 (援щℓ�옄:B �뙋留ㅼ옄:S 愿�由ъ옄:A)
+    del_flag char(1) default 'N' not null,      -- �깉�눜�뿬遺� (Y,N�쑝濡� 援щ텇�빐�꽌 蹂닿�)
+    join_date date default sysdate not null,        -- �쉶�썝媛��엯�씪
+    wthdr_date date,                -- �쉶�썝�깉�눜�씪
+    save_point number  default 0 not null,     -- �쟻由쎄툑
+    profile_img varchar2(200),          --�봽濡쒗븘�궗吏�
+    last_loginDate date default sysdate,                --留덉�留됱젒�냽�씪�옄
     constraint member_buyer_buyer_id_pk primary key(buyer_id)
 );
 select * from member_buyer;
@@ -55,20 +54,21 @@ CREATE SEQUENCE buyer_num_seq
 --     select buyer_num_seq.nextval from DUAL;
 --     select buyer_num_seq.currval from dual;   
 
-    /*개인배송지(구매자)*/
+    /*媛쒖씤諛곗넚吏�(援щℓ�옄)*/
 drop table list_delivery;
 select * from list_delivery;
-create table list_delivery(                 -- 개인저장 배송지 목록
-    buyer_id varchar2(16) not null,         -- 구매자 ID(member_buyer테이블 외래키)
-    delivery_name varchar2(20) default '기본 배송지' not null,    -- 배송지명
-    address varchar2(100) not null,          -- 배송지 주소
-    receiver_name varchar2(20) not null,    -- 수령인
-    receiver_phone varchar2(13) not null,   -- 연락처
+create table list_delivery(                 -- 媛쒖씤���옣 諛곗넚吏� 紐⑸줉
+    buyer_id varchar2(16) not null,         -- 援щℓ�옄 ID(member_buyer�뀒�씠釉� �쇅�옒�궎)
+    delivery_name varchar2(20) default '湲곕낯 諛곗넚吏�' not null,    -- 諛곗넚吏�紐�
+    address varchar2(100) not null,          -- 諛곗넚吏� 二쇱냼
+    receiver_name varchar2(20) not null,    -- �닔�졊�씤
+    receiver_phone varchar2(13) not null,   -- �뿰�씫泥�
     constraint list_delivery_buyer_id_fk foreign key(buyer_id)
         references member_buyer(buyer_id) on delete cascade
 );
  desc list_delivery;
-/*구매자 회원가입시 개인배송지 추가 트리거*/
+/*援щℓ�옄 �쉶�썝媛��엯�떆 媛쒖씤諛곗넚吏� 異붽� �듃由ш굅*/
+
 create or replace trigger TRG_Buyer_delivery
 AFTER INSERT ON member_buyer
 for each row
@@ -91,26 +91,26 @@ END;
 --     )s;
      
      select * from member_seller;
-     /*판매자*/
-     create table member_seller(               -- 판매자 테이블
-    seller_id varchar2(16) not null,      -- 판매자 ID (기본키)
-    password varchar2(100) not null,       -- 비밀번호(*암호화때문에 크기늘림)
-    shop_name varchar2(16) not null,      -- 상호명
-    representative varchar2(16) not null, -- 대표자
-    address varchar2(100) not null,       -- 주소
-    manager_phone varchar2(13) not null,  -- 담당자 연락처
-    manager_email varchar2(33) not null,  -- 담당자 이메일
-    manager_name varchar2(16) not null,   -- 담당자 이름
-    mail_order_report_num varchar2(20) not null,  -- 통신판매신고번호
+     /*�뙋留ㅼ옄*/
+     create table member_seller(               -- �뙋留ㅼ옄 �뀒�씠釉�
+    seller_id varchar2(16) not null,      -- �뙋留ㅼ옄 ID (湲곕낯�궎)
+    password varchar2(100) not null,       -- 鍮꾨�踰덊샇(*�븫�샇�솕�븣臾몄뿉 �겕湲곕뒛由�)
+    shop_name varchar2(16) not null,      -- �긽�샇紐�
+    representative varchar2(16) not null, -- ���몴�옄
+    address varchar2(100) not null,       -- 二쇱냼
+    manager_phone varchar2(13) not null,  -- �떞�떦�옄 �뿰�씫泥�
+    manager_email varchar2(33) not null,  -- �떞�떦�옄 �씠硫붿씪
+    manager_name varchar2(16) not null,   -- �떞�떦�옄 �씠由�
+    mail_order_report_num varchar2(20) not null,  -- �넻�떊�뙋留ㅼ떊怨좊쾲�샇
     mail_order_report_img varchar2(200) not null,
     bank_name varchar2(20) not null,
-    bank_account varchar2(20) not null,   -- 정산대금입금계좌
-    seller_reg_num number not null,       -- 판매자 등록번호
-    seller_grade char(1) default 0 not null,        -- 판매자 등급 
-    member_type varchar2(10) default 'SELLER' not null,          -- 멤버타입 (판매자) (구매자:B 판매자:S 관리자:A)
-    del_flag char(1) default 'N' not null,            -- 탈퇴여부 (Y,N으로 구분)
-    join_date date default sysdate not null,              -- 회원가입일
-    wthdr_date date,                        -- 회원탈퇴일
+    bank_account varchar2(20) not null,   -- �젙�궛��湲덉엯湲덇퀎醫�
+    seller_reg_num number not null,       -- �뙋留ㅼ옄 �벑濡앸쾲�샇
+    seller_grade char(1) default 0 not null,        -- �뙋留ㅼ옄 �벑湲� 
+    member_type varchar2(10) default 'SELLER' not null,          -- 硫ㅻ쾭���엯 (�뙋留ㅼ옄) (援щℓ�옄:B �뙋留ㅼ옄:S 愿�由ъ옄:A)
+    del_flag char(1) default 'N' not null,            -- �깉�눜�뿬遺� (Y,N�쑝濡� 援щ텇)
+    join_date date default sysdate not null,              -- �쉶�썝媛��엯�씪
+    wthdr_date date,                        -- �쉶�썝�깉�눜�씪
     profile_img varchar2(200),
     last_loginDate date default sysdate,
     constraint member_seller_seller_id_pk primary key(seller_id)
@@ -126,121 +126,121 @@ CREATE SEQUENCE seller_num_seq
      select * from member_seller;
     
     
- create table board_faq(          -- 자주묻는질문 게시판
-num number not null,         -- 리스트 번호 (기본키)
-title varchar2(50),          -- 게시판 제목
-content varchar2(2000),      -- 게시판 내용
+ create table board_faq(          -- �옄二쇰Щ�뒗吏덈Ц 寃뚯떆�뙋
+num number not null,         -- 由ъ뒪�듃 踰덊샇 (湲곕낯�궎)
+title varchar2(50),          -- 寃뚯떆�뙋 �젣紐�
+content varchar2(2000),      -- 寃뚯떆�뙋 �궡�슜
 boarddate date,
 constraint board_faq_num_pk primary key(num)
 );
 
-create table board_notice(            -- 공지사항
+create table board_notice(            -- 怨듭��궗�빆
 
-    num number not null,                -- 공지사항 글번호
-    title varchar2(1600) not null,      -- 공지사항 제목
-    content varchar2(4000) not null,    -- 공지사항 글내용
-    hit number not null,                   -- 조회수
-    register_date date not null            -- 공지사항 등록일
+    num number not null,                -- 怨듭��궗�빆 湲�踰덊샇
+    title varchar2(1600) not null,      -- 怨듭��궗�빆 �젣紐�
+    content varchar2(4000) not null,    -- 怨듭��궗�빆 湲��궡�슜
+    hit number not null,                   -- 議고쉶�닔
+    register_date date not null            -- 怨듭��궗�빆 �벑濡앹씪
     
 );
-/*상품등록*/
+/*�긽�뭹�벑濡�*/
 drop table board_product;
-create table board_product(                     -- 판매게시판
-    board_id varchar2(32) not null,             -- 게시판 ID (기본키)
-    seller_id varchar2(16) not null,            -- 작성자 (member_seller테이블 외래키)
-    board_num number not null,                  -- 게시판 번호
-    title varchar2(100) not null,               -- 게시판 이름
-    price number not null,                      -- 판매가
-    delivery_price number not null,             -- 배송비
-	quantity number not null,                   -- 수량
-    satisfaction number(2,1),                   -- 평가점수
-    content varchar2(2000) not null,            -- 게시판 내용
-    register_date date not null,                -- 게시글 등록일
-    category_1 number not null,                 -- 1차 카테고리 (분류)
-    category_2 number not null,                 -- 2차 카테고리 (상품)
-    category_local number not null,             -- 원산지 코드 (지역 분류)
-    sales_producer varchar2(32) not null,       -- 상품정보 (판매생산자)
-    product_name varchar2(32) not null,         -- 상품정보 (상품명)
-    product_weight varchar2(32) not null,       -- 상품정보 (상품중량)
-    product_size varchar2(64) not null,         -- 상품정보 (상품크기)
-    product_country varchar2(32) not null,      -- 상품정보 (원산지)
-    date_manufacture varchar2(32) not null,     -- 상품정보 (제조년월일)
-    best_before_date varchar2(32) not null,     -- 상품정보 (품질유지기한)
-    transgenic varchar2(32) not null,           -- 상품정보 (유전자 변형 농수산물 표시)
-    storage_method varchar2(32) not null,       -- 상품정보 (보관방법)
-    consumer_consulation varchar2(16) not null, -- 상품정보 (소비자상담문의)
-	thumbnail_origin varchar2(100),             -- 썸네일 이미지 원본 이름
-	thumbnail_thum varchar2(100),               -- 썸네일 이미지 이름
-	product_origin_1 varchar2(100),             -- 대표 이미지1 이름
-	product_thum_1 varchar2(100),               -- 대표 이미지1 썸네일 이름
-	product_origin_2 varchar2(100),             -- 대표 이미지2 이름
-	product_thum_2 varchar2(100),               -- 대표 이미지2 썸네일 이름
-	product_origin_3 varchar2(100),             -- 대표 이미지3 이름
-	product_thum_3 varchar2(100),               -- 대표 이미지3 썸네일 이름
-	product_origin_4 varchar2(100),             -- 대표 이미지4 이름
-	product_thum_4 varchar2(100),               -- 대표 이미지4 썸네일 이름
-	content_origin varchar2(100),               -- 게시글 본문 이미지 이름
-    thumbnail_origin_path varchar2(100),        -- 썸네일 원본 경로
-    thumbnail_thum_path varchar2(100),          -- 썸네일 썸네일 경로
-    product_origin_path varchar2(100),          -- 대표이미지 원본 경로
-    product_thum_path varchar2(100),            -- 대표이미지 썸네일 경로
-    content_origin_path varchar2(100),          -- 본문이미지 원본 경로
-    sale_status char(1) not null,               -- 판매여부 (Y, N으로 구분)
-    hit number not null,                        -- 판매수
-    read_count number not null,                 -- 조회수
+create table board_product(                     -- �뙋留ㅺ쾶�떆�뙋
+    board_id varchar2(32) not null,             -- 寃뚯떆�뙋 ID (湲곕낯�궎)
+    seller_id varchar2(16) not null,            -- �옉�꽦�옄 (member_seller�뀒�씠釉� �쇅�옒�궎)
+    board_num number not null,                  -- 寃뚯떆�뙋 踰덊샇
+    title varchar2(100) not null,               -- 寃뚯떆�뙋 �씠由�
+    price number not null,                      -- �뙋留ㅺ�
+    delivery_price number not null,             -- 諛곗넚鍮�
+	quantity number not null,                   -- �닔�웾
+    satisfaction number(2,1),                   -- �룊媛��젏�닔
+    content varchar2(2000) not null,            -- 寃뚯떆�뙋 �궡�슜
+    register_date date not null,                -- 寃뚯떆湲� �벑濡앹씪
+    category_1 number not null,                 -- 1李� 移댄뀒怨좊━ (遺꾨쪟)
+    category_2 number not null,                 -- 2李� 移댄뀒怨좊━ (�긽�뭹)
+    category_local number not null,             -- �썝�궛吏� 肄붾뱶 (吏��뿭 遺꾨쪟)
+    sales_producer varchar2(32) not null,       -- �긽�뭹�젙蹂� (�뙋留ㅼ깮�궛�옄)
+    product_name varchar2(32) not null,         -- �긽�뭹�젙蹂� (�긽�뭹紐�)
+    product_weight varchar2(32) not null,       -- �긽�뭹�젙蹂� (�긽�뭹以묐웾)
+    product_size varchar2(64) not null,         -- �긽�뭹�젙蹂� (�긽�뭹�겕湲�)
+    product_country varchar2(32) not null,      -- �긽�뭹�젙蹂� (�썝�궛吏�)
+    date_manufacture varchar2(32) not null,     -- �긽�뭹�젙蹂� (�젣議곕뀈�썡�씪)
+    best_before_date varchar2(32) not null,     -- �긽�뭹�젙蹂� (�뭹吏덉쑀吏�湲고븳)
+    transgenic varchar2(32) not null,           -- �긽�뭹�젙蹂� (�쑀�쟾�옄 蹂��삎 �냽�닔�궛臾� �몴�떆)
+    storage_method varchar2(32) not null,       -- �긽�뭹�젙蹂� (蹂닿�諛⑸쾿)
+    consumer_consulation varchar2(16) not null, -- �긽�뭹�젙蹂� (�냼鍮꾩옄�긽�떞臾몄쓽)
+	thumbnail_origin varchar2(100),             -- �뜽�꽕�씪 �씠誘몄� �썝蹂� �씠由�
+	thumbnail_thum varchar2(100),               -- �뜽�꽕�씪 �씠誘몄� �씠由�
+	product_origin_1 varchar2(100),             -- ���몴 �씠誘몄�1 �씠由�
+	product_thum_1 varchar2(100),               -- ���몴 �씠誘몄�1 �뜽�꽕�씪 �씠由�
+	product_origin_2 varchar2(100),             -- ���몴 �씠誘몄�2 �씠由�
+	product_thum_2 varchar2(100),               -- ���몴 �씠誘몄�2 �뜽�꽕�씪 �씠由�
+	product_origin_3 varchar2(100),             -- ���몴 �씠誘몄�3 �씠由�
+	product_thum_3 varchar2(100),               -- ���몴 �씠誘몄�3 �뜽�꽕�씪 �씠由�
+	product_origin_4 varchar2(100),             -- ���몴 �씠誘몄�4 �씠由�
+	product_thum_4 varchar2(100),               -- ���몴 �씠誘몄�4 �뜽�꽕�씪 �씠由�
+	content_origin varchar2(100),               -- 寃뚯떆湲� 蹂몃Ц �씠誘몄� �씠由�
+    thumbnail_origin_path varchar2(100),        -- �뜽�꽕�씪 �썝蹂� 寃쎈줈
+    thumbnail_thum_path varchar2(100),          -- �뜽�꽕�씪 �뜽�꽕�씪 寃쎈줈
+    product_origin_path varchar2(100),          -- ���몴�씠誘몄� �썝蹂� 寃쎈줈
+    product_thum_path varchar2(100),            -- ���몴�씠誘몄� �뜽�꽕�씪 寃쎈줈
+    content_origin_path varchar2(100),          -- 蹂몃Ц�씠誘몄� �썝蹂� 寃쎈줈
+    sale_status char(1) not null,               -- �뙋留ㅼ뿬遺� (Y, N�쑝濡� 援щ텇)
+    hit number not null,                        -- �뙋留ㅼ닔
+    read_count number not null,                 -- 議고쉶�닔
     constraint board_product_board_id_pk primary key(board_id)
 );
 
 
 
-/*위시리스트*/
+/*�쐞�떆由ъ뒪�듃*/
 drop table wish_list;
 create table wish_list(
-    wish_id varchar2(32) not null,         -- 위시리스트 ID값 (기본키, 랜덤생성)
-    buyer_id varchar2(16) not null,        -- 구매자 ID (member_buyer테이블 외래키)
-    board_id varchar2(32) not null,        -- 판매게시판 ID (board_product테이블 외래키)
+    wish_id varchar2(32) not null,         -- �쐞�떆由ъ뒪�듃 ID媛� (湲곕낯�궎, �옖�뜡�깮�꽦)
+    buyer_id varchar2(16) not null,        -- 援щℓ�옄 ID (member_buyer�뀒�씠釉� �쇅�옒�궎)
+    board_id varchar2(32) not null,        -- �뙋留ㅺ쾶�떆�뙋 ID (board_product�뀒�씠釉� �쇅�옒�궎)
     constraint wish_list_wish_id_pk primary key(wish_id)
 );
 
 
-/*주문기록*/
+/*二쇰Ц湲곕줉*/
 drop table order_record;
-create table order_record(                   -- 주문기록
-    order_num number not null,               -- 주문번호 (기본키)
-    order_id varchar2(32) not null,          -- 주문번호 ID
-    board_id varchar2(32) not null,          -- 상품판매글 ID (member_buyer테이블 외래키)
-    board_title varchar2(100) not null,      -- 상품판매글 제목
-	seller_id varchar2(16) not null,         -- 판매자 ID
-	buyer_id varchar2(16) not null,          -- 구매자 ID
-    amount number not null,                  -- 구매수량
-    price number not null,                   -- 상품 금액
-    delivery_price number not null,          -- 배송비
-    use_point number not null,               -- 사용한 적립금
-	tot_price number not null,               -- 총합 금액
-    status varchar2(16) not null,            -- 주문상태
-    buyer_name varchar2(16) not null,        -- 주문자 이름
-    buyer_phone varchar2(13) not null,       -- 주문자 번호
-    buyer_email varchar2(33) not null,       -- 주문자 이메일
-    order_postalCode varchar2(5) not null,   -- 우편번호
-    order_address varchar2(100) not null,    -- 배송 주소
-    order_name varchar2(16) not null,        -- 받으실 분
-    order_phone varchar2(13) not null,       -- 배송 연락처
-    order_demand varchar2(200),              -- 배송 요구사항
-    order_delivery varchar2(10) not null,    -- 배송사
-    order_invoicenum varchar2(20),           -- 송장번호
-    order_payment varchar2(20) not null,     -- 결제방식
-    order_account varchar2(20) not null,     -- 결제계좌/카드번호
-    order_date date not null,                -- 결제일
-    non_member_flag char(1) not null,        -- 비회원 여부 ('Y', 'N' 으로 구분)
+create table order_record(                   -- 二쇰Ц湲곕줉
+    order_num number not null,               -- 二쇰Ц踰덊샇 (湲곕낯�궎)
+    order_id varchar2(32) not null,          -- 二쇰Ц踰덊샇 ID
+    board_id varchar2(32) not null,          -- �긽�뭹�뙋留ㅺ� ID (member_buyer�뀒�씠釉� �쇅�옒�궎)
+    board_title varchar2(100) not null,      -- �긽�뭹�뙋留ㅺ� �젣紐�
+	seller_id varchar2(16) not null,         -- �뙋留ㅼ옄 ID
+	buyer_id varchar2(16) not null,          -- 援щℓ�옄 ID
+    amount number not null,                  -- 援щℓ�닔�웾
+    price number not null,                   -- �긽�뭹 湲덉븸
+    delivery_price number not null,          -- 諛곗넚鍮�
+    use_point number not null,               -- �궗�슜�븳 �쟻由쎄툑
+	tot_price number not null,               -- 珥앺빀 湲덉븸
+    status varchar2(16) not null,            -- 二쇰Ц�긽�깭
+    buyer_name varchar2(16) not null,        -- 二쇰Ц�옄 �씠由�
+    buyer_phone varchar2(13) not null,       -- 二쇰Ц�옄 踰덊샇
+    buyer_email varchar2(33) not null,       -- 二쇰Ц�옄 �씠硫붿씪
+    order_postalCode varchar2(5) not null,   -- �슦�렪踰덊샇
+    order_address varchar2(100) not null,    -- 諛곗넚 二쇱냼
+    order_name varchar2(16) not null,        -- 諛쏆쑝�떎 遺�
+    order_phone varchar2(13) not null,       -- 諛곗넚 �뿰�씫泥�
+    order_demand varchar2(200),              -- 諛곗넚 �슂援ъ궗�빆
+    order_delivery varchar2(10) not null,    -- 諛곗넚�궗
+    order_invoicenum varchar2(20),           -- �넚�옣踰덊샇
+    order_payment varchar2(20) not null,     -- 寃곗젣諛⑹떇
+    order_account varchar2(20) not null,     -- 寃곗젣怨꾩쥖/移대뱶踰덊샇
+    order_date date not null,                -- 寃곗젣�씪
+    non_member_flag char(1) not null,        -- 鍮꾪쉶�썝 �뿬遺� ('Y', 'N' �쑝濡� 援щ텇)
     constraint order_record_order_num_pk primary key(order_num)
 );
-/*장바구니*/
+/*�옣諛붽뎄�땲*/
 drop table product_cart;
-create table product_cart(          -- 장바구니
-    cart_id varchar2(32) not null,  -- 장바구니ID (기본키, 랜덤코드 생성)
-    board_id varchar2(32) not null, -- 판매글 ID
-    buyer_id varchar2(16) not null, -- 구매자 ID (member_buyer테이블 외래키)
-    quantity number,                -- 수량
+create table product_cart(          -- �옣諛붽뎄�땲
+    cart_id varchar2(32) not null,  -- �옣諛붽뎄�땲ID (湲곕낯�궎, �옖�뜡肄붾뱶 �깮�꽦)
+    board_id varchar2(32) not null, -- �뙋留ㅺ� ID
+    buyer_id varchar2(16) not null, -- 援щℓ�옄 ID (member_buyer�뀒�씠釉� �쇅�옒�궎)
+    quantity number,                -- �닔�웾
     constraint product_cart_cart_id_pk primary key(cart_id)
 );
  
