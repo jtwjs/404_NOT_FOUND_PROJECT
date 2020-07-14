@@ -23,6 +23,7 @@ CREATE SEQUENCE admin_num_seq
 
 
 /*援щℓ�옄*/
+
 select* from member_buyer;
 create table member_buyer(          -- 援щℓ�옄 �뀒�씠釉�
     buyer_id varchar2(16) not null, -- 援щℓ�옄 ID (湲곕낯�궎)
@@ -43,21 +44,8 @@ create table member_buyer(          -- 援щℓ�옄 �뀒�씠釉�
     constraint member_buyer_buyer_id_pk primary key(buyer_id)
 );
 select * from member_buyer;
-
-	 select sum(s.count) from (
-     select count(*) as count
-     from member_buyer 
-     where buyer_id= 'test01'
-     union all
-     select count(*) as count
-     from member_seller
-     where seller_id='test01'
-     union all
-     select count(*) as count
-     from admin
-     where admin_id='test01'
-     )s;
-
+select * from list_delivery;
+select * from member_seller;a
 
 
 desc member_buyer;
@@ -262,7 +250,9 @@ create table product_cart(          -- �옣諛붽뎄�땲
 );
  
  /*주문기록*/
+ 
  drop table order_record;
+ 
 create table order_record(                   -- 주문기록
     order_id number not null,                -- 주문번호 ID
     buyer_id varchar2(16) not null,          -- 구매자 ID (member_buyer테이블 외래키)
@@ -287,4 +277,7 @@ create table order_record(                   -- 주문기록
     constraint order_record_option_id_fk foreign key(option_id)
         references board_product_option(option_id) on delete cascade
 );
+
+
+
  

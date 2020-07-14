@@ -3,9 +3,10 @@ package com.spring.mapper;
 import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import com.spring.boardproduct.BoardProductVO;
-
+@Repository
 public interface BoardProductMapper {
 
     public int getBoardNum();

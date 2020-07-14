@@ -54,7 +54,6 @@
 							<ul>
 								<li><a href="#" onclick="location.href='BoardNotice.sc'">공지사항</a></li>
 								<li><a href="#" class="selected-menu" onclick="location.href='BoardFaq.sc'">자주묻는질문</a></li>
-								<li><a href="#" onclick="location.href='BoardQna.sc'">고객문의</a></li>
 							</ul>
 						</aside>
 

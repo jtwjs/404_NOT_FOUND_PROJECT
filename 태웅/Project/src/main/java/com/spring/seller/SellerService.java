@@ -12,4 +12,5 @@ public interface SellerService {
 	int DeleteSellerAccount(String id);
 	void UpdateProfileImg(SellerVO account);
 	ArrayList<BoardProductVO> selectProductListById(String id);
+	BoardProductVO BoardSelectOneByBoardId(String board_id);
 }

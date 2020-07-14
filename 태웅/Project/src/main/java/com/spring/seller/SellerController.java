@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.boardproduct.BoardProductVO;
@@ -101,7 +102,7 @@ public class SellerController {
 	public String sellerProductList(Model model, @CurrentUser SellerVO account, BoardProductVO board) {
 		board.setSeller_id(account.getId());
 		ArrayList<BoardProductVO> productList = service.selectProductListById(board.getSeller_id());
-		
+	
 		model.addAttribute("productList", productList);
 		model.addAttribute("userId", account.getId());
 		model.addAttribute("name", account.getName());
@@ -116,8 +117,11 @@ public class SellerController {
 		return "Seller/mypage_productList";
 	}
 	
-	@RequestMapping(value = "/SellerProductModify.se")    // �긽�뭹�궡�뿭 - �뙋留ㅺ� �닔�젙
-	public String sellerProductModify(Model model, @CurrentUser SellerVO account) {
+	@RequestMapping(value = "/SellerProductModifyForm.se")    // �긽�뭹�궡�뿭 - �뙋留ㅺ� �닔�젙
+	public String sellerProductModifyForm(Model model, @CurrentUser SellerVO account,
+			@RequestParam(value = "board_id", required= true) String board_id) {
+		BoardProductVO product = service.BoardSelectOneByBoardId(board_id);
+		model.addAttribute("product", product);
 		model.addAttribute("name", account.getName());
 		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
 		if(account.getProfileImg() == null || account.getProfileImg() == "") {
@@ -126,6 +130,11 @@ public class SellerController {
     		model.addAttribute("profileImg", account.getProfileImg());
     	}
 		return "Seller/mypage_productModify";
+	}
+	
+	@RequestMapping(value = "/SellerProductModify.se")
+	public String sellerProductModify() {
+		return "redirect:/Seller/mypage_productList";
 	}
 	
 	@RequestMapping(value = "/SellerOrderStatus.se")    // 嫄곕옒�궡�뿭 - 二쇰Ц愿�由�

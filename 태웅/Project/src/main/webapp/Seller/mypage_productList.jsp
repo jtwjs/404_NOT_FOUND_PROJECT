@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Calendar" %>
 <%
@@ -125,7 +126,7 @@
                                             </td>
                                             <td>
                                                 <input type="button" value="상품수정" class="product-modify"
-                                                    onclick="javascript:location.href='SellerProductModify.se'" />
+                                                    onclick="javascript:location.href='SellerProductModifyForm.se'" />
                                             </td>
                                         </tr>
                                         <tr>
@@ -136,7 +137,7 @@
                                         </tr>
                                           <td>
                                                 <input type="button" value="상품수정" class="product-modify"
-                                                    onclick="javascript:location.href='SellerProductModify.se'" />
+                                                    onclick="javascript:location.href='SellerProductModifyForm.se'" />
                                             </td>
                                                <tr>
                                             <td></td>
@@ -146,10 +147,10 @@
                                         </tr>
                                         </c:when>
                                         <c:otherwise>
-                                        <c:forEach items="${productList}" var="productList" >
+                                        <c:forEach items="${productList}" var="productList" varStatus="status">
                                         	<tr>
                                             <td>
-                                               ${productList.board_num}
+                                               ${status.count}
                                             </td>
                                             <td>
                                                ${productList.title}
@@ -158,14 +159,17 @@
                                                ${productList.satisfaction}
                                             </td>
                                             <td>
-                                               ${productList.register_date}
+                                            <fmt:formatDate value="${productList.register_date}" pattern="yy-MM-dd" var ="registerDate"/>
+                                               ${registerDate}
+                                
                                             </td>
                                             <td>
                                                ${productList.content_origin}
                                             </td>
                                             <td>
                                                 <input type="button" value="상품수정" class="product-modify"
-                                                    onclick="javascript:location.href='SellerProductModify.se'" />
+                                                    onclick="javascript:location.href='SellerProductModifyForm.se?board_id=${productList.board_id}'" />
+                                                    
                                             </td>
                                         </tr>
                                         </c:forEach>
