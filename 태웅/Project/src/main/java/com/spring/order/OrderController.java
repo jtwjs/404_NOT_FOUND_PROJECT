@@ -17,9 +17,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.admin.AccountVO;
 import com.spring.boardproduct.BoardProductService;
 import com.spring.boardproduct.BoardProductVO;
+import com.spring.buyer.BuyerService;
+import com.spring.buyer.BuyerVO;
+import com.spring.config.Security.CurrentUser;
 
 @Controller
 public class OrderController {
@@ -29,6 +35,9 @@ public class OrderController {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private BuyerService buyerService;
 	
     @RequestMapping(value = "/OrderResearch.or")  // 주문배송 로그인 (회원)
     public String orderLogin() {
@@ -152,8 +161,13 @@ public class OrderController {
     
     
     @PostMapping(value = "/OrderSheet.or")  // 주문서  
-    public String orderSheet(Model model, String[] board_id, int[] quantity) {
-    	
+    public String orderSheet(Model model,@CurrentUser AccountVO account ,String[] board_id, int[] quantity) {
+    	String id = account.getId();
+    	BuyerVO buyerAccount = buyerService.selectOnById(id);
+    	String tel = buyerAccount.getTel();
+    	buyerAccount.setTelCarrierNum(tel.substring(0,3));
+    	buyerAccount.setTelAllocationNum(tel.substring(3,7));
+    	buyerAccount.setTelDiscretionaryNum(tel.substring(7,11));
     	
     	ArrayList<BoardProductVO> vo_list = new ArrayList<BoardProductVO>();
     	ArrayList<Integer> quantity_list = new ArrayList<Integer>();
@@ -163,7 +177,9 @@ public class OrderController {
     		quantity_list.add(Integer.valueOf(quantity[i]));
     		vo_list.add(boardProductService.getBoardProductVO(board_id[i]));
     	}
-  	
+    	
+    
+    	model.addAttribute("user", buyerAccount);
     	model.addAttribute("vo_list" , vo_list);
     	model.addAttribute("quantity_list" , quantity_list);
 
@@ -230,4 +246,19 @@ public class OrderController {
 		
     	return "Order/order_complete";
     }
+
+
+/*적립금 전액 사용*/
+@RequestMapping(value = "/savePointFullUse.or", method = RequestMethod.POST,
+produces = "application/json;charset=utf-8")
+@ResponseBody
+public int UseSavePoint(@CurrentUser AccountVO account) {
+	String id = account.getId();
+	BuyerVO buyerAccount = buyerService.selectOnById(id);
+	int savePoint = buyerAccount.getSavePoint();
+	
+	return savePoint;
+	
+}
+
 }

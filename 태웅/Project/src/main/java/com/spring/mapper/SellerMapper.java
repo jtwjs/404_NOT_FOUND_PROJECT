@@ -12,7 +12,6 @@ import com.spring.seller.SellerVO;
 public interface SellerMapper {
 
 	SellerVO selectOneById(String id);
-	int selectCountById(String id);
 	void InsertSellerAccout(SellerVO account);
 	int UpdateSellerAccount(SellerVO account);
 	int DeleteSellerAccount(String id);

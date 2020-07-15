@@ -12,7 +12,7 @@
 <head>
     <!-- header, css -->
     <jsp:include page="../header.jsp" flush="false"/>
-    <link href="<c:url value='/resources/css/module/header.css'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/module/header.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/reset.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css'/>" rel="stylesheet" />
     <!-- header, css end -->

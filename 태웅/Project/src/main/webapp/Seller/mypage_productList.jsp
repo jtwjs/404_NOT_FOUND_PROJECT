@@ -121,29 +121,9 @@
                                     <c:choose>
 										<c:when test="${fn:length(list) == 0}" >
                                         <tr>
-                                            <td class="non-post" colspan="5">
+                                            <td class="non-post" colspan="6">
                                                 등록된 상품내역이 없습니다.
                                             </td>
-                                            <td>
-                                                <input type="button" value="상품수정" class="product-modify"
-                                                    onclick="javascript:location.href='SellerProductModifyForm.se'" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                          <td>
-                                                <input type="button" value="상품수정" class="product-modify"
-                                                    onclick="javascript:location.href='SellerProductModifyForm.se'" />
-                                            </td>
-                                               <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
                                         </tr>
                                         </c:when>
                                         <c:otherwise>

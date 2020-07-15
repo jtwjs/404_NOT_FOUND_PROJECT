@@ -174,6 +174,7 @@
                             <!-- 농원소개 -->
                             <form id="buyForm" method="post" action="OrderSheet.or">
                             <input type="hidden" value="<%=vo.getBoard_id() %>" name="board_id" id="board_id" />
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                             </form>
                             <div class="seller__data--btn">
                                 <div class="seller__btnWrap">

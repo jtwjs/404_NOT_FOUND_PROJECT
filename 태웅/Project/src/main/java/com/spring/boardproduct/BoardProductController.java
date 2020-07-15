@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.buyer.BuyerVO;
+import com.spring.admin.AccountVO;
 import com.spring.config.Security.CurrentUser;
 import com.spring.seller.SellerVO;
 
@@ -163,7 +163,8 @@ public class BoardProductController {
 	}
 	
     @GetMapping(value = "/BoardProductView.bo") // 판매글 보기
-	public String boardProductView(Model model,@RequestParam(value="board_id") String board_id, @CurrentUser BuyerVO account) {
+	public String boardProductView(Model model,@RequestParam(value="board_id")
+	String board_id, @CurrentUser AccountVO account) {
     	// 아이디 통합시키자 그냥
     	BoardProductVO vo = boardProductService.getBoardProductVO(board_id);
     	model.addAttribute("userId",account.getId());
@@ -180,7 +181,7 @@ public class BoardProductController {
 	}
 	
 	@PostMapping(value = "/BoardProductRegist.bo")  // 상품등록
-	public String sellerProductRegisterDB(Model model, @CurrentUser SellerVO account, String title, int category_1, 
+	public String sellerProductRegisterDB(Model model, @CurrentUser AccountVO account, String title, int category_1, 
 			int category_2, int price, int delivery_price, int quantity, //String content, 
 			String sales_producer, String product_name, String product_weight, String product_size, 
 			int category_local, String product_country, String date_manufacture, String best_before_date, 

@@ -1,0 +1,74 @@
+.delivery-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal-content {
+  position: relative;
+  width: 351px;
+  height: 150px;
+  border: 1px solid rgba(249, 250, 252, 0.2);
+  border-radius: 40px;
+  padding-top: 65px;
+  overflow: hidden;
+
+  z-index: 2000;
+}
+
+.close-btn {
+  position: absolute;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 100%;
+  background-image: url("../assets/close-button.png");
+  background-color: #fff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  z-index: 20001;
+}
+
+.modal-img {
+  height: 60px;
+}
+
+.modal-desc {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-desc h2 {
+  font-size: 18px;
+}
+
+.modal-btn {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+}
+
+.modal-btn a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 58px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #fff;
+}
+
+.go_shopping-btn {
+  background-color: #27ae60;
+}
+
+.past_orderList-btn {
+  background-color: #6c5044;
+}

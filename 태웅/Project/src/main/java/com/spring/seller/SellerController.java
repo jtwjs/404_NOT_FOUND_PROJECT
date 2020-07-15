@@ -6,7 +6,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -27,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.admin.AccountVO;
 import com.spring.boardproduct.BoardProductVO;
 import com.spring.config.Security.CurrentUser;
 import com.spring.config.Security.CustomDetailService;
@@ -35,49 +35,55 @@ import com.spring.config.Security.CustomDetailService;
 public class SellerController {
 	
 	@Autowired
-	SellerServiceImpl service;
+	SellerServiceImpl Sellerservice;
 	
 	@Autowired
 	CustomDetailService SecurityService;
+	
 	@RequestMapping(value = "/SellerMyPage.se")  
-	public String sellerMyPage(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("name", account.getName());
-    	model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-    	model.addAttribute("grade", account.getGrade());
-    	if(account.getProfileImg() == null || account.getProfileImg() == "") {
+	public String sellerMyPage(Model model, @CurrentUser AccountVO account) {
+		String id = account.getId();
+		SellerVO sellerAccount =  Sellerservice.selectOneById(id);
+		model.addAttribute("name", sellerAccount.getName());
+    	model.addAttribute("loginDate", sellerAccount.getLoginDate().substring(0,10));
+    	model.addAttribute("grade", sellerAccount.getGrade());
+    	if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
     		model.addAttribute("profileImg", "profile-basic.png");
     	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+    		model.addAttribute("profileImg", sellerAccount.getProfileImg());
     	}
 		return "Seller/mypage_main";
 	}
 	
 	@RequestMapping(value = "/SellerInfoModify.se")  // �봽濡쒗븘 �닔�젙
-	public String sellerInfoModify(Model model, @CurrentUser SellerVO account) {
+	public String sellerInfoModify(Model model, @CurrentUser AccountVO account) {
 		
-		int mailIndex = account.getEmail().indexOf("@");
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		model.addAttribute("represent", account.getRepresent());
-		model.addAttribute("reportNum", account.getOrderReportNum());
-		model.addAttribute("shopName", account.getShopName());
-		model.addAttribute("name", account.getName());
-		model.addAttribute("id", account.getId());
-		model.addAttribute("tel1", account.getTel().substring(0,3));
-		model.addAttribute("tel2", account.getTel().substring(3,7));
-		model.addAttribute("tel3", account.getTel().substring(7,11));
+		String id = account.getId();
+		SellerVO sellerAccount =  Sellerservice.selectOneById(id);
+		
+		int mailIndex = sellerAccount.getEmail().indexOf("@");
+		model.addAttribute("loginDate", sellerAccount.getLoginDate().substring(0,10));
+		model.addAttribute("represent", sellerAccount.getRepresent());
+		model.addAttribute("reportNum", sellerAccount.getOrderReportNum());
+		model.addAttribute("shopName", sellerAccount.getShopName());
+		model.addAttribute("name", sellerAccount.getName());
+		model.addAttribute("id", sellerAccount.getId());
+		model.addAttribute("tel1", sellerAccount.getTel().substring(0,3));
+		model.addAttribute("tel2", sellerAccount.getTel().substring(3,7));
+		model.addAttribute("tel3", sellerAccount.getTel().substring(7,11));
 	
-		model.addAttribute("mailId", account.getEmail().substring(0,mailIndex));
-		model.addAttribute("mailAddr", account.getEmail().substring(mailIndex+1));
-		model.addAttribute("addr", account.getAddress());
-		model.addAttribute("bankName", account.getBankName());
-		model.addAttribute("bankAccount", account.getBankAccountNum());
+		model.addAttribute("mailId", sellerAccount.getEmail().substring(0,mailIndex));
+		model.addAttribute("mailAddr", sellerAccount.getEmail().substring(mailIndex+1));
+		model.addAttribute("addr", sellerAccount.getAddress());
+		model.addAttribute("bankName", sellerAccount.getBankName());
+		model.addAttribute("bankAccount", sellerAccount.getBankAccountNum());
 		
 		
 		
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
     		model.addAttribute("profileImg", "profile-basic.png");
     	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+    		model.addAttribute("profileImg", sellerAccount.getProfileImg());
     	}
 		
 		return "Seller/mypage_infoModify";
@@ -85,13 +91,17 @@ public class SellerController {
 	
 	
 	@RequestMapping(value = "/SellerProductRegister.se")  // �긽�뭹�궡�뿭 - �긽�뭹�벑濡�
-	public String sellerProductRegister(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+	public String sellerProductRegister(Model model, @CurrentUser AccountVO account) {
+		
+		String id = account.getId();
+		SellerVO sellerAccount =  Sellerservice.selectOneById(id);
+		
+		model.addAttribute("name", sellerAccount.getName());
+		model.addAttribute("loginDate", sellerAccount.getLoginDate().substring(0,10));
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
     		model.addAttribute("profileImg", "profile-basic.png");
     	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+    		model.addAttribute("profileImg", sellerAccount.getProfileImg());
     	}
 		
 		
@@ -99,18 +109,21 @@ public class SellerController {
 	}
 	
 	@RequestMapping(value = "/SellerProductList.se")    // �긽�뭹�궡�뿭 - �긽�뭹�궡�뿭
-	public String sellerProductList(Model model, @CurrentUser SellerVO account, BoardProductVO board) {
+	public String sellerProductList(Model model, @CurrentUser AccountVO account, BoardProductVO board) {
+		String id = account.getId();
+		SellerVO sellerAccount =  Sellerservice.selectOneById(id);
+		
 		board.setSeller_id(account.getId());
-		ArrayList<BoardProductVO> productList = service.selectProductListById(board.getSeller_id());
+		ArrayList<BoardProductVO> productList = Sellerservice.selectProductListById(board.getSeller_id());
 	
 		model.addAttribute("productList", productList);
-		model.addAttribute("userId", account.getId());
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+		model.addAttribute("userId", sellerAccount.getId());
+		model.addAttribute("name", sellerAccount.getName());
+		model.addAttribute("loginDate", sellerAccount.getLoginDate().substring(0,10));
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
     		model.addAttribute("profileImg", "profile-basic.png");
     	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+    		model.addAttribute("profileImg", sellerAccount.getProfileImg());
     	}
 		
 		
@@ -118,16 +131,20 @@ public class SellerController {
 	}
 	
 	@RequestMapping(value = "/SellerProductModifyForm.se")    // �긽�뭹�궡�뿭 - �뙋留ㅺ� �닔�젙
-	public String sellerProductModifyForm(Model model, @CurrentUser SellerVO account,
+	public String sellerProductModifyForm(Model model, @CurrentUser AccountVO account,
 			@RequestParam(value = "board_id", required= true) String board_id) {
-		BoardProductVO product = service.BoardSelectOneByBoardId(board_id);
+		
+		String id = account.getId();
+		SellerVO sellerAccount =  Sellerservice.selectOneById(id);
+		BoardProductVO product = Sellerservice.BoardSelectOneByBoardId(board_id);
+		
 		model.addAttribute("product", product);
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+		model.addAttribute("name", sellerAccount.getName());
+		model.addAttribute("loginDate", sellerAccount.getLoginDate().substring(0,10));
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
     		model.addAttribute("profileImg", "profile-basic.png");
     	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+    		model.addAttribute("profileImg", sellerAccount.getProfileImg());
     	}
 		return "Seller/mypage_productModify";
 	}
@@ -138,49 +155,61 @@ public class SellerController {
 	}
 	
 	@RequestMapping(value = "/SellerOrderStatus.se")    // 嫄곕옒�궡�뿭 - 二쇰Ц愿�由�
-	public String sellerOrderStatus(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+	public String sellerOrderStatus(Model model, @CurrentUser AccountVO account) {
+		String id = account.getId();
+		SellerVO sellerAccount =  Sellerservice.selectOneById(id);
+		
+		model.addAttribute("name", sellerAccount.getName());
+		model.addAttribute("loginDate", sellerAccount.getLoginDate().substring(0,10));
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
     		model.addAttribute("profileImg", "profile-basic.png");
     	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+    		model.addAttribute("profileImg", sellerAccount.getProfileImg());
     	}
 		return "Seller/mypage_orderStatus";
 	}
 	
 	@RequestMapping(value = "/SellerTransactionList.se")    // 嫄곕옒�궡�뿭 - 嫄곕옒紐⑸줉
-	public String sellerTransactionList(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+	public String sellerTransactionList(Model model, @CurrentUser AccountVO account) {
+		String id = account.getId();
+		SellerVO sellerAccount =  Sellerservice.selectOneById(id);
+		
+		model.addAttribute("name", sellerAccount.getName());
+		model.addAttribute("loginDate", sellerAccount.getLoginDate().substring(0,10));
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
     		model.addAttribute("profileImg", "profile-basic.png");
     	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+    		model.addAttribute("profileImg", sellerAccount.getProfileImg());
     	}
 		return "Seller/mypage_transactionList";
 	}
 	
 	@RequestMapping(value = "/SellerCalculateManager.se")    // 嫄곕옒�궡�뿭 - 嫄곕옒紐⑸줉
-	public String sellerCalculateManager(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+	public String sellerCalculateManager(Model model, @CurrentUser AccountVO account) {
+		String id = account.getId();
+		SellerVO sellerAccount =  Sellerservice.selectOneById(id);
+		
+		model.addAttribute("name", sellerAccount.getName());
+		model.addAttribute("loginDate", sellerAccount.getLoginDate().substring(0,10));
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
     		model.addAttribute("profileImg", "profile-basic.png");
     	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+    		model.addAttribute("profileImg", sellerAccount.getProfileImg());
     	}
 		return "Seller/mypage_calculateManager";
 	}
 	
 	@RequestMapping(value = "/SellerMarketPriceInfo.se")  // �긽�뭹 �떆�꽭�젙蹂�
-	public String sellerMarketPriceInfo(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+	public String sellerMarketPriceInfo(Model model, @CurrentUser AccountVO account) {
+		String id = account.getId();
+		SellerVO sellerAccount =  Sellerservice.selectOneById(id);
+		
+		model.addAttribute("name", sellerAccount.getName());
+		model.addAttribute("loginDate", sellerAccount.getLoginDate().substring(0,10));
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
     		model.addAttribute("profileImg", "profile-basic.png");
     	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+    		model.addAttribute("profileImg", sellerAccount.getProfileImg());
     	}
 		return "Seller/mypage_marketPriceInfo";
 	}
@@ -278,25 +307,31 @@ public class SellerController {
 	
 	
 	@RequestMapping(value = "/SellerProductQNA.se")  // Q&A - �긽�뭹臾몄쓽
-	public String sellerProductQNA(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+	public String sellerProductQNA(Model model, @CurrentUser AccountVO account) {
+		String id = account.getId();
+		SellerVO sellerAccount =  Sellerservice.selectOneById(id);
+		
+		model.addAttribute("name", sellerAccount.getName());
+		model.addAttribute("loginDate", sellerAccount.getLoginDate().substring(0,10));
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
     		model.addAttribute("profileImg", "profile-basic.png");
     	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+    		model.addAttribute("profileImg", sellerAccount.getProfileImg());
     	}
 		return "Seller/mypage_productQNA";
 	}
 	
 	@RequestMapping(value = "/SellerProductReview.se")  // Q&A - �긽�뭹�썑湲�
-	public String sellerProductReview(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
+	public String sellerProductReview(Model model, @CurrentUser AccountVO account) {
+		String id = account.getId();
+		SellerVO sellerAccount =  Sellerservice.selectOneById(id);
+		
+		model.addAttribute("name", sellerAccount.getName());
+		model.addAttribute("loginDate", sellerAccount.getLoginDate().substring(0,10));
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
     		model.addAttribute("profileImg", "profile-basic.png");
     	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+    		model.addAttribute("profileImg", sellerAccount.getProfileImg());
     	}
 		return "Seller/mypage_productReview";
 	}
@@ -322,27 +357,13 @@ public class SellerController {
     	
     }
    
-   @RequestMapping(value ="/duplicationCheck.se",
-			method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-	@ResponseBody
-	public HashMap<String, Object> idDuplicationCheck(SellerVO seller){
-		HashMap<String, Object> result = new HashMap<String, Object>();
-		String id = seller.getId();
-		System.out.println("id받아온 값=" + id);
-		boolean isDuplication = service.duplicateCheck(id);
-		
-		if( isDuplication ) {
-			result.put("result", "Fail");
-		}else {
-			result.put("result", "OK");
-		}
-		System.out.println("sellerResult값=" + result.get("result"));
-		return result;
-	}
 	
    @RequestMapping(value = "/profile_Update.se", method = RequestMethod.POST)
-   public void profileUpdate(@CurrentUser SellerVO account) {
-	   service.UpdateSellerAccount(account);
+   public void profileUpdate(@CurrentUser AccountVO account) {
+		String id = account.getId();
+		SellerVO sellerAccount =  Sellerservice.selectOneById(id);
+		
+		Sellerservice.UpdateSellerAccount(sellerAccount);
 	   
    }
    
@@ -350,9 +371,12 @@ public class SellerController {
    @RequestMapping(value =" /profile_defaultImg.se",
 		   method = RequestMethod.POST, produces = "application/json;charset=utf-8")
    @ResponseBody
-   public void defultImg(@CurrentUser SellerVO account) {
-	   account.setProfileImg("");
-	   service.UpdateProfileImg(account);
+   public void defultImg(@CurrentUser AccountVO account) {
+	   String id = account.getId();
+	   SellerVO sellerAccount =  Sellerservice.selectOneById(id);
+		
+	   sellerAccount.setProfileImg("");
+	   Sellerservice.UpdateProfileImg(sellerAccount);
    }
    
  

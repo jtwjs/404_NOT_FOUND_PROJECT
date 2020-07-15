@@ -1,3 +1,12 @@
+/*모든 계정 테이블*/
+CREATE Table all_account(
+account_id varchar2(16) not null,
+account_pw varchar2(100) not null,
+account_type varchar2(10) not null,
+constraint all_account_pk primary key(account_id)
+);
+
+
 drop table admin;
 create table admin(                 -- 愿�由ъ옄 �뀒�씠釉�
     admin_id varchar2(16) not null, -- 愿�由ъ옄 ID (湲곕낯�궎)
@@ -7,24 +16,30 @@ create table admin(                 -- 愿�由ъ옄 �뀒�씠釉�
     member_type varchar(10) default 'ADMIN' not null,    -- 硫ㅻ쾭���엯 (愿�由ъ옄)
     constraint admin_admin_id_pk primary key(admin_id)
 );
-commit;
-select * from member_seller;
-desc admin;
+
 insert into admin 
 values ('admin','{bcrypt}$2a$10$UgciI5e8vDo2uZlnRDSL4eZlPwkWMyd4pOCj90wja8UWqkX.GSAqu','관리자',admin_num_seq.nextval,'ADMIN');
-
-
 
 CREATE SEQUENCE admin_num_seq
     INCREMENT BY 1
     START WITH 1
     MAXVALUE 9999
     NOCYCLE;
+    
+
+create or replace trigger TRG_admin_account
+AFTER INSERT ON admin
+for each row
+BEGIN
+insert into all_account (account_ID, account_pw, account_type)
+values (:new.admin_id, :new.password, :new.member_type);
+END;
 
 
 /*援щℓ�옄*/
-
+select * from member_seller;
 select* from member_buyer;
+
 create table member_buyer(          -- 援щℓ�옄 �뀒�씠釉�
     buyer_id varchar2(16) not null, -- 援щℓ�옄 ID (湲곕낯�궎)
     password varchar2(100) not null, -- 鍮꾨�踰덊샇 (*�븫�샇�솕�븣臾몄뿉 �겕湲곕뒛由�)
@@ -43,9 +58,7 @@ create table member_buyer(          -- 援щℓ�옄 �뀒�씠釉�
     last_loginDate date default sysdate,                --留덉�留됱젒�냽�씪�옄
     constraint member_buyer_buyer_id_pk primary key(buyer_id)
 );
-select * from member_buyer;
-select * from list_delivery;
-select * from member_seller;a
+
 
 
 desc member_buyer;
@@ -57,6 +70,15 @@ CREATE SEQUENCE buyer_num_seq
     NOCYCLE;
 --     select buyer_num_seq.nextval from DUAL;
 --     select buyer_num_seq.currval from dual;   
+
+create or replace trigger TRG_buyer_account
+AFTER INSERT ON member_buyer
+for each row
+BEGIN
+insert into all_account (account_ID, account_pw, account_type)
+values (:new.buyer_id, :new.password, :new.member_type);
+END;
+
 
     /*媛쒖씤諛곗넚吏�(援щℓ�옄)*/
 drop table list_delivery;
@@ -128,7 +150,14 @@ CREATE SEQUENCE seller_num_seq
      
      select * from member_buyer;
      select * from member_seller;
-    
+     
+create or replace trigger TRG_seller_account
+AFTER INSERT ON member_seller
+for each row
+BEGIN
+insert into all_account (account_ID, account_pw, account_type)
+values (:new.seller_id, :new.password, :new.member_type);
+END;    
     
  create table board_faq(          -- �옄二쇰Щ�뒗吏덈Ц 寃뚯떆�뙋
 num number not null,         -- 由ъ뒪�듃 踰덊샇 (湲곕낯�궎)
@@ -277,7 +306,7 @@ create table order_record(                   -- 주문기록
     constraint order_record_option_id_fk foreign key(option_id)
         references board_product_option(option_id) on delete cascade
 );
+commit;
 
-
-
- 
+select * from board_product;
+commit;

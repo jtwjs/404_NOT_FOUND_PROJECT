@@ -14,10 +14,25 @@
 	<result column = "admin_num" property = "adminNum" />
 	<result column = "member_type" property = "memberType" />
 </resultMap>
+
+<resultMap id="accountResultMap" type="com.spring.admin.AccountVO">
+	<result column = "account_id" property = "id" />
+	<result column = "account_pw" property = "password" />
+	<result column = "account_type" property = "memberType" />
+</resultMap>
 	  
 	  <select id = "selectOndById" resultMap = "adminResultMap">
 	  	SELECT * FROM admin WHERE admin_id = #{id}
 	  </select>
+	  
+	  <select id = "selectCountById" resultType = "int">
+	  	SELECT count(*) FROM all_account WHERE account_id = #{id}
+	  </select>
+	  
+	  <select id = "selectAccountById" resultMap = "accountResultMap">
+	  	SELECT * FROM all_account WHERE account_id = #{id}
+	  </select>
+	  
 	
 
 </mapper>

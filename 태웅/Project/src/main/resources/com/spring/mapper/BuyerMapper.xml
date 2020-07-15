@@ -48,22 +48,6 @@
 		SELECT * FROM member_buyer WHERE buyer_id = #{id}
 	</select>
 	
-	<select id = "selectCountById" resultType = "int" >
-		 select sum(s.count) from (
-     select count(*) as count
-     from member_buyer 
-     where buyer_id=#{id}
-     union all
-     select count(*) as count
-     from member_seller
-     where seller_id=#{id}
-     union all
-     select count(*) as count
-     from admin
-     where admin_id=#{id}
-     )s
-	</select>
-	
 	<insert id = "InsertBuyerAccount" parameterType = "com.spring.buyer.BuyerVO" >
 		<selectKey keyProperty="buyerNum" order = "BEFORE" resultType="int">
 			SELECT buyer_num_seq.nextval FROM dual

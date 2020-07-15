@@ -106,7 +106,7 @@ function uncheck_all() {
 	  var token = $("meta[name='_csrf']").attr("content");
 	  var header = $("meta[name='_csrf_header']").attr("content");
 	  $.ajax({
-		  url: '/project/duplicationCheck.by',
+		  url: '/project/duplicationCheck.ad',
 		  type: 'POST',
 		  data: {id : $idValue},
 		  beforeSend: function(xhr){

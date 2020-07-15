@@ -10,6 +10,11 @@
 	text-align: center;
 }
 
+#orerSheetForm input {
+	padding: 0 5px;
+}
+
+
 #order__title > span {
 	font-size: 25px;
 	font-weight: bold;
@@ -57,6 +62,33 @@
 /* base end --------------------------------------------------------------- */
 
 
+#order-product_table {
+}
+
+#order-product_table {
+	table-layout:fixed;
+	width: 1000px;
+}
+
+#order-product_table td {
+	text-align: center;
+}
+
+#order-product_table td>input{
+	text-align: center;
+}
+
+.product__list-title {
+	display: flex;
+	align-items: center;
+}
+
+.product__list {
+	display: flex;
+	width: 100%;
+	align-items: center;
+}
+
 
 #order__list--check {
 	margin: 50px 100px 100px 100px;
@@ -77,40 +109,66 @@
 }
 
 .list__thum{
-	width: 110px;
+	min-width: 110px;
 	height: 110px;
 }
 
-.list__title {
+#order-product_table tr > .list__title {
+	min-width: 290px;
 	text-align: left;
 }
 
+.list__name,
+.list__amount,
+.list__price,
+.list__discount,
+.list__discount-price,
+.list__save-point,
+.list__delivery-price,
+.list__thum,
+.list__title {
+	display: inline-block;
+}
+
 .list__name {
-	width: 400px;
+	width: 40%;
 }
 
 .list__amount {
-	width: 100px;
+	width: 10%;
 }
 
 .list__price {
-	width: 100px;
+	width: 10%;
 }
 
 .list__discount {
-	width: 100px;
+	width: 10%;
 }
 
 .list__discount-price {
-	width: 100px;
+	width: 10%;
 }
 
 .list__save-point {
-	width: 100px;
+	width: 10%;
 }
 
 .list__delivery-price {
+	width: 10%;
+}
+
+.amount,
+.price,
+.tot_price,
+.discount,
+.save_point,
+.delivery_price {
 	width: 100px;
+
+	}
+.board_title {
+	width: 185px;	
 }
 
 
@@ -145,6 +203,7 @@
 
 #save-point__input-text {
 	border: 1px solid #e0d8d8;
+	text-align: right;
 }
 
 #save-point__input-btn {
@@ -309,6 +368,7 @@
 	width: 800px;
 	height: 130px;
 	border: 1px solid #e0d8d8;
+	padding: 10px;
 	resize: none;
 }
 

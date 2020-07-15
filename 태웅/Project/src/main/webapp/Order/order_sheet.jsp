@@ -95,54 +95,54 @@
                 <div class="order__title">
                     <span>주문상품 확인 및 할인적용</span>
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <td class="list__name" colspan="2">주문상품</td>
-                            <td class="list__amount">수량</td>
-                            <td class="list__price">상품금액</td>
-                            <td class="list__discount">할인</td>
-                            <td class="list__discount-price">가격</td>
-                            <td class="list__save-point">적립</td>
-                            <td class="list__delivery-price">배송비</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <%if(vo_list != null){ %>
-                        <%for(int i = 0; i < vo_list.size(); i++){ %>
-                        <tr>
-                            <td class="list__thum"><img src="<%=vo_list.get(i).getThumbnail_thum_path() %><%=vo_list.get(i).getThumbnail_thum()%>"></td>
-                            <td class="list__title">
-                            <input type="text" name="board_title" class="board_title" 
-                                value="<%=vo_list.get(i).getTitle() %>" readonly />
-                            <input type="hidden" name="board_id" class="board_id" 
-                                value="<%=vo_list.get(i).getBoard_id() %>" />
-                            <input type="hidden" name="seller_id" class="seller_id"  
-                                value="<%=vo_list.get(i).getSeller_id() %>" />
-                            </td>
-                            <td>
-                            <input type="text" name="amount" class="amount" 
-                                value="<%=quantity_list.get(i) %>" readonly />
-                            </td>
-                            <td>
-                            <input type="text" name="price" class="price" 
-                                value="<%=vo_list.get(i).getPrice() %>" readonly />
-                            </td>
-                            <td><%=discount %></td>
-                            <td>
-                            <input type="text" name="tot_price" class="tot_price" 
-                                value="<%=(vo_list.get(i).getPrice() * quantity_list.get(i)) - discount %>" readonly />
-                            </td>
-                            <td><%=(int)(((vo_list.get(i).getPrice() * quantity_list.get(i)) - discount) / 10) %></td>
-                            <td>
-                            <input type="text" name="delivery_price" class="delivery_price" 
-                                value="<%=vo_list.get(i).getDelivery_price() %>" readonly />
-                            </td>
-                        </tr>
-                        <%} 
-                        }%>
-                    </tbody>
-                </table>
+	                <table id="order-product_table">
+	                    <thead>
+	                        <tr class="product__list-title">
+	                            <td class="list__name" colspan="2">주문상품</td>
+	                            <td class="list__amount">수량</td>
+	                            <td class="list__price">상품금액</td>
+	                            <td class="list__discount">할인</td>
+	                            <td class="list__discount-price">가격</td>
+	                            <td class="list__save-point">적립</td>
+	                            <td class="list__delivery-price">배송비</td>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                        <%if(vo_list != null){ %>
+	                        <%for(int i = 0; i < vo_list.size(); i++){ %>
+	                        <tr class="product__list">
+	                            <td class="list__thum"><img src="<%=vo_list.get(i).getThumbnail_thum_path() %><%=vo_list.get(i).getThumbnail_thum()%>"></td>
+	                            <td class="list__title">
+	                            <input type="text" name="board_title" class="board_title" 
+	                                value="<%=vo_list.get(i).getTitle() %>" readonly />
+	                            <input type="hidden" name="board_id" class="board_id" 
+	                                value="<%=vo_list.get(i).getBoard_id() %>" />
+	                            <input type="hidden" name="seller_id" class="seller_id"  
+	                                value="<%=vo_list.get(i).getSeller_id() %>" />
+	                            </td>
+	                            <td>
+	                            <input type="text" name="amount" class="amount" 
+	                                value="<%=quantity_list.get(i) %>" readonly />
+	                            </td>
+	                            <td>
+	                            <input type="text" name="price" class="price" 
+	                                value="<%=vo_list.get(i).getPrice() %>" readonly />
+	                            </td>
+	                            <td class="discount"><%=discount %></td>
+	                            <td>
+	                            <input type="text" name="tot_price" class="tot_price" 
+	                                value="<%=(vo_list.get(i).getPrice() * quantity_list.get(i)) - discount %>" readonly />
+	                            </td>
+	                            <td class="save_point"><%=(int)(((vo_list.get(i).getPrice() * quantity_list.get(i)) - discount) / 10) %></td>
+	                            <td>
+	                            <input type="text" name="delivery_price" class="delivery_price" 
+	                                value="<%=vo_list.get(i).getDelivery_price() %>" readonly />
+	                            </td>
+	                        </tr>
+	                        <%} 
+	                        }%>
+	                    </tbody>
+	                </table>
             </div>
             
             <!-- 주문상품 리스트 end -->
@@ -170,7 +170,7 @@
                                <span>보유한 적립금</span>
                            </div>
                            <div class="order__delivery--info-body">
-                               <span>0 원</span>
+                               <span>${user.savePoint} 원</span>
                            </div>
                        </div>
                        <div>
@@ -178,7 +178,7 @@
                                <span>예상적립혜택</span>
                            </div>
                            <div class="order__delivery--info-body">
-                               <span>적립금 0 원 | 포인트 0 P</span>
+                               <span>적립금 0 원</span>
                            </div>
                        </div>
                    </div>
@@ -222,16 +222,16 @@
                         <div>
                             <span class="order__info--check">*</span>
                             <span class="order__info--classification">이름</span>
-                            <input type="text" class="order__info--input-name" value="test" 
+                            <input type="text" class="order__info--input-name" value="${user.name}" 
                                 name="buyer_name" id="buyer_name" maxlength="16" />
                         </div>
                         <div>
                             <span class="order__info--check">*</span>
                             <span class="order__info--classification">휴대폰</span>
                             <span class="order__info--input-phone-data">
-                            <input type="text" class="order__info--input-phone" value="000" maxlength="3" /> - 
-                            <input type="text" class="order__info--input-phone" value="1111" maxlength="4" /> - 
-                            <input type="text" class="order__info--input-phone" value="2222" maxlength="4" />
+                            <input type="text" class="order__info--input-phone" value="${user.telCarrierNum}" maxlength="3" /> - 
+                            <input type="text" class="order__info--input-phone" value="${user.telAllocationNum}" maxlength="4" /> - 
+                            <input type="text" class="order__info--input-phone" value="${user.telDiscretionaryNum}" maxlength="4" />
                             <input type="hidden" value="" name="buyer_phone" id="buyer_phone" />
                             </span>
                         </div>
@@ -239,7 +239,7 @@
                             <span class="order__info--check">*</span>
                             <span class="order__info--classification">이메일</span>
                             <input type="text" class="order__info--input-email" maxlength="33" 
-                                value="test@email.test" name="buyer_email" id="buyer_email" />
+                                value="${user.email}" name="buyer_email" id="buyer_email" />
                         </div>
                     </div>
                     <div id="order__info--precautions">
@@ -262,7 +262,7 @@
                         <div>
                             <div class="order__delivery--info-head">&nbsp;</div>
                             <div class="order__delivery--info-body">
-                                <input type="radio" name="order__delivery--radio-select" /> 자주 쓰는 기본 배송지
+                                <input type="radio" name="order__delivery--radio-select" checked/> 기본 배송지
                                 <input type="radio" name="order__delivery--radio-select" /> 새로운 배송지
                                 <input type="radio" name="order__delivery--radio-select" /> 회원정보주소
                                 <input type="button" value="주소록" class="order__delivery--search-btn" 
@@ -275,17 +275,19 @@
                                 <span>배송주소</span>
                             </div>
                             <div class="order__delivery--info-body">
-                                <input type="text" id="postal-code__text" value="test" 
-                                    name="order_postalCode" maxlength="5" /> 
-                                <input type="button" value="우편번호 검색" class="order__delivery--search-btn" />
+                                <input type="text" id="sample4_postcode" value="test" 
+                                    name="addrNum" maxlength="5" /> 
+                                <input type="button" value="우편번호 검색" class="order__delivery--search-btn"
+                                 id="zip-code-btn" onclick="sample4_execDaumPostcode()"/>
                                 <input type="checkbox" /> 기본 배송지로 저장
                             </div>
                         </div>
                         <div>
                             <div class="order__delivery--info-head">&nbsp;</div>
                             <div class="order__delivery--info-body">
-                                <input type="text" class="address__text" maxlength="50" /> 
-                                <input type="text" placeholder="나머지 주소를 입력해주세요" class="address__text" maxlength="50" />
+                                <input type="text" class="address__text" maxlength="50" name="addrRoadName" id="sample4_roadAddress"/>
+                                 <span id="guide" style="color:#999;display:none"></span> 
+                                <input type="text" placeholder="나머지 주소를 입력해주세요" name="addrDetail" class="address__text" maxlength="50" id="sample4_detailAddress"/>
                                 <input type="hidden" value="" name="order_address" id="order_address" />
                             </div>
                         </div>
@@ -401,7 +403,8 @@
     </div>
 </main>
     
-    
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/Admin/post_search.js'/>" ></script>
     <script type="text/javascript" src="<c:url value='/resources/js/Order/order_sheet.js?after'/>" ></script>  
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>

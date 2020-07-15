@@ -6,7 +6,6 @@ public interface BuyerService {
 
 	BuyerVO selectOnById(String id);
 	ArrayList<BuyerVO> selectListAll();
-	boolean duplicateCheck(String id);
 	void RegisterBuyerAccount(BuyerVO buyer);
 	int UpdateBuyerAccount(BuyerVO buyer);
 	int DeleteBuyerAccount(String id);

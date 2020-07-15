@@ -24,11 +24,7 @@ public class SellerServiceImpl implements SellerService {
 		return sellerAccount;
 	}
 
-	@Override
-	public boolean duplicateCheck(String id) {
-		int count = mapper.selectCountById(id);
-		return count==1?true:false;
-	}
+
 
 	@Override
 	public void RegisterSellerAccout(SellerVO seller) {
