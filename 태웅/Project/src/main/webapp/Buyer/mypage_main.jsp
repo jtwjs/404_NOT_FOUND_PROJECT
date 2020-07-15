@@ -96,7 +96,7 @@
                                 <div class="inquery__order-delivery">
                                     <div class="inquery--title">
                                         <h2>주문<span class="slash">/</span>배송조회</h2>
-                                        <a class="view-all" href="#" title="전체보기">전체</a>
+                                        <a class="view-all" href="BuyerMyPageOrderList.by" title="전체보기">전체</a>
                                     </div>
                                     <div class="inquery--content">
                                         <ul class="inquery--list">
@@ -110,7 +110,7 @@
                                 <div class="inquery__return-exchange">
                                     <div class="inquery--title">
                                         <h2>취소<span class="slash">/</span>교환<span class="slash">/</span>반품 내역</h2>
-                                        <a class="view-all" href="#" title="전체보기">전체</a>
+                                        <a class="view-all" href="BuyerMyPageOrderList.by" title="전체보기">전체</a>
                                     </div>
                                     <ul class="inquery--list">
                                         <li class="inquery--list-item"><p>0<span class="enter">교환신청</span></p></li> 
@@ -123,7 +123,7 @@
                             <article id="order__history">
                                 <div class="order__history--title">
                                     <h2>주문내역</h2>
-                                    <a class="view-all" href="#" title="전체보기">전체</a>
+                                    <a class="view-all" href="BuyerMyPageOrderList.by" title="전체보기">전체</a>
                                 </div>    
                                 <table class="order__history--table">
                                     <thead>

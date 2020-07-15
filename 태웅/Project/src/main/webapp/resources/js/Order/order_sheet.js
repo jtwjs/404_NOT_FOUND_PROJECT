@@ -79,3 +79,32 @@ function full_use() {
 		  }
 	});
 }
+
+/*주소지 선택(기본배송지, 새로운배송지)*/
+var defaultAddr = document.getElementById('default_addr');
+var newAddr = document.getElementById('new_addr');
+var postcode = document.getElementById("sample4_postcode");
+var roadAddr = document.getElementById('sample4_roadAddress');
+var detailAddr = document.getElementById('sample4_detailAddress');
+var defaultPostcode = document.getElementById('userAddrNum').value;
+var defaultRoadAddr = document.getElementById('userAddrRoadName').value;
+var defaultDetailAddr = document.getElementById('userAddrDetail').value;
+newAddr.addEventListener('click',function(){
+	if(newAddr.getAttribute("checked")){
+		return;
+	}else {
+		postcode.value = '';
+		roadAddr.value = '';
+		detailAddr.value ='';
+	}
+});
+defaultAddr.addEventListener('click',function(){
+	if(defaultAddr.getAttribute('checked')){
+		return;
+	}else {
+		postcode.value = defaultPostcode;
+		roadAddr.value = defaultRoadAddr;
+		detailAddr.value = defaultDetailAddr;
+	}
+});
+

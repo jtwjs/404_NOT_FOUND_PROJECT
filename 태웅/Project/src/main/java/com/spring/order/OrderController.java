@@ -1,17 +1,22 @@
 package com.spring.order;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,10 +44,10 @@ public class OrderController {
 	@Autowired
 	private BuyerService buyerService;
 	
-    @RequestMapping(value = "/OrderResearch.or")  // 주문배송 로그인 (회원)
+    @RequestMapping(value = "/OrderLogin.or")  // 주문배송 로그인 (회원)
     public String orderLogin() {
     	
-    	return "Order/order_research";
+    	return "Order/order_login";
     }
     
     @RequestMapping(value = "/OrderNonMember.or")  // 주문배송 로그인 (비회원)
@@ -57,59 +62,243 @@ public class OrderController {
     	return "Order/order_check";
     }
     
-    @RequestMapping(value = "/AddCart.or")  // 장바구니
-    public void addCart(HttpServletResponse response, String board_id, int quantity) throws IOException {
+    @GetMapping(value = "/AddCart.or")  // 장바구니
+    public void addCart(HttpServletRequest request, HttpServletResponse response, 
+    		String board_id, int quantity, String buyer_id, int login_case) throws IOException {
     	
-    	response.setContentType("text/html; charset=UTF-8");
-    	PrintWriter out = response.getWriter();
-    	
-        if(orderService.getBoardId(board_id, "test") == 1) {
-        	
-        	out.println("<script>alert('이미 장바구니에 담긴 상품입니다.');history.go(-1);</script>");
-        	
-        }else {
-        	ProductCartVO vo = new ProductCartVO();
-        	vo.setBoard_id(board_id);
-        	vo.setQuantity(quantity);
-        	
-        	vo.setBuyer_id("test");  // 임시로 구매자 id test 설정 (세션값으로 받음)
-        	
-        	UUID uuid = UUID.randomUUID(); // 중복 방지를 위해 랜덤값 생성
-        	long getl = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
-        	
-        	StringBuilder cart_id = new StringBuilder(
-        			vo.getBuyer_id() + "-" + Long.toString(getl, 32));
-        	
-    		vo.setCart_id(cart_id.toString());
+    	if(login_case == 1) { // 로그인 중일 때
     		
-    		if(orderService.insertCart(vo) == 1) {
-    			out.println("<script>alert('장바구니에 상품을 담았습니다.');history.go(-1);</script>");
-    		}
+    		 if(orderService.getBoardId(board_id, buyer_id) > 0) {
+    	        	
+    	        	
+    	        	
+    	        }else {
+    	        	ProductCartVO vo = new ProductCartVO();
+    	        	vo.setBoard_id(board_id);
+    	        	vo.setQuantity(quantity);
+    	        	
+    	        	vo.setBuyer_id(buyer_id);  
+    	        	
+    	        	UUID uuid = UUID.randomUUID(); // 중복 방지를 위해 랜덤값 생성
+    	        	long getl = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
+    	        	
+    	        	StringBuilder cart_id = new StringBuilder(
+    	        			vo.getBuyer_id() + "-" + Long.toString(getl, 32));
+    	        	
+    	    		vo.setCart_id(cart_id.toString());
+    	    		
+    	    		if(orderService.insertCart(vo) == 1) {
+    	    		
+    	    		}
 
-        }
-        
-        out.flush();
+    	        }
+    		 
+    	}else {  // 비회원일 때
+    		
+    		
+    		Cookie[] cookies = request.getCookies(); 
+
+    		for(Cookie cookie : cookies) {
+    			
+    			if(cookie.getName().equals("nonMember_buyer_id")) {
+    	 			
+    				if(!cookie.getValue().equals("")) {
+    					
+        				
+        				 UUID uuid = UUID.randomUUID(); // 중복 방지를 위해 랜덤값 생성
+     	             	long getl = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
+        				
+     	             	StringBuilder rand_id = new StringBuilder(
+     	             			"nonMember" + "-" + Long.toString(getl, 10));
+     	             	
+     	             	Cookie cookie_buyer_id = new Cookie("nonMember_buyer_id", URLDecoder.decode(rand_id.toString(), "UTF-8"));
+     	             	cookie_buyer_id.setPath("/");
+     	             	
+     	     			response.addCookie(cookie_buyer_id);
+
+    				}else {
+    					cookie.setPath("/");
+        				cookie.setMaxAge(0);
+        				
+        				UUID uuid = UUID.randomUUID(); // 중복 방지를 위해 랜덤값 생성
+                    	long getl = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
+                    	
+                    	StringBuilder rand_id = new StringBuilder(
+                    			"nonMember" + "-" + Long.toString(getl, 10));
+                    	
+                    	Cookie cookie_buyer_id = new Cookie("nonMember_buyer_id", URLDecoder.decode(rand_id.toString(), "UTF-8"));
+                    	cookie_buyer_id.setPath("/");
+                    	response.addCookie(cookie_buyer_id);
+    				    }
+    	 			 
+    		    	}
+    			
+    			if(cookie.getName().equals("nonMember_board_id")) { // board_id 저장
+    				
+    				if(!cookie.getValue().equals("")) {
+    					StringBuilder cookieVal = new StringBuilder(cookie.getValue() + "a" + board_id);
+    					
+    					
+        				Cookie newCookie = new Cookie("nonMember_board_id", URLDecoder.decode(cookieVal.toString(), "UTF-8"));
+        				newCookie.setPath("/");
+        				
+        				response.addCookie(newCookie);
+        				
+    				}else {
+    					cookie.setPath("/");
+        				cookie.setMaxAge(0);
+        				
+        				Cookie cookie_board_id = new Cookie("nonMember_board_id", board_id);
+            			cookie_board_id.setPath("/");
+            			response.addCookie(cookie_board_id);
+    				}
+    				
+    			}
+    			
+    			if(cookie.getName().equals("nonMember_quantity")) { // quantity 저장
+    				
+    				if(!cookie.getValue().equals("")) {
+    					StringBuilder cookieVal = new StringBuilder(cookie.getValue() + "a" + quantity);
+        				Cookie newCookie = new Cookie("nonMember_quantity", URLDecoder.decode(cookieVal.toString(), "UTF-8"));
+        				newCookie.setPath("/");
+        				
+        				response.addCookie(newCookie);
+
+    				}else {
+    					cookie.setPath("/");
+        				cookie.setMaxAge(0);
+        				
+        				Cookie cookie_quantity = new Cookie("nonMember_quantity", URLDecoder.decode(String.valueOf(quantity), "UTF-8"));
+            			cookie_quantity.setPath("/");
+            			response.addCookie(cookie_quantity);
+    				}
+
+    			}
+    			
+    			
+    		}
+    		
+    		
+    	}
+    	
+       
 		
     }
 
     @RequestMapping(value = "/CartView.or")  // 장바구니
-    public String cartView(Model model, HttpSession session) {
+    public String cartView(Model model, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
     	
-    	session.setAttribute("test", "test");  // session에 저장된 id값을 얻어옴 (테스트용으로 test로 설정)
-    	String buyer_id = (String)session.getAttribute("test");
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        String buyer_id = auth.getName();
     	
-    	ArrayList<ProductCartVO> cart_list = orderService.getCartList(buyer_id);
-    	ArrayList<BoardProductVO> vo_list = new ArrayList<BoardProductVO>();
-    	
-    	
-    	for(int i = 0; i < cart_list.size(); i++) {
-    		BoardProductVO vo = boardProductService.getBoardProductVO(cart_list.get(i).getBoard_id());
-    		vo_list.add(vo);
+        ArrayList<ProductCartVO> cart_list = null;
+        ArrayList<BoardProductVO> vo_list = null;
+   	    int[] quantity = null;
+   	    
+   	   if(buyer_id.equals("anonymousUser")) {
+   		   
+   	    Cookie[] cookies = request.getCookies();
+   	    vo_list = new ArrayList<BoardProductVO>();
+   	    boolean flag = false;
+   	    
+   	    for(Cookie cookie : cookies){
+	    		
+	    	if(cookie.getName().equals("nonMember_board_id")){
+	    		
+	    		int size = 0;
+	    		String[] board_id = null;
+	    		if(!cookie.getValue().equals("")) {
+	    			
+	    			String getBoardId = cookie.getValue();
+	    			if(getBoardId.charAt(0) == 'a') {
+	    				getBoardId.substring(1);
+	    			}
+	    			
+	    		    board_id = getBoardId.split("a");
+	    		    size = board_id.length;
+	    		    flag = true;
+	    		}
+	    		
+	    		for(int i = 0; i < size; i++){
+	    			
+	    			BoardProductVO vo = boardProductService.getBoardProductVO(board_id[i]);
+	        		vo_list.add(vo);
+	        		
+	    		}
+	    		
+	    		
+	    	}
+	    	
+	    	if(cookie.getName().equals("nonMember_quantity")){
+	    		
+	    		int size = 0;
+	    		String[] quantityVal = null;
+	    		if(!cookie.getValue().equals("")) {
+	    			
+	    			String getQuantityVal = cookie.getValue();
+	    			if(getQuantityVal.charAt(0) == 'a') {
+	    				getQuantityVal.substring(1);
+	    			}
+	    			
+	    			quantityVal = getQuantityVal.split("a");
+     			    quantity = new int[quantityVal.length];
+     			    size = quantityVal.length;
+     			    
+     			   flag = true;
+	    		}
+ 	    		
+     			for(int i = 0; i < size; i++){
+     				quantity[i] = Integer.valueOf(quantityVal[i]);
+     				
+     			}
+     			
+     		}
+	    	
+   	    }
+   	    
+   	 if(!flag) {  // 저장된 쿠키가 없을 때
+   		 
+			Cookie cookie_board_id = new Cookie("nonMember_board_id", "");
+			Cookie cookie_quantity = new Cookie("nonMember_quantity", "");
+			cookie_board_id.setPath("/");
+			cookie_quantity.setPath("/");
+			
+			UUID uuid = UUID.randomUUID(); // 중복 방지를 위해 랜덤값 생성
+     	long getl = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
+     	
+     	StringBuilder rand_id = new StringBuilder(
+     			"nonMember" + "-" + Long.toString(getl, 10));
+     	
+     	Cookie cookie_buyer_id = new Cookie("nonMember_buyer_id", URLDecoder.decode(rand_id.toString(), "UTF-8"));
+     	cookie_buyer_id.setPath("/");
+			
+			response.addCookie(cookie_board_id);
+			response.addCookie(cookie_quantity);
+			response.addCookie(cookie_buyer_id);
+		}
+   	   
+   	   }else {
+   		   
+        	cart_list = orderService.getCartList(buyer_id);
+        	
+         	vo_list = new ArrayList<BoardProductVO>();
+         	
+         	for(int i = 0; i < cart_list.size(); i++) {
+         		BoardProductVO vo = boardProductService.getBoardProductVO(cart_list.get(i).getBoard_id());
+         		vo_list.add(vo);
+         	}
+         }
+   	    
+   	   
+   	   
+    	if(cart_list != null) {
+            model.addAttribute("cart_list", cart_list);
     	}
-    	
-    	model.addAttribute("cart_list", cart_list);
+    	if(quantity != null) {
+            model.addAttribute("quantity", quantity);
+    	}
     	model.addAttribute("vo_list", vo_list);
-    	
     	return "Order/order_cart";
     }
     
@@ -131,7 +320,7 @@ public class OrderController {
     	
     }
     
-    // order_cart.js에서 json 타입으로 정보를 받아 parsing 하는 방법, 쓰진 않는데 지우지 말 것
+//     order_cart.js에서 json 타입으로 정보를 받아 parsing 하는 방법, 쓰진 않는데 지우지 말 것
 //    @PostMapping(value = "/OrderResponse.or")  // 주문서
 //    @ResponseBody
 //    public String orderResponse(Model model,
@@ -161,27 +350,33 @@ public class OrderController {
     
     
     @PostMapping(value = "/OrderSheet.or")  // 주문서  
-    public String orderSheet(Model model,@CurrentUser AccountVO account ,String[] board_id, int[] quantity) {
-    	String id = account.getId();
-    	BuyerVO buyerAccount = buyerService.selectOnById(id);
+    public String orderSheet(Model model, String[] board_id, int[] quantity, String buyer_id) {
+    	
+    	System.out.println(buyer_id);
+    	BuyerVO buyerAccount = buyerService.selectOnById(buyer_id);
+    	ArrayList<BoardProductVO> vo_list = new ArrayList<BoardProductVO>();
+    	ArrayList<Integer> quantity_list = new ArrayList<Integer>();
+    	
     	String tel = buyerAccount.getTel();
+    	String addr = buyerAccount.getAddress();
+    	int index1 = addr.indexOf('+');
+    	int index2 = addr.indexOf('/');
     	buyerAccount.setTelCarrierNum(tel.substring(0,3));
     	buyerAccount.setTelAllocationNum(tel.substring(3,7));
     	buyerAccount.setTelDiscretionaryNum(tel.substring(7,11));
-    	
-    	ArrayList<BoardProductVO> vo_list = new ArrayList<BoardProductVO>();
-    	ArrayList<Integer> quantity_list = new ArrayList<Integer>();
+    	buyerAccount.setAddrNum(addr.substring(0,index1));
+    	buyerAccount.setAddrRoadName(addr.substring(index1+1,index2));
+    	buyerAccount.setAddrDetail(addr.substring(index2+1));
     	
     	for(int i = 0; i < board_id.length; i++) {
     		
     		quantity_list.add(Integer.valueOf(quantity[i]));
     		vo_list.add(boardProductService.getBoardProductVO(board_id[i]));
     	}
-    	
-    
-    	model.addAttribute("user", buyerAccount);
+  	
     	model.addAttribute("vo_list" , vo_list);
     	model.addAttribute("quantity_list" , quantity_list);
+    	model.addAttribute("user", buyerAccount);
 
     	return "Order/order_sheet";
     }
@@ -246,19 +441,16 @@ public class OrderController {
 		
     	return "Order/order_complete";
     }
-
-
-/*적립금 전액 사용*/
-@RequestMapping(value = "/savePointFullUse.or", method = RequestMethod.POST,
-produces = "application/json;charset=utf-8")
-@ResponseBody
-public int UseSavePoint(@CurrentUser AccountVO account) {
-	String id = account.getId();
-	BuyerVO buyerAccount = buyerService.selectOnById(id);
-	int savePoint = buyerAccount.getSavePoint();
-	
-	return savePoint;
-	
-}
-
+    /*적립금 전액 사용*/
+    @RequestMapping(value = "/savePointFullUse.or", method = RequestMethod.POST,
+    produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public int UseSavePoint(@CurrentUser AccountVO account) {
+    	String id = account.getId();
+    	BuyerVO buyerAccount = buyerService.selectOnById(id);
+    	int savePoint = buyerAccount.getSavePoint();
+    	
+    	return savePoint;
+    	
+    }
 }

@@ -7,13 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.mapper.BuyerMapper;
+import com.spring.mapper.WishListMapper;
 
 @Service
 public class BuyerServiceImpl implements BuyerService {
 	
 	@Autowired BuyerMapper mapper;
 	@Autowired private SqlSession sqlSession;
-
+	@Autowired WishListMapper wishListMapper;
 
 	
 	@Override
@@ -54,16 +55,16 @@ public class BuyerServiceImpl implements BuyerService {
 
 	public int getWishListOverlapCheck(String board_id, String buyer_id) {
 		
-		BuyerMapper buyerMapper = sqlSession.getMapper(BuyerMapper.class);
-		int result = buyerMapper.getWishListOverlapCheck(board_id, buyer_id);
+		WishListMapper wishListMapper = sqlSession.getMapper(WishListMapper.class);
+		int result = wishListMapper.getWishListOverlapCheck(board_id, buyer_id);
 		
 		return result;
 	}
 	
 	public int insertWishList(WishListVO vo) {
 		
-		BuyerMapper buyerMapper = sqlSession.getMapper(BuyerMapper.class);
-		int result = buyerMapper.insertWishList(vo);
+		WishListMapper wishListMapper = sqlSession.getMapper(WishListMapper.class);
+		int result = wishListMapper.insertWishList(vo);
 		
 		return result;
 	}

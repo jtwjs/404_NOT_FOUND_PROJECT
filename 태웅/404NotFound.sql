@@ -71,6 +71,39 @@ CREATE SEQUENCE buyer_num_seq
 --     select buyer_num_seq.nextval from DUAL;
 --     select buyer_num_seq.currval from dual;   
 
+/*적립금 테이블*/     
+create table save_point (
+ sp_status varchar2(4) not null,
+ sp_point number not null,
+ sp_content varchar2(100) not null,
+ sp_orderNum number not null,
+ sp_application_date date default sysdate not null,
+ buyer_id varchar2(16) not null,
+constraint save_point_fk foreign key(buyer_id)
+        references member_buyer(buyer_id) on delete cascade
+);
+
+--create trigger trg_save_point 
+--AFTER UPDATE ON member_buyer
+--for each row
+--DECLARE 
+--bfValue number := old.save_point;
+--afValue number := new.save_point;
+--point number := 
+--BEGIN
+--
+--if bfValue-afValue >0 THEN --차감
+--insert into save_point (BUYER_ID, sp_status, sp_point, sp_content,sp_orderNum )
+--values (:new.buyer_id, '사용',bfValue - afValue , :new.name, :new.tel);
+--
+--ELSE IF bfValue-afValue < 0 THEN --적립
+--insert into save_point (BUYER_ID, ADDRESS, RECEIVER_NAME, RECEIVER_PHONE)
+--values (:new.buyer_id, '적립',afValue - bfValue , :new.address, :new.name, :new.tel);
+--
+--END IF;
+--END;// 보류 
+     
+
 create or replace trigger TRG_buyer_account
 AFTER INSERT ON member_buyer
 for each row
@@ -150,7 +183,8 @@ CREATE SEQUENCE seller_num_seq
      
      select * from member_buyer;
      select * from member_seller;
-     
+
+
 create or replace trigger TRG_seller_account
 AFTER INSERT ON member_seller
 for each row
@@ -285,7 +319,7 @@ create table product_cart(          -- �옣諛붽뎄�땲
 create table order_record(                   -- 주문기록
     order_id number not null,                -- 주문번호 ID
     buyer_id varchar2(16) not null,          -- 구매자 ID (member_buyer테이블 외래키)
-    option_id number not null,               -- 옵션 ID (board_product_option테이블 외래키)
+    option_id number ,               -- 옵션 ID (board_product_option테이블 외래키)
     count number not null,                   -- 구매수량
     price number not null,                   -- 상품 금액
     sum_price number not null,               -- 총합 금액
@@ -302,11 +336,12 @@ create table order_record(                   -- 주문기록
     non_member_flag char(1) default 'N' not null,        -- 비회원 여부 (비회원:Y, 회원:N)
     constraint order_record_order_id_pk primary key(order_id),
     constraint order_record_buyer_id_fk foreign key(buyer_id)
-        references member_buyer(buyer_id) on delete cascade,
-    constraint order_record_option_id_fk foreign key(option_id)
+--        references member_buyer(buyer_id) on delete cascade,
+--    constraint order_record_option_id_fk foreign key(option_id)
         references board_product_option(option_id) on delete cascade
 );
 commit;
-
+select * from product_cart;
 select * from board_product;
 commit;
+select * from member_buyer;

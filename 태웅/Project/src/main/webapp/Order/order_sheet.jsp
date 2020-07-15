@@ -262,9 +262,8 @@
                         <div>
                             <div class="order__delivery--info-head">&nbsp;</div>
                             <div class="order__delivery--info-body">
-                                <input type="radio" name="order__delivery--radio-select" checked/> 기본 배송지
-                                <input type="radio" name="order__delivery--radio-select" /> 새로운 배송지
-                                <input type="radio" name="order__delivery--radio-select" /> 회원정보주소
+                                <input type="radio" name="order__delivery--radio-select" id="default_addr" checked/> 기본 배송지
+                                <input type="radio" name="order__delivery--radio-select" id="new_addr"/> 새로운 배송지
                                 <input type="button" value="주소록" class="order__delivery--search-btn" 
                                     onclick="" />
                             </div>
@@ -275,8 +274,9 @@
                                 <span>배송주소</span>
                             </div>
                             <div class="order__delivery--info-body">
-                                <input type="text" id="sample4_postcode" value="test" 
+                                <input type="text" id="sample4_postcode" value="${user.addrNum}" 
                                     name="addrNum" maxlength="5" /> 
+                                 <input type="hidden" value="${user.addrNum}" id="userAddrNum" />
                                 <input type="button" value="우편번호 검색" class="order__delivery--search-btn"
                                  id="zip-code-btn" onclick="sample4_execDaumPostcode()"/>
                                 <input type="checkbox" /> 기본 배송지로 저장
@@ -285,9 +285,13 @@
                         <div>
                             <div class="order__delivery--info-head">&nbsp;</div>
                             <div class="order__delivery--info-body">
-                                <input type="text" class="address__text" maxlength="50" name="addrRoadName" id="sample4_roadAddress"/>
+                                <input type="text" class="address__text" maxlength="50" name="addrRoadName" id="sample4_roadAddress"
+                                	value="${user.addrRoadName}"/>
+                                	<input type="hidden" value="${user.addrRoadName}" id="userAddrRoadName" />
                                  <span id="guide" style="color:#999;display:none"></span> 
-                                <input type="text" placeholder="나머지 주소를 입력해주세요" name="addrDetail" class="address__text" maxlength="50" id="sample4_detailAddress"/>
+                                <input type="text" placeholder="나머지 주소를 입력해주세요" name="addrDetail" class="address__text" maxlength="50" id="sample4_detailAddress"
+                                    value="${user.addrDetail}"/>
+                                    <input type="hidden" value="${user.addrDetail}" id="userAddrDetail" />
                                 <input type="hidden" value="" name="order_address" id="order_address" />
                             </div>
                         </div>
@@ -390,6 +394,7 @@
                     <span>주문 상품, 가격, 배송정보, 할인내역 등을 최종 확인 후 구매 동의 (전자상거래법 제 8조 제 2항)</span>
                 </div>
                 <div id="order__submit--payment">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                     <input type="submit" value="상품 결제하기" />
                     <input type="button" value="결제 취소하기" onclick="javascript:location.href='Index.in'" />
                 </div>

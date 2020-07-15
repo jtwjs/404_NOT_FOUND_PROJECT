@@ -20,9 +20,7 @@ public interface BuyerMapper {
 	void UpdateLoginDateBy(String id);
 	
 	
-	public int getWishListOverlapCheck(
-			@Param("board_id")String board_id, @Param("buyer_id")String buyer_id);
-	public int insertWishList(WishListVO vo);
+	
 	
 	ArrayList<deliveryVO> deliveryListAll(String id);
 }

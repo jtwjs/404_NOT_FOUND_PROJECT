@@ -164,11 +164,9 @@ public class BoardProductController {
 	
     @GetMapping(value = "/BoardProductView.bo") // 판매글 보기
 	public String boardProductView(Model model,@RequestParam(value="board_id")
-	String board_id, @CurrentUser AccountVO account) {
-    	// 아이디 통합시키자 그냥
+	String board_id) {
     	BoardProductVO vo = boardProductService.getBoardProductVO(board_id);
-    	model.addAttribute("userId",account.getId());
-    	System.out.println("지금 계정 아이디 :" +account.getId());
+
     	model.addAttribute("vo", vo);
 		
 		return "BoardProduct/boardProductView";

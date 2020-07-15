@@ -61,7 +61,7 @@ ul {
 }
 
 #new img {
-    width: 215px;
+    width: 200px;
     height: 215px;
     padding:5px;
 }
@@ -110,7 +110,6 @@ ul {
 }
 
 #isPage > input[type="button"] {
-	margin: 0 5px;
 	padding: 5px 10px;
 	text-align: center;
 	border: 1px solid #000;

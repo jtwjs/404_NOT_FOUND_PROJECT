@@ -26,12 +26,6 @@
 		<result column = "last_loginDate" property = "loginDate" />
 	</resultMap>
 	
-	  <resultMap type="com.spring.buyer.WishListVO" id="WishListMap">
-        <result property="wish_id" column="wish_id" />
-        <result property="buyer_id" column="buyer_id" />
-        <result property="board_id" column="board_id" />
-    </resultMap>
-	
 	<resultMap id="deliveryResultMap" type="com.spring.buyer.deliveryVO">
 		<result column = "buyer_id" property = "id" />
 		<result column = "delivery_name" property = "deliveryName" />
@@ -71,13 +65,7 @@
 		WHERE buyer_id = #{id} AND password = #{password}
 	</delete>
 	  
-	<select id="getWishListOverlapCheck" parameterType="String" resultType="int">
-	    SELECT COUNT(*) FROM wish_list WHERE board_id = #{board_id} AND buyer_id = #{buyer_id}
-	</select>
-	
-	<insert id="insertWishList" parameterType="com.spring.buyer.WishListVO">
-	    INSERT INTO wish_list VALUES (#{wish_id}, #{buyer_id}, #{board_id})
-	</insert>
+
 	
 	<select id = "deliveryListAll" resultMap = "deliveryResultMap" >
 		SELECT * FROM list_delivery WHERE buyer_id = #{id}
