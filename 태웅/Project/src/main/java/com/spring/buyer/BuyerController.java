@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring.admin.AccountVO;
 import com.spring.config.Security.CurrentUser;
@@ -34,10 +35,8 @@ public class BuyerController {
     	String id = account.getId();
     	BuyerVO buyerAccount = buyerService.selectOnById(id);
   
-    	model.addAttribute("name", buyerAccount.getName());
+    	model.addAttribute("user",buyerAccount);
     	model.addAttribute("loginDate", buyerAccount.getLoginDate().substring(0,10));
-    	model.addAttribute("grade", buyerAccount.getGrade());
-    	model.addAttribute("savePoint", buyerAccount.getSavePoint());
     	model.addAttribute("joinDate", buyerAccount.getJoinDate().substring(0,10));
     	return "Buyer/mypage_main";
     }
@@ -47,7 +46,7 @@ public class BuyerController {
     	String id = account.getId();
     	BuyerVO buyerAccount = buyerService.selectOnById(id);
     	
-    	model.addAttribute("name",buyerAccount.getName());
+    	model.addAttribute("user",buyerAccount);
     	model.addAttribute("loginDate",buyerAccount.getLoginDate().substring(0,10));
     	return "Buyer/mypage_infoModify";
     }
@@ -59,7 +58,7 @@ public class BuyerController {
     	
     	ArrayList<deliveryVO> list = buyerService.deliveryListAll(account.getId());
     	model.addAttribute("list",list);
-    	model.addAttribute("name",buyerAccount.getName());
+    	model.addAttribute("user",buyerAccount);
     	model.addAttribute("loginDate",buyerAccount.getLoginDate().substring(0,10));
     	
     	return "Buyer/mypage_deliveryManager";
@@ -70,7 +69,7 @@ public class BuyerController {
     	String id = account.getId();
     	BuyerVO buyerAccount = buyerService.selectOnById(id);
     	
-    	model.addAttribute("name",buyerAccount.getName());
+    	model.addAttribute("user",buyerAccount);
     	model.addAttribute("loginDate",buyerAccount.getLoginDate().substring(0,10));
     	return "Buyer/mypage_orderList";
     }
@@ -80,7 +79,7 @@ public class BuyerController {
     	String id = account.getId();
     	BuyerVO buyerAccount = buyerService.selectOnById(id);
     	
-    	model.addAttribute("name",buyerAccount.getName());
+    	model.addAttribute("user",buyerAccount);
     	model.addAttribute("loginDate",buyerAccount.getLoginDate().substring(0,10));
     	return "Buyer/mypage_wishList";
     }
@@ -90,7 +89,7 @@ public class BuyerController {
     	String id = account.getId();
     	BuyerVO buyerAccount = buyerService.selectOnById(id);
     	
-    	model.addAttribute("name",buyerAccount.getName());
+    	model.addAttribute("user",buyerAccount);
     	model.addAttribute("loginDate",buyerAccount.getLoginDate().substring(0,10));
     	return "Buyer/mypage_recentlyView";
     }
@@ -100,7 +99,7 @@ public class BuyerController {
     	String id = account.getId();
     	BuyerVO buyerAccount = buyerService.selectOnById(id);
     	
-    	model.addAttribute("name",buyerAccount.getName());
+    	model.addAttribute("user",buyerAccount);
     	model.addAttribute("loginDate",buyerAccount.getLoginDate().substring(0,10));
     	return "Buyer/mypage_review";
     }
@@ -110,7 +109,7 @@ public class BuyerController {
     	String id = account.getId();
     	BuyerVO buyerAccount = buyerService.selectOnById(id);
     	
-    	model.addAttribute("name",buyerAccount.getName());
+    	model.addAttribute("user",buyerAccount);
     	model.addAttribute("loginDate",buyerAccount.getLoginDate().substring(0,10));
     	return "Buyer/mypage_productQna";
     }
@@ -120,10 +119,42 @@ public class BuyerController {
     	String id = account.getId();
     	BuyerVO buyerAccount = buyerService.selectOnById(id);
     	
-    	model.addAttribute("name",buyerAccount.getName());
+    	model.addAttribute("user",buyerAccount);
     	model.addAttribute("loginDate",buyerAccount.getLoginDate().substring(0,10));
     	return "Buyer/mypage_serviceQna";
     }
+
+
+    //게시판 목록 조회
+    @RequestMapping(value = "/BuyerMyPageSavePoint.by") //적립금
+    public String buyerMyPageSavePoint(Model model,@CurrentUser AccountVO account,@RequestParam("status")String status,
+    		CriteriaVO cri) throws Exception {
+    
+		String id = account.getId();
+		int rowStart = cri.getRowStart();
+		int rowEnd = cri.getRowEnd();
+    	ArrayList<SavePointVO> pointList = buyerService.savePointListAll(id,status,rowStart,rowEnd);
+    	BuyerVO buyerAccount = buyerService.selectOnById(id);
+    	PageMaker pageMaker = new PageMaker();
+    	pageMaker.setCri(cri);
+    	pageMaker.setTotalCount(buyerService.listCount(id, status));
+    	
+    	for(int i = 0; i <pointList.size(); i++) {
+    		int contentIndex = pointList.get(i).getContent().indexOf('+');
+    		pointList.get(i).setContentTitle(pointList.get(i).getContent().substring(0,contentIndex));
+    		pointList.get(i).setContentDetail(pointList.get(i).getContent().substring(contentIndex+1));
+    		pointList.get(i).setApplicationDate(pointList.get(0).getApplicationDate().substring(0,11));
+    	}
+    	model.addAttribute("currentPage",cri.getPage());
+    	model.addAttribute("pageMaker",pageMaker);
+    	model.addAttribute("pointList",pointList);
+    	model.addAttribute("condition",status);
+    	model.addAttribute("loginDate",buyerAccount.getLoginDate().substring(0,10));
+    	model.addAttribute("user",buyerAccount);
+    	return "Buyer/mypage_savePoint";
+    	
+    }
+   
     
     
     @GetMapping(value = "/AddWishList.by")  // 위시리스트 추가 (BoardProductView.jsp 연결)

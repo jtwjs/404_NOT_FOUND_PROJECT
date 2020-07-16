@@ -73,8 +73,23 @@ public class BuyerServiceImpl implements BuyerService {
 
 	@Override
 	public ArrayList<deliveryVO> deliveryListAll(String id) {
-		ArrayList<deliveryVO> list = mapper.deliveryListAll(id);
-		return list;
+		ArrayList<deliveryVO> deliveryList = mapper.deliveryListAll(id);
+		return deliveryList;
+	}
+
+
+	@Override
+	public ArrayList<SavePointVO> savePointListAll(String id, String status,int rowStart, int rowEnd) throws Exception {
+		ArrayList<SavePointVO> pointList = mapper.savePointListAll(id, status, rowStart, rowEnd);
+		return pointList;
+	}
+
+
+
+	@Override
+	public int listCount(String id, String status) throws Exception {
+		
+		return mapper.savePointCountById(id, status);
 	}
 	
 	

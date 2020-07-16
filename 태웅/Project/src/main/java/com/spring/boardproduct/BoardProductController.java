@@ -41,7 +41,7 @@ public class BoardProductController {
 			@RequestParam(value="category_local", required = false, defaultValue="0")int category_local,
 		    @RequestParam(value="sort_list", required = false, defaultValue="2")int sort_list, 
 		    @RequestParam(value="page_num", required = false, defaultValue="1")int page_num, 
-		    @RequestParam(value="page_amount", required = false, defaultValue="5")int page_amount) {
+		    @RequestParam(value="page_amount", required = false, defaultValue="30")int page_amount) {
 		
         ArrayList<BoardProductVO> vo_list = null;
         String category_title = null;

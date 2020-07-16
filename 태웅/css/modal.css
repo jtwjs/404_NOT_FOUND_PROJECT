@@ -33,10 +33,6 @@
   z-index: 20001;
 }
 
-.modal-img {
-  height: 60px;
-}
-
 .modal-desc {
   display: flex;
   justify-content: center;

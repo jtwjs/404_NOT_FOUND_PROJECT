@@ -72,16 +72,38 @@ CREATE SEQUENCE buyer_num_seq
 --     select buyer_num_seq.currval from dual;   
 
 /*적립금 테이블*/     
+
 create table save_point (
  sp_status varchar2(4) not null,
  sp_point number not null,
  sp_content varchar2(100) not null,
+ --주문결제 적립 +[상품명], 상품후기 작성으로 인한 적립금 지급, 적립금 결제 + [상품명]
  sp_orderNum number not null,
  sp_application_date date default sysdate not null,
  buyer_id varchar2(16) not null,
+ point_num number not null,
 constraint save_point_fk foreign key(buyer_id)
         references member_buyer(buyer_id) on delete cascade
 );
+
+/*point_num Sequence*/
+CREATE SEQUENCE point_num_seq
+    INCREMENT BY 1
+    START WITH 1
+    MAXVALUE 9999
+    NOCYCLE;
+
+--적립 Test
+insert into save_point 
+values ('적립',300,'주문결제 적립+테스트',123123123,SYSDATE,'buyer123',point_num_seq.nextval);
+--사용 Test
+insert into save_point
+values ('사용',300,'적립금 결제+테스트',123123123,SYSDATE,'buyer123',point_num_seq.nextval);
+
+select * from save_point;
+commit;
+
+
 
 --create trigger trg_save_point 
 --AFTER UPDATE ON member_buyer

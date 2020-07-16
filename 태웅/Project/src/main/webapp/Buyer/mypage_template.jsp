@@ -8,7 +8,7 @@
 	        </dt>
 	        <dd class="profile-content">
 	            <p class="buyer">구매자</p>
-	            <p><span id="profile-name">${name}</span> 님</p>
+	            <p><span id="profile-name">${user.name}</span> 님</p>
 	            <p>마지막 접속일자: <span id="last_access_date"> ${loginDate}</span></p>
 	        </dd>
 	    </dl>
