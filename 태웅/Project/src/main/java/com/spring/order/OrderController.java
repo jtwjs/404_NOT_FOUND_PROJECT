@@ -195,88 +195,86 @@ public class OrderController {
         ArrayList<ProductCartVO> cart_list = null;
         ArrayList<BoardProductVO> vo_list = null;
    	    int[] quantity = null;
-   	    
+
    	   if(buyer_id.equals("anonymousUser")) {
-   		   
+   		
    	    Cookie[] cookies = request.getCookies();
-   	    vo_list = new ArrayList<BoardProductVO>();
-   	    boolean flag = false;
    	    
-   	    for(Cookie cookie : cookies){
-	    		
-	    	if(cookie.getName().equals("nonMember_board_id")){
-	    		
-	    		int size = 0;
-	    		String[] board_id = null;
-	    		if(!cookie.getValue().equals("")) {
-	    			
-	    			String getBoardId = cookie.getValue();
-	    			if(getBoardId.charAt(0) == 'a') {
-	    				getBoardId.substring(1);
-	    			}
-	    			
-	    		    board_id = getBoardId.split("a");
-	    		    size = board_id.length;
-	    		    flag = true;
-	    		}
-	    		
-	    		for(int i = 0; i < size; i++){
-	    			
-	    			BoardProductVO vo = boardProductService.getBoardProductVO(board_id[i]);
-	        		vo_list.add(vo);
-	        		
-	    		}
-	    		
-	    		
-	    	}
-	    	
-	    	if(cookie.getName().equals("nonMember_quantity")){
-	    		
-	    		int size = 0;
-	    		String[] quantityVal = null;
-	    		if(!cookie.getValue().equals("")) {
-	    			
-	    			String getQuantityVal = cookie.getValue();
-	    			if(getQuantityVal.charAt(0) == 'a') {
-	    				getQuantityVal.substring(1);
-	    			}
-	    			
-	    			quantityVal = getQuantityVal.split("a");
-     			    quantity = new int[quantityVal.length];
-     			    size = quantityVal.length;
-     			    
-     			   flag = true;
-	    		}
- 	    		
-     			for(int i = 0; i < size; i++){
-     				quantity[i] = Integer.valueOf(quantityVal[i]);
-     				
-     			}
-     			
-     		}
-	    	
-   	    }
+   	    if(cookies == null || cookies.length <= 1) {
+   	    	
+   	    	return "Order/order_cart";
+   	    	
+   	    }else{
+   	    	
+   	        vo_list = new ArrayList<BoardProductVO>();
+   	   
    	    
-   	 if(!flag) {  // 저장된 쿠키가 없을 때
-   		 
-			Cookie cookie_board_id = new Cookie("nonMember_board_id", "");
-			Cookie cookie_quantity = new Cookie("nonMember_quantity", "");
-			cookie_board_id.setPath("/");
-			cookie_quantity.setPath("/");
-			
-			UUID uuid = UUID.randomUUID(); // 중복 방지를 위해 랜덤값 생성
-     	long getl = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
-     	
-     	StringBuilder rand_id = new StringBuilder(
-     			"nonMember" + "-" + Long.toString(getl, 10));
-     	
-     	Cookie cookie_buyer_id = new Cookie("nonMember_buyer_id", URLDecoder.decode(rand_id.toString(), "UTF-8"));
-     	cookie_buyer_id.setPath("/");
-			
-			response.addCookie(cookie_board_id);
-			response.addCookie(cookie_quantity);
-			response.addCookie(cookie_buyer_id);
-		}
+	   	    for(Cookie cookie : cookies){
+		    	
+		    	if(cookie.getName().equals("nonMember_board_id")){
+		    		
+		    		int size = 0;
+		    		String[] board_id = null;
+		    		if(!cookie.getValue().equals("")) {
+		    			
+		    			String getBoardId = cookie.getValue();
+		    			if(getBoardId.charAt(0) == 'a') {
+		    				getBoardId.substring(1);
+		    			}
+		    			cookie.setPath("/");
+		    			cookie.setMaxAge(0);
+		    			Cookie newCookie = new Cookie("nonMember_board_id", getBoardId);
+			    		newCookie.setPath("/");
+			    		response.addCookie(newCookie);
+		    			
+		    		    board_id = getBoardId.split("a");
+		    		    size = board_id.length;
+		    		}
+		    		
+		    		for(int i = 0; i < size; i++){
+		    			
+		    			BoardProductVO vo = boardProductService.getBoardProductVO(board_id[i]);
+		        		vo_list.add(vo);
+		        		
+		    		}
+		    		
+		    		
+		    	}
+		    	
+		    	if(cookie.getName().equals("nonMember_quantity")){
+		    		
+		    		int size = 0;
+		    		String[] quantityVal = null;
+		    		if(!cookie.getValue().equals("")) {
+		    			
+		    			String getQuantityVal = cookie.getValue();
+		    			if(getQuantityVal.charAt(0) == 'a') {
+		    				getQuantityVal.substring(1);
+		    			}
+		    			
+		    			cookie.setPath("/");
+		    			cookie.setMaxAge(0);
+		    			
+		    			Cookie newCookie = new Cookie("nonMember_quantity", getQuantityVal);
+			    		newCookie.setPath("/");
+			    		response.addCookie(newCookie);
+		    			
+		    			quantityVal = getQuantityVal.split("a");
+	     			    quantity = new int[quantityVal.length];
+	     			    size = quantityVal.length;
+	     			    
+		    		}
+	 	    		
+	     			for(int i = 0; i < size; i++){
+	     				quantity[i] = Integer.valueOf(quantityVal[i]);
+	     				
+	     			}
+	     			
+	     		}
+		    	
+	   	    }
+	   	    
+	   	 }
    	   
    	   }else {
    		   
@@ -298,7 +296,10 @@ public class OrderController {
     	if(quantity != null) {
             model.addAttribute("quantity", quantity);
     	}
-    	model.addAttribute("vo_list", vo_list);
+    	if(vo_list != null) {
+    		model.addAttribute("vo_list", vo_list);
+    	}
+    	
     	return "Order/order_cart";
     }
     
@@ -353,20 +354,8 @@ public class OrderController {
     public String orderSheet(Model model, String[] board_id, int[] quantity, String buyer_id) {
     	
     	System.out.println(buyer_id);
-    	BuyerVO buyerAccount = buyerService.selectOnById(buyer_id);
     	ArrayList<BoardProductVO> vo_list = new ArrayList<BoardProductVO>();
     	ArrayList<Integer> quantity_list = new ArrayList<Integer>();
-    	
-    	String tel = buyerAccount.getTel();
-    	String addr = buyerAccount.getAddress();
-    	int index1 = addr.indexOf('+');
-    	int index2 = addr.indexOf('/');
-    	buyerAccount.setTelCarrierNum(tel.substring(0,3));
-    	buyerAccount.setTelAllocationNum(tel.substring(3,7));
-    	buyerAccount.setTelDiscretionaryNum(tel.substring(7,11));
-    	buyerAccount.setAddrNum(addr.substring(0,index1));
-    	buyerAccount.setAddrRoadName(addr.substring(index1+1,index2));
-    	buyerAccount.setAddrDetail(addr.substring(index2+1));
     	
     	for(int i = 0; i < board_id.length; i++) {
     		
@@ -376,7 +365,7 @@ public class OrderController {
   	
     	model.addAttribute("vo_list" , vo_list);
     	model.addAttribute("quantity_list" , quantity_list);
-    	model.addAttribute("user", buyerAccount);
+    	model.addAttribute("buyer_id", buyer_id);
 
     	return "Order/order_sheet";
     }
@@ -441,16 +430,24 @@ public class OrderController {
 		
     	return "Order/order_complete";
     }
+    
     /*적립금 전액 사용*/
     @RequestMapping(value = "/savePointFullUse.or", method = RequestMethod.POST,
     produces = "application/json;charset=utf-8")
     @ResponseBody
     public int UseSavePoint(@CurrentUser AccountVO account) {
     	String id = account.getId();
-    	BuyerVO buyerAccount = buyerService.selectOnById(id);
+    	BuyerVO buyerAccount = buyerService.selectOneById(id);
     	int savePoint = buyerAccount.getSavePoint();
     	
     	return savePoint;
     	
     }
+    
+    @RequestMapping(value = "/OrderResearch.or")
+    public String OrderResearch(@CurrentUser AccountVO account) {
+    	
+    	return "Order/order_research";
+    }
+    
 }

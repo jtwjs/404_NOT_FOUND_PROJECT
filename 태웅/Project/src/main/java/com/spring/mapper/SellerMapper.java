@@ -13,9 +13,14 @@ public interface SellerMapper {
 
 	SellerVO selectOneById(String id);
 	void InsertSellerAccout(SellerVO account);
-	int UpdateSellerAccount(SellerVO account);
 	int DeleteSellerAccount(String id);
 	void UpdateLoginDateBy(String id);
 	void UpdateProfileImg(SellerVO account);
 	ArrayList<BoardProductVO> selectProductListById(String id);
+
+	int UpdateSellerAccount(SellerVO seller);
+	int SellerConfirmPassword(SellerVO seller);
+	int UpdateSellerPassword(SellerVO seller);
+	
+
 }

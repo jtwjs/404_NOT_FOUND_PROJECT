@@ -40,7 +40,8 @@
               <li><a href="#" onclick="javascript:location.href='OrderResearch.or'">주문배송페이지</a></li> 
         </sec:authorize>
         <sec:authorize access = "isAnonymous()">
-        	  <li><a href="#" onclick="javascript:location.href='OrderResearch.or'">주문배송</a></li>
+    		  <li><a href="#" id="order_delivery">주문배송</a></li>
+        	  <li><a href="#" onclick="javascript:location.href='OrderResearch.or'">주문배송페이지</a></li>
         </sec:authorize>      
               <li><a href="#" onclick="javascript:location.href='CartView.or'">장바구니</a></li>
               <li><a href="#" onclick="javascript:location.href='BoardNotice.sc'">고객센터</a></li>

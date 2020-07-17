@@ -212,17 +212,17 @@
                             <div class="seller__data--btn">
                                 <div class="seller__btnWrap">
                                     <button type="button" class="button1" id="buy-btn" 
-                                        onclick="buyForm(this, '<%=user_id %>', '<%=login_case%>');">
+                                        onclick="buyForm('<%=user_id %>', '<%=login_case%>');">
                                     <b>구매하기</b></button>
                                 </div>
                                 <div class="seller__btnWrap">
                                     <button type="button" class="button2" id="cart-btn" 
-                                        onclick="cartForm(this, '<%=user_id %>', '<%=login_case%>');">
+                                        onclick="cartForm('<%=user_id %>', '<%=login_case%>');">
                                     <b>장바구니</b></button>
                                 </div>
                                 <div class="seller__btnWrap">
                                     <button type="button" class="button3" id="wish-btn" 
-                                        onclick="wishForm(this, '<%=user_id %>', '<%=login_case%>');">
+                                        onclick="wishForm('<%=user_id %>', '<%=login_case%>');">
                                     <b>♡위시리스트</b></button>
                                 </div>
                             </div>
@@ -246,23 +246,17 @@
                             
                         </div>
                     </div>
-
-                    <hr />
+                    
 
                     <!-- 메뉴 바 -->
-                    <div class="menu-bar">
+                    <div class="menu-bar" id="view__menu-bar">
+                    
+                        <a href="#seller-data" id="board__content--move">상세 정보</a>
+                        <a href="#customer-review" id="board__review--move">상품 후기</a>
+                        <a href="#customer-qna" id="board__qna--move">상품 문의</a>
+                        <a href="#seller-etc" id="board__delivery--move">배송/교환/환불안내</a>
                         
-                        <a href="#seller-data" name="#seller-data">상세 정보</a>
-                        
-                        <a href="#customer-review" name="customer-review">상품 후기</a>
-                  
-                        <a href="#customer-qna" name="customer-qna">상품 문의</a>
-                  
-                        <a href="#seller-etc" name="seller-etc">배송/교환/환불안내</a>
-                 
                     </div>
-
-                    <hr />
 
                     <!-- 상세정보 -->
                     <div class="seller-data" id="seller-data">
@@ -347,9 +341,19 @@
 
                     <!-- 상품 후기 -->
                     <div class="customer-review" id="customer-review">
-                        <h4 class="seller-head">
-                            상품 후기
-                        </h4>
+                        <h4 class="seller-head">상품 후기</h4>
+                        <div id="customer-review__write">
+                            <input type="button" id="customer-review__write--btn" value="글쓰기"
+                                onclick="modal_review_write();" />
+                        </div>
+                        
+                        <div id="modal__board">
+                            <div id="modal__board--wirte">
+                                <div id="board__write--title"><h4>상품평 남기기</h4>
+                            </div>
+                            </div>
+                        </div>
+                        
                         <div class="customer-review__table">
                             <table>
                                 <thead>
@@ -390,14 +394,13 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <td class="customer-qna__table--num" align="center">번호</td>
-                                        <td class="customer-qna__table--title" align="center">문의</td>
-                                        <td class="customer-qna__table--date" align="center">작성일</td>
-                                        <td class="customer-qna__table--hit" align="center">조회</td>
+                                        <td class="customer-review__table--num" align="center">번호</td>
+                                        <td class="customer-review__table--title" align="center">후기</td>
+                                        <td class="customer-review__table--date" align="center">작성일</td>
+                                        <td class="customer-review__table--hit" align="center">조회</td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
                                     <tr>
                                         <td colspan="4" class="customer-qna__table--none-content" align="center">등록된 게시글이 없습니다</td>
                                     </tr>

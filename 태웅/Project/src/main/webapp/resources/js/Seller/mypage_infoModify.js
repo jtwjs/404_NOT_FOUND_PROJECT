@@ -46,25 +46,6 @@ completeBtn.addEventListener('click',function() {
 });
 
 
-//기존비밀번호input 비교
-var originalPw = document.getElementById('originalPw');
-
-//비밀번호 변경
-var pwChangeBtn = document.getElementById('pw_changeBtn');
-var pwChangeInputWrap = document.getElementById('password_change');
-pwChangeBtn.addEventListener("click",function(){
-	if(pwChangeInputWrap.classList.contains('hide')){
-		pwChangeInputWrap.classList.remove('hide');
-	}else {
-		pwChangeInputWrap.classList.add('hide');
-	}
-	
-	
-});
-
-
-
-
 /*이메일*/
 var email2 = document.getElementById('email02'),
 	 email3 = document.getElementById('email03');
@@ -112,7 +93,7 @@ var resetBtn = document.getElementById('resetBtn');
 
 submitBtn.addEventListener('click',function() {
 	if(confirm('정말로 변경하시겠습니까??') == true ) {
-		document.getElementById('update__pforile--form').submit();
+		document.getElementById('update__profile--form').submit();
 	}
 	else {
 		return;
@@ -125,6 +106,6 @@ resetBtn.addEventListener('click',function() {
 		location.href="SellerMyPage.se";
 	}
 	else {
-		return;
+		location.href="UpdateSellerAccountForm.se";
 	}
 });

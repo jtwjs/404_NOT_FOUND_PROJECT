@@ -11,9 +11,11 @@ function allCheckBox_check(val){
 			checkBox[i].checked = false; 
 		}
 	}
+	
+	totPriceChange();
 }
 
-function checkBox_check(){
+function checkBox_check(productPrice, deliveryPrice){
 	
 	var allCheckBox = document.getElementById("cart__all-check");
 	var checkBox = document.getElementsByClassName("cart__check");
@@ -21,12 +23,13 @@ function checkBox_check(){
 	if(allCheckBox.checked == true){
 		for(var i = 0; checkBox.length; i++){
 			if(checkBox[i].checked == false){
-				allCheckBox.checked = false;
+				allCheckBox.checked = false;			
 				break;
 			}
 		}
 	}
-    
+	
+	totPriceChange();
 }
 
 var saveVal = 1;
@@ -71,7 +74,7 @@ function btnQuantityChange(val, i, price, deliveryPrice, quantity){
 	tableTotPriceChange(quantityNum, i , price, deliveryPrice);
 }
 
-function tableTotPriceChange(val, i, price, deliveryPrice){
+function tableTotPriceChange(val, i, price, deliveryPrice, login_case){
 	
 	if(val == ""){
 		val = saveVal;
@@ -84,17 +87,43 @@ function tableTotPriceChange(val, i, price, deliveryPrice){
 	
 	totPriceChange();
 	
+	if(login_case == 1){
+	    var cart_id = document.getElementsByClassName("cart_id")[Number(i)];
 	
-	var cart_id = document.getElementsByClassName("cart_id")[Number(i)];
+	    // XMLHttpRequest 객체의 인스턴스를 생성합니다.
+	    var xhr = new XMLHttpRequest();
+
+	    // open() 메서드는 요청을 준비하는 메서드입니다. (http 메서드, 데이터를 받아올 URL 경로, 비동기 여부)
+	    xhr.open("GET", "CartAmountCalc.or?cart_id=" + cart_id.value + "&quantity=" + val, true);
+
+	    // send() 메서드는 준비된 요청을 서버로 전송하는 메서드입니다. (서버에 전달될 정보)
+	    xhr.send();
+	}else{
+		
+		var cookieQuantity = getCookieValue("nonMember_quantity");
+		var cookieQuantityArr = getCookieArray(cookieQuantity, "a");
+		var newCookieSet = "";
+		
+		if(i != 0){
+			newCookieSet = cookieQuantityArr[0];
+		}else{
+			newCookieSet = val;
+		}
+		
+		if(cookieQuantityArr.length > 1){
+			for(var j = 1; j < cookieQuantityArr.length; j++){
+				if(Number(i) == Number(j)){
+					cookieQuantityArr[j] = val;
+				}
+				newCookieSet += ("a" + cookieQuantityArr[j]);
+			}
+		}
+		
+		deleteCookie("nonMember_quantity");
+		setCookie("nonMember_quantity", newCookieSet);
+		
+	}
 	
-	// XMLHttpRequest 객체의 인스턴스를 생성합니다.
-	var xhr = new XMLHttpRequest();
-
-	// open() 메서드는 요청을 준비하는 메서드입니다. (http 메서드, 데이터를 받아올 URL 경로, 비동기 여부)
-	xhr.open("GET", "CartAmountCalc.or?cart_id=" + cart_id.value + "&quantity=" + val, true);
-
-	// send() 메서드는 준비된 요청을 서버로 전송하는 메서드입니다. (서버에 전달될 정보)
-	xhr.send();
 }
 
 function totPriceChange(){
@@ -107,17 +136,23 @@ function totPriceChange(){
 	var delivery_price = document.getElementsByClassName("cart__td--delivery-price");
 	var product_quantity = document.getElementsByClassName("quantity-input");
 	
-	var calc_product_price = 0;
-	var calc_delivery_price = 0;
+    var checkBox = document.getElementsByClassName("cart__check");
 	
-	for(var i = 0; i < product_price.length; i++){
-		calc_product_price += (Number(product_price[i].textContent) * Number(product_quantity[i].value));
-		calc_delivery_price += Number(delivery_price[i].textContent);
+    var calc_product_price = 0;
+	var calc_delivery_price = 0;
+    
+    for(var i = 0; i < checkBox.length; i++){
+        if(checkBox[i].checked == true){
+        	calc_product_price += (Number(product_price[i].textContent) * Number(product_quantity[i].value));
+    		calc_delivery_price += Number(delivery_price[i].textContent);
+
+    		
+        }
 	}
 	
-	product_tot_price.value = calc_product_price;
-	delivery_tot_price.value = calc_delivery_price;
-	cart_tot_price.value = calc_product_price + calc_delivery_price;
+	product_tot_price.value = String(calc_product_price) + " 원";
+	delivery_tot_price.value = String(calc_delivery_price) + " 원";
+	cart_tot_price.value = String(calc_product_price + calc_delivery_price) + " 원";
 	
 }
 
@@ -133,25 +168,25 @@ function btn_select_delete(login_case){
 	var xhr = new XMLHttpRequest();
 	
 	if(login_case == 1){
+		var count = 0;
 		for(var i = 0; i < checkBoxLength; i++){
 			
-			if($("input[class='cart__check']").eq(i).prop("checked")){
+			if($("input[class='cart__check']").eq(count).prop("checked")){
 				
 				// open() 메서드는 요청을 준비하는 메서드입니다. (http 메서드, 데이터를 받아올 URL 경로, 비동기 여부)
-				xhr.open("GET", "CartDelete.or?cart_id=" + cart_id[i].value, true);
+				xhr.open("GET", "CartDelete.or?cart_id=" + cart_id[count].value, true);
 				// send() 메서드는 준비된 요청을 서버로 전송하는 메서드입니다. (서버에 전달될 정보)
 				xhr.send();
 				
-				cart_table.deleteRow(i);
-				i -= 1;
+				cart_table.deleteRow(count);
+				count -= 1;
 			}
+			count++;
 		}
 	}else{
 
 		var cookieBoardID = getCookieValue("nonMember_board_id");
 		var cookieQuantity = getCookieValue("nonMember_quantity");
-		
-		
 		
 		var cookieBoardIDArr = getCookieArray(cookieBoardID, "a");
 		var cookieQuantityArr = getCookieArray(cookieQuantity, "a");
@@ -159,46 +194,40 @@ function btn_select_delete(login_case){
 		var boardIdReplace = "";
 		var quantityReplace = "";
 
-		
+		var count = 0;
 		for(var i = 0; i < checkBoxLength; i++){
-			
-			alert($("input[class='cart__check']").eq(i).prop("checked"));
-			
-			if(!$("input[class='cart__check']").eq(i).prop("checked")){
+		
+			if($("input[class='cart__check']").eq(count).prop("checked")){
 				
-				if(boardIdReplace == ""){
-					boardIdReplace = cookieBoardIDArr[i];
-					quantityReplace = cookieQuantityArr[i];
-					
-					deleteCookie("nonMember_board_id");
-					deleteCookie("nonMember_quantity");
-				}else{
-					boardIdReplace += "a"+ cookieBoardIDArr[i];
-					quantityReplace += "a"+ cookieQuantityArr[i];
-				}
-					
+				cart_table.deleteRow(count);
+				count -= 1;
+
 				
 			}else{
 				
-				cart_table.deleteRow(i);
+				if(boardIdReplace == ""){
+					boardIdReplace = cookieBoardIDArr[count];
+					quantityReplace = cookieQuantityArr[count];
+					
+				}else{
+					boardIdReplace += "a"+ cookieBoardIDArr[count];
+					quantityReplace += "a"+ cookieQuantityArr[count];
+				}
+				
+				
 			}
+			count++;
 		}
 		
-		if(boardIdReplace != ""){
-			
-			setCookie("nonMember_board_id", boardIdReplace);
-			setCookie("nonMember_quantity", quantityReplace);
-		}else{
-			deleteCookie("nonMember_board_id");
-			deleteCookie("nonMember_quantity");
-		}
-		
+		deleteCookie("nonMember_board_id");
+		deleteCookie("nonMember_quantity");
+		setCookie("nonMember_board_id", boardIdReplace);
+		setCookie("nonMember_quantity", quantityReplace);
 		
 	}
-	
 
 	
-	if(cart_table.rows.length == 1){  // css 구조 변경(금액 계산 칸 따로 만듬) 후 0으로 바꿀 것
+	if(cart_table.rows.length == 1){
 		var row = cart_table.insertRow(0);
 		var firstCell = row.insertCell(0);
 		firstCell.colSpan = "7";
@@ -286,6 +315,11 @@ function btn_order(login_case, buyer_id){
     var checkQuantity = document.getElementsByClassName("quantity-input");
     var orderForm = document.getElementById("orderForm");
     var data_array = new Array();
+    
+    if(checkBox.length == 0){
+    	alert("구매할 상품을 선택해주십시오");
+    	return false;
+    }
     
     var login_id = buyer_id;
     

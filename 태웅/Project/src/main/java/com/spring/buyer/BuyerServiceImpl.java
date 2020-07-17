@@ -1,6 +1,7 @@
 package com.spring.buyer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class BuyerServiceImpl implements BuyerService {
 
 	
 	@Override
-	public BuyerVO selectOnById(String id) {
+	public BuyerVO selectOneById(String id) {
 		
 		BuyerVO buyerAccount = mapper.selectOneById(id);
 		return buyerAccount;
@@ -91,6 +92,85 @@ public class BuyerServiceImpl implements BuyerService {
 		
 		return mapper.savePointCountById(id, status);
 	}
+	
+	@Override
+	public int UpdateListDeliverList(deliveryVO delivery) {
+		BuyerMapper buyerMapper = sqlSession.getMapper(BuyerMapper.class);
+		int result = buyerMapper.UpdateListDeliverList(delivery);
+		
+		return result;
+		
+	}
+
+
+
+
+	@Override
+	public int InsertListDeliveryList(deliveryVO delivery) {
+		BuyerMapper buyerMapper = sqlSession.getMapper(BuyerMapper.class);		
+		int result = buyerMapper.InsertListDeliveryList(delivery);
+		
+		delivery.getDefaultaddress();
+		
+		return result;
+		
+	}
+	
+
+	@Override
+	public deliveryVO getListDeliveryDetail(int num) {
+
+		BuyerMapper buyerMapper = sqlSession.getMapper(BuyerMapper.class);
+		deliveryVO delivery = buyerMapper.getListDeliveryDetail(num);
+		
+		return delivery;
+	}
+
+	
+	@Override
+	public deliveryVO ListDeliveryModifyForm(int num) {
+
+		BuyerMapper buyerMapper = sqlSession.getMapper(BuyerMapper.class);
+		System.out.println(num);
+		deliveryVO delivery = buyerMapper.getListDeliveryDetail(num);
+		
+		return delivery;
+	}
+	
+	
+	@Override
+	public int ListDeliveryModify(deliveryVO delivery) {
+
+		BuyerMapper buyerMapper = sqlSession.getMapper(BuyerMapper.class);
+		int res = buyerMapper.ListDeliveryModify(delivery);
+		
+		return res;
+	}
+
+
+
+	@Override
+	public int ListDeliveryDelete(HashMap<String, String> hashmap) {
+		BuyerMapper buyerMapper = sqlSession.getMapper(BuyerMapper.class);
+		int res = buyerMapper.isListDelivery(hashmap);
+		int num = Integer.parseInt(hashmap.get("num"));
+		if(res == 1) {
+			
+			res = buyerMapper.ListDeliveryDelete(num);
+		}
+		return res;
+	}
+
+
+
+//	@Override
+//	public deliveryVO getDefaultAddressOneById(String id) {
+//		
+//		deliveryVO vo = mapper.getDefaultAddressOneById(id);
+//
+//		return vo;		
+//	}	
+	
 	
 	
 }

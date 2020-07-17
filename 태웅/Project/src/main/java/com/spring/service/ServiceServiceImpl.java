@@ -17,8 +17,6 @@ public class ServiceServiceImpl implements ServiceService {
 	private SqlSession sqlSession;
 	
 	
-	
-	
 	@Override
 	public int getFaqListCount() {
 		BoardFaqMapper boardFaqMapper = sqlSession.getMapper(BoardFaqMapper.class);
@@ -77,6 +75,7 @@ public class ServiceServiceImpl implements ServiceService {
 		int res =  boardFaqMapper.faqBoardModify(modifyboard);
 		return res;
 	}
+
 
 	@Override
 	public int getBoardNoticeListCount() {

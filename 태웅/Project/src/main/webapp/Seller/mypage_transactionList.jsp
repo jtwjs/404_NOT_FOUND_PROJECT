@@ -1,11 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Calendar" %>
+<%@ page import="java.util.*"%>
+<%@ page import="com.spring.order.OrderRecordVO"%>
+
 <%
+System.out.println("hi1");
     SimpleDateFormat format_time = new SimpleDateFormat("yyyy-MM-dd");
     String today = format_time.format(Calendar.getInstance().getTime());
+    
+    List<OrderRecordVO> orderRecordList = (List<OrderRecordVO>) request.getAttribute("orderRecordList");
+    
+System.out.println("hi2");
+
+	int listcount=((Integer)request.getAttribute("listcount")).intValue();
+	int nowpage=((Integer)request.getAttribute("page")).intValue();
+	int maxpage=((Integer)request.getAttribute("maxpage")).intValue();
+	int startpage=((Integer)request.getAttribute("startpage")).intValue();
+	int endpage=((Integer)request.getAttribute("endpage")).intValue();
+
+System.out.println("hi3");
+    
 %>
 <!DOCTYPE html>
 <html>
@@ -111,22 +129,75 @@
                                             <th class="order-date">구매일</th>       
                                         </tr>   
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="non-post" colspan="5">
-                                                거래내역이 없습니다.
+                                    <tbody>                                 
+	                                    <%
+											int num = listcount - ((nowpage - 1) * 10);
+	                                    
+		                                    for(int i = 0; i < orderRecordList.size(); i++) {
+												OrderRecordVO orl = (OrderRecordVO) orderRecordList.get(i);
+										%>										
+                                        <tr class="orderList">
+                                            <td><%=orl.getOrder_num() %></td>
+                                            <td><%=orl.getBoard_title() %></td>
+                                            <td><%=((orl.getAmount()) * (orl.getPrice())) %></td>
+                                            <td>
+                                            	<%
+                                            		if(orl.getNon_member_flag() == 'Y') { 
+                                            			//회원 구매자
+                                            			System.out.println("회원 구매자 test");
+                                            	%>
+                                            	<%=orl.getBuyer_id() %>
+                                            	<%
+                                            		} else { 	
+                                            			//비회원 구매자
+                                            			System.out.println("비회원 구매자 test");
+                                            	%>
+                                            	<%=orl.getBuyer_name() %>
+                                            	<%	
+                                            		}
+                                            	%>
+                                            </td>
+                                            <td>
+                                            	<fmt:formatDate pattern="yyyy-MM-dd" value="<%=orl.getOrder_date() %>" />
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
+                                        
+                                        <%
+											num--;
+										}
+										%>
+										
+										<tr align=center height=20>
+											<td colspan=5 style="font-family: Tahoma; font-size: 10pt;">
+												<%
+													if (nowpage<=1) {
+												%> [이전]&nbsp; <%
+													} else {
+												%> <a href="./SellerTransactionList.se?page=<%=nowpage-1%>">[이전]</a>&nbsp;
+												<%
+													}
+												%> <%
+													for (int a=startpage; a<=endpage; a++) {
+													if (a==nowpage) {
+												%> [<%=a%>] <%
+													} else {
+												%> <a href="./SellerTransactionList.se?page=<%=a%>">[<%=a%>]
+																					</a> &nbsp; <%
+													}
+												%> <%
+													}
+												%> <%
+													if (nowpage>=maxpage) {
+												%> [다음] <%
+													} else {
+												%> <a href="./SellerTransactionList.se?page=<%=nowpage+1%>">[다음]</a> <%
+													}
+												%>
+											</td>
+										</tr>
                                     </tbody>
                                 </table>
                             </article>
-
                     </section>
 	            </section>
 	        </div>	

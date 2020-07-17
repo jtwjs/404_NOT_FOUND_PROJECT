@@ -1,7 +1,7 @@
 var profile = document.getElementById('menu-profile');
 var profileItem = document.getElementById('menu-profile--item');
 profile.addEventListener('click',function(){
-    if ( profileItem.style.height == '35px' ){
+    if ( profileItem.style.height == '70px' ){
         profile.style.backgroundColor = null;
         profile.style.color =  null;
         profileItem.style.height = '0px';
@@ -9,7 +9,7 @@ profile.addEventListener('click',function(){
     else { 
         profile.style.backgroundColor = '#34C759';
         profile.style.color = '#fff';
-        profileItem.style.height = '35px';
+        profileItem.style.height = '70px';
 
         product.style.backgroundColor = null;
         product.style.color =  null;

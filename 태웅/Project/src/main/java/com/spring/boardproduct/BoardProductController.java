@@ -11,10 +11,13 @@ import java.util.Date;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FilenameUtils;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.admin.AccountVO;
-import com.spring.config.Security.CurrentUser;
-import com.spring.seller.SellerVO;
+import com.spring.buyer.BuyerVO;
 
 @Controller
 public class BoardProductController {
@@ -163,11 +164,10 @@ public class BoardProductController {
 	}
 	
     @GetMapping(value = "/BoardProductView.bo") // 판매글 보기
-	public String boardProductView(Model model,@RequestParam(value="board_id")
-	String board_id) {
+	public String boardProductView(Model model, HttpSession session, String board_id) {
+    	
     	BoardProductVO vo = boardProductService.getBoardProductVO(board_id);
-
-    	model.addAttribute("vo", vo);
+    	model.addAttribute("vo", vo);     
 		
 		return "BoardProduct/boardProductView";
 	}
@@ -179,7 +179,7 @@ public class BoardProductController {
 	}
 	
 	@PostMapping(value = "/BoardProductRegist.bo")  // 상품등록
-	public String sellerProductRegisterDB(Model model, @CurrentUser AccountVO account, String title, int category_1, 
+	public String sellerProductRegisterDB(Model model, String seller_id, String title, int category_1, 
 			int category_2, int price, int delivery_price, int quantity, //String content, 
 			String sales_producer, String product_name, String product_weight, String product_size, 
 			int category_local, String product_country, String date_manufacture, String best_before_date, 
@@ -194,7 +194,7 @@ public class BoardProductController {
 		BoardProductVO vo = new BoardProductVO();
 		vo.setContent("test");    // test값으로 세팅, summernote 건드리는중
 		vo.setContent_origin("test");    // test값으로 세팅, summernote 건드리는중
-		vo.setSeller_id(account.getId());  // test값으로 세팅, 회원가입 로그인 완료되면 교체
+		vo.setSeller_id(seller_id);  // test값으로 세팅, 회원가입 로그인 완료되면 교체
 		vo.setTitle(title);
 		vo.setCategory_1(category_1);
 		vo.setCategory_2(category_2);
@@ -224,7 +224,7 @@ public class BoardProductController {
 	    String today = format_time.format(Calendar.getInstance().getTime());
 	    vo.setBoard_id(today + "-" + board_num); // 오늘날짜(년월일)-게시판번호로 id값 세팅
 		// board_id값 만들어서 세팅 end ====================================================================
-	    
+		
 		// 이미지 파일 저장 및 썸네일 생성 =======================================================================
 		String uploadFolder_thumbnail_origin = "C:\\Project156\\upload\\thumbnail_origin"; // 썸네일 원본 업로드 경로
 		String uploadFolder_thumbnail_thum = "C:\\Project156\\upload\\thumbnail_thum";  // 썸네일 썸네일 업로드 경로
@@ -237,7 +237,9 @@ public class BoardProductController {
 		String str = sdf.format(date);
 		
 		if(!thumbnail_origin.isEmpty()) {
+			
 			File thum_origin_save = imgSave(thumbnail_origin, uploadFolder_thumbnail_origin);
+			
 			String thum_thum_name = makeThumbnail(
 					thumbnail_origin, thum_origin_save, uploadFolder_thumbnail_thum, 215, 215);
 			vo.setThumbnail_origin(thum_origin_save.getName());
@@ -245,16 +247,18 @@ public class BoardProductController {
 			
 			StringBuilder img_path = new StringBuilder(
 					uploadFolder_thumbnail_origin.replace("C:\\Project156\\upload\\", "/img/") 
-					+ "\\" + str.replace("-", "\\") + "\\");
+					+ "/" + str.replace("-", "/") + "/");
 			vo.setThumbnail_origin_path(img_path.toString());
+			
 			img_path.setLength(0);
 			
 			img_path.append(uploadFolder_thumbnail_thum.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
+					+ "/" + str.replace("-", "/") + "/");
 			vo.setThumbnail_thum_path(img_path.toString());
+			
 		}else {
 			vo.setThumbnail_thum("no_image_thum.jpg");
-			vo.setThumbnail_thum_path("/img/common\\");
+			vo.setThumbnail_thum_path("/img/common/");
 		}
 		
 		boolean imgFlag = false;
@@ -268,12 +272,12 @@ public class BoardProductController {
 			
 			StringBuilder img_path = new StringBuilder(
 					uploadFolder_product_origin.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
+					+ "/" + str.replace("-", "/") + "/");
 			vo.setProduct_origin_path(img_path.toString());
 			img_path.setLength(0);
 			
 			img_path.append(uploadFolder_product_thum.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
+					+ "/" + str.replace("-", "/") + "/");
 			vo.setProduct_thum_path(img_path.toString());
 			
 			imgFlag = true;
@@ -288,12 +292,12 @@ public class BoardProductController {
 			
 			StringBuilder img_path = new StringBuilder(
 					uploadFolder_product_origin.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
+					+ "/" + str.replace("-", "/") + "/");
 			vo.setProduct_origin_path(img_path.toString());
 			img_path.setLength(0);
 			
 			img_path.append(uploadFolder_product_thum.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
+					+ "/" + str.replace("-", "/") + "/");
 			vo.setProduct_thum_path(img_path.toString());
 			
 			
@@ -309,12 +313,12 @@ public class BoardProductController {
 			
 			StringBuilder img_path = new StringBuilder(
 					uploadFolder_product_origin.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
+					+ "/" + str.replace("-", "/") + "/");
 			vo.setProduct_origin_path(img_path.toString());
 			img_path.setLength(0);
 			
 			img_path.append(uploadFolder_product_thum.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
+					+ "/" + str.replace("-", "/") + "/");
 			vo.setProduct_thum_path(img_path.toString());
 			
 			
@@ -330,12 +334,12 @@ public class BoardProductController {
 			
 			StringBuilder img_path = new StringBuilder(
 					uploadFolder_product_origin.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
+					+ "/" + str.replace("-", "/") + "/");
 			vo.setProduct_origin_path(img_path.toString());
 			img_path.setLength(0);
 			
 			img_path.append(uploadFolder_product_thum.replace("C:\\Project156\\upload\\", "/img/")
-					+ "\\" + str.replace("-", "\\") + "\\");
+					+ "/" + str.replace("-", "/") + "/");
 			vo.setProduct_thum_path(img_path.toString());
 			
 			
@@ -344,11 +348,10 @@ public class BoardProductController {
 		
 		
 		if(!imgFlag) { // 아무런 대표이미지도 저장되지 않았을 때
-
 			vo.setProduct_origin_1("no_image.jpg");
 			vo.setProduct_thum_1("no_image_thum.jpg");
-			vo.setProduct_origin_path("/img/common\\");
-			vo.setProduct_thum_path("/img/common\\");
+			vo.setProduct_origin_path("/img/common/");
+			vo.setProduct_thum_path("/img/common/");
 		}
 		// 이미지 파일 저장 및 썸네일 생성 end ===================================================================				
 				

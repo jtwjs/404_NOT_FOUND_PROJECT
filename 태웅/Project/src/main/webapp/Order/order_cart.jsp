@@ -16,7 +16,10 @@ String buyer_id = "";%>
     buyer_id = pageContext.getAttribute("user").toString();%>
 </sec:authorize>
 <%
-
+    
+    int totProductPrice = 0;
+    int totDeliveryPrice = 0;
+    int vo_list_size = 0;
     int[] quantity = {0};
     if((int[])request.getAttribute("quantity") != null){
 	    quantity = (int[])request.getAttribute("quantity");
@@ -25,6 +28,15 @@ String buyer_id = "";%>
     ArrayList<BoardProductVO> vo_list = null;
     if((ArrayList<BoardProductVO>)request.getAttribute("vo_list") != null){
         vo_list = (ArrayList<BoardProductVO>)request.getAttribute("vo_list");
+        vo_list_size = vo_list.size();
+        for(int i = 0; i < vo_list.size(); i++){
+            totProductPrice += (vo_list.get(i).getPrice() * quantity[i]);
+        }
+        
+        
+        for(int i = 0; i < vo_list.size(); i++){
+        	totDeliveryPrice += vo_list.get(i).getDelivery_price();
+        } 
     }
 
     ArrayList<ProductCartVO> cart_list = null;
@@ -40,12 +52,12 @@ String buyer_id = "";%>
 	    }
 	}else{
 		
-		if(vo_list != null){
-			cart_id = new String[vo_list.size()];
+		if(vo_list_size != 0){
+			cart_id = new String[vo_list_size];
 		}
 		
 		
-	    for(int i = 0; i < vo_list.size(); i++){
+	    for(int i = 0; i < vo_list_size; i++){
 	    	
 	    	UUID uuid = UUID.randomUUID(); // 중복 방지를 위해 랜덤값 생성
         	long getl = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
@@ -56,23 +68,6 @@ String buyer_id = "";%>
 	    	cart_id[i] = cart_id_val.toString();
 	    }
 	}
-    
-   
-    
-    
-    
-    
-    // =====================================================================
-    // 결제금액 계산
-    int totProductPrice = 0;
-    for(int i = 0; i < vo_list.size(); i++){
-        totProductPrice += (vo_list.get(i).getPrice() * quantity[i]);
-    }
-    
-    int totDeliveryPrice = 0;
-    for(int i = 0; i < vo_list.size(); i++){
-    	totDeliveryPrice += vo_list.get(i).getDelivery_price();
-    } 
     
 %>
 <!DOCTYPE html>
@@ -147,7 +142,7 @@ String buyer_id = "";%>
                         </tr>
                     </thead>
                     <tbody id="cart-table-tbody">
-                        <%if(vo_list.size() != 0){ 
+                        <%if(vo_list_size != 0){ 
                             for(int i = 0; i < vo_list.size(); i++){ %>
                         <tr>
                             <td><input type="checkbox" class="cart__check" checked="checked" 
@@ -168,7 +163,7 @@ String buyer_id = "";%>
                                     onclick="btnQuantityChange(this.value, '<%=i %>', '<%=vo_list.get(i).getPrice() %>', '<%=vo_list.get(i).getDelivery_price() %>', '<%=vo_list.get(i).getQuantity() %>');" />
                                 <input type="text" value="<%=quantity[i] %>" maxlength="2" 
                                     class="quantity-input" oninput="onInputCheck(this, '<%=vo_list.get(i).getQuantity() %>', '<%=quantity[i] %>');" 
-                                    onchange="tableTotPriceChange(this.value, '<%=i %>', '<%=vo_list.get(i).getPrice() %>', '<%=vo_list.get(i).getDelivery_price() %>');" />
+                                    onchange="tableTotPriceChange(this.value, '<%=i %>', '<%=vo_list.get(i).getPrice() %>', '<%=vo_list.get(i).getDelivery_price() %>', '<%=login_case %>');" />
                                 <input type="button" value="+" class="quantity-plus-btn" 
                                     onclick="btnQuantityChange(this.value,'<%=i %>', '<%=vo_list.get(i).getPrice() %>', '<%=vo_list.get(i).getDelivery_price() %>', '<%=vo_list.get(i).getQuantity() %>');" />
                             </td>
@@ -183,15 +178,9 @@ String buyer_id = "";%>
                         </tr>
                         <%} %>
                         <tr>
-                            <td colspan="7" class="cart__payment-amount">
-                                <span>상품합계금액 
-                                <input type="text" value="<%=totProductPrice %>" readonly
-                                    id="product__tot-price" />원 + 배송비 
-                                <input type="text" value="<%=totDeliveryPrice %>" readonly 
-                                    id="delivery__tot-price" />원 = 결제금액 
-                                <input type="text" value="<%=totProductPrice + totDeliveryPrice %>" readonly 
-                                    id="cart__tot-price" />원</span>
-                                
+                            <td colspan="7" class="cart__btn--delete">
+                                <input type="button" value="선택상품 삭제" id="cart__btn--select-delete" 
+                                    onclick="btn_select_delete('<%=login_case %>');" />
                             </td>
                         </tr>
                     </tbody>
@@ -201,11 +190,39 @@ String buyer_id = "";%>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             </form>
             
+            <div class="col-xs-12" id="cart__calc">
+                <table id="cart__calc--table">
+                    <thead>
+                        <tr>
+                            <th>상품합계금액 
+                                <!-- <div><em class="table__plus-mark">+</em></div> -->
+                            </th>
+                            <th>총 배송비 
+                                <!-- <em class="table__equal-mark">=</em>  -->
+                            </th>
+                            <th>결제금액</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="cart__payment-amount">
+                            <td>
+                                <input type="text" value="<%=totProductPrice %> 원" readonly
+                                    id="product__tot-price" />
+                            </td>
+                            <td>
+                                <input type="text" value="<%=totDeliveryPrice %> 원" readonly 
+                                    id="delivery__tot-price"/>
+                            </td>
+                            <td>
+                                <input type="text" value="<%=totProductPrice + totDeliveryPrice %> 원" 
+                                    readonly id="cart__tot-price" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
             <div class="col-xs-12" id="cart__btn">
-                <input type="button" value="선택상품 삭제" class="cart__btn--select-delete" 
-                    onclick="btn_select_delete('<%=login_case %>');" />
-                <input type="button" value="전체상품 주문하기" class="cart__btn--all-order" 
-                    onclick="" />
                 <input type="button" value="선택상품 주문하기" class="cart__btn--select-order" 
                     onclick="btn_order('<%=login_case %>', '<%=buyer_id %>');" />
                 <input type="button" value="쇼핑 계속하기" class="cart__btn--shopping-continue" 

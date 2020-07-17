@@ -26,12 +26,15 @@
 		<result column = "last_loginDate" property = "loginDate" />
 	</resultMap>
 	
-	<resultMap id="deliveryResultMap" type="com.spring.buyer.deliveryVO">
-		<result column = "buyer_id" property = "id" />
-		<result column = "delivery_name" property = "deliveryName" />
-		<result column = "address" property = "address" />
-		<result column = "receiver_name" property = "receiverName" />
-		<result column = "receiver_phone" property = "receiverPhone" />
+	<resultMap id="deliveryResultMap"
+		type="com.spring.buyer.deliveryVO">
+		<result column="num" property="num" />
+		<result column="buyer_id" property="id" />
+		<result column="delivery_name" property="deliveryName" />
+		<result column="address" property="address" />
+		<result column="default_address" property="defaultaddress" />
+		<result column="receiver_name" property="receiverName" />
+		<result column="receiver_phone" property="receiverPhone" />
 	</resultMap>
 	
 	<resultMap id="savePointResultMap" type="com.spring.buyer.SavePointVO">
@@ -59,11 +62,7 @@
 		VALUES (#{id}, #{password}, #{name}, #{tel}, #{email}, #{address}, #{buyerNum} )
 	
 	</insert>
-	
-	<update id = "UpdateBuyerAccount" parameterType = "com.spring.buyer.BuyerVO"  >
-		UPDATE member_buyer SET password=#{password}, email=#{email}, tel=#{tel}, profile_img=#{profileImg}
-		 WHERE buyer_id = #{id} AND password = #{password}
-	</update>
+
 	
 	<update id = "UpdateLoginDateBy" parameterType = "com.spring.buyer.BuyerVO" >
 		UPDATE member_buyer SET last_loginDate=sysdate WHERE buyer_id = #{id}
@@ -116,6 +115,57 @@
 			AND sp_status = #{status}
 		</if>
 		
+	</select>
+	
+	
+	<update id = "UpdateBuyerAccount" parameterType = "com.spring.buyer.BuyerVO"  >
+		UPDATE member_buyer SET email=#{email}, tel=#{tel}, profile_img=#{profileImg}
+		 WHERE buyer_id = #{id}
+	</update>
+	
+	<select id = "BuyerConfirmPassword" resultMap = "buyerResultMap" >
+		SELECT * FROM member_buyer where buyer_id = #{id} and password = #{password}
+	</select>
+	
+	<update id = "UpdateBuyerPassword" parameterType = "com.spring.buyer.BuyerVO"  >
+		UPDATE member_buyer SET password = #{password}
+		 WHERE buyer_id = #{id}
+	</update>
+	
+	
+	<update id="UpdateListDeliverList"	parameterType="com.spring.buyer.deliveryVO">
+		update list_delivery  set default_address='N' where buyer_id = #{id}
+	</update>
+
+	<insert id="InsertListDeliveryList" 	parameterType="com.spring.buyer.deliveryVO">
+		<selectKey keyProperty="num" order="BEFORE" resultType="int">
+			select nvl(max(num), 0)+1 from list_delivery
+		</selectKey>
+		INSERT INTO list_delivery VALUES (#{num}, #{id}, #{deliveryName}, #{address}, #{defaultaddress}, #{receiverName}, #{receiverPhone})
+	</insert>
+
+	<select id="getListDeliveryDetail" parameterType="int" resultMap="deliveryResultMap">
+		SELECT * FROM list_delivery where num = #{num}
+	</select>
+	
+	<!-- <select id="getDefaultAddressOneById" resultMap="deliveryResultMap">
+		select * from list_delivery where buyer_id = #{id} and default_address = 'Y'
+	</select> -->
+
+
+	<update id="ListDeliveryModify" parameterType="com.spring.buyer.deliveryVO">
+
+		UPDATE list_delivery SET delivery_name=#{deliveryName},address=#{address},default_address=#{defaultaddress},receiver_name=#{receiverName},receiver_phone=#{receiverPhone}
+		where num = #{num}
+	</update>
+
+
+	<delete id="ListDeliveryDelete" parameterType="int">
+		delete from	list_delivery where num=#{num}
+	</delete>
+
+	<select id="isListDelivery" parameterType="HashMap"	resultType="int">
+		select count(*) from list_delivery where num=#{num}
 	</select>
 	
 	

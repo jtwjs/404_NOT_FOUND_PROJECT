@@ -519,7 +519,7 @@ $(window).scroll(function (event) {
 });
 
 // hasScrolled()를 실행하고 didScroll 상태를 재설정
-setInterval(function () {
+var headerTimer1 = setInterval(function () {
   if (didScroll) {
     hasScrolled();
     didScroll = false;

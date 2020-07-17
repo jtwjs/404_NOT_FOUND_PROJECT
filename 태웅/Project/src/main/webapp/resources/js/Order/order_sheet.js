@@ -80,6 +80,7 @@ function full_use() {
 	});
 }
 
+
 /*주소지 선택(기본배송지, 새로운배송지)*/
 var defaultAddr = document.getElementById('default_addr');
 var newAddr = document.getElementById('new_addr');

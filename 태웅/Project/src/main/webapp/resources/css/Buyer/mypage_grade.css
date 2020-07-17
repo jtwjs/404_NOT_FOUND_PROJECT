@@ -1,0 +1,96 @@
+/*grade*/
+
+.my_grade--grade {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 20px;
+}
+
+.grade-desc {
+	display: flex;
+}
+
+.my_grade--grade dl {
+	display: flex;
+	flex-direction: column;
+	width: 250px;
+	margin-right: 50px;
+	padding: 10px;
+	text-align: left;
+}
+
+.my_grade--grade dl:last-child {
+	margin-right: 0;
+}
+
+.my_grade--grade dt {
+	position: relative;
+	font-size: 18px;
+	font-weight: 400;
+}
+
+.cumulativeAmount::after {
+	position: absolute;
+	top: 33px;
+	right: -30px;
+	font-size: 26px;
+	font-weight: 600;
+	content: '=';
+}
+
+.text-lighter {
+	color: #aaa;
+}
+
+
+.amount {
+	padding-top: 10px;
+	font-size: 26px;
+	font-weight: 600;
+}
+
+.text-green {
+	color: #509b59;
+}
+
+.point-explain {
+	padding: 10px;
+}
+
+.grade-explain p{
+	font-size: 14px;
+	letter-spacing: 0.02em;
+	font-weight: 300;
+	line-height: 1.6;
+	color: #777;
+}
+
+/*grade-benefit*/
+
+.grade-benefit h2 {
+	margin-bottom: 20px;
+	font-size: 20px;
+	
+}
+
+#benefit-table {
+	margin : 20px 10px;
+	border-collapse: separate;
+    border-spacing: 0;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    text-align: left;
+    line-height: 1.5;
+}
+
+#benefit-table th {
+	 width: 150px;
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    background: #eee;
+}

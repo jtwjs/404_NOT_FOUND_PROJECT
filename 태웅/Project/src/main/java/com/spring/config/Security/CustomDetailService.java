@@ -59,6 +59,16 @@ public class CustomDetailService implements UserDetailsService {
 	public void updateSellerLoginDateBy(String id) {
 		sellerMapper.UpdateLoginDateBy(id);
 	}
+	
+	public int BuyerConfirmPassword(BuyerVO buyer) {
+		buyer.setPassword(passwordEncoder.encode(buyer.getPassword()));
+		return buyerMapper.UpdateBuyerPassword(buyer);
+	}
+	
+	public int SellerConfirmPassword(SellerVO seller) {
+		seller.setPassword(passwordEncoder.encode(seller.getPassword()));
+		return sellerMapper.UpdateSellerPassword(seller);
+	}
 
 	
 }

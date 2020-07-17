@@ -1,8 +1,10 @@
 package com.spring.seller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.spring.boardproduct.BoardProductVO;
+import com.spring.order.OrderRecordVO;
 
 public interface SellerService {
 	SellerVO selectOneById(String id);
@@ -12,4 +14,6 @@ public interface SellerService {
 	void UpdateProfileImg(SellerVO account);
 	ArrayList<BoardProductVO> selectProductListById(String id);
 	BoardProductVO BoardSelectOneByBoardId(String board_id);
+	public int getOrderRecordOneByIdListCount(String seller_id);
+	public List<OrderRecordVO> getOrderRecordOneByIdList(String seller_id, int startrow, int endrow);
 }

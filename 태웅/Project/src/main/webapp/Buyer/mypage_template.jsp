@@ -9,7 +9,7 @@
 	        <dd class="profile-content">
 	            <p class="buyer">구매자</p>
 	            <p><span id="profile-name">${user.name}</span> 님</p>
-	            <p>마지막 접속일자: <span id="last_access_date"> ${loginDate}</span></p>
+	            <p>마지막 접속일자: <span id="last_access_date"> ${user.loginDate}</span></p>
 	        </dd>
 	    </dl>
 	</article>
@@ -19,7 +19,8 @@
 	            프로필
 	        </dt>
             <dd id="menu-profile--item">
-            	<a href="#" onclick="location.href='BuyerMyPageInfoModify.by'">수정하기</a>
+            	<a href="#" onclick="location.href='UpdateBuyerAccountForm.by'">회원정보 수정</a>
+            	<a href="#" onclick="location.href='UpdateBuyerPasswordForm.by'">비밀번호 변경</a>
             	<a href="#" onclick="location.href='BuyerMyPageDeliveryManager.by'">배송지관리</a>
 		    </dd>
 			<dt id="menu-myShopping">

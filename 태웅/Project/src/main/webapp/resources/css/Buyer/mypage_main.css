@@ -10,7 +10,7 @@
   flex-direction: column;
   width: 50%;
   margin-right: 50px;
-  padding: 15px 25px 15px;
+  padding: 15px 25px 0;
   border-radius: 21px;
 }
 
@@ -70,7 +70,7 @@
 }
 
 #rating-explain {
-  padding-top: 10px;
+  padding-top: 23px;
   font-size: 13px;
   color: rgba(54, 54, 54, 0.5);
   text-align: left;

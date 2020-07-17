@@ -54,7 +54,7 @@
                                         <dl class="rating">
                                             <dt><span class="enter">종합평점</span></dt>
                                             <dd><img id="star-rating" src="./resources/Images/Seller/star_3.png" alt="start rating"></dd>
-                                            <dd class="rating-score"><strong class="grade">${grade}</strong>/5</dd>
+                                            <dd class="rating-score"><strong class="grade">${user.grade}</strong>/5</dd>
                                             <dd id="rating-explain">* 해당 평점은 지금까지 판매된 품목에 대한 총 평점입니다.</dd>
                                         </dl>
                                     </div>

@@ -138,14 +138,16 @@ END;
     /*媛쒖씤諛곗넚吏�(援щℓ�옄)*/
 drop table list_delivery;
 select * from list_delivery;
-create table list_delivery(                 -- 媛쒖씤���옣 諛곗넚吏� 紐⑸줉
-    buyer_id varchar2(16) not null,         -- 援щℓ�옄 ID(member_buyer�뀒�씠釉� �쇅�옒�궎)
-    delivery_name varchar2(20) default '湲곕낯 諛곗넚吏�' not null,    -- 諛곗넚吏�紐�
-    address varchar2(100) not null,          -- 諛곗넚吏� 二쇱냼
-    receiver_name varchar2(20) not null,    -- �닔�졊�씤
-    receiver_phone varchar2(13) not null,   -- �뿰�씫泥�
+create table list_delivery(                 -- 개인저장 배송지 목록
+    num number default(1),                    -- 배송지 번호 
+    buyer_id varchar2(16) not null,         -- 구매자 ID(member_buyer테이블 외래키)
+    delivery_name varchar2(20) default '기본 배송지' not null,    -- 배송지명
+    address varchar2(100) not null,          -- 배송지 주소
+    default_address char(1) default 'Y',       --기본배송지 구분 (Y=기본배송지, N=배송지)
+    receiver_name varchar2(20) not null,    -- 수령인
+    receiver_phone varchar2(13) not null,   -- 연락처  
     constraint list_delivery_buyer_id_fk foreign key(buyer_id)
-        references member_buyer(buyer_id) on delete cascade
+    references member_buyer(buyer_id) on delete cascade
 );
  desc list_delivery;
 /*援щℓ�옄 �쉶�썝媛��엯�떆 媛쒖씤諛곗넚吏� 異붽� �듃由ш굅*/
@@ -333,6 +335,8 @@ create table product_cart(          -- �옣諛붽뎄�땲
     quantity number,                -- �닔�웾
     constraint product_cart_cart_id_pk primary key(cart_id)
 );
+
+
  
  /*주문기록*/
  
@@ -367,3 +371,29 @@ select * from product_cart;
 select * from board_product;
 commit;
 select * from member_buyer;
+
+
+insert into order_record 
+values ('1','234tr234','a','b','seller123', 'yoon2726', '3', '1000', '5000', '0', '8000', '결제완료', '조하나', '01086522726', 'asphyxiated1@naver.com',
+        '06611', '서울 서초구 강남대로 459/302', '조하나', '01086522726', '건강하세요', 'cj택배', '1234345634', '현금' ,'110111111111', '20/07/15', 'Y');
+
+insert into order_record 
+values ('2','123134','c','d','seller123', 'yoon2726', '7', '10000', '10000', '0', '80000', '결제완료', '조하나', '01086522726', 'yoon@naver.com',
+        '06611', '서울 서초구 강남대로 459/301', '히토미', '01011112222', 'ㅋㅋㅋ', 'cj택배', '231434153', '현금' ,'110111111111', '20/07/15', 'Y');        
+    
+insert into order_record 
+values ('3','asdfsd','e','f','seller123', 'nako123', '10', '10000', '10000', '0', '110000', '결제완료', '야부키', '01033334444', 'nako@naver.com',
+        '06611', '서울 서초구 강남대로 459/202', '야부키', '01033334444', 'ㅋㅋㅋ', 'cj택배', 'a2104123', '현금' ,'110111111111', '20/07/15', 'N');   
+        
+insert into order_record 
+values ('6','456dfsd','g','h','seller123', 'yoon2726', '2', '10000', '10000', '0', '20000', '결제완료', '조하나', '01086522726', 'asphyxiated1@naver.com',
+        '06611', '서울 서초구 강남대로 459/302', '조하나', '01086522726', '건강하세요', 'cj택배', '12adsf5634', '현금' ,'110111111111', '20/07/16', 'Y');
+        
+insert into order_record 
+values ('4','asd123','ㄱ','ㄴ','seller123', 'sakura123', '1', '10000', '10000', '0', '20000', '결제완료', '사쿠라', '01055556666', 'sakura@naver.com',
+        '06611', '서울 서초구 강남대로 459/201', '사쿠라', '01055556666', '111ㅋㅋㅋ', 'cj택배', 'a21023dfs', '현금' ,'110111111111', '20/07/15', 'Y'); 
+
+insert into order_record 
+values ('5','asd456','ㄷ','ㄹ','seller123', 'yuri123', '1', '20000', '20000', '0', '20000', '결제완료', '조유리', '01077778888', 'yuri@naver.com',
+        '06611', '서울 서초구 강남대로 459/203', '조유리', '01077778888', '222ㅋㅋㅋ', 'cj택배', 'a21adsfdfs', '현금' ,'110111111111', '20/07/15', 'N'); 
+commit;

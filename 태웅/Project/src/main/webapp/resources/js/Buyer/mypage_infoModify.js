@@ -32,6 +32,42 @@ completeBtn.addEventListener('click',function() {
 });
 
 
+/*이메일*/
+
+var email2 = document.getElementById('email02'),
+	email3 = document.getElementById('email03');
+
+email3.addEventListener('change',function(){
+	  var eAddr = document.getElementById('email03').selectedIndex;
+		 
+		 switch(eAddr) {
+		 case 0:
+			 email2.value = '';
+			 break;
+		 case 1:
+			 email2.value = 'naver.com';
+			 break;
+		 case 2:
+			 email2.value = 'daum.net';
+			 break;
+		 case 3:
+			 email2.value = 'gmail.com';
+			 break;
+		 case 4:
+			 email2.value = 'hanmail.net';
+			 break;
+		 case 5:
+			 email2.value = 'hotmail.com';
+			 break;
+		 case 6:
+			 email2.value = 'nate.com';
+			 break;
+		 case 7:
+			 email2.value = 'yahoo.co.kr';
+			 break;
+		 }
+		 return true;
+});
 
 // reset & submit 버튼
 var submitBtn = document.getElementById('submitBtn');
@@ -39,7 +75,7 @@ var resetBtn = document.getElementById('resetBtn');
 
 submitBtn.addEventListener('click',function() {
 	if(confirm('정말로 변경하시겠습니까??') == true ) {
-		document.getElementById('update__pforile--form').submit();
+		document.getElementById('update__profile--form').submit();
 	}
 	else {
 		return;
@@ -52,6 +88,6 @@ resetBtn.addEventListener('click',function() {
 		location.href="BuyerMyPage.by";
 	}
 	else {
-		return;
+		location.href="UpdateBuyerAccountForm.by";
 	}
 });

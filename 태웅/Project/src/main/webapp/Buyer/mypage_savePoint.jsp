@@ -60,8 +60,8 @@
 	                     		<dd class="point">0원</dd>
 	                   		</dl>
 	                   		<dl>
-	                     		<dt class="point-total">총 적립금</dt>
-	                     		<dd class="point">${user.savePoint}원</dd>
+	                     		<dt class="point-total text-green">총 적립금</dt>
+	                     		<dd class="point text-green">${user.savePoint}원</dd>
 	                     	</dl>
                      	</div>
                      	<div class="point-explain">

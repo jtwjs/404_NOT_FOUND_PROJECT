@@ -40,7 +40,7 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 	href="<c:url value='/resources/css/ServiceCenter/serviceCenter_board.css?after'/>"
 	rel="stylesheet" />
 <link
-	href="<c:url value='/resources/css/ServiceCenter/serviceCenter_board_faq.css?after'/>"
+	href="<c:url value='/resources/css/ServiceCenter/serviceCenter_board_faq.css'/>"
 	rel="stylesheet" />
 
 <title>자주하는질문</title>
@@ -87,11 +87,6 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 										<td class="center-list__table--title" colspan="3">제목</td>
 										<td></td>
 										<td></td>
-
-										<!-- 삭제해도 될꺼같은 테이블
-										<td class="center-list__table--date">작성일</td>
-										<td class="center-list__table--hit">조회</td>
-										 -->
 									</tr>
 								</thead>
 								<tbody>
@@ -104,17 +99,22 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 										<td class="center-list__table--num"><%=num%></td>
 
 										<td align="center" class="center-list__table--title" colspan="3"><a href="#first" name="trigger"><%=bfl.getTitle()%></a></td>
-										<sec:authorize access="hasRole('ROLE_ADMIN')">
-										<td class="list__table--modify"><a href="./FaqBoardModifyform.sc?num=<%=bfl.getNum()%>">[수정]</a></td>
-										<td class="list__table--delete"><a href="./FaqBoardDelete.sc?num=<%=bfl.getNum()%>">[삭제]</a></td>
-										</sec:authorize>
 
 									</tr>
 
 									<tr name="article" class="hide">
 										<td></td>
 										<td><a name="first" id="first"></a>
-											<p><%=bfl.getContent()%></p></td>
+											<p class="getContent"><%=bfl.getContent()%></p>
+											<br />
+											<sec:authorize access="hasRole('ROLE_ADMIN')">
+												<div class="list__table--admin">													
+													<button name="boardFaq_modify" class="boardFaq_modify" onclick="location.href='FaqBoardModifyform.sc?num=<%=bfl.getNum()%>'">수정</button>
+													<button name="boardFaq_delete" class="boardFaq_delete" onclick="location.href='FaqBoardDelete.sc?num=<%=bfl.getNum()%>'">삭제</button>
+												</div>
+											</sec:authorize>
+											
+										</td>
 									</tr>
 									<script>
 										$("a[name='trigger']").click(
@@ -132,7 +132,7 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 
 
 									<tr align=center height=20>
-										<td colspan=7 style="font-family: Tahoma; font-size: 10pt;">
+										<td colspan=4 style="font-family: Tahoma; font-size: 10pt;">
 											<%
 												if (nowpage<=1) {
 											%> [이전]&nbsp; <%

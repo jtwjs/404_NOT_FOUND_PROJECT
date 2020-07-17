@@ -68,6 +68,7 @@
 #center-list__table > thead {
     border-top: 5px solid #a9a9a9;
     border-bottom: 1px solid #a9a9a9;
+    text-align: center;
 }
 
 #center-list__table > tbody > tr {
@@ -75,26 +76,18 @@
     border-bottom: 1px solid #a9a9a9;
 }
 
+.getContent {
+	text-align: left;
+}
+
 .center-list__table--num {
     width: 50px;
     height: 40px;
-	text-align: center;
 }
 
 .center-list__table--title {
     width: 600px;
     height: 40px;
-    text-align: center;
-}
-
-.center-list__table--date {
-    width: 50px;
-    text-align: center;
-}
-
-.center-list__table--hit {
-    width: 50px;
-    text-align: center;
 }
 
 .center-list__table--none-content {
@@ -110,16 +103,26 @@
     text-align: center;
 }
 
-.list__table--modify {
-	width: 30px;
-    text-align: center;
+.list__table--admin {
+	width: 150px;
+	display: flex;	
+	float: right;
+	margin-bottom: 10px;
 }
 
-.list__table--delete {
-	width: 30px;
-    text-align: center;
+.boardFaq_modify, 
+.boardFaq_delete  {
+	width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: #52a56ec9;
+    text-align: center; 
+    color: #ffffff;
 }
 
+.boardFaq_modify {
+	margin-right: 10px;
+}
 
 
 
