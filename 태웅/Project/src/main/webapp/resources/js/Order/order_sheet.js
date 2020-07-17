@@ -103,9 +103,26 @@ defaultAddr.addEventListener('click',function(){
 	if(defaultAddr.getAttribute('checked')){
 		return;
 	}else {
+		alert(document.getElementById('userAddrNum').value)
 		postcode.value = defaultPostcode;
 		roadAddr.value = defaultRoadAddr;
 		detailAddr.value = defaultDetailAddr;
 	}
 });
 
+
+/*주소록 팝업창*/
+var addrBookBtn = document.getElementById('addrBook_btn');
+
+addrBookBtn.addEventListener('click',function(){
+	popupOpen();
+});
+
+function popupOpen(){
+	var url = "addrBook_popup.or";
+	var winWidth = 550;
+	var winHeight = 600;
+	var popupOption = "width=" +winWidth+",height="+winHeight;
+	window.open(url,"",popupOption)
+		
+}

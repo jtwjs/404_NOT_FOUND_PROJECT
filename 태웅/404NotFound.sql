@@ -48,7 +48,7 @@ create table member_buyer(          -- 援щℓ�옄 �뀒�씠釉�
     email varchar2(33) not null,    -- �씠硫붿씪
     address varchar2(100) not null, -- 二쇱냼
     buyer_num number not null,      -- 援щℓ�옄 �벑濡앸쾲�샇
-    grade char(1) default 0 not null,         -- 援щℓ�옄 �벑湲�
+    grade char(1) default 1 not null,         -- 援щℓ�옄 �벑湲�
     member_type varchar(10) default 'BUYER' not null,    -- 硫ㅻ쾭���엯 (援щℓ�옄:B �뙋留ㅼ옄:S 愿�由ъ옄:A)
     del_flag char(1) default 'N' not null,      -- �깉�눜�뿬遺� (Y,N�쑝濡� 援щ텇�빐�꽌 蹂닿�)
     join_date date default sysdate not null,        -- �쉶�썝媛��엯�씪

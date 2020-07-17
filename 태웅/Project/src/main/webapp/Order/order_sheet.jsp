@@ -265,7 +265,8 @@
                                 <input type="radio" name="order__delivery--radio-select" id="default_addr" checked/> 기본 배송지
                                 <input type="radio" name="order__delivery--radio-select" id="new_addr"/> 새로운 배송지
                                 <input type="button" value="주소록" class="order__delivery--search-btn" 
-                                    onclick="" />
+                                    id="addrBook_btn" onclick="" >
+                                
                             </div>
                         </div>
                         <div>

@@ -30,6 +30,7 @@ import com.spring.boardproduct.BoardProductService;
 import com.spring.boardproduct.BoardProductVO;
 import com.spring.buyer.BuyerService;
 import com.spring.buyer.BuyerVO;
+import com.spring.buyer.deliveryVO;
 import com.spring.config.Security.CurrentUser;
 
 @Controller
@@ -356,13 +357,18 @@ public class OrderController {
     	System.out.println(buyer_id);
     	ArrayList<BoardProductVO> vo_list = new ArrayList<BoardProductVO>();
     	ArrayList<Integer> quantity_list = new ArrayList<Integer>();
-    	
+    	BuyerVO buyerAccount = buyerService.selectOneById(buyer_id);
+    	int index1 = buyerAccount.getAddress().indexOf("+");
+    	int index2 = buyerAccount.getAddress().indexOf("/");
+    	buyerAccount.setAddrNum(buyerAccount.getAddress().substring(0,index1));
+    	buyerAccount.setAddrRoadName(buyerAccount.getAddress().substring(index1+1,index2));
+    	buyerAccount.setAddrDetail(buyerAccount.getAddress().substring(index2+1));
     	for(int i = 0; i < board_id.length; i++) {
     		
     		quantity_list.add(Integer.valueOf(quantity[i]));
     		vo_list.add(boardProductService.getBoardProductVO(board_id[i]));
     	}
-  	
+    	model.addAttribute("user",buyerAccount);
     	model.addAttribute("vo_list" , vo_list);
     	model.addAttribute("quantity_list" , quantity_list);
     	model.addAttribute("buyer_id", buyer_id);
@@ -450,4 +456,18 @@ public class OrderController {
     	return "Order/order_research";
     }
     
+    /*주소록팝업창*/
+    @RequestMapping(value = "/addrBook_popup.or")
+    public String addrBookPopup(Model model, @CurrentUser AccountVO account) {
+    	ArrayList<deliveryVO> list  = buyerService.deliveryListAll(account.getId());
+    	for(int i=0; i<list.size(); i++) {
+    		int index1 = list.get(i).getAddress().indexOf("+");
+    		int index2 = list.get(i).getAddress().indexOf("/");
+    		list.get(i).setAddrRoadName(list.get(i).getAddress().substring(index1+1,index2));
+    		list.get(i).setAddrDetail(list.get(i).getAddress().substring(index2+1));
+    		
+    	}
+    	model.addAttribute("list",list);
+    	return "Order/address_book";
+    }
 }
