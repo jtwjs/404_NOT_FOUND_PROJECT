@@ -26,18 +26,24 @@
 		<result column = "last_loginDate" property = "loginDate" />
 	</resultMap>
 	
-	  <resultMap type="com.spring.buyer.WishListVO" id="WishListMap">
-        <result property="wish_id" column="wish_id" />
-        <result property="buyer_id" column="buyer_id" />
-        <result property="board_id" column="board_id" />
-    </resultMap>
+	<resultMap id="deliveryResultMap"
+		type="com.spring.buyer.deliveryVO">
+		<result column="num" property="num" />
+		<result column="buyer_id" property="id" />
+		<result column="delivery_name" property="deliveryName" />
+		<result column="address" property="address" />
+		<result column="default_address" property="defaultaddress" />
+		<result column="receiver_name" property="receiverName" />
+		<result column="receiver_phone" property="receiverPhone" />
+	</resultMap>
 	
-	<resultMap id="deliveryResultMap" type="com.spring.buyer.deliveryVO">
+	<resultMap id="savePointResultMap" type="com.spring.buyer.SavePointVO">
+		<result column = "sp_status" property = "status" />
+		<result column = "sp_point" property = "point" />
+		<result column = "sp_content" property = "content" />
+		<result column = "sp_orderNum" property = "orderNum" />
+		<result column = "sp_application_date" property = "applicationDate" />
 		<result column = "buyer_id" property = "id" />
-		<result column = "delivery_name" property = "deliveryName" />
-		<result column = "address" property = "address" />
-		<result column = "receiver_name" property = "receiverName" />
-		<result column = "receiver_phone" property = "receiverPhone" />
 	</resultMap>
 	
 	<select id = "selectListAll" resultMap ="buyerResultMap" >
@@ -48,22 +54,6 @@
 		SELECT * FROM member_buyer WHERE buyer_id = #{id}
 	</select>
 	
-	<select id = "selectCountById" resultType = "int" >
-		 select sum(s.count) from (
-     select count(*) as count
-     from member_buyer 
-     where buyer_id=#{id}
-     union all
-     select count(*) as count
-     from member_seller
-     where seller_id=#{id}
-     union all
-     select count(*) as count
-     from admin
-     where admin_id=#{id}
-     )s
-	</select>
-	
 	<insert id = "InsertBuyerAccount" parameterType = "com.spring.buyer.BuyerVO" >
 		<selectKey keyProperty="buyerNum" order = "BEFORE" resultType="int">
 			SELECT buyer_num_seq.nextval FROM dual
@@ -72,11 +62,7 @@
 		VALUES (#{id}, #{password}, #{name}, #{tel}, #{email}, #{address}, #{buyerNum} )
 	
 	</insert>
-	
-	<update id = "UpdateBuyerAccount" parameterType = "com.spring.buyer.BuyerVO"  >
-		UPDATE member_buyer SET password=#{password}, email=#{email}, tel=#{tel}, profile_img=#{profileImg}
-		 WHERE buyer_id = #{id} AND password = #{password}
-	</update>
+
 	
 	<update id = "UpdateLoginDateBy" parameterType = "com.spring.buyer.BuyerVO" >
 		UPDATE member_buyer SET last_loginDate=sysdate WHERE buyer_id = #{id}
@@ -87,17 +73,101 @@
 		WHERE buyer_id = #{id} AND password = #{password}
 	</delete>
 	  
-	<select id="getWishListOverlapCheck" parameterType="String" resultType="int">
-	    SELECT COUNT(*) FROM wish_list WHERE board_id = #{board_id} AND buyer_id = #{buyer_id}
-	</select>
-	
-	<insert id="insertWishList" parameterType="com.spring.buyer.WishListVO">
-	    INSERT INTO wish_list VALUES (#{wish_id}, #{buyer_id}, #{board_id})
-	</insert>
+
 	
 	<select id = "deliveryListAll" resultMap = "deliveryResultMap" >
 		SELECT * FROM list_delivery WHERE buyer_id = #{id}
 	</select>
+	
+	<select id = "savePointListAll" resultMap = "savePointResultMap" >
+		SELECT point_num,sp_status,sp_point,sp_content,sp_orderNum,
+				sp_application_date,buyer_id
+		 FROM(
+		 	SELECT point_num,
+		 		   sp_status,
+		 		   sp_point,
+		 		   sp_content,
+		 		   sp_orderNum,
+		 		   sp_application_date,
+		 		   buyer_id,
+		 		   row_number() OVER (ORDER BY point_num DESC) AS rNum
+		   FROM save_point
+		  	 <if test="status != null and status == '적립'">
+				WHERE sp_status = '적립'
+			</if>
+			<if test="status != null and status == '사용'">
+				WHERE sp_status = '사용'
+			</if>
+		   ) sp
+		WHERE rNum between #{rowStart} AND #{rowEnd} AND buyer_id = #{id}
+		 			
+		
+		ORDER BY point_num DESC
+	</select>
+	
+	<select id ="savePointCountById" resultType = "int" >
+		
+		SELECT count(*) FROM save_point WHERE buyer_id = #{id}
+		<if test="status != null and status == '적립'">
+			 AND sp_status = #{status}
+		</if>
+		<if test="status != null and status == '사용'">
+			AND sp_status = #{status}
+		</if>
+		
+	</select>
+	
+	
+	<update id = "UpdateBuyerAccount" parameterType = "com.spring.buyer.BuyerVO"  >
+		UPDATE member_buyer SET email=#{email}, tel=#{tel}, profile_img=#{profileImg}
+		 WHERE buyer_id = #{id}
+	</update>
+	
+	<select id = "BuyerConfirmPassword" resultMap = "buyerResultMap" >
+		SELECT * FROM member_buyer where buyer_id = #{id} and password = #{password}
+	</select>
+	
+	<update id = "UpdateBuyerPassword" parameterType = "com.spring.buyer.BuyerVO"  >
+		UPDATE member_buyer SET password = #{password}
+		 WHERE buyer_id = #{id}
+	</update>
+	
+	
+	<update id="UpdateListDeliverList"	parameterType="com.spring.buyer.deliveryVO">
+		update list_delivery  set default_address='N' where buyer_id = #{id}
+	</update>
+
+	<insert id="InsertListDeliveryList" 	parameterType="com.spring.buyer.deliveryVO">
+		<selectKey keyProperty="num" order="BEFORE" resultType="int">
+			select nvl(max(num), 0)+1 from list_delivery
+		</selectKey>
+		INSERT INTO list_delivery VALUES (#{num}, #{id}, #{deliveryName}, #{address}, #{defaultaddress}, #{receiverName}, #{receiverPhone})
+	</insert>
+
+	<select id="getListDeliveryDetail" parameterType="int" resultMap="deliveryResultMap">
+		SELECT * FROM list_delivery where num = #{num}
+	</select>
+	
+	<!-- <select id="getDefaultAddressOneById" resultMap="deliveryResultMap">
+		select * from list_delivery where buyer_id = #{id} and default_address = 'Y'
+	</select> -->
+
+
+	<update id="ListDeliveryModify" parameterType="com.spring.buyer.deliveryVO">
+
+		UPDATE list_delivery SET delivery_name=#{deliveryName},address=#{address},default_address=#{defaultaddress},receiver_name=#{receiverName},receiver_phone=#{receiverPhone}
+		where num = #{num}
+	</update>
+
+
+	<delete id="ListDeliveryDelete" parameterType="int">
+		delete from	list_delivery where num=#{num}
+	</delete>
+
+	<select id="isListDelivery" parameterType="HashMap"	resultType="int">
+		select count(*) from list_delivery where num=#{num}
+	</select>
+	
 	
 	
 </mapper>

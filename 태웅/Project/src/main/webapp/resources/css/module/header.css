@@ -323,3 +323,95 @@
 }
 
 
+/*주문배송 모달*/
+.delivery-modal-bg {
+	position: fixed;
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(0,0,0,0.6);	
+	z-index: 2222;
+}
+
+.delivery-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+ 
+}
+
+.modal-content {
+  position: relative;
+  width: 351px;
+  height: 190px;
+  border: 1px solid rgba(249, 250, 252, 0.1);
+  border-radius: 40px;
+  border-bottom: none;
+  padding-top: 60px;
+  overflow: hidden;
+}
+
+.close-btn {
+  position: absolute;
+  top: -5px;
+  right: -2px;
+  width: 35px;
+  height: 35px;
+  border: none;
+  border-radius: 100%;
+  background-image: url("../../Images/module/header/close-button.png");
+  background-color: #fff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  z-index: 2223;
+}
+
+.modal-desc {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-desc h2 {
+  font-size: 18px;
+}
+
+.modal-btn {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+}
+
+.modal-btn a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 58px;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  color: #fff;
+}
+
+.go_shopping-btn {
+  background-color: #27ae60;
+  transition: all 350ms ease-in-out;
+}
+
+.go_shopping-btn:hover {
+	color: #fff;
+	background-color: #148242;
+}
+
+.past_orderList-btn {
+  background-color: #6c5044;
+  transition: all 350ms ease-in-out;
+}
+
+.past_orderList-btn:hover {
+	color: #fff;
+	background-color: #664233;
+}

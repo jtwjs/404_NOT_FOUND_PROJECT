@@ -13,8 +13,10 @@
     <!-- header, css end -->
     <link href="<c:url value='/resources/css/Common/sub_main.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Order/order_login.css'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/Order/order_research.css'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Order/order_check.css?after'/>" rel="stylesheet" />
     <title>주문조회</title>
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8" ></script>
+    <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8" ></script>
 </head>
 <body>
   <section id="sub-main" class="delivery">
@@ -32,7 +34,7 @@
 	  <div class="sub-tab">
 	  	<ul>
 	  		<li>
-	  			<a href="OrderLogin.or">
+	  			<a href="OrderResearch.or">
 	  				<span>주문배송</span>
 	  			</a>
 	  		</li>
@@ -98,18 +100,15 @@
                	   </div>
                	   </sec:authorize>
                	   <sec:authorize access = "isAuthenticated()">
-	<main id="main">
+	 <main id="main">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="b__member">
-                        <div class="b__member--tab">
-                            <img src="./resources/Images/Order/order_mark.png"><br />
-                            <span class="order_check_tit">
-                                비회원 주문확인 / 배송조회</span>
-                        </div>
+                        <h5 class="order_check_tit">
+                             주문확인 / 배송조회</h5>
                         <div class="b__member--order_check_ch">
-                            <img src="./resources/Images/Order/order2.png">
+                            <img src="./resources/Images/Order/order.png">
                             <div class="b__member--text_1">
                                 <p>고객님의 주문 배송을 알려드립니다.</p>
                                 <p>고객님께서 주문하신 상품의 주문정보 및 배송현황을 확인하실 수 있습니다.</p>
@@ -121,64 +120,63 @@
 
                         <div class="order_content1">
                             <table>
-                                <div class="order_phone">
-                                    <tr>
-                                        <th class="content1_th">휴대폰번호</th>
-                                        <td ><input name="order_phone" class="order_phone" value="#"></td>
+                                
+                                    <tr class="order_phone">
+                                        <th>휴대폰번호</th>
+                                        <td><input name="order_phone" class="order_phone" value="#"></td>
                                     </tr>
-                                </div>
+                 
 
-                                <div class="order_irum">
-                                    <tr>
-                                        <th class="content1_th">주문자</th>
+
+                                    <tr class="order_irum">
+                                        <th>주문자</th>
                                         <td><input name="order_irum" class="order_irum" value="#"></td>
                                     </tr>
-                                </div>
 
-                                <div class="order_addr">
-                                    <tr>
-                                        <th class="content1_th">배송지 주소</th>
+
+
+                                    <tr class="order_addr">
+                                        <th>배송지 주소</th>
                                         <td><input name="order_addr" class="order_addr" value="#"></td>
                                     </tr>
-                                </div>
 
-                                <div class="order_addrmemo">
-                                    <tr>
-                                        <th class="content1_th">배송시 요청사항</th>
+
+
+                                    <tr class="order_addrmemo">
+                                        <th>배송시 요청사항</th>
                                         <td><input name="order_addrmemo" class="order_addrmemo" value="#">
                                         </td>
                                     </tr>
-                                </div>
 
-                                <div class="order_pay">
 
-                                    <tr>
-                                        <th class="content1_th">결제수단</th>
+
+
+                                    <tr class="order_pay">
+                                        <th>결제수단</th>
                                         <td><input name="order_pay" class="order_pay" value="#"></td>
                                     </tr>
-                                </div>
 
 
-                                <div class="order_amount"></div>
-                                <tr>
-                                    <th class="content1_th">결제금액</th>
+
+
+                                <tr class="order_amount">
+                                    <th>결제금액</th>
                                     <td><input name="order_amount" class="order_amount" value="#">
                                     </td>
                                 </tr>
 
-                                <div class="order_status">
-                                    <tr>
-                                        <th class="content1_th">주문상태</th>
+
+                                    <tr class="order_status">
+                                        <th>주문상태</th>
                                         <td><input name="order_status" class="order_status" value="#"></td>
                                     </tr>
-                                </div>
 
-                                <div class="order_parcelnum">
-                                    <tr>
-                                        <th class="content1_th">운송장번호</th>
+
+
+                                    <tr class="order_parcelnum">
+                                        <th>운송장번호</th>
                                         <td><input name="order_parcelnum" class="order_parcelnum" value="#"></td>
-                                    </tr>
-                                </div>
+
                             </table>
                         </div>
 
@@ -200,19 +198,20 @@
                                     <tr>
                                 </thead>
                                 <tbody>
-                                    <td><input name="order_list_img" class="order_list_img" value="#"></td>
-                                    <td><input name="order_list_name" class="order_list_name" value="#"></td>
-                                    <td><input name="order_price" class="order_price" value="#"></td>
-                                    <td><input name="order_volume" class="order_volume" value="#"></td>
-                                    <td><input name="order_airfreight" class="order_airfreight" value="#"></td>
-                                    <td><input name="order_option" class="order_option" value="#"></td>
+                                    <tr>
+                                        <td><input name="order_list_img" class="order_list_img" value="#"></td>
+                                        <td><input name="order_list_name" class="order_list_name" value="#"></td>
+                                        <td><input name="order_price" class="order_price" value="#"></td>
+                                        <td><input name="order_volume" class="order_volume" value="#"></td>
+                                        <td><input name="order_airfreight" class="order_airfreight" value="#"></td>
+                                        <td><input name="order_option" class="order_option" value="#"></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="buttoms">
-                            <button type="button" class="submitBtn1" onclick="location.href='#'">확인</button>
-                            <button type="button" class="submitBtn2" onclick="location.href='#'">메인으로</button>
+                            <button type="button" class="submitBtn1" onclick="location.href='Index.in'">확인</button>
+                            <button type="button" class="submitBtn2" onclick="location.href='Index.in'">메인으로</button>
                         </div>
                     </div>
                 </div>

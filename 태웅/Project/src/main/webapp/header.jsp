@@ -35,8 +35,14 @@
               <li><a href="#" onclick="javascript:location.href='SellerMyPage.se'">마이페이지</a></li>
               </sec:authorize>
 		</sec:authorize>
-              
-              <li><a href="#" onclick="javascript:location.href='OrderLogin.or'">주문배송</a></li>
+        <sec:authorize access = "isAuthenticated()">      
+              <li><a href="#" id="order_delivery">주문배송</a></li>
+              <li><a href="#" onclick="javascript:location.href='OrderResearch.or'">주문배송페이지</a></li> 
+        </sec:authorize>
+        <sec:authorize access = "isAnonymous()">
+    		  <li><a href="#" id="order_delivery">주문배송</a></li>
+        	  <li><a href="#" onclick="javascript:location.href='OrderResearch.or'">주문배송페이지</a></li>
+        </sec:authorize>      
               <li><a href="#" onclick="javascript:location.href='CartView.or'">장바구니</a></li>
               <li><a href="#" onclick="javascript:location.href='BoardNotice.sc'">고객센터</a></li>
             </ul>
@@ -202,3 +208,17 @@
         </nav>
       </div>
     </header>
+    <div class="delivery-modal-bg hide">
+	    <div class="delivery-modal">
+		     <button class="close-btn"></button>
+			 <div class="modal-content">
+			   	<div class="modal-desc">
+		          <h2>현재 주문중인 배송 내역이 없습니다</h2>
+			 	</div>
+				 <div class="modal-btn">
+		          <a class="go_shopping-btn" href="Index.in">쇼핑하러가기</a>
+		          <a class="past_orderList-btn" href="BuyerMyPageOrderList.by">지난 주문내역 보러가기</a>
+			    </div>
+		     </div>
+	    </div>
+    </div>

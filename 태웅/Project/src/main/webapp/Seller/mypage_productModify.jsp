@@ -63,14 +63,14 @@
                                     <tr>
                                         <th>이름</th>
                                         <td>
-                                            <input type="text" name="pd_name" value="윤기석" readonly="readonly" />
+                                            <input type="text" name="sales_producer" value="${product.sales_producer}" readonly="readonly" />
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>연락처</th>
                                         <td>
-                                            <input type="text" class="setNumberTel" name="pd_phone"
-                                                value="010-8652-2726" readonly="readonly" />
+                                            <input type="text" class="setNumberTel" name="consumer_consulation"
+                                                value="${product.consumer_consulation}" readonly="readonly" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -118,7 +118,7 @@
                                     <tr>
                                         <th>제목</th>
                                         <td>
-                                            <input type="text" name="pd_title" value="" 
+                                            <input type="text" name="title" value="${product.title}" 
                                                 placeholder="제목을 입력하세요." id="setTitle" />
                                         </td>
                                     </tr>
@@ -157,14 +157,14 @@
                                     <tr>
                                         <th>거래량</th>
                                         <td>
-                                            <input type="text" name="pd_quantity" value="0" class="setComma" />
+                                            <input type="text" name="quantity" value="${product.quantity}" class="setComma" />
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <th>금액</th>
                                         <td>
-                                            <input type="text" name="pd_price" value="0" class="setComma" />
+                                            <input type="text" name="price" value="${product.price}" class="setComma" />
                                             원
                                         </td>
                                     </tr>
@@ -248,8 +248,8 @@
                             <!-- 등록 버튼 -->
                             <div class="finish">
                                 <br />
-                                <button type="button" class="submitBtn" onclick="location.href='#'">등록</button>
-                                <button type="button" class="resetBtn" onclick="location.href='SellerMyPage.se'">취소</button>
+                                <button type="button" class="submitBtn" onclick="location.href='SellerProductModify.se'">수정</button>
+                                <button type="button" class="resetBtn" onclick="location.href='SellerProductList.se'">취소</button>
                             </div>
                             
                         </div>

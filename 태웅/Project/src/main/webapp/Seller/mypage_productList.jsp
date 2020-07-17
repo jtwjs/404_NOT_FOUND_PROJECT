@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Calendar" %>
 <%
@@ -114,21 +116,46 @@
                                         </tr>   
                                     </thead>
                                     <tbody>
+
+                                    	<c:set var="list" value="${productList}" />
+                                    <c:choose>
+										<c:when test="${fn:length(list) == 0}" >
                                         <tr>
-                                            <td class="non-post" colspan="5">
+                                            <td class="non-post" colspan="6">
                                                 등록된 상품내역이 없습니다.
+                                            </td>
+                                        </tr>
+                                        </c:when>
+                                        <c:otherwise>
+                                        <c:forEach items="${productList}" var="productList" varStatus="status">
+                                        	<tr>
+                                            <td>
+                                               ${status.count}
+                                            </td>
+                                            <td>
+                                               ${productList.title}
+                                            </td>
+                                            <td>
+                                               ${productList.satisfaction}
+                                            </td>
+                                            <td>
+                                            <fmt:formatDate value="${productList.register_date}" pattern="yy-MM-dd" var ="registerDate"/>
+                                               ${registerDate}
+                                
+                                            </td>
+                                            <td>
+                                               ${productList.content_origin}
                                             </td>
                                             <td>
                                                 <input type="button" value="상품수정" class="product-modify"
-                                                    onclick="javascript:location.href='SellerProductModify.se'" />
+                                                    onclick="javascript:location.href='SellerProductModifyForm.se?board_id=${productList.board_id}'" />
+                                                    
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
+                                        </c:forEach>
+                                        </c:otherwise> 
+                                      </c:choose>
+                                        
                                     </tbody>
                                 </table>
                             </article>

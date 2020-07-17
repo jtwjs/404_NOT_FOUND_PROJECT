@@ -1,12 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ page import="com.spring.boardproduct.BoardProductVO" %>
+<%@ page import="java.util.UUID" %>
+<%@ page import="java.nio.ByteBuffer" %>
 <%
     BoardProductVO vo = null;
     if((BoardProductVO)request.getAttribute("vo") != null){
     	vo = (BoardProductVO)request.getAttribute("vo");
     }
+    
+    String buyer_id = null;
+    if((String)request.getAttribute("buyer_id") != null){
+    	buyer_id = (String)request.getAttribute("buyer_id");
+    	System.out.println(buyer_id);
+    }
+    
+    String member_type = null;
+    if((String)request.getAttribute("member_type") != null){
+    	member_type = (String)request.getAttribute("member_type");
+    	System.out.println(member_type);
+    }
+    
+   
 %>
 <!DOCTYPE html>
 <html>
@@ -21,7 +38,7 @@
     <link href="<c:url value='/resources/css/BoardProduct/boardProductView.css'/>" rel="stylesheet" />
     <title><%=vo.getTitle() %></title>
 </head>
-<body>
+<body onload="enableCheck('<%=vo.getQuantity()%>', '<%=vo.getSale_status()%>')">
    <section id="sub-main" class="seller">
 	  <div class="sub-top">
 	  	<h2 class="sub-title">상품</h2>
@@ -64,14 +81,23 @@
                             
                             <div class="seller__img--thumb">
                                 <ul>
-                                    <li><img src="<%=vo.getProduct_thum_path() %><%=vo.getProduct_thum_1() %>" 
-                                        alt="" onclick="selectBigImg(1);"></li>
-                                    <li><img src="<%=vo.getProduct_thum_path() %><%=vo.getProduct_thum_2() %>" 
-                                        alt="" onclick="selectBigImg(2);"></li>
-                                    <li><img src="<%=vo.getProduct_thum_path() %><%=vo.getProduct_thum_3() %>" 
-                                        alt="" onclick="selectBigImg(3);"></li>
-                                    <li><img src="<%=vo.getProduct_thum_path() %><%=vo.getProduct_thum_4() %>" 
-                                        alt="" onclick="selectBigImg(4);"></li>
+                                    <% String origin_path = vo.getProduct_origin_path(); 
+                                    if(vo.getProduct_thum_1() != null){ %>
+                                    <li onclick="selectBigImg('<%=origin_path %>', '<%=vo.getProduct_origin_1()%>');">
+                                        <img src="<%=vo.getProduct_thum_path() %><%=vo.getProduct_thum_1() %>" alt="" ></li>
+                                    <%}
+                                    if(vo.getProduct_thum_2() != null){ %>
+                                    <li onclick="selectBigImg('<%=origin_path%>', '<%=vo.getProduct_origin_2()%>');">
+                                        <img src="<%=vo.getProduct_thum_path() %><%=vo.getProduct_thum_2() %>" alt=""></li>
+                                    <%}
+                                    if(vo.getProduct_thum_3() != null){ %>
+                                    <li onclick="selectBigImg('<%=origin_path%>', '<%=vo.getProduct_origin_3()%>');">
+                                        <img src="<%=vo.getProduct_thum_path() %><%=vo.getProduct_thum_3() %>" alt=""></li>
+                                    <%}
+                                    if(vo.getProduct_thum_4() != null){ %>
+                                    <li onclick="selectBigImg('<%=origin_path%>', '<%=vo.getProduct_origin_4()%>');">
+                                    <img src="<%=vo.getProduct_thum_path() %><%=vo.getProduct_thum_4() %>" alt=""></li>
+                                    <%} %>
                                 </ul>
                             </div>
                         </div>
@@ -100,9 +126,6 @@
                                     <li class="dataBox__content">
                                         <select class="selectDelivery" name="selectDelivery" id="delivery">
                                             <option value="택배(선불)" selected>택배(선불)</option>
-                                            <option value="후불">후불</option>
-                                            <option value="퀵서비스">퀵서비스</option>
-                                            <option value="직접수령"">직접수령</option>
                                         </select>
                                     </li>
                                 </ul>
@@ -170,48 +193,70 @@
                                 </ul>
                             </div>
 
-                            <hr />
+                            <hr/>
                             <!-- 농원소개 -->
+                            
+                            <%int login_case = 0; 
+                              String user_id = "0";%>
+                            <sec:authorize access="isAuthenticated()">
+                                <sec:authentication var="user" property="principal.username" />
+                                <%login_case = 1; 
+                                  user_id = pageContext.getAttribute("user").toString();%>
+                            </sec:authorize>
+                            <input type="hidden" value="" id="btn__check--val" />
+                            
                             <form id="buyForm" method="post" action="OrderSheet.or">
-                            <input type="hidden" value="<%=vo.getBoard_id() %>" name="board_id" id="board_id" />
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                <input type="hidden" value="<%=vo.getBoard_id() %>" name="board_id" id="board_id" />
                             </form>
                             <div class="seller__data--btn">
                                 <div class="seller__btnWrap">
                                     <button type="button" class="button1" id="buy-btn" 
-                                        onclick="buyForm();">
+                                        onclick="buyForm('<%=user_id %>', '<%=login_case%>');">
                                     <b>구매하기</b></button>
                                 </div>
                                 <div class="seller__btnWrap">
                                     <button type="button" class="button2" id="cart-btn" 
-                                        onclick="cartForm();">
+                                        onclick="cartForm('<%=user_id %>', '<%=login_case%>');">
                                     <b>장바구니</b></button>
                                 </div>
                                 <div class="seller__btnWrap">
                                     <button type="button" class="button3" id="wish-btn" 
-                                        onclick="wishForm();">
+                                        onclick="wishForm('<%=user_id %>', '<%=login_case%>');">
                                     <b>♡위시리스트</b></button>
+                                </div>
+                            </div>
+                            
+                            <div id="modal-client">
+                                <div id="modal-content">
+                                    <div>
+                                        <img src="http://pics.gmkt.kr/pc/ko/item/vip/img_cartplus_n.png" />
+                                    </div>
+                                    <div>
+                                        <strong></strong>
+                                    </div>
+                                    <div id="modal-content--btn">
+                                        <input type="button" value="" id="modal__ok-btn" 
+                                            onclick="modal_ok();" />
+                                        <input type="button" value="계속 쇼핑" id="modal__cancle-btn"
+                                            onclick="modal_cancle();" />
+                                    </div>
                                 </div>
                             </div>
                             
                         </div>
                     </div>
-
-                    <hr />
+                    
 
                     <!-- 메뉴 바 -->
-                    <div class="menu-bar">
+                    <div class="menu-bar" id="view__menu-bar">
+                    
+                        <a href="#seller-data" id="board__content--move">상세 정보</a>
+                        <a href="#customer-review" id="board__review--move">상품 후기</a>
+                        <a href="#customer-qna" id="board__qna--move">상품 문의</a>
+                        <a href="#seller-etc" id="board__delivery--move">배송/교환/환불안내</a>
                         
-                        <a href="#seller-data" name="seller-data">상세 정보</a>
-                        
-                        <a href="#customer-review" name="customer-review">상품 후기</a>
-                  
-                        <a href="#customer-qna" name="customer-qna">상품 문의</a>
-                  
-                        <a href="#seller-etc" name="seller-etc">배송/교환/환불안내</a>
-                 
                     </div>
-
-                    <hr />
 
                     <!-- 상세정보 -->
                     <div class="seller-data" id="seller-data">
@@ -296,9 +341,19 @@
 
                     <!-- 상품 후기 -->
                     <div class="customer-review" id="customer-review">
-                        <h4 class="seller-head">
-                            상품 후기
-                        </h4>
+                        <h4 class="seller-head">상품 후기</h4>
+                        <div id="customer-review__write">
+                            <input type="button" id="customer-review__write--btn" value="글쓰기"
+                                onclick="modal_review_write();" />
+                        </div>
+                        
+                        <div id="modal__board">
+                            <div id="modal__board--wirte">
+                                <div id="board__write--title"><h4>상품평 남기기</h4>
+                            </div>
+                            </div>
+                        </div>
+                        
                         <div class="customer-review__table">
                             <table>
                                 <thead>
@@ -339,14 +394,13 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <td class="customer-qna__table--num" align="center">번호</td>
-                                        <td class="customer-qna__table--title" align="center">문의</td>
-                                        <td class="customer-qna__table--date" align="center">작성일</td>
-                                        <td class="customer-qna__table--hit" align="center">조회</td>
+                                        <td class="customer-review__table--num" align="center">번호</td>
+                                        <td class="customer-review__table--title" align="center">후기</td>
+                                        <td class="customer-review__table--date" align="center">작성일</td>
+                                        <td class="customer-review__table--hit" align="center">조회</td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
                                     <tr>
                                         <td colspan="4" class="customer-qna__table--none-content" align="center">등록된 게시글이 없습니다</td>
                                     </tr>
@@ -415,7 +469,6 @@
 
 
     <script type="text/javascript" src="<c:url value='/resources/js/BoardProduct/boardProductView.js?after'/>" ></script>
-    <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    

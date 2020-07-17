@@ -72,7 +72,10 @@
 }
 
 /* input, button */
-.inputId, .inputPw{
+.inputId,
+.inputPw,
+.inputIrum,
+.inputPhone{
 	width: 420px;
 	height: 39px;
 	border-radius: 5px;

@@ -1,27 +1,34 @@
 package com.spring.mapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.spring.buyer.BuyerVO;
-import com.spring.buyer.WishListVO;
+import com.spring.buyer.SavePointVO;
 import com.spring.buyer.deliveryVO;
 @Repository
 public interface BuyerMapper {
-	BuyerVO selectOneById(String id);
-	ArrayList<BuyerVO> selectListAll();
-	int selectCountById(String id);
-	void InsertBuyerAccount(BuyerVO buyer);
-	int UpdateBuyerAccount(BuyerVO buyer);
-	int DeleteBuyerAccount(String id);
-	void UpdateLoginDateBy(String id);
-	
-	
-	public int getWishListOverlapCheck(
-			@Param("board_id")String board_id, @Param("buyer_id")String buyer_id);
-	public int insertWishList(WishListVO vo);
-	
-	ArrayList<deliveryVO> deliveryListAll(String id);
+	public BuyerVO selectOneById(String id);
+	public ArrayList<BuyerVO> selectListAll();
+	public 	int selectCountById(String id);
+	public void InsertBuyerAccount(BuyerVO buyer);
+	public int DeleteBuyerAccount(String id);
+	public void UpdateLoginDateBy(String id);	
+	public ArrayList<deliveryVO> deliveryListAll(String id);
+	public ArrayList<SavePointVO> savePointListAll(@Param("id")String id,@Param("status")String status,
+													@Param("rowStart") int rowStart,@Param("rowEnd") int rowEnd);
+	public int savePointCountById(@Param("id")String id, @Param("status")String status);
+	public int UpdateBuyerAccount(BuyerVO buyer);
+	public int BuyerConfirmPassword(BuyerVO buyer);
+	public int UpdateBuyerPassword(BuyerVO buyer);
+	public int InsertListDeliveryList(deliveryVO delivery);
+	public deliveryVO getListDeliveryDetail(int num);
+	public int ListDeliveryModify(deliveryVO deliver);
+    public int ListDeliveryDelete(int num); 
+    public int isListDelivery(HashMap<String, String> hashmap);
+    public int UpdateListDeliverList(deliveryVO delivery);
+//    public deliveryVO getDefaultAddressOneById(String id);
 }

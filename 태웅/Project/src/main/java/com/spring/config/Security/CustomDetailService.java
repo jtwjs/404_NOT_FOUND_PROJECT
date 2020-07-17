@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.spring.admin.AccountVO;
 import com.spring.admin.AdminVO;
 import com.spring.buyer.BuyerVO;
 import com.spring.mapper.AdminMapper;
@@ -29,25 +30,13 @@ public class CustomDetailService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 		
-		AdminVO adminAccount = adminMapper.selectOndById(userId);
-		BuyerVO buyerAccount = buyerMapper.selectOneById(userId);
-		SellerVO sellerAccount = sellerMapper.selectOneById(userId);
+		AccountVO userAccount = adminMapper.selectAccountById(userId);
 		
-		if (buyerAccount == null && sellerAccount == null && adminAccount == null) {
+		if (userAccount == null) {
 			throw new UsernameNotFoundException(userId);
-		} else if (adminAccount != null && buyerAccount == null && sellerAccount == null ) {
-			System.out.println("아이디"+adminAccount.getId()+"비번"+adminAccount.getPassword()+"권한"+adminAccount.getMemberType());
-			return new AdminAccount(adminAccount);
-		}
-		else if (buyerAccount != null && sellerAccount == null && adminAccount == null) {
-			System.out.println("아이디"+buyerAccount.getId()+"비번"+buyerAccount.getPassword()+"권한"+buyerAccount.getMemberType());
-			return new BuyerAccount(buyerAccount);
-		} else {
-			System.out.println("아이디"+sellerAccount.getId()+"비번"+sellerAccount.getPassword()+"권한"+sellerAccount.getMemberType());
-			return new SellerAccount(sellerAccount);
-		}
-	
-		
+		} 
+		System.out.println("아이디"+userAccount.getId()+"비번"+userAccount.getPassword()+"권한"+userAccount.getMemberType());
+		return new UserAccount(userAccount);
 		
 	}
 	
@@ -69,6 +58,16 @@ public class CustomDetailService implements UserDetailsService {
 
 	public void updateSellerLoginDateBy(String id) {
 		sellerMapper.UpdateLoginDateBy(id);
+	}
+	
+	public int BuyerConfirmPassword(BuyerVO buyer) {
+		buyer.setPassword(passwordEncoder.encode(buyer.getPassword()));
+		return buyerMapper.UpdateBuyerPassword(buyer);
+	}
+	
+	public int SellerConfirmPassword(SellerVO seller) {
+		seller.setPassword(passwordEncoder.encode(seller.getPassword()));
+		return sellerMapper.UpdateSellerPassword(seller);
 	}
 
 	

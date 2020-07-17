@@ -13,6 +13,7 @@
     <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Admin/login_seller.css?after'/>" rel="stylesheet" />
     <title>로그인</title>
+    <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8" ></script>
 </head>
 <body>
  <section id="sub-main" class="login">
@@ -87,11 +88,8 @@
                                 <a id="naver-login-btn" href="#" role="button">
                                     <img src="resources/Images/Order/naver.png" width="37%" height="45" />
                                 </a>
-                                <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"></script>
-    
                                 <a id="kakao-login-btn" href="#" role="button">
                                     <img src="./resources/Images/Order/kakao_login_medium_narrow.png" width="37%" height="45" />
-                                    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
                                 </a>
                             </div>
                         </form> 

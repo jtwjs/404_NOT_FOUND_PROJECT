@@ -5,7 +5,8 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -23,148 +24,160 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.admin.AccountVO;
+import com.spring.boardproduct.BoardProductVO;
 import com.spring.config.Security.CurrentUser;
 import com.spring.config.Security.CustomDetailService;
+import com.spring.order.OrderRecordVO;
 
 @Controller
 public class SellerController {
 	
 	@Autowired
-	SellerServiceImpl service;
+	SellerServiceImpl Sellerservice;
 	
 	@Autowired
 	CustomDetailService SecurityService;
+	
 	@RequestMapping(value = "/SellerMyPage.se")  
-	public String sellerMyPage(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("name", account.getName());
-    	model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-    	model.addAttribute("grade", account.getGrade());
-    	if(account.getProfileImg() == null || account.getProfileImg() == "") {
-    		model.addAttribute("profileImg", "profile-basic.png");
-    	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+	public String sellerMyPage(Model model, @CurrentUser AccountVO account) {
+		SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
+		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
+    	if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
+    		sellerAccount.setProfileImg("profile-basic.png");
     	}
+    	model.addAttribute("user",sellerAccount);
+    	
+    	
 		return "Seller/mypage_main";
 	}
 	
-	@RequestMapping(value = "/SellerInfoModify.se")  // �봽濡쒗븘 �닔�젙
-	public String sellerInfoModify(Model model, @CurrentUser SellerVO account) {
-		
-		int mailIndex = account.getEmail().indexOf("@");
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		model.addAttribute("represent", account.getRepresent());
-		model.addAttribute("reportNum", account.getOrderReportNum());
-		model.addAttribute("shopName", account.getShopName());
-		model.addAttribute("name", account.getName());
-		model.addAttribute("id", account.getId());
-		model.addAttribute("tel1", account.getTel().substring(0,3));
-		model.addAttribute("tel2", account.getTel().substring(3,7));
-		model.addAttribute("tel3", account.getTel().substring(7,11));
-	
-		model.addAttribute("mailId", account.getEmail().substring(0,mailIndex));
-		model.addAttribute("mailAddr", account.getEmail().substring(mailIndex+1));
-		model.addAttribute("addr", account.getAddress());
-		model.addAttribute("bankName", account.getBankName());
-		model.addAttribute("bankAccount", account.getBankAccountNum());
-		
-		
-		
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
-    		model.addAttribute("profileImg", "profile-basic.png");
-    	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
-    	}
-		
-		return "Seller/mypage_infoModify";
-	}
+//	@RequestMapping(value = "/SellerInfoModify.se")  // �봽濡쒗븘 �닔�젙
+//	public String sellerInfoModify(Model model, @CurrentUser AccountVO account) {
+//		
+//		String id = account.getId();
+//		SellerVO sellerAccount =  Sellerservice.selectOneById(id);
+//		
+//		int mailIndex = sellerAccount.getEmail().indexOf("@");
+//		model.addAttribute("loginDate", sellerAccount.getLoginDate().substring(0,10));
+//		model.addAttribute("represent", sellerAccount.getRepresent());
+//		model.addAttribute("reportNum", sellerAccount.getOrderReportNum());
+//		model.addAttribute("shopName", sellerAccount.getShopName());
+//		model.addAttribute("name", sellerAccount.getName());
+//		model.addAttribute("id", sellerAccount.getId());
+//		model.addAttribute("tel1", sellerAccount.getTel().substring(0,3));
+//		model.addAttribute("tel2", sellerAccount.getTel().substring(3,7));
+//		model.addAttribute("tel3", sellerAccount.getTel().substring(7,11));
+//	
+//		model.addAttribute("mailId", sellerAccount.getEmail().substring(0,mailIndex));
+//		model.addAttribute("mailAddr", sellerAccount.getEmail().substring(mailIndex+1));
+//		model.addAttribute("addr", sellerAccount.getAddress());
+//		model.addAttribute("bankName", sellerAccount.getBankName());
+//		model.addAttribute("bankAccount", sellerAccount.getBankAccountNum());
+//		
+//		
+//		
+//		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
+//    		model.addAttribute("profileImg", "profile-basic.png");
+//    	}else {
+//    		model.addAttribute("profileImg", sellerAccount.getProfileImg());
+//    	}
+//		
+//		return "Seller/mypage_infoModify";
+//	}
 	
 	
 	@RequestMapping(value = "/SellerProductRegister.se")  // �긽�뭹�궡�뿭 - �긽�뭹�벑濡�
-	public String sellerProductRegister(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
-    		model.addAttribute("profileImg", "profile-basic.png");
-    	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+	public String sellerProductRegister(Model model, @CurrentUser AccountVO account) {
+		
+		SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
+		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
+    		sellerAccount.setProfileImg("profile-basic.png");
     	}
+		
+		model.addAttribute("user",sellerAccount);
 		
 		
 		return "Seller/mypage_productRegister";
 	}
 	
 	@RequestMapping(value = "/SellerProductList.se")    // �긽�뭹�궡�뿭 - �긽�뭹�궡�뿭
-	public String sellerProductList(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("userId", account.getId());
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
-    		model.addAttribute("profileImg", "profile-basic.png");
-    	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+	public String sellerProductList(Model model, @CurrentUser AccountVO account, BoardProductVO board) {
+		SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
+		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
+		board.setSeller_id(account.getId());
+		ArrayList<BoardProductVO> productList = Sellerservice.selectProductListById(board.getSeller_id());
+
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
+    		sellerAccount.setProfileImg("profile-basic.png");
     	}
+		
+		model.addAttribute("productList", productList);
+		model.addAttribute("user",sellerAccount);
+		
 		return "Seller/mypage_productList";
 	}
 	
-	@RequestMapping(value = "/SellerProductModify.se")    // �긽�뭹�궡�뿭 - �뙋留ㅺ� �닔�젙
-	public String sellerProductModify(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
-    		model.addAttribute("profileImg", "profile-basic.png");
-    	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+	@RequestMapping(value = "/SellerProductModifyForm.se")    // �긽�뭹�궡�뿭 - �뙋留ㅺ� �닔�젙
+	public String sellerProductModifyForm(Model model, @CurrentUser AccountVO account,
+			@RequestParam(value = "board_id", required= true) String board_id) {
+		
+		SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
+		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
+		BoardProductVO product = Sellerservice.BoardSelectOneByBoardId(board_id);
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
+    		sellerAccount.setProfileImg("profile-basic.png");
     	}
+		
+		model.addAttribute("product", product);
+		model.addAttribute("user",sellerAccount);
 		return "Seller/mypage_productModify";
 	}
 	
+	@RequestMapping(value = "/SellerProductModify.se")
+	public String sellerProductModify() {
+		return "redirect:/Seller/mypage_productList";
+	}
+	
 	@RequestMapping(value = "/SellerOrderStatus.se")    // 嫄곕옒�궡�뿭 - 二쇰Ц愿�由�
-	public String sellerOrderStatus(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
-    		model.addAttribute("profileImg", "profile-basic.png");
-    	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+	public String sellerOrderStatus(Model model, @CurrentUser AccountVO account) {
+		SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
+		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
+    		sellerAccount.setProfileImg("profile-basic.png");
     	}
+		
+		model.addAttribute("user",sellerAccount);
 		return "Seller/mypage_orderStatus";
 	}
 	
-	@RequestMapping(value = "/SellerTransactionList.se")    // 嫄곕옒�궡�뿭 - 嫄곕옒紐⑸줉
-	public String sellerTransactionList(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
-    		model.addAttribute("profileImg", "profile-basic.png");
-    	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
-    	}
-		return "Seller/mypage_transactionList";
-	}
+
 	
 	@RequestMapping(value = "/SellerCalculateManager.se")    // 嫄곕옒�궡�뿭 - 嫄곕옒紐⑸줉
-	public String sellerCalculateManager(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
-    		model.addAttribute("profileImg", "profile-basic.png");
-    	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+	public String sellerCalculateManager(Model model, @CurrentUser AccountVO account) {
+		SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
+		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
+    		sellerAccount.setProfileImg("profile-basic.png");
     	}
+		
+		model.addAttribute("user",sellerAccount);
 		return "Seller/mypage_calculateManager";
 	}
 	
 	@RequestMapping(value = "/SellerMarketPriceInfo.se")  // �긽�뭹 �떆�꽭�젙蹂�
-	public String sellerMarketPriceInfo(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
-    		model.addAttribute("profileImg", "profile-basic.png");
-    	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+	public String sellerMarketPriceInfo(Model model, @CurrentUser AccountVO account) {
+		SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
+		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
+    		sellerAccount.setProfileImg("profile-basic.png");
     	}
+		
+		model.addAttribute("user",sellerAccount);
 		return "Seller/mypage_marketPriceInfo";
 	}
 	
@@ -261,26 +274,26 @@ public class SellerController {
 	
 	
 	@RequestMapping(value = "/SellerProductQNA.se")  // Q&A - �긽�뭹臾몄쓽
-	public String sellerProductQNA(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
-    		model.addAttribute("profileImg", "profile-basic.png");
-    	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+	public String sellerProductQNA(Model model, @CurrentUser AccountVO account) {
+		SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
+		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
+    		sellerAccount.setProfileImg("profile-basic.png");
     	}
+		
+		model.addAttribute("user",sellerAccount);
 		return "Seller/mypage_productQNA";
 	}
 	
 	@RequestMapping(value = "/SellerProductReview.se")  // Q&A - �긽�뭹�썑湲�
-	public String sellerProductReview(Model model, @CurrentUser SellerVO account) {
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0,10));
-		if(account.getProfileImg() == null || account.getProfileImg() == "") {
-    		model.addAttribute("profileImg", "profile-basic.png");
-    	}else {
-    		model.addAttribute("profileImg", account.getProfileImg());
+	public String sellerProductReview(Model model, @CurrentUser AccountVO account) {
+		SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
+		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
+		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
+    		sellerAccount.setProfileImg("profile-basic.png");
     	}
+		
+		model.addAttribute("user",sellerAccount);
 		return "Seller/mypage_productReview";
 	}
 	
@@ -305,40 +318,154 @@ public class SellerController {
     	
     }
    
-   @RequestMapping(value ="/duplicationCheck.se",
-			method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-	@ResponseBody
-	public HashMap<String, Object> idDuplicationCheck(SellerVO seller){
-		HashMap<String, Object> result = new HashMap<String, Object>();
-		String id = seller.getId();
-		System.out.println("id받아온 값=" + id);
-		boolean isDuplication = service.duplicateCheck(id);
-		
-		if( isDuplication ) {
-			result.put("result", "Fail");
-		}else {
-			result.put("result", "OK");
-		}
-		System.out.println("sellerResult값=" + result.get("result"));
-		return result;
-	}
-	
-   @RequestMapping(value = "/profile_Update.se", method = RequestMethod.POST)
-   public void profileUpdate(@CurrentUser SellerVO account) {
-	   service.UpdateSellerAccount(account);
-	   
-   }
    
    
    @RequestMapping(value =" /profile_defaultImg.se",
 		   method = RequestMethod.POST, produces = "application/json;charset=utf-8")
    @ResponseBody
-   public void defultImg(@CurrentUser SellerVO account) {
-	   account.setProfileImg("");
-	   service.UpdateProfileImg(account);
+   public void defultImg(@CurrentUser AccountVO account) {
+	   SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
+		
+	   sellerAccount.setProfileImg("");
+	   Sellerservice.UpdateProfileImg(sellerAccount);
    }
    
+ 
    
+
+	@RequestMapping(value = "/UpdateSellerAccountForm.se")  // 프로필 수정
+	public String UpdateSellerAccountForm(Model model, @CurrentUser AccountVO seller) {
+		
+		SellerVO sellerAccount = Sellerservice.selectOneById(seller.getId());
+		int mailIndex = sellerAccount.getEmail().indexOf("@");
+		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
+		sellerAccount.setEmailId(sellerAccount.getEmail().substring(0,mailIndex));
+		sellerAccount.setEmailAddr(sellerAccount.getEmail().substring(mailIndex+1));
+		sellerAccount.setTelCarrierNum(sellerAccount.getTel().substring(0,3));
+		sellerAccount.setTelAllocationNum(sellerAccount.getTel().substring(3,7));
+		sellerAccount.setTelDiscretionaryNum(sellerAccount.getTel().substring(7,11));
+	 	if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
+			sellerAccount.setProfileImg("profile-basic.png");
+		}
+	 	model.addAttribute("user",sellerAccount);
+	 	
+   		return "Seller/mypage_infoModify";
+	}
+	
+	
+	
+	@RequestMapping(value = "/UpdateSellerAccount.se")
+   public String UpdateSellerAccount(SellerVO seller) {
+
+   	String telCarrierNum = seller.getTelCarrierNum();
+		String telAllocationNum = seller.getTelAllocationNum();
+		String telDiscretionaryNum = seller.getTelDiscretionaryNum();
+		
+		String emailId = seller.getEmailId();
+		String emailAddr = seller.getEmailAddr();
+
+		
+		seller.setTel(telCarrierNum, telAllocationNum, telDiscretionaryNum);
+		seller.setEmail(emailId, emailAddr);
+
+		Sellerservice.UpdateSellerAccount(seller);
+   	
+   	return "redirect:/SellerMyPage.se";
+   	    	
+   }
+	
+	@RequestMapping(value = "/UpdateSellerPasswordFrom.se")
+   public String UpdateSellerPasswordFrom(Model model, @CurrentUser AccountVO seller) {
+		
+		SellerVO sellerAccount = Sellerservice.selectOneById(seller.getId());
+		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
+		
+   
+	   	System.out.println("11seller.getId() : " + sellerAccount.getId());
+	   	System.out.println("11seller.getPassword() : " + sellerAccount.getPassword());
+	   	
+	   	if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
+			sellerAccount.setProfileImg("profile-basic.png");
+		}
+	   	model.addAttribute("user",sellerAccount);
+   	
+	   	return "Seller/mypage_passwordModify";
+   }
+   
+   @RequestMapping(value = "/UpdateSellerPassword.se")
+   public String UpdateSellerPassword(SellerVO seller) {
+		
+		System.out.println("22seller.getId() : " + seller.getId());
+   	System.out.println("22seller.getPassword() : " + seller.getPassword());
+		
+		SecurityService.SellerConfirmPassword(seller);
+ 		
+		return "redirect:/SellerMyPage.se";
+   }    
+   
+   @RequestMapping(value = "/SellerTransactionList.se")    // 거래내역 - 거래목록
+	public String sellerTransactionList(Model model, @CurrentUser AccountVO account,
+										OrderRecordVO orderRecordVo,
+		@RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+		
+		System.out.println("test");
+		System.out.println("listCount : " + Sellerservice.getOrderRecordOneByIdListCount(account.getId()));
+		String id = account.getId();
+		SellerVO sellerAccount = Sellerservice.selectOneById(id);
+		int limit = 10;
+
+		int listcount = Sellerservice.getOrderRecordOneByIdListCount(account.getId());
+		
+		int startrow = (page - 1) * 10 + 1;
+		int endrow = startrow + limit - 1;
+
+		List<OrderRecordVO> orderRecordList = Sellerservice.getOrderRecordOneByIdList(account.getId(), startrow, endrow);
+		
+		//총 페이지 수
+  		int maxpage=(int)((double)listcount/limit+0.95); //0.95를 더해서 올림 처리
+  		//현재 페이지에 보여줄 시작 페이지 수(1, 11, 21 등...)
+  		int startpage = (((int) ((double)page / 10 + 0.9)) - 1) * 10 + 1;
+  		//현재 페이지에 보여줄 마지막 페이지 수(10, 20, 30 등...)
+  		int endpage = maxpage;
+  		
+  		if (endpage>startpage+10-1) endpage=startpage+10-1;
+  		
+		model.addAttribute("page", page);
+		model.addAttribute("listcount", listcount);
+		model.addAttribute("orderRecordList", orderRecordList);
+		model.addAttribute("maxpage", maxpage);
+		model.addAttribute("startpage", startpage);
+		model.addAttribute("endpage", endpage);
+		
+		
+		
+		model.addAttribute("orderRecordlist", orderRecordList);		
+		System.out.println("orderRecordlist222 : " + orderRecordList);
+				
+		//주문번호
+		model.addAttribute("order_id", orderRecordVo.getOrder_id());
+		//상품명
+		model.addAttribute("board_title", orderRecordVo.getBoard_title());
+		
+		//가격
+		model.addAttribute("amount", orderRecordVo.getAmount());
+		model.addAttribute("price", orderRecordVo.getPrice());
+	
+		//구매일
+		model.addAttribute("order_date", orderRecordVo.getOrder_date());
+			
+		//회원 구분
+		model.addAttribute("non_member_flag", orderRecordVo.getNon_member_flag());
+		
+		//사이드메뉴 프로필 정보
+		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
+    	if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
+    		sellerAccount.setProfileImg("profile-basic.png");
+    	}
+    	model.addAttribute("user",sellerAccount);
+		
+		return "Seller/mypage_transactionList";
+	}
  
 	
 }

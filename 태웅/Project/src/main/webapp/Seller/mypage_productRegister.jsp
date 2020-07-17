@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,9 +58,17 @@
                     
                         <div class="mypage-upload">
                         
+                            <%String user_id = ""; %>
+                            <sec:authorize access="isAuthenticated()">
+                                <sec:authentication var="user" property="principal.username" />
+                                <%user_id = pageContext.getAttribute("user").toString();%>
+                            </sec:authorize>
+                            
                             <form id="productUploadForm" method="post" onsubmit="return registCheck();" 
                                 action="BoardProductRegist.bo" enctype="multipart/form-data">
-                            <input type="hidden" name="seller_id" value="${userId}" />
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                            
+                            <input type="hidden" name="seller_id" value="<%=user_id%>"/>
                             
                             <div class="uploadBox">
                                 <table class="uploadBox__table">
@@ -120,7 +129,7 @@
                                         <th>판매생산자</th>
                                         <td>
                                             <input type="text" name="sales_producer" maxlength="32" 
-                                                id="setSalesProducer" value="${name}" />
+                                                id="setSalesProducer" value="윤기석" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -292,17 +301,18 @@
                                     </tr>                                   
                                 </table>
                             </div>
+                            
+                            
 
                             <!-- 등록 버튼 -->
                             <div class="finish">
                                 <br />
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                <input type="submit" class="submitBtn" value="등록" />
+                                <input type="submit" class="submitBtn" value="등록" onclick="return registCheck();"/>
                                 <input type="button" class="resetBtn" value="취소" onclick="location.href='SellerMyPage.se'" />
                             </div>
                             
-                            
                             </form>
+                         
                         </div>
                     
                     

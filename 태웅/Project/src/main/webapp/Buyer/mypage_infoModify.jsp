@@ -4,6 +4,8 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.spring.order.OrderRecordVO" %>
 
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,7 +55,7 @@
 	                	<h2 class="content-title">프로필수정</h2>
                    		<article class="update__form--customer">
                    			<h5><b>회원정보 입력</b></h5>
-                    			<form name="update__form--customer" id="update__pforile--form" action="" method="post" >
+                    			<form name="update__form--customer" id="update__profile--form" action="UpdateBuyerAccount.by" method="post" >
                     			<div class="update_profile-photo">
                     				<div id="update_profile-showingPart">
 	                    			    <label for="profilePhoto" class="virtual">사진</label>
@@ -71,7 +73,7 @@
                     			    <div id="update_profile-hidePart">
                     			    	<div class="profile_hidePart-change">
 	                    			    	<label for="change-photo">사진 선택</label>
-	                    			    	<input type="file" id="change-photo" class="hide"/>
+	                    			    	<input type="file" id="change-photo" class="hide" name="profileImg"/>
 	                    			    	<button type="button" id="default-photo">기본이미지로 변경</button>
                     			    	</div>
                     			    	<div class="profile_hidePart-result">
@@ -82,60 +84,44 @@
                     			</div>
 	                            <div class="update_name"> 
 	                                <label for="userName" class="essential">이름</label>
-	                                <input type="hidden" class="hiddenName" id="userName" name="userName" value="" />기존이름
+	                                <input type="hidden" class="hiddenName" id="userName" name="name" value="${user.name }" />${user.name }
 	                            </div>
 	
 	                            <div class="update_id">
 	                                <label for="userId" class="essential">아이디</label>
-	                                <input type="hidden" class="hiddenId" id="userId" name="userId" value="" />기존아이디                               
+	                                <input type="hidden" class="hiddenId" id="userId" name="id" value="${user.id }" />${user.id }                            
 	                            </div>
-	
-	                            <div class="update_pw">
-	                            	<div class="update_pw-existing">
-		                                <label for="userPw" class="essential">기존 비밀번호</label>
-		                                <input type="password" class="inputPw" id="userPw" name="userpPw" maxlength="20" autocomplete="off">                                
-		                                <span class="guide">공백 없는 영문, 숫자 포함 6 ~ 20자</span>
-	                                </div>
-	                                <div class="update_pw-new">
-	                                    <label for="userPwCheck" class="essential">신규 비밀번호</label>
-		                                <input type="password" class="inputPwCheck" id="userPwCheck" name="userPwCheck" maxlength="20" autocomplete="off">
-		                                <span class="guide">공백 없는 영문, 숫자 포함 6 ~ 20자</span>
-									</div>
-									<div class="update_pw-confirm">		                                
-		                                <label for="userPwCheck" class="essential">신규 비밀번호 재입력</label>
-		                                <input type="password" class="inputPwCheck" id="userPwCheck-confirm" name="userPwCheck-confirm" maxlength="20" autocomplete="off">
-		                                <span class="guide">공백 없는 영문, 숫자 포함 6 ~ 20자</span>
-	                                </div>
-	                            </div>
-
 	
 	                            <div class="update_email">
 	                                <label for="email1" class="virtual">이메일 주소</label>
-	                                <input type="text" class="inputEmail1" id="email01" name="email01" size="20" maxlength="20" value="">
+	                                <input type="text" class="inputEmail1" id="email01" name="emailId" size="20" maxlength="20" value="${user.emailId }">
 									&#64;
-	                                <input type="text" class="inputEmail2" id="email02" name="email02" size="20" maxlength="20" value="">
+	                                <input type="text" class="inputEmail2" id="email02" name="emailAddr" size="20" maxlength="20" value="${user.emailAddr }">
 	                                <select class="selectEmail3" name="selectEmail3" id="email03">
-	                                    <option value="메일 선택" selected>메일 선택</option>
-	                                    <option value="naver.com">naver.com</option>
-	                                    <option value="daum.net">daum.net</option>
-	                                    <option value="gmail.com">gmail.com</option>
-	                                    <option value="yahoo.co.kr">yahoo.co.kr</option>
-	                                    <option value="직접 입력" >직접 입력</option>
-	                                </select>
+				                        <option value="">직접 입력</option>
+				                        <option value="naver.com">naver.com</option>
+				                        <option value="daum.net">daum.net</option>
+				                        <option value="gmail.com">gmail.com</option>
+				                        <option value="hanmail.net">hanmail.net</option>
+				                        <option value="hotmail.com">hotmail.com</option>
+				                        <option value="nate.com">nate.com</option>
+				                        <option value="yahoo.co.kr">yahoo.co.kr</option>
+			                        </select>
 	                            </div>
 	                            <div class="update_mPhone">
 	                                <label for="mPhone1" class="essential">휴대폰번호</label>
-	                                <select class="selectPhone" id="mPhone1" name="mPhone1">
-	                                    <option value="010" selected>010</option>
+	                                <select class="selectPhone" id="mPhone1" name="telCarrierNum">
+	                                	<option value="${user.telCarrierNum }" >${user.telCarrierNum }
+	                                    <option value="010">010</option>
 	                                    <option value="011">011</option>
 	                                    <option value="016">017</option>
 	                                    <option value="018">018</option>
 	                                    <option value="019">019</option>
 	                                </select>
 	                                -
-	                                <input id="mPhone2" class="inputPhone2" name="mPhone2" type="text" value="" size="4" maxlength="4">
+	                                <input id="mPhone2" class="inputPhone2" name="telAllocationNum" type="text" value="${user.telAllocationNum }" size="4" maxlength="4">
 	                                -
-	                                <input id="mPhone3" class="inputPhone3" name="mPhone3" type="text" value="" size="4" maxlength="4">
+	                                <input id="mPhone3" class="inputPhone3" name="telDiscretionaryNum" type="text" value="${user.telDiscretionaryNum }" size="4" maxlength="4">
 	                                
 	                                <input type="checkbox" class="inputChkSms" name="chk_sms" id="sms_button" > SMS를 수신하겠습니다.
 	
@@ -145,8 +131,9 @@
 	                                </div>
 	                            </div>
 	                            <div class="update_finish">
-	                                <button type="button" id="submitBtn" onclick="location.href='#'">회원정보수정</button>
-	                                <button type="button" id="resetBtn" onclick="location.href='#'">취소</button> 
+	                            	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	                                <button type="button" id="submitBtn">회원정보수정</button>
+	                                <button type="button" id="resetBtn" onclick="location.href='BuyerMyPage.by'">취소</button> 
 	                        	</div>                   
                         	</form>
                    		</article>
@@ -157,7 +144,7 @@
     </div>
 </main>
     <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_menu.js?after'/>"></script>
-    <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_infoModify.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_infoModify.js?after'/>"></script>
     <script type="text/javascript" src="<c:url value='/resources/js/Admin/post_search.js'/>"></script>
     
     <!-- footer,js -->

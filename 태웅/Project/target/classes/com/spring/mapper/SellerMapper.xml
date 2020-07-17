@@ -35,20 +35,9 @@
 		SELECT * FROM member_seller WHERE seller_id = #{id}
 	</select>
 	
-	<select id = "selectCountById" resultType = "int" >
-			 select sum(s.count) from (
-     select count(*) as count
-     from member_buyer 
-     where buyer_id=#{id}
-     union all
-     select count(*) as count
-     from member_seller
-     where seller_id=#{id}
-     union all
-     select count(*) as count
-     from admin
-     where admin_id=#{id}
-     )s
+	
+	<select id = "selectProductListById" resultType = "com.spring.boardproduct.BoardProductVO" >
+		SELECT * FROM board_product WHERE seller_id = #{id}
 	</select>
 	
 	<insert id = "InsertSellerAccout" parameterType = "com.spring.seller.SellerVO">
@@ -61,11 +50,7 @@
 		VALUES (#{id},#{password},#{shopName},#{represent},#{address},#{tel},#{email},#{name},
 		 #{orderReportNum}, #{orderReportImg}, #{bankName}, #{bankAccountNum}, #{sellerNum})
 	</insert>
-	<update id = "UpdateSellerAccount" parameterType = "com.spring.seller.SellerVO"  >
-		UPDATE member_seller SET password=#{password}, email=#{email}, tel=#{tel}, profile_img=#{profileImg} 
-			bank_name=#{bankName}, bank_account=#{bankAccountNum}
-		 WHERE seller_id = #{id} AND password = #{password}
-	</update>
+
 	
 	<update id = "UpdateLoginDateBy" parameterType = "com.spring.seller.SellerVO" >
 		UPDATE member_seller SET last_loginDate=sysdate WHERE seller_id = #{id}
@@ -79,6 +64,21 @@
 	<update id = "UpdateProfileImg" parameterType = "com.spring.seller.SellerVO">
 		UPDATE member_seller SET profile_img=#{profileImg}
 		WHERE seller_id = #{id}
+	</update>
+	
+	<update id = "UpdateSellerAccount" parameterType = "com.spring.seller.SellerVO"  >
+		UPDATE member_seller SET manager_phone = #{tel}, manager_email = #{email}, manager_name = #{name}, 
+									bank_name = #{bankName}, bank_account = #{bankAccountNum},profile_img=#{profileImg} 
+		WHERE seller_id = #{id}
+	</update>
+	
+	<select id = "SellerConfirmPassword" resultMap = "sellerResultMap" >
+		SELECT * FROM member_seller where seller_id = #{id} and password = #{password}
+	</select>
+	
+	<update id = "UpdateSellerPassword" parameterType = "com.spring.seller.SellerVO"  >
+		UPDATE member_seller SET password = #{password}
+		 WHERE seller_id = #{id}
 	</update>
 
 </mapper>

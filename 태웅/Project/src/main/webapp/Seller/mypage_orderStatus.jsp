@@ -29,7 +29,7 @@
 	  		<li class="home">
 	  		  <a href="Index.in"><span class="hide-text">home</span></a>
 	  		</li>
-	  		<li>
+	  		<li> 
 	  		  <strong>마이페이지</strong>
 	  		</li>
 	  		<li>

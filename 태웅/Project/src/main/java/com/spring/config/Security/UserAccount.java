@@ -5,20 +5,17 @@ import java.util.List;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import com.spring.buyer.BuyerVO;
+import com.spring.admin.AccountVO;
 
-
-
-public class BuyerAccount extends User{
+public class UserAccount extends User {
+	public AccountVO account;
 	
-	public BuyerVO account;
-	
-	public BuyerAccount(BuyerVO account) {
+	public UserAccount(AccountVO account) {
 		super(account.getId(), account.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_"+account.getMemberType())));
 		this.account = account;
 	}
 	
-	public BuyerVO getBuyerVO() {
+	public AccountVO getAdminVO() {
 		return account;
 	}
 

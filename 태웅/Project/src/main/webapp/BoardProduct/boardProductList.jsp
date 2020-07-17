@@ -66,7 +66,7 @@
     <link href="<c:url value='/resources/css/BoardProduct/boardProductList.css'/>" rel="stylesheet" />
     <title></title>
 </head>
-<body>
+<body onload="setStyle('<%=pageMaker.getPage_amount()%>', '<%=sort_list %>', '<%=category_param_code %>');" >
    <section id="sub-main" class="seller">
 	  <div class="sub-top">
 	  	<h2 class="sub-title">상품리스트</h2>
@@ -123,11 +123,11 @@
                                 <%} %>
                                     <td class="category-table__list">
                                     <%if(request.getParameter("category_local") != null){ %>
-                                    <a href="BoardProductList.bo?category_local=<%=i%>">
-                                        · <%=category_sub.get(i-1) %></a>
+                                    · <a href="BoardProductList.bo?category_local=<%=i%>" id="category-local--<%=i%>">
+                                        <%=category_sub.get(i-1) %></a>
                                     <%}else{ %>
-                                    <a href="BoardProductList.bo?category_2=<%=param_code + i%>">
-                                        · <%=category_sub.get(i-1) %></a>
+                                    · <a href="BoardProductList.bo?category_2=<%=param_code + i%>" id="category-2--<%=param_code + i%>">
+                                        <%=category_sub.get(i-1) %></a>
                                     <%} %>
                                     </td>
                                 <%if(i % 4 == 0){ %>
@@ -146,18 +146,23 @@
                                         전체 상품 <%=pageMaker.getTotal() %> 개
                                     </td>
                                     <td align="right">
-                                        <a href="#" onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', 1, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">인기순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                                        <a href="#" onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', 2, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">최근등록순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                                        <a href="#" onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', 3, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">판매인기순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                                        <a href="#" onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', 4, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">낮은가격순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                                        <a href="#" onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', 5, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">높은가격순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                        <a href="#" id="sort-list--1" 
+                                            onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', 1, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">인기순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                        <a href="#" id="sort-list--2" 
+                                            onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', 2, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">최근등록순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                        <a href="#" id="sort-list--3" 
+                                            onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', 3, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">판매인기순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                        <a href="#" id="sort-list--4" 
+                                            onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', 4, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">낮은가격순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                        <a href="#" id="sort-list--5" 
+                                            onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', 5, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">높은가격순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
                                         
                                         <select class="qty_view" name="perpage" id="qty_view" 
-                                            onchange="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', '<%=sort_list %>', '<%=pageMaker.getPage_num()%>', this.value);">
-                                            <option value="5" <c:if test="$('#qty_view option:selected').val() == 5"> selected </c:if>>5개씩 보기</option>
-                                            <option value="10" <c:if test="$('#qty_view option:selected').val() == 10"> selected </c:if>>10개씩 보기</option>
-                                            <option value="15" <c:if test="$('#qty_view option:selected').val() == 15"> selected </c:if>>15개씩 보기</option>
-                                            <option value="20" <c:if test="$('#qty_view option:selected').val() == 20"> selected </c:if>>20개씩 보기</option>
+                                            onchange="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', '<%=sort_list %>', '<%=pageMaker.getPage_num()%>', this.value);" >
+                                            <option value="30">30개씩 보기</option>
+                                            <option value="60">60개씩 보기</option>
+                                            <option value="90">90개씩 보기</option>
+                                            <option value="120">120개씩 보기</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -201,7 +206,7 @@
                                 
                             <%for(int a=pageMaker.getStartPage();a<=pageMaker.getEndPage();a++){
                                   if(a==pageMaker.getPage_num()){%>
-                                    <input type="button" value="<%=a %>" readonly/>
+                                    <input type="button" value="<%=a %>" id="now-page" readonly/>
                                 <%}else{ %>
                                     <input type="button" value="<%=a %>"onclick="pageViewOption('<%=originalURL %>', '<%=category_param_name %>', '<%=category_param_code %>', '<%=sort_list %>', '<%=a%>', '<%=pageMaker.getPage_amount()%>')" />
                                 <%}

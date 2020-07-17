@@ -68,18 +68,18 @@
                                         <h2 class="overall-rating--title">구매자 등급</h2>
                                         <ul class="rating">
                                             <li><span class="rating-grade">회원등급</span></li>
-                                            <li class="my_rating-grade"><h2 id="my-rating">LV.${grade}</h2> <a class="rating-benefit" href="#">등급 혜택 보기</a> </li>
-                                            <li id="rating-explain">* 다음 등급인 <span class="next-level">실버</span>까지 <span class="required-score">61,670</span>점 남았습니다<span class="register-date">가입일: ${joinDate}</span></li>
+                                            <li class="my_rating-grade"><h2 id="my-rating">LV.${user.grade}</h2> <a class="rating-benefit" href="BuyerMyPageMyGrade.by">등급 혜택 보기</a> </li>
+                                            <li id="rating-explain">* 다음 등급인 <span class="next-level">실버</span>까지 <span class="required-score">61,670</span>점 남았습니다<span class="register-date">가입일: ${user.joinDate}</span></li>
                                         </ul>
                                     </div>
                                     
                                 </div>
                                 <div class="mypage__subInfo">
-                                    <div class="saving-point">
+                                    <div class="saving-point" onclick="location.href='BuyerMyPageSavePoint.by?status=전체'">
                                         <img src="./resources/Images/Buyer/Money.png" alt="saving point image"/>
                                         <dl>
                                             <dt>적립금</dt>
-                                            <dd>${savePoint}</dd>
+                                            <dd>${user.savePoint}</dd>
                                         </dl>
                                     </div>
                                     <div class="write-review">
@@ -96,7 +96,7 @@
                                 <div class="inquery__order-delivery">
                                     <div class="inquery--title">
                                         <h2>주문<span class="slash">/</span>배송조회</h2>
-                                        <a class="view-all" href="#" title="전체보기">전체</a>
+                                        <a class="view-all" href="BuyerMyPageOrderList.by" title="전체보기">전체</a>
                                     </div>
                                     <div class="inquery--content">
                                         <ul class="inquery--list">
@@ -110,7 +110,7 @@
                                 <div class="inquery__return-exchange">
                                     <div class="inquery--title">
                                         <h2>취소<span class="slash">/</span>교환<span class="slash">/</span>반품 내역</h2>
-                                        <a class="view-all" href="#" title="전체보기">전체</a>
+                                        <a class="view-all" href="BuyerMyPageOrderList.by" title="전체보기">전체</a>
                                     </div>
                                     <ul class="inquery--list">
                                         <li class="inquery--list-item"><p>0<span class="enter">교환신청</span></p></li> 
@@ -123,7 +123,7 @@
                             <article id="order__history">
                                 <div class="order__history--title">
                                     <h2>주문내역</h2>
-                                    <a class="view-all" href="#" title="전체보기">전체</a>
+                                    <a class="view-all" href="BuyerMyPageOrderList.by" title="전체보기">전체</a>
                                 </div>    
                                 <table class="order__history--table">
                                     <thead>

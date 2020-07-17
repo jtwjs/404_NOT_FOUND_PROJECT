@@ -5,9 +5,10 @@ import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer{
+public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	 private static int MAX_FILE_SIZE = 10 * 1024 * 1024;
 
@@ -43,7 +44,11 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
         };
         
         }
-        
+
+
+	
+	
+	
 	}
 
 

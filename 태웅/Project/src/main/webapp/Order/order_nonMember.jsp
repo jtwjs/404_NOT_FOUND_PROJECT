@@ -32,12 +32,12 @@
 	  <div class="sub-tab">
 	  	<ul>
 	  		<li class="unselect">
-	  			<a href="OrderLogin.or">
+	  			<a href="OrderResearch.or">
 	  				<span>주문배송</span>
 	  			</a>
 	  		</li>
 	  		<li>
-	  			<a href="Order-non_member.or">
+	  			<a href="OrderNonMember.or">
 	  				<span>비회원 주문조회</span>
 	  			</a>
 	  		</li>

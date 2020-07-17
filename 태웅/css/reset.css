@@ -20,6 +20,10 @@ a:hover {
   color: currentColor;
 }
 
+label {
+  margin-bottom: 0;
+}
+
 button,
 input,
 textarea {
@@ -80,11 +84,10 @@ p {
   max-width: none !important;
 }
 
-body {
-  position: relative;
-  padding-top: 195px;
+#main {
+  min-height: 60vh;
 }
 
-#main {
-  z-index: -1;
+.enter {
+  display: block;
 }

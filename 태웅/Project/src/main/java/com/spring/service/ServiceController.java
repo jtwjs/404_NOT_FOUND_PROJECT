@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.spring.admin.AccountVO;
+import com.spring.config.Security.CurrentUser;
+import com.spring.order.OrderRecordVO;
+import com.spring.seller.SellerService;
+
 @Controller
 public class ServiceController {
 
@@ -125,8 +130,6 @@ public class ServiceController {
 	
 	
 	
-	
-	
 
 	@RequestMapping(value = "/BoardFaq.sc")
 	public String getFaqBoardList(Model model,
@@ -221,5 +224,10 @@ public class ServiceController {
 		
 		return "redirect:/FaqBoardDetail.sc?num=" + vo.getNum();
 	} 
+
+
+	
+	
+	
 
 }

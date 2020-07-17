@@ -519,7 +519,7 @@ $(window).scroll(function (event) {
 });
 
 // hasScrolled()를 실행하고 didScroll 상태를 재설정
-setInterval(function () {
+var headerTimer1 = setInterval(function () {
   if (didScroll) {
     hasScrolled();
     didScroll = false;
@@ -547,3 +547,18 @@ function hasScrolled() {
   lastScrollTop = st;
   console.log("lastScrollTop: " + lastScrollTop);
 }
+
+
+/*주문배송 모달창*/
+
+var ord_deliveryBtn = document.getElementById('order_delivery');
+var deliveryModal = document.querySelector('.delivery-modal-bg');
+var closeBtn = document.querySelector('.close-btn');
+
+ord_deliveryBtn.addEventListener('click',function(){
+	deliveryModal.classList.remove('hide');
+});
+
+closeBtn.addEventListener('click', function(){
+	deliveryModal.classList.add('hide');
+});

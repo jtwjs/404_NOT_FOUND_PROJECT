@@ -50,3 +50,62 @@ function data_check(){
 		}
 	}
 }
+
+
+/*적립금 전액사용*/
+
+var fullUse_btn = document.getElementById('save-point__input-btn');
+
+fullUse_btn.addEventListener('click',full_use);
+
+function full_use() {
+	var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    var savePoint = document.getElementById('save-point__input-text');
+	$.ajax({
+		url: '/project/savePointFullUse.or',
+		type: 'POST',
+		beforeSend: function(xhr){
+			  /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+			  xhr.setRequestHeader(header, token);
+		  },
+		dataType: 'json',
+		contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+		success: function(data){
+			savePoint.value = data;
+		},
+		error: function(xhr,status,error){
+			  console.log('error:'+error);
+		  }
+	});
+}
+
+
+/*주소지 선택(기본배송지, 새로운배송지)*/
+var defaultAddr = document.getElementById('default_addr');
+var newAddr = document.getElementById('new_addr');
+var postcode = document.getElementById("sample4_postcode");
+var roadAddr = document.getElementById('sample4_roadAddress');
+var detailAddr = document.getElementById('sample4_detailAddress');
+var defaultPostcode = document.getElementById('userAddrNum').value;
+var defaultRoadAddr = document.getElementById('userAddrRoadName').value;
+var defaultDetailAddr = document.getElementById('userAddrDetail').value;
+newAddr.addEventListener('click',function(){
+	if(newAddr.getAttribute("checked")){
+		return;
+	}else {
+		postcode.value = '';
+		roadAddr.value = '';
+		detailAddr.value ='';
+	}
+});
+defaultAddr.addEventListener('click',function(){
+	if(defaultAddr.getAttribute('checked')){
+		return;
+	}else {
+		postcode.value = defaultPostcode;
+		roadAddr.value = defaultRoadAddr;
+		detailAddr.value = defaultDetailAddr;
+	}
+});
+
