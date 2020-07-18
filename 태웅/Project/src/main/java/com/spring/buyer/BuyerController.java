@@ -7,12 +7,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring.admin.AccountVO;
+import com.spring.boardproduct.BoardProductService;
+import com.spring.boardproduct.BoardProductVO;
 import com.spring.config.Security.CurrentUser;
 import com.spring.config.Security.CustomDetailService;
 
@@ -31,6 +35,9 @@ public class BuyerController {
 	
 	@Autowired
 	CustomDetailService SecurityService;
+	
+	@Autowired
+	BoardProductService productService;
 	
     @RequestMapping(value = "/BuyerMyPage.by")  
     public String buyerMyPage(Model model, @CurrentUser AccountVO account) {
@@ -60,10 +67,20 @@ public class BuyerController {
     }
     
     @RequestMapping(value = "/BuyerMyPageRecentlyView.by")  // �굹�쓽 �눥�븨 �솢�룞 - 理쒓렐 蹂� �긽�뭹
-    public String buyerMyPageRecentlyView(Model model, @CurrentUser AccountVO account) {
+    public String buyerMyPageRecentlyView(Model model,@CookieValue(value="AccountRecentlyProduct",
+					required=false)Cookie cookie, @CurrentUser AccountVO account) {
       	BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
     	buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0,10));
+    	ArrayList<BoardProductVO> recentList = new ArrayList<>();
+    	int index1 = cookie.getValue().indexOf("/");
+    	String str = cookie.getValue().substring(index1+1);
+    	String[] recentArray = str.split("/");
     	
+    	for(int i=0; i<recentArray.length; i++) {
+    		recentList.add(productService.getBoardProductVO(recentArray[i]));
+    	}
+    	
+    	model.addAttribute("list",recentList);
     	model.addAttribute("user",buyerAccount);
     	return "Buyer/mypage_recentlyView";
     }

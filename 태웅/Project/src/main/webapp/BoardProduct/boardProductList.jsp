@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib  prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="org.springframework.web.util.UrlPathHelper" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.spring.boardproduct.BoardProductVO" %>
@@ -59,14 +60,16 @@
     <!-- header, css -->
     <jsp:include page="../header.jsp" flush="false"/>
     <link href="<c:url value='/resources/css/module/reset.css?after'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/module/header.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css?after'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/module/header.css?after'/>" rel="stylesheet" />
     <!-- header, css end -->
+    <link href="<c:url value='/resources/css/BoardProduct/recentProduct.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/BoardProduct/boardProductList.css'/>" rel="stylesheet" />
     <title></title>
 </head>
 <body onload="setStyle('<%=pageMaker.getPage_amount()%>', '<%=sort_list %>', '<%=category_param_code %>');" >
+<jsp:include page="recentProduct.jsp" flush="false"/>
    <section id="sub-main" class="seller">
 	  <div class="sub-top">
 	  	<h2 class="sub-title">상품리스트</h2>
@@ -178,8 +181,18 @@
                         <%} %>
                         <div id="new">
                             <%for(int i = 0; i < vo_list.size(); i++){ %>
+                            <sec:authorize access = "isAnonymous()">
                             <div class="item_box" 
                             onclick="javascript:location.href='BoardProductView.bo?board_id=<%=vo_list.get(i).getBoard_id()%>'">
+                            </sec:authorize>
+                            <sec:authorize access="hasRole('ROLE_SELLER')">
+                            <div class="item_box" 
+                            onclick="javascript:location.href='BoardProductView.bo?board_id=<%=vo_list.get(i).getBoard_id()%>'">
+                            </sec:authorize>
+                            <sec:authorize access="hasRole('ROLE_BUYER')">
+                            <div class="item_box" 
+                            onclick="javascript:location.href='BoardProductView2.bo?board_id=<%=vo_list.get(i).getBoard_id()%>'">
+                            </sec:authorize>
                                 <ul class="item">
                                     <li><img src="<%=vo_list.get(i).getThumbnail_thum_path() %><%=vo_list.get(i).getThumbnail_thum()%>"></li>
                                     <li class="subject"><%=vo_list.get(i).getTitle() %></li>
@@ -227,6 +240,7 @@
     <!-- contents 끝 -->
 
     <script type="text/javascript" src="<c:url value='/resources/js/BoardProduct/boardProductList.js?after'/>" ></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/BoardProduct/recentProduct.js?after'/>" ></script>
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    

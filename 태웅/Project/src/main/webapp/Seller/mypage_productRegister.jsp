@@ -129,7 +129,7 @@
                                         <th>판매생산자</th>
                                         <td>
                                             <input type="text" name="sales_producer" maxlength="32" 
-                                                id="setSalesProducer" value="윤기석" />
+                                                id="setSalesProducer" value="" />
                                         </td>
                                     </tr>
                                     <tr>

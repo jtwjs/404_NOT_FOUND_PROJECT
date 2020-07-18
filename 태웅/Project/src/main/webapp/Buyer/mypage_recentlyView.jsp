@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,12 +68,13 @@
                                 <table class="transaction__detail--table">
                                     <thead>
                                         <tr>
-                                            <th class="product-check"><input type="checkbox" checked/></th>                
+                                            <th class="product-check"><input id="all-check" type="checkbox" /></th>                
                                             <th class="product-title">상품명</th>                
                                             <th class="product-price">가격</th>                                                         
                                         </tr>   
                                     </thead>
                                     <tbody>
+                                    <c:if test="${fn:length(list) == 0}">
                                         <tr>
                                             <td class="non-post" colspan="3">
                                                최근 본 상품이 없습니다.
@@ -84,6 +86,14 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
+                                        </c:if>
+                                        <c:forEach var="list" items="${list}" varStatus="status">
+                                        <tr>
+                                        	<th class="product-check"><input type="checkbox" name="ck_item" value="{list.board_id}"/></th>
+                                        	<td class="product-name"><img class="product-img" src="${list.thumbnail_thum_path}${list.thumbnail_thum}" alt="상품 썸네일 이미지" />${list.title}</td>
+                                        	<td>${list.price}</td>
+                                        </tr>
+                                        </c:forEach>
                                     </tbody>
                                 </table>
                             </article>
@@ -97,6 +107,7 @@
     
 
     <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_menu.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_recently.js'/>"></script>
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js'/>" ></script>    

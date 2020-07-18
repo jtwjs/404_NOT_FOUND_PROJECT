@@ -11,13 +11,13 @@ import java.util.Date;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FilenameUtils;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +27,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.buyer.BuyerVO;
+import com.spring.admin.AccountVO;
+import com.spring.config.Security.CurrentUser;
+
+
 
 @Controller
 public class BoardProductController {
@@ -42,11 +45,46 @@ public class BoardProductController {
 			@RequestParam(value="category_local", required = false, defaultValue="0")int category_local,
 		    @RequestParam(value="sort_list", required = false, defaultValue="2")int sort_list, 
 		    @RequestParam(value="page_num", required = false, defaultValue="1")int page_num, 
-		    @RequestParam(value="page_amount", required = false, defaultValue="30")int page_amount) {
+		    @RequestParam(value="page_amount", required = false, defaultValue="30")int page_amount
+		    ,HttpServletRequest request, HttpServletResponse response) {
 		
         ArrayList<BoardProductVO> vo_list = null;
         String category_title = null;
         ArrayList<String> category_sub = new ArrayList<String>();
+        
+        Cookie[] cookies = request.getCookies();
+        Cookie non_userCK = null;
+        Cookie userCK = null;
+        
+        for(Cookie c : cookies) {
+        	if(c.getName().equals("recentlyProduct")) {
+        		non_userCK = c;
+        	}else if(c.getName().equals("AccountRecentlyProduct")) {
+        		userCK = c;
+        	}
+        }
+        System.out.println("비회원쿠키:"+ non_userCK.getValue());
+        System.out.println("회원쿠키:"+ userCK.getValue());
+        
+        ArrayList<BoardProductVO> non_recentList = new ArrayList<>();
+        ArrayList<BoardProductVO> recentList = new ArrayList<>();
+    	int non_index1 = non_userCK.getValue().indexOf("/");
+    	int index1 = userCK.getValue().indexOf("/");
+    	String non_str = non_userCK.getValue().substring(non_index1+1);
+    	String str = userCK.getValue().substring(index1+1);
+    	String[] non_recentArray = non_str.split("/");
+    	String[] recentArray = str.split("/");
+    	
+    	for(int i=0; i<non_recentArray.length; i++) {
+    		non_recentList.add(boardProductService.getBoardProductVO(non_recentArray[i]));
+    	}
+    	
+    	for(int i=0; i<recentArray.length; i++) {
+    		recentList.add(boardProductService.getBoardProductVO(recentArray[i]));
+    	}
+    	
+    	model.addAttribute("non_list",non_recentList);
+    	model.addAttribute("list",recentList);
         int vo_list_size = 0;
         
         if(category_1 != 0) {
@@ -164,8 +202,68 @@ public class BoardProductController {
 	}
 	
     @GetMapping(value = "/BoardProductView.bo") // 판매글 보기
-	public String boardProductView(Model model, HttpSession session, String board_id) {
+	public String boardProductView(Model model,HttpServletRequest request,HttpServletResponse response, String board_id) {
+    	Cookie[] cookies = request.getCookies();
+    	Cookie cookie = null;
+    	for( Cookie c : cookies) {
+    		if(c.getName().equals("recentlyProduct")) {
+    			cookie = c;
+    		}
+    	}
     	
+    	if(cookie == null) {
+    		 cookie = new Cookie("recentlyProduct","Start");
+    		 cookie.setMaxAge(86400);
+     		cookie.setValue(cookie.getValue()+"/"+board_id);
+    	}
+    	int count = org.springframework.util.StringUtils.countOccurrencesOf(cookie.getValue(), "/");
+    	System.out.println("/의 갯수(비회원) : "+count);
+    	
+    	if(!cookie.getValue().contains(board_id)) {
+    		if(count<50) {
+    		cookie.setValue(cookie.getValue()+"/"+board_id);
+    		}else {
+    			int index1 = cookie.getValue().indexOf("/");
+    			int index2 = cookie.getValue().substring(index1+1).indexOf("/");
+    		cookie.setValue("Start"+cookie.getValue().substring(index2)+"/"+board_id);	
+    		}
+    	}
+    	response.addCookie(cookie);
+    	System.out.println("쿠키값: "+cookie.getValue());
+    	BoardProductVO vo = boardProductService.getBoardProductVO(board_id);
+    	model.addAttribute("vo", vo);     
+		
+		return "BoardProduct/boardProductView";
+	}
+    
+    @GetMapping(value = "/BoardProductView2.bo") //구매회원일경우 판매글 보기
+	public String boardProductView2(Model model,HttpServletRequest request,HttpServletResponse response, String board_id,@CurrentUser AccountVO account) {
+    	Cookie[] cookies = request.getCookies();
+    	Cookie cookie = null;
+    	for(Cookie c: cookies) {
+    		if(c.getName().equals("AccountRecentlyProduct")) {
+    			cookie = c;
+    		}
+    	}
+    	if(cookie == null) {
+    		cookie = new Cookie("AccountRecentlyProduct","Start");
+    		cookie.setMaxAge(86400);
+    		cookie.setValue(cookie.getValue()+"/"+board_id);
+    	}
+    	int count = org.springframework.util.StringUtils.countOccurrencesOf(cookie.getValue(), "/");
+    	System.out.println("/의 갯수(회원) : "+count);
+    	System.out.println("쿠키값1: "+cookie.getValue());
+    	if(!cookie.getValue().contains(board_id)) {
+    		if(count<50) {
+    		cookie.setValue(cookie.getValue()+"/"+board_id);
+    		}else {
+    			int index1 = cookie.getValue().indexOf("/");
+    			int index2 = cookie.getValue().substring(index1+1).indexOf("/");
+    		cookie.setValue("Start"+cookie.getValue().substring(index2)+"/"+board_id);	
+    		}
+    	}
+    	response.addCookie(cookie);
+    	System.out.println("쿠키값2: "+cookie.getValue());
     	BoardProductVO vo = boardProductService.getBoardProductVO(board_id);
     	model.addAttribute("vo", vo);     
 		

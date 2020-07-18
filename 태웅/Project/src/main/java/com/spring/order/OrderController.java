@@ -363,6 +363,9 @@ public class OrderController {
     	buyerAccount.setAddrNum(buyerAccount.getAddress().substring(0,index1));
     	buyerAccount.setAddrRoadName(buyerAccount.getAddress().substring(index1+1,index2));
     	buyerAccount.setAddrDetail(buyerAccount.getAddress().substring(index2+1));
+    	buyerAccount.setTelCarrierNum(buyerAccount.getTel().substring(0,3));
+    	buyerAccount.setTelAllocationNum(buyerAccount.getTel().substring(3,7));
+    	buyerAccount.setTelDiscretionaryNum(buyerAccount.getTel().substring(7));
     	for(int i = 0; i < board_id.length; i++) {
     		
     		quantity_list.add(Integer.valueOf(quantity[i]));
@@ -453,6 +456,11 @@ public class OrderController {
     @RequestMapping(value = "/OrderResearch.or")
     public String OrderResearch(@CurrentUser AccountVO account) {
     	
+    	return "Order/order_research";
+    }
+    
+    @RequestMapping(value = "/non-OrderResearch.or")
+    public String non_OrderResearch(){
     	return "Order/order_research";
     }
     

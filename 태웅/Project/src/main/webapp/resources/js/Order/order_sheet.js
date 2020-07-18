@@ -120,7 +120,7 @@ addrBookBtn.addEventListener('click',function(){
 
 function popupOpen(){
 	var url = "addrBook_popup.or";
-	var winWidth = 550;
+	var winWidth = 500;
 	var winHeight = 600;
 	var popupOption = "width=" +winWidth+",height="+winHeight;
 	window.open(url,"",popupOption)
