@@ -1,8 +1,13 @@
-.recent-product {
+#recent-product {
  position: fixed;
  top: 50%;
- right: 2%;
+ right: 30px;
  transform: translateY(-50%);	
+}
+
+#recent-product.absolute {
+	position: absolute;
+	top: 520px;
 }
 
 .content-head {
@@ -29,12 +34,13 @@
 }
 
 .content-body {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	border: 1px solid rgba(0,0,0,0.2);
 	height: 300px;
 	background-color: #fff;
-	over-flow: hidden;
+	overflow: hidden;
 }
 
 
@@ -46,6 +52,7 @@
 	background-color: #222;
 	background-repeat: no-repeat;
 	background-position: center;
+	z-index: 10;
 }
 
 #up-btn {
@@ -59,12 +66,24 @@
 	background-image: url(../../Images/BoardProduct/arrow_down_24px.png);
 }
 
+#up-btn.disable,
+#up-down.disable {	
+}
+
+
 #product-list {
+	position: relative;
+	width: 100px;
 	height: 260px;
 	padding: 5px 10px;
 }
 
+#product-list.move {
+	transition: all 350ms ease-in-out;
+}
+
 .product-list_item {
+	position: absolute;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

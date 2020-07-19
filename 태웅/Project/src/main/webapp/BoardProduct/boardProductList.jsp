@@ -69,7 +69,7 @@
     <title></title>
 </head>
 <body onload="setStyle('<%=pageMaker.getPage_amount()%>', '<%=sort_list %>', '<%=category_param_code %>');" >
-<jsp:include page="recentProduct.jsp" flush="false"/>
+
    <section id="sub-main" class="seller">
 	  <div class="sub-top">
 	  	<h2 class="sub-title">상품리스트</h2>
@@ -92,7 +92,7 @@
 	  	</ul>
 	  </div>
 	</section> 
-
+<jsp:include page="recentProduct.jsp" flush="false"/>
     <!-- contents 시작 -->
     <main id="main">
         <div class="container">

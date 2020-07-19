@@ -15,9 +15,9 @@ function setStyle(amount, sort_list, category){
 		categoryCode = document.getElementById("category-local--" + String(category));
 	}
 	
-	categoryCode.style.color = "#0bbf0b";
-	categoryCode.style.fontSize = "17px";
-	categoryCode.style.fontWeight = "bold";
+//	categoryCode.style.color = "#0bbf0b";
+	/*categoryCode.style.fontSize = "17px";
+	categoryCode.style.fontWeight = "bold";*/
 	
 	var sortList1 = document.getElementById("sort-list--" + sort_list);
 	sortList1.style.color = "#0bbf0b";
@@ -34,5 +34,5 @@ function setStyle(amount, sort_list, category){
     }
 	
 	var nowPage = document.getElementById("now-page");
-	nowPage.style.color = "#0bbf0b";
+//	nowPage.style.color = "#0bbf0b";
 }

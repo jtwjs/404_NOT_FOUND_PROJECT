@@ -48,7 +48,7 @@ public class BoardProductController {
 		    @RequestParam(value="page_amount", required = false, defaultValue="30")int page_amount
 		    ,HttpServletRequest request, HttpServletResponse response) {
 		
-        ArrayList<BoardProductVO> vo_list = null;
+    	ArrayList<BoardProductVO> vo_list = null;
         String category_title = null;
         ArrayList<String> category_sub = new ArrayList<String>();
         
@@ -56,35 +56,32 @@ public class BoardProductController {
         Cookie non_userCK = null;
         Cookie userCK = null;
         
+        ArrayList<BoardProductVO> non_recentList = new ArrayList<>();
+        ArrayList<BoardProductVO> recentList = new ArrayList<>();
+        
         for(Cookie c : cookies) {
         	if(c.getName().equals("recentlyProduct")) {
         		non_userCK = c;
+        		int non_index1 = non_userCK.getValue().indexOf("/");
+        		String non_str = non_userCK.getValue().substring(non_index1+1);
+        		String[] non_recentArray = non_str.split("/");
+        		for(int i=0; i<non_recentArray.length; i++) {
+            		non_recentList.add(boardProductService.getBoardProductVO(non_recentArray[i]));
+            	}
         	}else if(c.getName().equals("AccountRecentlyProduct")) {
         		userCK = c;
+        		int index1 = userCK.getValue().indexOf("/");
+            	String str = userCK.getValue().substring(index1+1);
+            	String[] recentArray = str.split("/");
+            	for(int i=0; i<recentArray.length; i++) {
+            		recentList.add(boardProductService.getBoardProductVO(recentArray[i]));
+            	}
         	}
         }
-        System.out.println("비회원쿠키:"+ non_userCK.getValue());
-        System.out.println("회원쿠키:"+ userCK.getValue());
-        
-        ArrayList<BoardProductVO> non_recentList = new ArrayList<>();
-        ArrayList<BoardProductVO> recentList = new ArrayList<>();
-    	int non_index1 = non_userCK.getValue().indexOf("/");
-    	int index1 = userCK.getValue().indexOf("/");
-    	String non_str = non_userCK.getValue().substring(non_index1+1);
-    	String str = userCK.getValue().substring(index1+1);
-    	String[] non_recentArray = non_str.split("/");
-    	String[] recentArray = str.split("/");
-    	
-    	for(int i=0; i<non_recentArray.length; i++) {
-    		non_recentList.add(boardProductService.getBoardProductVO(non_recentArray[i]));
-    	}
-    	
-    	for(int i=0; i<recentArray.length; i++) {
-    		recentList.add(boardProductService.getBoardProductVO(recentArray[i]));
-    	}
-    	
     	model.addAttribute("non_list",non_recentList);
+    	System.out.println("비회원:"+non_recentList.get(0).getBoard_id());
     	model.addAttribute("list",recentList);
+    	System.out.println("회원:"+recentList.get(0).getThumbnail_thum_path());
         int vo_list_size = 0;
         
         if(category_1 != 0) {
