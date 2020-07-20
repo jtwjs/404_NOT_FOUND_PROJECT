@@ -55,7 +55,8 @@
 	                	<h2 class="content-title">프로필수정</h2>
                    		<article class="update__form--customer">
                    			<h5><b>회원정보 입력</b></h5>
-                    			<form name="update__form--customer" id="update__profile--form" action="UpdateBuyerAccount.by" method="post" >
+                    			<form name="update__form--customer" id="update__profile--form" action="UpdateBuyerAccount.by"
+                    			 method="post" encType="multipart/form-data">
                     			<div class="update_profile-photo">
                     				<div id="update_profile-showingPart">
 	                    			    <label for="profilePhoto" class="virtual">사진</label>
@@ -73,7 +74,7 @@
                     			    <div id="update_profile-hidePart">
                     			    	<div class="profile_hidePart-change">
 	                    			    	<label for="change-photo">사진 선택</label>
-	                    			    	<input type="file" id="change-photo" class="hide" name="profileImg"/>
+	                    			    	<input type="file" id="change-photo" class="hide" name="profileImg" accept=".gif, .jpg, .png"/>
 	                    			    	<button type="button" id="default-photo">기본이미지로 변경</button>
                     			    	</div>
                     			    	<div class="profile_hidePart-result">

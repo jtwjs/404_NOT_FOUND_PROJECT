@@ -1,8 +1,8 @@
 package com.spring.order;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,19 +64,21 @@ public class OrderController {
     }
     
     @GetMapping(value = "/AddCart.or")  // 장바구니
+    @ResponseBody
     public void addCart(HttpServletRequest request, HttpServletResponse response, 
-    		String board_id, int quantity, String buyer_id, int login_case) throws IOException {
+    		String board_id, String quantity, String buyer_id) throws IOException {
     	
-    	if(login_case == 1) { // 로그인 중일 때
+    	request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        
     		
-    		 if(orderService.getBoardId(board_id, buyer_id) > 0) {
-    	        	
-    	        	
-    	        	
+    		 if(orderService.getBoardId(board_id, buyer_id) != 0) {
+    			 out.println("이미 장바구니에 등록된 상품입니다.");
     	        }else {
     	        	ProductCartVO vo = new ProductCartVO();
     	        	vo.setBoard_id(board_id);
-    	        	vo.setQuantity(quantity);
+    	        	vo.setQuantity(Integer.valueOf(quantity));
     	        	
     	        	vo.setBuyer_id(buyer_id);  
     	        	
@@ -89,103 +91,13 @@ public class OrderController {
     	    		vo.setCart_id(cart_id.toString());
     	    		
     	    		if(orderService.insertCart(vo) == 1) {
-    	    		
+    	    			out.println("장바구니에 등록되었습니다.");
     	    		}
-
     	        }
     		 
-    	}else {  // 비회원일 때
-    		
-    		
-    		Cookie[] cookies = request.getCookies(); 
-
-    		for(Cookie cookie : cookies) {
-    			
-    			if(cookie.getName().equals("nonMember_buyer_id")) {
-    	 			
-    				if(!cookie.getValue().equals("")) {
-    					
-        				
-        				 UUID uuid = UUID.randomUUID(); // 중복 방지를 위해 랜덤값 생성
-     	             	long getl = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
-        				
-     	             	StringBuilder rand_id = new StringBuilder(
-     	             			"nonMember" + "-" + Long.toString(getl, 10));
-     	             	
-     	             	Cookie cookie_buyer_id = new Cookie("nonMember_buyer_id", URLDecoder.decode(rand_id.toString(), "UTF-8"));
-     	             	cookie_buyer_id.setPath("/");
-     	             	
-     	     			response.addCookie(cookie_buyer_id);
-
-    				}else {
-    					cookie.setPath("/");
-        				cookie.setMaxAge(0);
-        				
-        				UUID uuid = UUID.randomUUID(); // 중복 방지를 위해 랜덤값 생성
-                    	long getl = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
-                    	
-                    	StringBuilder rand_id = new StringBuilder(
-                    			"nonMember" + "-" + Long.toString(getl, 10));
-                    	
-                    	Cookie cookie_buyer_id = new Cookie("nonMember_buyer_id", URLDecoder.decode(rand_id.toString(), "UTF-8"));
-                    	cookie_buyer_id.setPath("/");
-                    	response.addCookie(cookie_buyer_id);
-    				    }
-    	 			 
-    		    	}
-    			
-    			if(cookie.getName().equals("nonMember_board_id")) { // board_id 저장
-    				
-    				if(!cookie.getValue().equals("")) {
-    					StringBuilder cookieVal = new StringBuilder(cookie.getValue() + "a" + board_id);
-    					
-    					
-        				Cookie newCookie = new Cookie("nonMember_board_id", URLDecoder.decode(cookieVal.toString(), "UTF-8"));
-        				newCookie.setPath("/");
-        				
-        				response.addCookie(newCookie);
-        				
-    				}else {
-    					cookie.setPath("/");
-        				cookie.setMaxAge(0);
-        				
-        				Cookie cookie_board_id = new Cookie("nonMember_board_id", board_id);
-            			cookie_board_id.setPath("/");
-            			response.addCookie(cookie_board_id);
-    				}
-    				
-    			}
-    			
-    			if(cookie.getName().equals("nonMember_quantity")) { // quantity 저장
-    				
-    				if(!cookie.getValue().equals("")) {
-    					StringBuilder cookieVal = new StringBuilder(cookie.getValue() + "a" + quantity);
-        				Cookie newCookie = new Cookie("nonMember_quantity", URLDecoder.decode(cookieVal.toString(), "UTF-8"));
-        				newCookie.setPath("/");
-        				
-        				response.addCookie(newCookie);
-
-    				}else {
-    					cookie.setPath("/");
-        				cookie.setMaxAge(0);
-        				
-        				Cookie cookie_quantity = new Cookie("nonMember_quantity", URLDecoder.decode(String.valueOf(quantity), "UTF-8"));
-            			cookie_quantity.setPath("/");
-            			response.addCookie(cookie_quantity);
-    				}
-
-    			}
-    			
-    			
-    		}
-    		
-    		
-    	}
-    	
-       
+		out.flush();
 		
     }
-
     @RequestMapping(value = "/CartView.or")  // 장바구니
     public String cartView(Model model, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
     	
@@ -279,18 +191,28 @@ public class OrderController {
    	   
    	   }else {
    		   
+   		   
+   		   int cart_list_size = 0;
+   		   
         	cart_list = orderService.getCartList(buyer_id);
         	
-         	vo_list = new ArrayList<BoardProductVO>();
+        	if(cart_list != null) {
+        		
+        		vo_list = new ArrayList<BoardProductVO>();
+        		cart_list_size = cart_list.size();
+        		quantity = new int[cart_list_size];
+        		
+             	for(int i = 0; i < cart_list_size; i++) {
+             		BoardProductVO vo = boardProductService.getBoardProductVO(cart_list.get(i).getBoard_id());
+             		vo_list.add(vo);
+             		
+             		quantity[i] = cart_list.get(i).getQuantity();
+             	}
+        	}
          	
-         	for(int i = 0; i < cart_list.size(); i++) {
-         		BoardProductVO vo = boardProductService.getBoardProductVO(cart_list.get(i).getBoard_id());
-         		vo_list.add(vo);
-         	}
-         }
+       }
    	    
-   	   
-   	   
+   	    
     	if(cart_list != null) {
             model.addAttribute("cart_list", cart_list);
     	}
@@ -303,6 +225,7 @@ public class OrderController {
     	
     	return "Order/order_cart";
     }
+    
     
     @GetMapping(value = "/CartAmountCalc.or")  // 장바구니 수량을 변경했을 때 데이터베이스로 전달
     public void cartAmountCalc(String cart_id, int quantity) {

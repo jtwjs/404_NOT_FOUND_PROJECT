@@ -7,18 +7,24 @@
 <!-- root-context에서 아래와 같이 typeAliasesPackage를 설정하면 패키지 경로 생략 가능. -->
 <mapper namespace="com.spring.mapper.WishListMapper">
 
-	  <resultMap type="com.spring.buyer.WishListVO" id="WishListMap">
+    <resultMap type="com.spring.buyer.WishListVO" id="WishListMap">
         <result property="wish_id" column="wish_id" />
         <result property="buyer_id" column="buyer_id" />
         <result property="board_id" column="board_id" />
+        <result property="title" column="title" />
+        <result property="price" column="price" />
+        <result property="thumbnail_thum" column="thumbnail_thum" />
+        <result property="thumbnail_thum_path" column="thumbnail_thum_path" />
     </resultMap>
+
 	<!-- id는 Mapper.java(여기선 MemberMapper.java)에 동일하게 사용해야된다. -->  
+	  
 	<select id="getWishListOverlapCheck" parameterType="String" resultType="int">
 	    SELECT COUNT(*) FROM wish_list WHERE board_id = #{board_id} AND buyer_id = #{buyer_id}
 	</select>
 	
 	<insert id="insertWishList" parameterType="com.spring.buyer.WishListVO">
-	    INSERT INTO wish_list VALUES (#{wish_id}, #{buyer_id}, #{board_id})
+	    INSERT INTO wish_list VALUES (#{wish_id}, #{buyer_id}, #{board_id}, #{title} , #{price}, 
+	        #{thumbnail_thum}, #{thumbnail_thum_path})
 	</insert>
-
 </mapper>

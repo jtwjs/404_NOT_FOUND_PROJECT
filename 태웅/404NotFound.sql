@@ -48,11 +48,13 @@ create table member_buyer(          -- 援щℓ�옄 �뀒�씠釉�
     join_date date default sysdate not null,        -- �쉶�썝媛��엯�씪
     wthdr_date date,                -- �쉶�썝�깉�눜�씪
     save_point number  default 0 not null,     -- �쟻由쎄툑
-    profile_img varchar2(200),          --�봽濡쒗븘�궗吏�
+    profile_img varchar2(200) default 'no_profile.png',          --�봽濡쒗븘�궗吏�
+    profile_img_path varchar2(100) default '/img/common/',
     last_loginDate date default sysdate,                --留덉�留됱젒�냽�씪�옄
     constraint member_buyer_buyer_id_pk primary key(buyer_id)
 );
 
+select * from member_buyer;
 /*buyer_num Sequence*/
 CREATE SEQUENCE buyer_num_seq
     INCREMENT BY 1
@@ -174,6 +176,7 @@ create table board_notice(            -- 怨듭��궗�빆
     register_date date not null            -- 怨듭��궗�빆 �벑濡앹씪
     
 );
+select * from board_product;
 create table board_product(                     -- �뙋留ㅺ쾶�떆�뙋
     board_id varchar2(32) not null,             -- 寃뚯떆�뙋 ID (湲곕낯�궎)
     seller_id varchar2(16) not null,            -- �옉�꽦�옄 (member_seller�뀒�씠釉� �쇅�옒�궎)
@@ -219,11 +222,16 @@ create table board_product(                     -- �뙋留ㅺ쾶�떆�뙋
     read_count number not null,                 -- 議고쉶�닔
     constraint board_product_board_id_pk primary key(board_id)
 );
+select * from board_product;
 
 create table wish_list(
-    wish_id varchar2(32) not null,         -- �쐞�떆由ъ뒪�듃 ID媛� (湲곕낯�궎, �옖�뜡�깮�꽦)
-    buyer_id varchar2(16) not null,        -- 援щℓ�옄 ID (member_buyer�뀒�씠釉� �쇅�옒�궎)
-    board_id varchar2(32) not null,        -- �뙋留ㅺ쾶�떆�뙋 ID (board_product�뀒�씠釉� �쇅�옒�궎)
+    wish_id varchar2(32) not null,         -- 위시리스트 ID값 (기본키, 랜덤생성)
+    buyer_id varchar2(16) not null,        -- 구매자 ID (member_buyer테이블 외래키)
+    board_id varchar2(32) not null,        -- 판매게시판 ID (board_product테이블 외래키)
+    title varchar2(100) not null,          -- 게시판 이름
+    price number not null,                 -- 판매가
+    thumbnail_thum varchar2(100),          -- 썸네일 이미지 이름
+    thumbnail_thum_path varchar2(100),     -- 썸네일 썸네일 경로
     constraint wish_list_wish_id_pk primary key(wish_id)
 );
 

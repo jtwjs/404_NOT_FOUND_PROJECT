@@ -1,6 +1,8 @@
 var allCheck = document.getElementById('all-check'),
 	checkBox = document.getElementsByName('ck_item'),
-	checkBoxLength = document.getElementsByName('ck_item').length;
+	checkBoxLength = document.getElementsByName('ck_item').length
+	deleteBtn = document.getElementById('view-delete'),
+	form = document.getElementById('recentView_form');
 
 for(var i = 0; i < checkBoxLength; i++){
 	checkBox[i].addEventListener('click',function(){
@@ -30,3 +32,9 @@ function uncheck_all() {
 		checkBox[i].checked = false;
 	}
 }
+
+deleteBtn.addEventListener('click',function() {
+	
+	form.submit();
+	
+});

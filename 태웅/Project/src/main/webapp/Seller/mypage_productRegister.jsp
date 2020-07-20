@@ -224,7 +224,7 @@
                                             <ul class="add_file">
                                                 <li class="on">
                                                     <div class="comment_add_file">
-                                                        <input name="thumbnail_origin" type="file" accept="image/*;capture=camera" 
+                                                        <input name="thumbnail_origin" type="file" accept="image/*;capture=camera,.gif, .jpg, .png"
                                                             id="thumbnail_origin" onchange="return checkExtension(this, 1);" />
                                                         <div id="image_container_thumbnail"></div>
                                                     </div>
@@ -238,28 +238,28 @@
                                             <ul class="add_file">
                                                 <li class="on">
                                                     <div class="comment_add_file">
-                                                        <input name="product_origin_1" type="file" accept="image/*;capture=camera" 
+                                                        <input name="product_origin_1" type="file" accept="image/*;capture=camera,.gif, .jpg, .png" 
                                                             id="product_origin_1" onchange="return checkExtension(this, 2);" />
                                                         <div id="image_container_product_1"></div>
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div class="comment_add_file">
-                                                        <input name="product_origin_2" type="file" accept="image/*;capture=camera" 
+                                                        <input name="product_origin_2" type="file" accept="image/*;capture=camera,.gif, .jpg, .png" 
                                                             id="product_origin_2" onchange="return checkExtension(this, 3);" />
                                                         <div id="image_container_product_2"></div>
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div class="comment_add_file">
-                                                        <input name="product_origin_3" type="file" accept="image/*;capture=camera" 
+                                                        <input name="product_origin_3" type="file" accept="image/*;capture=camera,.gif, .jpg, .png" 
                                                             id="product_origin_3" onchange="return checkExtension(this, 4);" />
                                                         <div id="image_container_product_3"></div>
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div class="comment_add_file">
-                                                        <input name="product_origin_4" type="file" accept="image/*;capture=camera" 
+                                                        <input name="product_origin_4" type="file" accept="image/*;capture=camera,.gif, .jpg, .png" 
                                                             id="product_origin_4" onchange="return checkExtension(this, 5);" />
                                                         <div id="image_container_product_4"></div>
                                                     </div>

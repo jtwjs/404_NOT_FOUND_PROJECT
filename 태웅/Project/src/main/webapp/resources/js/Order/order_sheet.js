@@ -103,7 +103,6 @@ defaultAddr.addEventListener('click',function(){
 	if(defaultAddr.getAttribute('checked')){
 		return;
 	}else {
-		alert(document.getElementById('userAddrNum').value)
 		postcode.value = defaultPostcode;
 		roadAddr.value = defaultRoadAddr;
 		detailAddr.value = defaultDetailAddr;

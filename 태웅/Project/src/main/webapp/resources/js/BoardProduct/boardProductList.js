@@ -5,19 +5,26 @@ function pageViewOption(url, category, category_code, sort_list, pageNum, val){
     location.href= url + "?" + category + "=" + category_code + "&sort_list=" + sort_list +"&page_num=" + pageNum + "&page_amount=" + val;
 }
 
-function setStyle(amount, sort_list, category){
+function setStyle(amount, sort_list, category_name, category_code){
 	
 	var categoryCode = "";
 	
-	if(category.length == 3){
-		categoryCode = document.getElementById("category-2--" + String(category));
-	}else{
-		categoryCode = document.getElementById("category-local--" + String(category));
+	if(category_name == "category_2"){
+		categoryCode = document.getElementById("category-2--" + String(category_code));
+		
+		categoryCode.style.color = "#0bbf0b";
+		categoryCode.style.fontSize = "17px";
+		categoryCode.style.fontWeight = "bold";
+		
+	}else if(category_name == "category_local"){
+		categoryCode = document.getElementById("category-local--" + String(category_code));
+		
+		categoryCode.style.color = "#0bbf0b";
+		categoryCode.style.fontSize = "17px";
+		categoryCode.style.fontWeight = "bold";
+		
 	}
 	
-//	categoryCode.style.color = "#0bbf0b";
-	/*categoryCode.style.fontSize = "17px";
-	categoryCode.style.fontWeight = "bold";*/
 	
 	var sortList1 = document.getElementById("sort-list--" + sort_list);
 	sortList1.style.color = "#0bbf0b";
@@ -34,5 +41,5 @@ function setStyle(amount, sort_list, category){
     }
 	
 	var nowPage = document.getElementById("now-page");
-//	nowPage.style.color = "#0bbf0b";
+	nowPage.style.color = "#0bbf0b";
 }

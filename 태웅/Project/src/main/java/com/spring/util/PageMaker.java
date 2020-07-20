@@ -1,4 +1,4 @@
-package com.spring.boardproduct;
+package com.spring.util;
 
 public class PageMaker {
 	private int startPage;

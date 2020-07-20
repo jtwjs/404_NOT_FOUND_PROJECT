@@ -3,6 +3,8 @@ package com.spring.boardproduct;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,12 +25,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.admin.AccountVO;
 import com.spring.config.Security.CurrentUser;
+import com.spring.util.PageMaker;
 
 
 
@@ -66,7 +71,16 @@ public class BoardProductController {
         		String non_str = non_userCK.getValue().substring(non_index1+1);
         		String[] non_recentArray = non_str.split("/");
         		for(int i=0; i<non_recentArray.length; i++) {
-            		non_recentList.add(boardProductService.getBoardProductVO(non_recentArray[i]));
+        			BoardProductVO product = boardProductService.getBoardProductVO(non_recentArray[i]);
+        			try {
+        				product.setThumbnail_thum(URLEncoder.encode(product.getThumbnail_thum(), "UTF-8"));
+        				product.setThumbnail_thum_path(URLEncoder.encode(product.getThumbnail_thum_path(),"UTF-8"));
+        				
+        			}catch(UnsupportedEncodingException e) {
+        				e.printStackTrace();
+        				
+        			}
+            		non_recentList.add(product);
             	}
         	}else if(c.getName().equals("AccountRecentlyProduct")) {
         		userCK = c;
@@ -74,14 +88,21 @@ public class BoardProductController {
             	String str = userCK.getValue().substring(index1+1);
             	String[] recentArray = str.split("/");
             	for(int i=0; i<recentArray.length; i++) {
-            		recentList.add(boardProductService.getBoardProductVO(recentArray[i]));
+            		BoardProductVO product = boardProductService.getBoardProductVO(recentArray[i]);
+            		try {
+            			product.setThumbnail_thum(URLEncoder.encode(product.getThumbnail_thum(), "UTF-8"));
+            			product.setThumbnail_thum_path(URLEncoder.encode(product.getThumbnail_thum_path(), "UTF-8"));
+            		}catch(UnsupportedEncodingException e) {
+            			e.printStackTrace();
+            		}
+            		recentList.add(product);
             	}
         	}
+        
         }
     	model.addAttribute("non_list",non_recentList);
-    	System.out.println("비회원:"+non_recentList.get(0).getBoard_id());
     	model.addAttribute("list",recentList);
-    	System.out.println("회원:"+recentList.get(0).getThumbnail_thum_path());
+    
         int vo_list_size = 0;
         
         if(category_1 != 0) {
@@ -197,7 +218,8 @@ public class BoardProductController {
     	
 		return "BoardProduct/boardProductList";
 	}
-	
+		  
+   
     @GetMapping(value = "/BoardProductView.bo") // 판매글 보기
 	public String boardProductView(Model model,HttpServletRequest request,HttpServletResponse response, String board_id) {
     	Cookie[] cookies = request.getCookies();

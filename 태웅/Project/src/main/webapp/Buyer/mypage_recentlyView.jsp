@@ -52,10 +52,10 @@
                 
                     <section id="myPage">
                         <h2 class="content-title">최근 본 상품</h2>
-                        
                             <article id="content__view">
                                 <div id="content__view--box">
                                     <div><span>최대 50개까지 조회 가능합니다.</span></div>
+                                    
                                     <div>
                                         <input type="button" value="삭제" id="view-delete"/>
                                         <input type="button" value="관심상품저장" id="view-wish"/>
@@ -64,7 +64,8 @@
                             </article>
                             
                             <article id="transaction__detail">
-
+							<form action='<c:url value='/BuyerMyPageRecentlyView_deleteCheck.by' />' method="POST" id="recentView_form">
+                        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                 <table class="transaction__detail--table">
                                     <thead>
                                         <tr>
@@ -89,15 +90,35 @@
                                         </c:if>
                                         <c:forEach var="list" items="${list}" varStatus="status">
                                         <tr>
-                                        	<th class="product-check"><input type="checkbox" name="ck_item" value="{list.board_id}"/></th>
-                                        	<td class="product-name"><img class="product-img" src="${list.thumbnail_thum_path}${list.thumbnail_thum}" alt="상품 썸네일 이미지" />${list.title}</td>
-                                        	<td>${list.price}</td>
+                                        	<th class="product-check"><input type="checkbox" name="ck_item" value="${list.board_id}"/></th>
+                                        	<td class="product-name"><img class="product-img" src="display?path=${list.thumbnail_thum_path}&name=${list.thumbnail_thum}"  alt="상품 썸네일 이미지" />${list.title}</td>
+                                        	<td>${list.price}원</td>
                                         </tr>
                                         </c:forEach>
                                     </tbody>
                                 </table>
+                               </form>
+                               <div class="n-paging">
+                               	<ul>
+                               	<c:if test="${pageMaker.prev}">
+                     				<li><a href="BuyerMyPageSavePoint.by${pageMaker.makeQuery(pageMaker.startPage - 1)}" class="prev">이전</a></li>
+                     			</c:if>
+                     			
+                     			<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+                     				<c:if test="${currentPage eq idx}">
+                     				<li><a href="BuyerMyPageSavePoint.by${pageMaker.makeQuery(idx)}" class="page active">${idx}</a></li>
+                     				</c:if>
+                     				<c:if test="${currentPage ne idx}">
+                     				<li><a href="BuyerMyPageSavePoint.by${pageMaker.makeQuery(idx)}" class="page">${idx}</a></li>
+                     				</c:if>
+                     			</c:forEach>
+                     			
+                     			<c:if test="${pageMaker.next && pageMaker.endPage> 0}">
+                     				<li><a href="BuyerMyPageSavePoint.by${pageMaker.makeQuery(pageMaker.endPage + 1)}" class="next">다음</a></li>
+                     			</c:if>
+                               	</ul>
+                               </div>
                             </article>
-
                     </section>
 	            </section>
 	        </div>	
@@ -107,7 +128,7 @@
     
 
     <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_menu.js'/>"></script>
-    <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_recently.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_recentlyView.js?after'/>"></script>
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js'/>" ></script>    

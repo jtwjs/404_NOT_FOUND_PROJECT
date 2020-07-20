@@ -62,6 +62,14 @@ public class PageMaker {
 		prev = startPage == 1 ? false : true;
 		next = endPage * cri.getPerPageNum() >= totalCount ? false:true;
 	}
+	public String makeQuery(int page) {
+		UriComponents uriComponents = UriComponentsBuilder.newInstance()
+															.queryParam("page", page)
+															.queryParam("perPageNum", cri.getPerPageNum())
+															.build();
+		return uriComponents.toUriString();
+	}
+	
 	
 	public String makeQuery(int page,String status) {
 		UriComponents uriComponents = UriComponentsBuilder.newInstance()

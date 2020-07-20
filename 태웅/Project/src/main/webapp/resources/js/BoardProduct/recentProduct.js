@@ -32,7 +32,6 @@ function hasScrolled() {
   }
 
   lastScrollTop = st;
-  console.log("d왜안도: " + lastScrollTop);
 }
 
 
@@ -44,14 +43,19 @@ var $slideWrap = document.querySelector('.content-body'),
 	$slideCount = $slide.length,
 	$currentIndex = 0,
 	$navUp = document.getElementById('up-btn'),
-	$navDown = document.getElementById('down-btn');
+	$navDown = document.getElementById('down-btn'),
+	$countValue = document.getElementById('count'),
+	$maxCount = document.getElementById('list_length').value
+	$count = 3;
+var abc = $count;
    
-	console.log($slideCount);
-
-
-	
+	if($maxCount <= 3){
+		$countValue.innerText = $maxCount
+	}else{
+		$countValue.innerText = abc;
+	}
 	//슬라이드 위치 지정
-	$slideContainer.style.top = 0 + '%';
+	$slideContainer.style.top = 0 + 'px';
 	
 	for(var i = 0; i < $slideCount; i++ ) {
 		$slide[i].style.top = i * 85 + 'px';
@@ -68,8 +72,7 @@ var $slideWrap = document.querySelector('.content-body'),
 	
 	// 버튼기능
 	
-	$navDown.addEventListener('click',function(){
-		
+	$navDown.addEventListener('click',function(){	
 		if($slideCount <4) {
 			$navDown.classList.add('disable');
 		}
@@ -77,6 +80,9 @@ var $slideWrap = document.querySelector('.content-body'),
 			goToSlide($currentIndex);
 		}else {
 			goToSlide($currentIndex - 1);
+			if($count != $maxCount)
+			abc += 1;
+			$countValue.innerText = abc;
 		}
 		
 		if( $currentIndex == 0 ) {
@@ -88,9 +94,11 @@ var $slideWrap = document.querySelector('.content-body'),
 			$navDown.classList.add('disable');
 		}else{
 			$navDown.classList.remove('disable');
-		}	
-		console.log("현재페이지:"+$currentIndex);
+		}
+			 console.log("현재페이지:"+$currentIndex);
+
 	});
+		
 	
 	
 	
@@ -103,6 +111,9 @@ var $slideWrap = document.querySelector('.content-body'),
 			goToSlide($currentIndex);
 		}else {
 			goToSlide($currentIndex + 1);
+			if(abc != 3)
+				abc -= 1;
+			$countValue.innerText = abc;
 		}
 		
 		if( $currentIndex == 0 ) {
@@ -116,6 +127,7 @@ var $slideWrap = document.querySelector('.content-body'),
 			$navDown.classList.remove('disable');
 			
 		}	
+		
 		console.log("현재페이지:"+$currentIndex);
 	});
 	
