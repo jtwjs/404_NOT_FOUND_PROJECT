@@ -1,8 +1,16 @@
+body{
+	position: relative;
+}
+
 #recent-product {
- position: fixed;
- top: 50%;
+ position: absolute;
+  top: 550px;
  right: 30px;
- transform: translateY(-50%);	
+ transition: all 750ms ease-in-out;
+}
+
+#recent-product.fixOn{
+	position: absolute;
 }
 
 #recent-product.absolute {

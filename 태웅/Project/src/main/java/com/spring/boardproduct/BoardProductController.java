@@ -247,11 +247,27 @@ public class BoardProductController {
     		cookie.setValue("Start"+cookie.getValue().substring(index2)+"/"+board_id);	
     		}
     	}
+    	 ArrayList<BoardProductVO> non_recentList = new ArrayList<>();
+    	 int non_index1 = cookie.getValue().indexOf("/");
+    	 	String non_str = cookie.getValue().substring(non_index1+1);
+ 			String[] non_recentArray = non_str.split("/");
+ 		for(int i=0; i<non_recentArray.length; i++) {
+ 			BoardProductVO product = boardProductService.getBoardProductVO(non_recentArray[i]);
+ 			try {
+ 				product.setThumbnail_thum(URLEncoder.encode(product.getThumbnail_thum(), "UTF-8"));
+ 				product.setThumbnail_thum_path(URLEncoder.encode(product.getThumbnail_thum_path(),"UTF-8"));
+ 				
+ 			}catch(UnsupportedEncodingException e) {
+ 				e.printStackTrace();
+ 				
+ 			}
+     		non_recentList.add(product);
+ 		}
     	response.addCookie(cookie);
     	System.out.println("쿠키값: "+cookie.getValue());
     	BoardProductVO vo = boardProductService.getBoardProductVO(board_id);
     	model.addAttribute("vo", vo);     
-		
+    	model.addAttribute("non_list",non_recentList);
 		return "BoardProduct/boardProductView";
 	}
     
@@ -281,10 +297,25 @@ public class BoardProductController {
     		cookie.setValue("Start"+cookie.getValue().substring(index2)+"/"+board_id);	
     		}
     	}
+    	 ArrayList<BoardProductVO> recentList = new ArrayList<>();
+    	 int index1 = cookie.getValue().indexOf("/");
+     	String str = cookie.getValue().substring(index1+1);
+     	String[] recentArray = str.split("/");
+     	for(int i=0; i<recentArray.length; i++) {
+     		BoardProductVO product = boardProductService.getBoardProductVO(recentArray[i]);
+     		try {
+     			product.setThumbnail_thum(URLEncoder.encode(product.getThumbnail_thum(), "UTF-8"));
+     			product.setThumbnail_thum_path(URLEncoder.encode(product.getThumbnail_thum_path(), "UTF-8"));
+     		}catch(UnsupportedEncodingException e) {
+     			e.printStackTrace();
+     		}
+     		recentList.add(product);
+     	}
     	response.addCookie(cookie);
     	System.out.println("쿠키값2: "+cookie.getValue());
     	BoardProductVO vo = boardProductService.getBoardProductVO(board_id);
     	model.addAttribute("vo", vo);     
+    	model.addAttribute("list",recentList);
 		
 		return "BoardProduct/boardProductView";
 	}

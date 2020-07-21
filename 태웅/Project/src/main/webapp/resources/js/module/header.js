@@ -528,7 +528,7 @@ var headerTimer1 = setInterval(function () {
 
 function hasScrolled() {
   var st = $(this).scrollTop(); //현재 스크롤의 위치 저장
-  console.log("st값: " + st);
+ 
   //설정한 delta 값보다 더 스크롤되었는지 확인
   if (Math.abs(lastScrollTop - st) <= delta) {
     return;
@@ -545,7 +545,6 @@ function hasScrolled() {
   }
 
   lastScrollTop = st;
-  console.log("lastScrollTop: " + lastScrollTop);
 }
 
 

@@ -38,12 +38,14 @@
     <link href="<c:url value='/resources/css/module/reset.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/header.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css?after'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/BoardProduct/recentProduct.css?after'/>" rel="stylesheet" />
     <!-- header, css end -->
     <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/BoardProduct/boardProductView.css'/>" rel="stylesheet" />
     <title><%=vo.getTitle() %></title>
 </head>
 <body onload="enableCheck('<%=vo.getQuantity()%>', '<%=vo.getSale_status()%>', '<%=login_case%>', '<%=user_id%>', '<%=vo.getBoard_id()%>')">
+<jsp:include page="recentProduct.jsp" flush="false"/>
    <section id="sub-main" class="seller">
 	  <div class="sub-top">
 	  	<h2 class="sub-title">상품</h2>
@@ -72,6 +74,7 @@
 
     <!-- contents 시작 -->
     <main id="main">
+    
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
@@ -498,6 +501,7 @@
 
 
     <script type="text/javascript" src="<c:url value='/resources/js/BoardProduct/boardProductView.js?after'/>" ></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/BoardProduct/recentProduct.js?after'/>" ></script>
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    

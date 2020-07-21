@@ -148,7 +148,7 @@ profile_img_path varchar2(100),
 last_loginDate date default sysdate,
 constraint member_seller_seller_id_pk primary key(seller_id)
 );
-
+select  *from member_seller;
 CREATE SEQUENCE seller_num_seq
     INCREMENT BY 1
     START WITH 1
