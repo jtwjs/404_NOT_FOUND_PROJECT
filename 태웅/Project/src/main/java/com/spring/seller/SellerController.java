@@ -1,12 +1,19 @@
 package com.spring.seller;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.file.Files;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -25,7 +32,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.spring.admin.AccountVO;
 import com.spring.boardproduct.BoardProductVO;
@@ -46,48 +56,25 @@ public class SellerController {
 	public String sellerMyPage(Model model, @CurrentUser AccountVO account) {
 		SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
 		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
-    	if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
-    		sellerAccount.setProfileImg("profile-basic.png");
-    	}
+		try {
+			if(sellerAccount.getProfileImg() == null&&sellerAccount.getProfileImgPath() ==null) {
+				sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(),"UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
     	model.addAttribute("user",sellerAccount);
     	
     	
 		return "Seller/mypage_main";
 	}
 	
-//	@RequestMapping(value = "/SellerInfoModify.se")  // �봽濡쒗븘 �닔�젙
-//	public String sellerInfoModify(Model model, @CurrentUser AccountVO account) {
-//		
-//		String id = account.getId();
-//		SellerVO sellerAccount =  Sellerservice.selectOneById(id);
-//		
-//		int mailIndex = sellerAccount.getEmail().indexOf("@");
-//		model.addAttribute("loginDate", sellerAccount.getLoginDate().substring(0,10));
-//		model.addAttribute("represent", sellerAccount.getRepresent());
-//		model.addAttribute("reportNum", sellerAccount.getOrderReportNum());
-//		model.addAttribute("shopName", sellerAccount.getShopName());
-//		model.addAttribute("name", sellerAccount.getName());
-//		model.addAttribute("id", sellerAccount.getId());
-//		model.addAttribute("tel1", sellerAccount.getTel().substring(0,3));
-//		model.addAttribute("tel2", sellerAccount.getTel().substring(3,7));
-//		model.addAttribute("tel3", sellerAccount.getTel().substring(7,11));
-//	
-//		model.addAttribute("mailId", sellerAccount.getEmail().substring(0,mailIndex));
-//		model.addAttribute("mailAddr", sellerAccount.getEmail().substring(mailIndex+1));
-//		model.addAttribute("addr", sellerAccount.getAddress());
-//		model.addAttribute("bankName", sellerAccount.getBankName());
-//		model.addAttribute("bankAccount", sellerAccount.getBankAccountNum());
-//		
-//		
-//		
-//		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
-//    		model.addAttribute("profileImg", "profile-basic.png");
-//    	}else {
-//    		model.addAttribute("profileImg", sellerAccount.getProfileImg());
-//    	}
-//		
-//		return "Seller/mypage_infoModify";
-//	}
 	
 	
 	@RequestMapping(value = "/SellerProductRegister.se")  // �긽�뭹�궡�뿭 - �긽�뭹�벑濡�
@@ -95,9 +82,18 @@ public class SellerController {
 		
 		SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
 		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
-		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
-    		sellerAccount.setProfileImg("profile-basic.png");
-    	}
+		try {
+			if(sellerAccount.getProfileImg() == null&&sellerAccount.getProfileImgPath() ==null) {
+				sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(),"UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		
 		model.addAttribute("user",sellerAccount);
 		
@@ -112,9 +108,18 @@ public class SellerController {
 		board.setSeller_id(account.getId());
 		ArrayList<BoardProductVO> productList = Sellerservice.selectProductListById(board.getSeller_id());
 
-		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
-    		sellerAccount.setProfileImg("profile-basic.png");
-    	}
+		try {
+			if(sellerAccount.getProfileImg() == null&&sellerAccount.getProfileImgPath() ==null) {
+				sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(),"UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		
 		model.addAttribute("productList", productList);
 		model.addAttribute("user",sellerAccount);
@@ -129,9 +134,18 @@ public class SellerController {
 		SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
 		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
 		BoardProductVO product = Sellerservice.BoardSelectOneByBoardId(board_id);
-		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
-    		sellerAccount.setProfileImg("profile-basic.png");
-    	}
+		try {
+			if(sellerAccount.getProfileImg() == null&&sellerAccount.getProfileImgPath() ==null) {
+				sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(),"UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		
 		model.addAttribute("product", product);
 		model.addAttribute("user",sellerAccount);
@@ -147,9 +161,18 @@ public class SellerController {
 	public String sellerOrderStatus(Model model, @CurrentUser AccountVO account) {
 		SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
 		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
-		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
-    		sellerAccount.setProfileImg("profile-basic.png");
-    	}
+		try {
+			if(sellerAccount.getProfileImg() == null&&sellerAccount.getProfileImgPath() ==null) {
+				sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(),"UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		
 		model.addAttribute("user",sellerAccount);
 		return "Seller/mypage_orderStatus";
@@ -161,9 +184,18 @@ public class SellerController {
 	public String sellerCalculateManager(Model model, @CurrentUser AccountVO account) {
 		SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
 		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
-		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
-    		sellerAccount.setProfileImg("profile-basic.png");
-    	}
+		try {
+			if(sellerAccount.getProfileImg() == null&&sellerAccount.getProfileImgPath() ==null) {
+				sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(),"UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		
 		model.addAttribute("user",sellerAccount);
 		return "Seller/mypage_calculateManager";
@@ -173,9 +205,18 @@ public class SellerController {
 	public String sellerMarketPriceInfo(Model model, @CurrentUser AccountVO account) {
 		SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
 		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
-		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
-    		sellerAccount.setProfileImg("profile-basic.png");
-    	}
+		try {
+			if(sellerAccount.getProfileImg() == null&&sellerAccount.getProfileImgPath() ==null) {
+				sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(),"UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		
 		model.addAttribute("user",sellerAccount);
 		return "Seller/mypage_marketPriceInfo";
@@ -277,9 +318,18 @@ public class SellerController {
 	public String sellerProductQNA(Model model, @CurrentUser AccountVO account) {
 		SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
 		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
-		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
-    		sellerAccount.setProfileImg("profile-basic.png");
-    	}
+		try {
+			if(sellerAccount.getProfileImg() == null&&sellerAccount.getProfileImgPath() ==null) {
+				sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(),"UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		
 		model.addAttribute("user",sellerAccount);
 		return "Seller/mypage_productQNA";
@@ -289,9 +339,18 @@ public class SellerController {
 	public String sellerProductReview(Model model, @CurrentUser AccountVO account) {
 		SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
 		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
-		if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
-    		sellerAccount.setProfileImg("profile-basic.png");
-    	}
+		try {
+			if(sellerAccount.getProfileImg() == null&&sellerAccount.getProfileImgPath() ==null) {
+				sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(),"UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		
 		model.addAttribute("user",sellerAccount);
 		return "Seller/mypage_productReview";
@@ -318,18 +377,23 @@ public class SellerController {
     	
     }
    
-   
-   
-   @RequestMapping(value =" /profile_defaultImg.se",
-		   method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+
+   @RequestMapping(value ="/profileThumbnail.se", method = RequestMethod.POST,
+		   produces="text/plain;charset=utf-8")
    @ResponseBody
-   public void defultImg(@CurrentUser AccountVO account) {
-	   SellerVO sellerAccount =  Sellerservice.selectOneById(account.getId());
-		
-	   sellerAccount.setProfileImg("");
-	   Sellerservice.UpdateProfileImg(sellerAccount);
+   public String profileThumbnail(Model model, MultipartRequest multipartRequest) {
+	   MultipartFile file = multipartRequest.getFile("imgFile");
+	   SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String str = sdf.format(date);
+		String uploadFolder_profile_img = "C:\\Project156\\upload/profile_img";
+		String img = imgSave(file, uploadFolder_profile_img);
+		System.out.println("img"+img);
+		StringBuilder img_path = new StringBuilder(
+				"/img/profile_img/"+str.replace("-", "/")+"/");
+		String path = img_path.toString();
+		return path+"@"+img;
    }
-   
  
    
 
@@ -344,9 +408,20 @@ public class SellerController {
 		sellerAccount.setTelCarrierNum(sellerAccount.getTel().substring(0,3));
 		sellerAccount.setTelAllocationNum(sellerAccount.getTel().substring(3,7));
 		sellerAccount.setTelDiscretionaryNum(sellerAccount.getTel().substring(7,11));
-	 	if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
-			sellerAccount.setProfileImg("profile-basic.png");
+	 	try {
+			if(sellerAccount.getProfileImg() == null&&sellerAccount.getProfileImgPath() ==null) {
+				sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(),"UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
+		
+	 	
 	 	model.addAttribute("user",sellerAccount);
 	 	
    		return "Seller/mypage_infoModify";
@@ -355,18 +430,33 @@ public class SellerController {
 	
 	
 	@RequestMapping(value = "/UpdateSellerAccount.se")
-   public String UpdateSellerAccount(SellerVO seller) {
-
-   	String telCarrierNum = seller.getTelCarrierNum();
-		String telAllocationNum = seller.getTelAllocationNum();
-		String telDiscretionaryNum = seller.getTelDiscretionaryNum();
-		
-		String emailId = seller.getEmailId();
-		String emailAddr = seller.getEmailAddr();
-
-		
+   public String UpdateSellerAccount(String id, String emailId,String name, String emailAddr, String telCarrierNum,
+		   String telAllocationNum, String telDiscretionaryNum, String bankName, String bankAccountNum,
+		   @RequestPart(value="profileImg", required = false)MultipartFile profile_img)throws IOException{
+		SellerVO seller = new SellerVO();
+		seller.setId(id);
 		seller.setTel(telCarrierNum, telAllocationNum, telDiscretionaryNum);
 		seller.setEmail(emailId, emailAddr);
+		seller.setBankAccountNum(bankAccountNum);
+		seller.setBankName(bankName);
+		seller.setName(name);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String str = sdf.format(date);
+		String uploadFolder_profile_img = "C:\\Project156\\upload/profile_img"; //프로필 이미지 업로드 경로
+		if(!profile_img.isEmpty()) {
+			seller.setProfileImg(imgSave(profile_img, uploadFolder_profile_img));
+			
+			StringBuilder img_path = new StringBuilder(
+					"/img/profile_img/"+str.replace("-", "/")+"/");
+			seller.setProfileImgPath(img_path.toString());
+			
+			
+			}else {
+				seller.setProfileImg("no_profile.png");
+				seller.setProfileImgPath("/img/common/");
+			}
+
 
 		Sellerservice.UpdateSellerAccount(seller);
    	
@@ -384,13 +474,75 @@ public class SellerController {
 	   	System.out.println("11seller.getId() : " + sellerAccount.getId());
 	   	System.out.println("11seller.getPassword() : " + sellerAccount.getPassword());
 	   	
-	   	if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
-			sellerAccount.setProfileImg("profile-basic.png");
+	   	try {
+			if(sellerAccount.getProfileImg() == null&&sellerAccount.getProfileImgPath() ==null) {
+				sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(),"UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
+		
 	   	model.addAttribute("user",sellerAccount);
    	
 	   	return "Seller/mypage_passwordModify";
    }
+	private String imgSave(MultipartFile imgFile, String uploadFolder) {
+		// 저장할 이미지 파일, 저장할 폴더경로
+		// 반드시 원본파일을 만들고 난 뒤 사용해야 함
+		
+		File uploadPath = getFolder(uploadFolder); // 오늘 날짜로 경로폴더 만들기
+		UUID uuid = UUID.randomUUID();  // 파일이름 중복방지를 위하여 랜덤으로 임의의 값 생성
+		StringBuilder file_name = 
+				new StringBuilder(uuid.toString() + "_" + imgFile.getOriginalFilename()); // 파일 이름 만들기
+		File createFile = new File(uploadPath, file_name.toString()); // 저장파일 생성
+		
+		try {
+			
+			if(checkImageType(createFile)) {  // 업로드된 파일이 이미지파일인지 체크
+				imgFile.transferTo(createFile);  // 파일 저장
+			}
+			
+		}catch(Exception e) {
+			
+		}
+		
+		return file_name.toString();
+	}
+	
+	private File getFolder(String uploadFolder) {  // 현재 날짜로 폴더경로 생성
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String str = sdf.format(date);
+		File uploadPath = new File(uploadFolder, str.replace("-", File.separator));
+		
+		if(uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+		
+		return uploadPath;
+	}
+	
+private boolean checkImageType(File file) {  // 파일 이미지 체크
+		
+		try {
+			String contentType = Files.probeContentType(file.toPath());
+			
+			return contentType.startsWith("image");
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return false;
+	}
+	
+	
    
    @RequestMapping(value = "/UpdateSellerPassword.se")
    public String UpdateSellerPassword(SellerVO seller) {
@@ -412,10 +564,20 @@ public class SellerController {
 		System.out.println("listCount : " + Sellerservice.getOrderRecordOneByIdListCount(account.getId()));
 		String id = account.getId();
 		SellerVO sellerAccount = Sellerservice.selectOneById(id);
+		try {
+			if(sellerAccount.getProfileImg() == null&&sellerAccount.getProfileImgPath() ==null) {
+				sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(),"UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		int limit = 10;
-
-		int listcount = Sellerservice.getOrderRecordOneByIdListCount(account.getId());
-		
+		int listcount = Sellerservice.getOrderRecordOneByIdListCount(account.getId());		
 		int startrow = (page - 1) * 10 + 1;
 		int endrow = startrow + limit - 1;
 
@@ -459,9 +621,19 @@ public class SellerController {
 		
 		//사이드메뉴 프로필 정보
 		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0,10));
-    	if(sellerAccount.getProfileImg() == null || sellerAccount.getProfileImg() == "") {
-    		sellerAccount.setProfileImg("profile-basic.png");
-    	}
+		try {
+			if(sellerAccount.getProfileImg() == null&&sellerAccount.getProfileImgPath() ==null) {
+				sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(),"UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
     	model.addAttribute("user",sellerAccount);
 		
 		return "Seller/mypage_transactionList";

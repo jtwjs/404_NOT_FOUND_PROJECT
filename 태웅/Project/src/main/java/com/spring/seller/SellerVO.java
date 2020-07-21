@@ -24,6 +24,7 @@ public class SellerVO {
 	private String bankName;
 	private String bankAccountNum;
 	private String profileImg;
+	private String profileImgPath;
 	private String memberType;
 	private String joinDate;
 	private String wtdrDate;
@@ -158,6 +159,14 @@ public class SellerVO {
 	}
 	public void setProfileImg(String profileImg) {
 		this.profileImg = profileImg;
+	}
+	
+	
+	public String getProfileImgPath() {
+		return profileImgPath;
+	}
+	public void setProfileImgPath(String profileImgPath) {
+		this.profileImgPath = profileImgPath;
 	}
 	public int getSellerNum() {
 		return sellerNum;

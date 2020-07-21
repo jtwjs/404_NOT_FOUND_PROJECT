@@ -56,12 +56,6 @@ public class SellerServiceImpl implements SellerService {
 	}
 
 	@Override
-	public void UpdateProfileImg(SellerVO account) {
-		mapper.UpdateProfileImg(account);
-		
-	}
-
-	@Override
 	public ArrayList<BoardProductVO> selectProductListById(String id) {
 		ArrayList<BoardProductVO> productList = mapper.selectProductListById(id);
 		return productList;

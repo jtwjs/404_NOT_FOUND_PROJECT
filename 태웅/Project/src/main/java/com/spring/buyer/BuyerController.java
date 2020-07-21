@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.spring.admin.AccountVO;
 import com.spring.boardproduct.BoardProductService;
@@ -55,12 +56,18 @@ public class BuyerController {
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
 		buyerAccount.setJoinDate(buyerAccount.getJoinDate().substring(0, 10));
 		try {
-			buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
-			buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+				buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
+		
 		model.addAttribute("user", buyerAccount);
 		return "Buyer/mypage_main";
 	}
@@ -70,8 +77,14 @@ public class BuyerController {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
 		try {
-			buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
-			buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+				buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -85,8 +98,14 @@ public class BuyerController {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
 		try {
-			buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
-			buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+				buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -134,8 +153,14 @@ public class BuyerController {
 		}
 		
 		try {
-			buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
-			buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+				buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -202,13 +227,19 @@ public class BuyerController {
 		return "redirect:/BuyerMyPageRecentlyView.by";
 	}
 
-	@RequestMapping(value = "/BuyerMyPageReview.by") // �굹�쓽 �눥�븨 �솢�룞 - 援щℓ�썑湲�
+	@RequestMapping(value = "/BuyerMyPageReview.by") 
 	public String buyerMyPageReview(Model model, @CurrentUser AccountVO account) {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
 		try {
-			buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
-			buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+				buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -218,13 +249,19 @@ public class BuyerController {
 		return "Buyer/mypage_review";
 	}
 
-	@RequestMapping(value = "/BuyerMyPageProductQna.by") // Q&A - �긽�뭹臾몄쓽
+	@RequestMapping(value = "/BuyerMyPageProductQna.by")
 	public String buyerMyPageProductQna(Model model, @CurrentUser AccountVO account) {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
 		try {
-			buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
-			buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+				buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -233,7 +270,7 @@ public class BuyerController {
 		return "Buyer/mypage_productQna";
 	}
 
-	@RequestMapping(value = "/BuyerMyPageServiceQna.by") // Q&A - 1:1 臾몄쓽
+	@RequestMapping(value = "/BuyerMyPageServiceQna.by")
 	public String buyerMyPageServiceQna(Model model, @CurrentUser AccountVO account) {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
@@ -264,8 +301,14 @@ public class BuyerController {
 			pointList.get(i).setApplicationDate(pointList.get(0).getApplicationDate().substring(0, 11));
 		}
 		try {
-			buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
-			buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+				buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -284,12 +327,17 @@ public class BuyerController {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
 		try {
-			buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
-			buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+				buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
 		model.addAttribute("user", buyerAccount);
 		return "Buyer/mypage_grade";
 	}
@@ -379,6 +427,25 @@ public class BuyerController {
 		return "redirect:/JoinBuyerComplete.ad";
 
 	}
+	
+	   
+	   @RequestMapping(value ="/profileThumbnail.by", method = RequestMethod.POST,
+			   produces="text/plain;charset=utf-8")
+	   @ResponseBody
+	   public String profileThumbnail(Model model, MultipartRequest multipartRequest) {
+		   MultipartFile file = multipartRequest.getFile("imgFile");
+		   SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+			String str = sdf.format(date);
+			String uploadFolder_profile_img = "C:\\Project156\\upload/profile_img";
+			String img = imgSave(file, uploadFolder_profile_img);
+			System.out.println("img"+img);
+			StringBuilder img_path = new StringBuilder(
+					"/img/profile_img/"+str.replace("-", "/")+"/");
+			String path = img_path.toString();
+			return path+"@"+img;
+	   }
+	 
 
 	@RequestMapping(value = "/UpdateBuyerAccountForm.by") // 프로필 - 수정하기
 	public String UpdateBuyerAccountForm(Model model, @CurrentUser AccountVO buyer) {
@@ -394,11 +461,18 @@ public class BuyerController {
 		vo.setTelDiscretionaryNum(vo.getTel().substring(7));
 		vo.setLoginDate(vo.getLoginDate().substring(0, 10));
 		try {
-			vo.setProfileImg(URLEncoder.encode(vo.getProfileImg(),"UTF-8"));
-			vo.setProfileImgPath(URLEncoder.encode(vo.getProfileImgPath(), "UTF-8"));
+			if(vo.getProfileImg() == null&&vo.getProfileImgPath() ==null) {
+				vo.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				vo.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				vo.setProfileImg(URLEncoder.encode(vo.getProfileImg(),"UTF-8"));
+				vo.setProfileImgPath(URLEncoder.encode(vo.getProfileImgPath(), "UTF-8"));
+			}
+			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+		
 
 		model.addAttribute("user", vo);
 
@@ -406,38 +480,32 @@ public class BuyerController {
 	}
 	
 	@RequestMapping(value = "/UpdateBuyerAccount.by")
-	public String UpdateBuyerAccount(String id,String emailId,String emailAddr,String selectEmail3,String telCarrierNum,
+	public String UpdateBuyerAccount(String id,String emailId,String emailAddr,String telCarrierNum,
 			String telAllocationNum, String telDiscretionaryNum,
 			@RequestPart(value="profileImg", required = false)MultipartFile profile_img)throws IOException {
 
 		BuyerVO buyer = new BuyerVO();
 		buyer.setId(id);
-		buyer.setTelCarrierNum(telCarrierNum);
-		buyer.setTelAllocationNum(telAllocationNum);
-		buyer.setTelDiscretionaryNum(telDiscretionaryNum);
-		buyer.setEmailId(emailId);
-		buyer.setEmailAddr(emailAddr);
+		buyer.setTel(telCarrierNum, telAllocationNum, telDiscretionaryNum);
+		buyer.setEmail(emailId, emailAddr);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
 		String str = sdf.format(date);
 
-		String uploadFoler_profile_img = "/img/profile_img"; //프로필 이미지 업로드 경로
+		String uploadFolder_profile_img = "C:\\Project156\\upload/profile_img"; //프로필 이미지 업로드 경로
 		if(!profile_img.isEmpty()) {
-		buyer.setProfileImg(imgSave(profile_img, uploadFoler_profile_img));
+		buyer.setProfileImg(imgSave(profile_img, uploadFolder_profile_img));
 		
 		StringBuilder img_path = new StringBuilder(
-				uploadFoler_profile_img+"/"+str.replace("-", "/")+"/");
+				"/img/profile_img/"+str.replace("-", "/")+"/");
 		buyer.setProfileImgPath(img_path.toString());
 		
 		
 		}else {
-			buyer.setProfileImg("no_profile");
+			buyer.setProfileImg("no_profile.png");
 			buyer.setProfileImgPath("/img/common/");
 		}
-		buyer.setTel(telCarrierNum, telAllocationNum, telDiscretionaryNum);
 
-
-		buyer.setEmail(emailId, emailAddr);
 
 		buyerService.UpdateBuyerAccount(buyer);
 

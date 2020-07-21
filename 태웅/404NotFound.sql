@@ -6,6 +6,7 @@ account_type varchar2(10) not null,
 constraint all_account_pk primary key(account_id)
 );
 
+
 create table admin(                 -- 愿�由ъ옄 �뀒�씠釉�
     admin_id varchar2(16) not null, -- 愿�由ъ옄 ID (湲곕낯�궎)
     password varchar2(100) not null, -- 鍮꾨�踰덊샇
@@ -48,11 +49,12 @@ create table member_buyer(          -- 援щℓ�옄 �뀒�씠釉�
     join_date date default sysdate not null,        -- �쉶�썝媛��엯�씪
     wthdr_date date,                -- �쉶�썝�깉�눜�씪
     save_point number  default 0 not null,     -- �쟻由쎄툑
-    profile_img varchar2(200) default 'no_profile.png',          --�봽濡쒗븘�궗吏�
-    profile_img_path varchar2(100) default '/img/common/',
+    profile_img varchar2(200) ,          --�봽濡쒗븘�궗吏�
+    profile_img_path varchar2(100),
     last_loginDate date default sysdate,                --留덉�留됱젒�냽�씪�옄
     constraint member_buyer_buyer_id_pk primary key(buyer_id)
 );
+
 
 select * from member_buyer;
 /*buyer_num Sequence*/
@@ -142,6 +144,7 @@ del_flag char(1) default 'N' not null,            -- �깉�눜�뿬遺� (Y
 join_date date default sysdate not null,              -- �쉶�썝媛��엯�씪
 wthdr_date date,                        -- �쉶�썝�깉�눜�씪
 profile_img varchar2(200),
+profile_img_path varchar2(100),
 last_loginDate date default sysdate,
 constraint member_seller_seller_id_pk primary key(seller_id)
 );
