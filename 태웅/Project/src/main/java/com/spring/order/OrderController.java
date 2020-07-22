@@ -3,6 +3,7 @@ package com.spring.order;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -276,10 +277,8 @@ public class OrderController {
     
     @PostMapping(value = "/OrderSheet.or")  // 주문서  
     public String orderSheet(Model model, String[] board_id, int[] quantity, String buyer_id) {
-    	
+    	if(buyer_id != null) {
     	System.out.println(buyer_id);
-    	ArrayList<BoardProductVO> vo_list = new ArrayList<BoardProductVO>();
-    	ArrayList<Integer> quantity_list = new ArrayList<Integer>();
     	BuyerVO buyerAccount = buyerService.selectOneById(buyer_id);
     	int index1 = buyerAccount.getAddress().indexOf("+");
     	int index2 = buyerAccount.getAddress().indexOf("/");
@@ -289,25 +288,36 @@ public class OrderController {
     	buyerAccount.setTelCarrierNum(buyerAccount.getTel().substring(0,3));
     	buyerAccount.setTelAllocationNum(buyerAccount.getTel().substring(3,7));
     	buyerAccount.setTelDiscretionaryNum(buyerAccount.getTel().substring(7));
+    	try {
+			buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+			buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(),"UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+    	model.addAttribute("user",buyerAccount);
+    	model.addAttribute("buyer_id", buyer_id);
+    	}
+    	ArrayList<BoardProductVO> vo_list = new ArrayList<BoardProductVO>();
+    	ArrayList<Integer> quantity_list = new ArrayList<Integer>();
     	for(int i = 0; i < board_id.length; i++) {
     		
     		quantity_list.add(Integer.valueOf(quantity[i]));
     		vo_list.add(boardProductService.getBoardProductVO(board_id[i]));
     	}
-    	model.addAttribute("user",buyerAccount);
+    	
     	model.addAttribute("vo_list" , vo_list);
     	model.addAttribute("quantity_list" , quantity_list);
-    	model.addAttribute("buyer_id", buyer_id);
-
     	return "Order/order_sheet";
     }
+    	
+    
     
     @PostMapping(value = "/OrderComplete.or")  // 주문완료
     public String orderComplete(String[] board_id, String[] board_title, String[] seller_id, 
     		int[] amount, int[] price, int[] delivery_price, int tot_price, String status, 
     		String buyer_name, String buyer_phone, String buyer_email, String order_postalCode, 
     		String order_address, String order_name, String order_phone, String order_demand, 
-    		String order_delivery, String order_payment, String order_account, HttpSession session) {
+    		String order_delivery, String order_payment, String order_account, @CurrentUser AccountVO account ) {
     	
     	OrderRecordVO vo = new OrderRecordVO();
     	

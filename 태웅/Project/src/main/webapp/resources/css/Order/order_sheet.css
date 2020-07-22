@@ -108,10 +108,16 @@
 	border-bottom: 1px solid #e0d8d8;
 }
 
-.list__thum{
-	min-width: 110px;
-	height: 110px;
+.list__thum {
+	padding-left: 10px;
 }
+
+.list__thum img {
+	display: block;
+	width: 110px;
+	height:110px;
+}
+
 
 #order-product_table tr > .list__title {
 	min-width: 290px;
@@ -176,7 +182,7 @@
 
 
 #order__final-payment {
-	margin: 0 100px;
+	margin: 30px 100px 0;
 	padding: 0;
 	width: 1000px;
 }
@@ -233,6 +239,33 @@
 .order__final-payment--price-check {
 	float: right;
 }
+
+.discountWrap dl{
+	display: flex;
+}
+
+.discountWrap dt{
+	width: 81px;
+	font-weight: 400;
+}
+
+.discountWrap dd{
+	positoin: relative;
+	
+}
+
+.discountWrap dd::after {
+	position: absolute;
+	right: -20px;
+	content: '원';
+}
+
+
+#reserveUse,
+#totalDiscount{
+	text-align: right;
+}
+
 
 /* 최종결제금액 end --------------------------------------------------------------- */
 
@@ -374,67 +407,142 @@
 
 /* 배송지 정보 end --------------------------------------------------------------- */
 
-
 #order__payment {
-	margin: 30px 100px 0 100px;
-	padding: 0;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-content: center;
+	margin-top: 30px;
+	
+}
+.order_payment-title {
 	width: 1000px;
-}
-
-#order__payment--table {
-	width: 100%;
-	height: 350px;
-	background-color: #f1eeee;
-	border-top: 1px solid #e0d8d8;
+	margin: 0 auto;
+	padding-bottom: 10px;
 	border-bottom: 1px solid #e0d8d8;
+	font-size: 25px;
 }
 
-#order__payment--table > div {
-	margin: 30px;
-	width: 940px;
-	height: 290px;
-	display: grid;
-	grid-template-columns: 70% 30%;
+.order__payment-content {
+	width: 1000px;
+	margin: 0 auto;
+	padding: 10px;
 }
 
-#order__payment--info {
-	border-right: 1px solid #e0d8d8;
-}
-
-#order__payment--info > div {
-	margin: 30px 0 0 0;
-	padding: 0;
-}
-
-#order__payment--total-price {
-	margin: 50px 0 0 15px;
-	padding: 0;
-	width: 100%;
-	height: 100%;
-}
-
-#total-price__title {
-	margin: 0 0 10px;
-	padding: 0;
-	font-size: 20px;
-}
-
-#total-price__bar {
-	width: 100%;
-	height: 70px;
-	line-height: 90px;
-	text-align: right;
-	background-color: #fff;
-	color: #71AD2C;
-}
-
-#total-price__total-price {
-	margin: 0 10px 0 0;
-	font-size: 30px;
-	font-weight: bold;
+.payment-subContent {
+	display: flex;
+	border-bottom: 1px solid rgba(0,0,0,0.4);
+	padding: 20px 0;
 }
 
 
+.payment-title {
+	display: block;
+	min-width: 150px;
+	font-size: 16px;
+}
+
+.payment-method_list {
+	display: flex;
+}
+
+.payment-method_list label {
+	cursor: pointer;
+}
+
+.payment-method_list-item {
+	margin-right: 20px;
+}
+
+.payment-method_list-item input {
+	margin-right: 5px;
+}
+
+.payment-guide {
+	display: flex;
+}
+
+.explain {
+	padding: 5px 0;
+	font-size: 13px;
+	font-weight: 400;
+	color: rgba(0,0,0,0.4);
+}
+
+#all_check {
+	margin: 5px 5px 0 0;
+}
+
+.all_agree {
+	display: flex;
+	align-items: center;
+}
+
+.agree label {
+	margin-left: 5px;
+	font-weight: 600;
+	font-size: 14px;
+}
+
+.order-consent,
+.order-consent-desc {
+	display: flex;
+	align-items: center;
+}
+
+.detail {
+	color: #333;
+	font-weight: 600;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.virtual-account_guide p{
+	font-size: 14px;
+	letter-spacing: 0.015em;
+}
+
+.bold {
+	font-weight: 600;
+}
+
+.timer {
+	color: #EB5757;
+}
+
+.faq {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.virtual-account_guide p.small {
+	font-size: 12px;
+}
+
+.mobile-detail {
+	font-size: 14px;
+}
+
+.fee_guide {
+	display: block;
+	font-weight: 600;
+	text-decoration: underline;
+	color: #333;
+}
+
+.mobile-detail p:last-child{
+	font-size: 14px;	
+}
+
+.mobile-detail p:last-child span:first-child {
+	color: #333;
+}
+
+.agree label,
+.all_agree label {
+	cursor: pointer;
+}
 /* 결제 정보 end --------------------------------------------------------------- */
 
 
@@ -445,13 +553,7 @@
 	text-align: center;
 }
 
-#order__submit--check {
-	margin: 0 0 30px 0;
-	padding: 0;
-	font-size: 13px;
-}
-
-#order__submit--payment > input[type="submit"] {
+#submitBtn {
 	margin: 0;
 	padding: 15px 50px;
 	font-size: 20px;
@@ -460,7 +562,7 @@
 	color: #fff;
 }
 
-#order__submit--payment > input[type="button"] {
+#cancleBtn{
 	margin: 0;
 	padding: 15px 50px;
 	font-size: 20px;

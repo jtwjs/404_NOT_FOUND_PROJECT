@@ -554,6 +554,7 @@ var ord_deliveryBtn = document.getElementById('order_delivery');
 var deliveryModal = document.querySelector('.delivery-modal-bg');
 var closeBtn = document.querySelector('.close-btn');
 
+if(ord_deliveryBtn != null){
 ord_deliveryBtn.addEventListener('click',function(){
 	deliveryModal.classList.remove('hide');
 });
@@ -561,3 +562,5 @@ ord_deliveryBtn.addEventListener('click',function(){
 closeBtn.addEventListener('click', function(){
 	deliveryModal.classList.add('hide');
 });
+
+}

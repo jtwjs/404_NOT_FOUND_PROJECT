@@ -64,7 +64,7 @@ body{
 	background-color: #222;
 	background-repeat: no-repeat;
 	background-position: center;
-	z-index: 10;
+	z-index: 1;
 }
 
 #up-btn {

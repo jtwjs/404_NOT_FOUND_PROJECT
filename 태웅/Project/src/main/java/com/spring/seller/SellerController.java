@@ -564,18 +564,8 @@ private boolean checkImageType(File file) {  // 파일 이미지 체크
 		System.out.println("listCount : " + Sellerservice.getOrderRecordOneByIdListCount(account.getId()));
 		String id = account.getId();
 		SellerVO sellerAccount = Sellerservice.selectOneById(id);
-		try {
-			if(sellerAccount.getProfileImg() == null&&sellerAccount.getProfileImgPath() ==null) {
-				sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
-				sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
-			}else {
-				sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(),"UTF-8"));
-				sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.getProfileImgPath(), "UTF-8"));
-			}
-			
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+
+	
 		int limit = 10;
 		int listcount = Sellerservice.getOrderRecordOneByIdListCount(account.getId());		
 		int startrow = (page - 1) * 10 + 1;

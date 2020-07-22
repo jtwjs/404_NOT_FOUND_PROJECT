@@ -52,6 +52,14 @@ function data_check(){
 }
 
 
+/*적립금 사용*/
+var reserves = document.querySelector('.reserves');
+var savePoint = document.getElementById('save-point__input-text');
+var reserveUse = document.getElementById('reserveUse');
+var totalDiscount = document.getElementById('totalDiscount');
+
+
+
 /*적립금 전액사용*/
 
 var fullUse_btn = document.getElementById('save-point__input-btn');
@@ -61,7 +69,6 @@ fullUse_btn.addEventListener('click',full_use);
 function full_use() {
 	var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
-    var savePoint = document.getElementById('save-point__input-text');
 	$.ajax({
 		url: '/project/savePointFullUse.or',
 		type: 'POST',
@@ -81,6 +88,15 @@ function full_use() {
 }
 
 
+/*예상적립금*/
+var exceptedSp = document.getElementById('expected_sp');
+var totalSp = document.getElementById('total_sp').innerText;
+if(exceptedSp != null){
+exceptedSp.innerText = totalSp;
+}
+
+
+
 /*주소지 선택(기본배송지, 새로운배송지)*/
 var defaultAddr = document.getElementById('default_addr');
 var newAddr = document.getElementById('new_addr');
@@ -90,6 +106,8 @@ var detailAddr = document.getElementById('sample4_detailAddress');
 var defaultPostcode = document.getElementById('userAddrNum').value;
 var defaultRoadAddr = document.getElementById('userAddrRoadName').value;
 var defaultDetailAddr = document.getElementById('userAddrDetail').value;
+
+if(newAddr != null){
 newAddr.addEventListener('click',function(){
 	if(newAddr.getAttribute("checked")){
 		return;
@@ -99,6 +117,7 @@ newAddr.addEventListener('click',function(){
 		detailAddr.value ='';
 	}
 });
+}
 defaultAddr.addEventListener('click',function(){
 	if(defaultAddr.getAttribute('checked')){
 		return;
@@ -111,12 +130,14 @@ defaultAddr.addEventListener('click',function(){
 
 
 /*주소록 팝업창*/
+
 var addrBookBtn = document.getElementById('addrBook_btn');
 
+if(addrBookBtn != null){
 addrBookBtn.addEventListener('click',function(){
 	popupOpen();
 });
-
+}
 function popupOpen(){
 	var url = "addrBook_popup.or";
 	var winWidth = 500;
@@ -125,3 +146,97 @@ function popupOpen(){
 	window.open(url,"",popupOption)
 		
 }
+
+
+/*결제 정보 선택*/
+
+
+$(function() {
+	$('input:radio[name="payment-method"]').change(function(){
+		if($(this).val() == '신용카드') {
+			document.getElementById('credit-card').classList.remove('hide');
+			document.getElementById('virtual_account').classList.add('hide');
+			document.getElementById('bank_transfer').classList.add('hide');
+			document.getElementById('mobile_pay').classList.add('hide');
+			document.getElementById('kakao_pay').classList.add('hide');
+		}else if($(this).val() == '가상계좌') {
+			document.getElementById('credit-card').classList.add('hide');
+			document.getElementById('virtual_account').classList.remove('hide');
+			document.getElementById('bank_transfer').classList.add('hide');
+			document.getElementById('mobile_pay').classList.add('hide');
+			document.getElementById('kakao_pay').classList.add('hide');
+		}else if($(this).val() == '계좌이체') {
+			document.getElementById('credit-card').classList.add('hide');
+			document.getElementById('virtual_account').classList.add('hide');
+			document.getElementById('bank_transfer').classList.remove('hide');
+			document.getElementById('mobile_pay').classList.add('hide');
+			document.getElementById('kakao_pay').classList.add('hide');
+		}else if($(this).val() == '휴대전화') {
+			document.getElementById('credit-card').classList.add('hide');
+			document.getElementById('virtual_account').classList.add('hide');
+			document.getElementById('bank_transfer').classList.add('hide');
+			document.getElementById('mobile_pay').classList.remove('hide');
+			document.getElementById('kakao_pay').classList.add('hide');
+		}else if($(this).val() == '카카오페이') {
+			document.getElementById('credit-card').classList.add('hide');
+			document.getElementById('virtual_account').classList.add('hide');
+			document.getElementById('bank_transfer').classList.add('hide');
+			document.getElementById('mobile_pay').classList.add('hide');
+			document.getElementById('kakao_pay').classList.remove('hide');
+		}
+	});
+});
+
+/*주문자 동의(전체동의)*/
+
+var allCheck = document.getElementById('all_check'),
+	checkBox = document.getElementsByName('buyer_agree'),
+	checkBoxLength = document.getElementsByName('buyer_agree').length;
+	
+for(var i=0; i<checkBoxLength; i++){
+	checkBox[i].addEventListener('click',function(){
+		if(this.checked == false && allCheck.checked == true){
+			allCheck.checked = false;
+			return;
+			}
+	});
+}
+
+
+allCheck.addEventListener('click',function(){
+	if(all_check.checked){
+		check_all();
+	}else {
+		uncheck_all();
+	}
+});
+
+function check_all() {
+	for(var i=0; i<checkBoxLength; i++){
+		checkBox[i].checked = true;
+	}
+}
+
+function uncheck_all(){
+	for(var i=0; i<checkBoxLength; i++){
+		checkBox[i].checked = false;
+	}
+}
+
+/*submit 버튼*/
+var submitBtn = document.getElementById('submitBtn');
+var form = document.getElementById('orerSheetForm');
+var privacyCheck = document.getElementById('privacy-agree');
+var purchaseCheck = document.getElementById('purchase-agree');
+submitBtn.addEventListener('click',function(){
+	if(privacyCheck.checked == false) {
+		alert('[개인정보 제3자 제공 동의(필수)] 반드시 입력하셔야 하는 항목입니다.');
+		return false;
+	}else if (purchaseCheck.checked == false){
+		alert('[구매 진행에 동의(필수)] 반드시 입력하셔야 하는 항목입니다.');
+		return false;
+	}else{
+		form.submit();
+	}
+}) ;
+	

@@ -321,8 +321,54 @@ public class BoardProductController {
 	}
 	
 	@RequestMapping(value = "/BoardLocalIntroduce.bo") // 지역특산물
-	public String boardLocalIntroduce() {
-		
+	public String boardLocalIntroduce(Model model,HttpServletRequest request,HttpServletResponse response) {
+		 
+        Cookie[] cookies = request.getCookies();
+        Cookie non_userCK = null;
+        Cookie userCK = null;
+        
+        ArrayList<BoardProductVO> non_recentList = new ArrayList<>();
+        ArrayList<BoardProductVO> recentList = new ArrayList<>();
+        
+        for(Cookie c : cookies) {
+        	if(c.getName().equals("recentlyProduct")) {
+        		non_userCK = c;
+        		int non_index1 = non_userCK.getValue().indexOf("/");
+        		String non_str = non_userCK.getValue().substring(non_index1+1);
+        		String[] non_recentArray = non_str.split("/");
+        		for(int i=0; i<non_recentArray.length; i++) {
+        			BoardProductVO product = boardProductService.getBoardProductVO(non_recentArray[i]);
+        			try {
+        				product.setThumbnail_thum(URLEncoder.encode(product.getThumbnail_thum(), "UTF-8"));
+        				product.setThumbnail_thum_path(URLEncoder.encode(product.getThumbnail_thum_path(),"UTF-8"));
+        				
+        			}catch(UnsupportedEncodingException e) {
+        				e.printStackTrace();
+        				
+        			}
+            		non_recentList.add(product);
+            	}
+        	}else if(c.getName().equals("AccountRecentlyProduct")) {
+        		userCK = c;
+        		int index1 = userCK.getValue().indexOf("/");
+            	String str = userCK.getValue().substring(index1+1);
+            	String[] recentArray = str.split("/");
+            	for(int i=0; i<recentArray.length; i++) {
+            		BoardProductVO product = boardProductService.getBoardProductVO(recentArray[i]);
+            		try {
+            			product.setThumbnail_thum(URLEncoder.encode(product.getThumbnail_thum(), "UTF-8"));
+            			product.setThumbnail_thum_path(URLEncoder.encode(product.getThumbnail_thum_path(), "UTF-8"));
+            		}catch(UnsupportedEncodingException e) {
+            			e.printStackTrace();
+            		}
+            		recentList.add(product);
+            	}
+        	}
+        
+        }
+    	model.addAttribute("non_list",non_recentList);
+    	model.addAttribute("list",recentList);
+    
 		return "BoardProduct/localIntroduce";
 	}
 	
