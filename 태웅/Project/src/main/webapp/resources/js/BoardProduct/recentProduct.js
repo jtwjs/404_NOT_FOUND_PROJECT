@@ -5,6 +5,10 @@ var delta1 = 5; //동작의 구현이 시작되는 위치
 var submainHeight = document.getElementById('sub-main').offsetHeight;
 var footerHeight = 250;
 var recentViewHeight = document.getElementById('recent-product').offsetHeight;
+var screenHeight = screen.height;
+var documentHeight = $(document).height();
+var windowHeight = $(window).height();
+
 
 //스크롤시에 사용자가 스크롤했다는 것을 알림
 $(window).scroll(function (event) {
@@ -23,8 +27,6 @@ var headerTimer1 = setInterval(function () {
 function hasScrolled1() {
   var st1 = $(this).scrollTop(); //현재 스크롤의 위치 저장
   var ScrollValue = st1;
-  var screenHeight = screen.height;
-  var documentHeight = $(document).height();
   
   console.log("st1값: " + st1);
   //설정한 delta1 값보다 더 스크롤되었는지 확인
@@ -32,18 +34,26 @@ function hasScrolled1() {
     return;
   }
 
-  if (st1 > 200 && st1 < documentHeight-footerHeight-recentViewHeight-400) {
+  if (st1 > 200 && st1 < documentHeight-windowHeight) {
 	  var scrollValue = st1;
 	
     //scroll Down
 	  $('#recent-product').addClass('fixOn');
+	  $('#recent-product').removeClass('bottom');
 	  $('.fixOn').css("top", String(Number(ScrollValue)+(screenHeight/2)-Number(200))+"px");
-	  	
+	
   } else {
     //scroll Up
-    if (st1 < submainHeight/2) {
-    	recentView.classList.remove('fixOn');
+    if (st1 < 200) {
+    	$('#recent-product').removeClass('fixOn');
+    	$('#recent-product').css("top",Number(550)+"px");
     }  
+    if (st1 > documentHeight-windowHeight) {
+    		  $('#recent-product').removeClass('fixOn');
+    		  $('#recent-product').addClass('bottom');
+    		  $('.bottom').css("top",documentHeight-470+"px");
+    	  
+    }
   }
 
   lastScrollTop1 = st1;

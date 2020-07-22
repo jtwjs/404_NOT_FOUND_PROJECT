@@ -93,27 +93,60 @@ public class BuyerController {
 		return "Buyer/mypage_orderList";
 	}
 
-	@RequestMapping(value = "/BuyerMyPageWishList.by") // �굹�쓽 �눥�븨 �솢�룞 - 李쒕ぉ濡�
-	public String buyerMyPageWishList(Model model, @CurrentUser AccountVO account) {
-		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
-		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
-		try {
-			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
-				buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
-				buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
-			}else {
-				buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
-				buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
-			}
-			
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+	@RequestMapping(value = "/BuyerMyPageWishList.by")  // �굹�쓽 �눥�븨 �솢�룞 - 李쒕ぉ濡�
+    public String buyerMyPageWishList(Model model, @CurrentUser AccountVO account,
+    		@RequestParam(value="buyer_id", required = false)String buyer_id, 
+		    @RequestParam(value="sort_list", required = false, defaultValue="1")int sort_list, 
+		    @RequestParam(value="page_num", required = false, defaultValue="1")int page_num, 
+		    @RequestParam(value="page_amount", required = false, defaultValue="30")int page_amount) {
+    	    	
+    	BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
+    	ArrayList<WishListVO> wishList = null;
+    	
+    	int wishList_size = 0;
+    	
+    	if(account.getId() != null) {
+    		wishList = buyerService.selectWishList(account.getId(), sort_list, page_num, page_amount);
+    		wishList_size = buyerService.selectWishListCountOneById(account.getId());
+    	}
+    	
+    	model.addAttribute("pageMaker", new com.spring.util.PageMaker(page_num, page_amount, wishList_size));
+    	model.addAttribute("sort_list", sort_list);
+    	model.addAttribute("wishList", wishList);    
+    	
+    	System.out.println("wishList_size : " + wishList_size);
+    	System.out.println("wishList : " + wishList);
+    	
+		
+    	buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0,10));    	    	
+    	model.addAttribute("user",buyerAccount);
+    	return "Buyer/mypage_wishList";
+    }
+    
+    
+    
+    
+    @RequestMapping("/DeleteWishList.by")
+	public String deleteWishList(@RequestParam(value = "wish_id", required = true) String wish_id, HttpSession session,
+			HttpServletResponse response) throws Exception {
+
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("wish_id", wish_id);
+		int res = buyerService.deleteWishList(hashmap);
+		
+		System.out.println("res : " + res);
+		
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		if (res == 1) {
+			writer.write("<script>alert('삭제 성공!!');" + "location.href='./BuyerMyPageWishList.by';</script>");
+		} else {
+			writer.write("<script>alert('삭제 실패!!');" + "location.href='./BuyerMyPageWishList.by';</script>");
 		}
-
-		model.addAttribute("user", buyerAccount);
-		return "Buyer/mypage_wishList";
+		return null;
 	}
-
+    
 	@RequestMapping(value = "/BuyerMyPageRecentlyView.by") // �굹�쓽 �눥�븨 �솢�룞 - 理쒓렐 蹂� �긽�뭹
 	public String buyerMyPageRecentlyView(Model model,
 			@CookieValue(value = "AccountRecentlyProduct", required = false) Cookie cookie,
