@@ -6,7 +6,7 @@
 	<article id="side__profile">
 		<dl>
 			<dt class="profile-img">
-				<img src="./resources/Images/Seller/${user.profileImg}" alt="profile" />
+				<img src="display?path=${user.profileImgPath}&name=${user.profileImg}" alt="profile" />
 			</dt>
 			<dd class="profile-content">
 				<p class="seller">판매자</p>

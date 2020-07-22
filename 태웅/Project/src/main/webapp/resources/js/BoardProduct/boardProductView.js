@@ -112,9 +112,9 @@ $("#board__delivery--move").on("click", function (e) {
 });
 
 
-function enableCheck(quantity, status){
+function enableCheck(quantity, status, login_case, user_id, board_id){
 	
-	if(Number(quantity) < 1 || status == 'N'){
+	if(Number(quantity) < 1 || status == 'N'){  // 재고량이 1개 이하이거나 판매중지 상태일 경우 버튼 비활성화
 		var buy_btn = document.getElementById("buy-btn");
 		var cart_btn = document.getElementById("cart-btn");
 		var wish_btn = document.getElementById("wish-btn");
@@ -125,12 +125,34 @@ function enableCheck(quantity, status){
 		wish_btn.disabled = true;
 	}
 	
+	// 위시리스트 부분 수정하여 게시글 타이틀, 사진 썸네일 경로, 이름 테이블에 넣을 것
+	if(login_case == 1){ // 구매자 ID로 로그인 중일 때 해당 ID의 위시리스트를 체크하여 등록된 상품일 경우 가상태그로 위시리스트 표시
+		
+		$.ajax({
+		    type: 'GET',
+		    url: "WishListCheck.by?board_id=" + board_id + "&buyer_id=" + user_id,
+		    contentType: 'application/html; charset=utf-8',
+		    cache: false,
+		    success: function(data){
+		    	
+		    	if(data == 1){
+		    		$("#wishList__check--mark").attr("class", "wishList__check--mark-y");
+		    	}
+		    	
+		    },
+		    error: function(){
+		    	
+		    }
+		});
+		
+	}
+	
 }
 
 function selectBigImg(path, imgName){
 	
 	var bigImg = document.querySelector(".seller-imgBig > img");
-	bigImg.setAttribute("src", path+imgName);
+	bigImg.setAttribute("src", "display?path=" + path + "&name=" + imgName);
 }
 
 var saveVal = 1;
@@ -201,39 +223,49 @@ function buyForm(user_id, login_case){
 	
 	var buyer_id = user_id;
     
-    if(login_case != 1){
+    if(login_case == 0){  // 비회원일 때
+    	
     	if(getCookieValue("nonMember_buyer_id") == ""){
     		deleteCookie("nonMember_buyer_id");
     		setCookie("nonMember_buyer_id", "nonMember-" + uuidName());
     	}
     	buyer_id = getCookieValue("nonMember_buyer_id");
-    }
-    
-	
-	var quantity_field = document.createElement("input");
-	quantity_field.setAttribute("type", "hidden");
-	quantity_field.setAttribute("name", "quantity");
-	quantity_field.setAttribute("value", quantity.value);
-	buyForm.appendChild(quantity_field);
-	
-	var buyer_field = document.createElement("input");
-	buyer_field.setAttribute("type", "hidden");
-	buyer_field.setAttribute("name", "buyer_id");
-	buyer_field.setAttribute("value", buyer_id);
-	buyForm.appendChild(buyer_field);
-	
-	
-	
-	if(login_case != 1){
-		
-		wish_modal_text.textContent = "로그인 상태가 아닙니다.";
+    	
+    	wish_modal_text.textContent = "로그인 상태가 아닙니다.";
 		modal_ok.value = "비회원 구매";
 		modal_show();
+    	
+    }else if(login_case == 1){  // 로그인 중인 회원일 때
+    	
+    	var quantity_field = document.createElement("input");
+    	quantity_field.setAttribute("type", "hidden");
+    	quantity_field.setAttribute("name", "quantity");
+    	quantity_field.setAttribute("value", quantity.value);
+    	buyForm.appendChild(quantity_field);
+    	
+    	var buyer_field = document.createElement("input");
+    	buyer_field.setAttribute("type", "hidden");
+    	buyer_field.setAttribute("name", "buyer_id");
+    	buyer_field.setAttribute("value", buyer_id);
+    	buyForm.appendChild(buyer_field);
+    	
+    	buyForm.submit();
+    	
+    }else if(login_case == 2){  // 판매자일 때
+    	
+    	wish_modal_text.textContent = "판매자 ID로는 구매하실 수 없습니다.";
+		modal_ok.value = "로그아웃";
+		btn_check.value = 4;
+		modal_show();
 		
-	}else{
+    }else{  // 관리자일 때
+    	
+    	wish_modal_text.textContent = "관리자 ID로는 구매하실 수 없습니다.";
+		modal_ok.value = "로그아웃";
+		btn_check.value = 4;
+		modal_show();
 		
-		buyForm.submit();
-	}
+    }
 	
 	
 }
@@ -278,26 +310,31 @@ function deleteCookie(cookieName){
 
 function cartForm(user_id, login_case){
 	
+	
 	var wish_modal_text = document.querySelector("#modal-content > div > strong");
 	var modal_ok = document.querySelector("#modal__ok-btn");
 	var quantity = document.getElementById("quantity-text");
 	var board_id = document.getElementById("board_id");
 	var btn_check = document.getElementById("btn__check--val");
+	
+	wish_modal_text.textContent = "장바구니에 등록되었습니다.";
+	modal_ok.value = "장바구니로";
 	btn_check.value = 2;
 	 
-	 if(login_case != 1){ // 비회원
+	 if(login_case == 0){ // 비회원
 		 
 		var checkVal = getCookieValue("nonMember_board_id").split("a");
 		
 		for(var i = 0; i < checkVal.length; i++){
 			if(checkVal[i] == board_id.value){
 				
-				wish_modal_text.textContent = "이미 장바구니에 등록된 상품입니다";
+				wish_modal_text.textContent = "이미 장바구니에 등록된 상품입니다.";
 				modal_ok.value = "장바구니로";
 				
 				modal_show();
 				return false;
 			}
+			
 		}
 		 
 		 
@@ -323,22 +360,45 @@ function cartForm(user_id, login_case){
 	    	deleteCookie("nonMember_quantity");
 	    	setCookie("nonMember_quantity", setCookieVal + "a" + quantity.value);
 	    }
+	    
+	    
 
-	}else{ // 회원
-		
-		// XMLHttpRequest 객체의 인스턴스를 생성합니다.
+	}else if(login_case == 1){ // 회원
+
 		var xhr = new XMLHttpRequest();
-		// open() 메서드는 요청을 준비하는 메서드입니다. (http 메서드, 데이터를 받아올 URL 경로, 비동기 여부)
-		xhr.open("GET", 
-				"AddCart.or?board_id=" + board_id.value + "&quantity=" + quantity.value 
-				+ "&buyer_id=" + user_id + "&login_case=" + login_case
-				, true);
-		// send() 메서드는 준비된 요청을 서버로 전송하는 메서드입니다. (서버에 전달될 정보)
-		xhr.send();
-	}
+		
+		$.ajax({
+		    type: 'GET',
+		    url: "AddCart.or?board_id=" + board_id.value + "&quantity=" + quantity.value + "&buyer_id=" + user_id,
+		    contentType: 'application/html; charset=utf-8',
+		    async:false,
+//		    beforeSend : function(xhr) {
+//		    	 xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+//		    },
+		    success: function(data){
+		    	wish_modal_text.textContent = data;
+		    },
+		    error: function(error){
+		    	console.log(JSON.stringify(error));
+		    }
+		});
+	}else if(login_case == 2){  // 판매자일 때
+    	
+    	wish_modal_text.textContent = "판매자 ID로는 구매하실 수 없습니다.";
+		modal_ok.value = "로그아웃";
+		btn_check.value = 4;
+		modal_show();
+		
+    }else{  // 관리자일 때
+    	
+    	wish_modal_text.textContent = "관리자 ID로는 구매하실 수 없습니다.";
+		modal_ok.value = "로그아웃";
+		btn_check.value = 4;
+		modal_show();
+		
+    }
+
 	
-	wish_modal_text.textContent = "장바구니에 등록되었습니다.";
-	modal_ok.value = "장바구니로";
 	
 	modal_show();
 }
@@ -349,18 +409,51 @@ function wishForm(user_id, login_case){
 	var modal_ok = document.querySelector("#modal__ok-btn");
 	var btn_check = document.getElementById("btn__check--val");
 	
+	var param = $("form[id=wishForm]").serialize();
+	
+	var xhr = new XMLHttpRequest();
+	
 	switch(login_case){
 	case "1":
-		// XMLHttpRequest 객체의 인스턴스를 생성합니다.
-		var xhr = new XMLHttpRequest();
-		// open() 메서드는 요청을 준비하는 메서드입니다. (http 메서드, 데이터를 받아올 URL 경로, 비동기 여부)
-		xhr.open("GET", "AddWishList.by?board_id=" + board_id.value + "&buyer_id=" + user_id, true);
-		// send() 메서드는 준비된 요청을 서버로 전송하는 메서드입니다. (서버에 전달될 정보)
-		xhr.send();
 		
-		wish_modal_text.textContent = "위시리스트에 등록되었습니다.";
+		$.ajax({
+		    type: 'GET',
+		    url: "AddWishList.by",
+		    contentType: 'application/json; charset=utf-8',
+		    data: param,
+		    cache: false,
+		    beforeSend : function(xhr) {
+		    	 xhr.setRequestHeader('X-CSRF-Token', $('input[id=wishForm-csrf]').val());
+		    },
+		    success: function(data){
+		    	
+		    	if(data == 1){
+		    		wish_modal_text.textContent = "찜목록에 등록되었습니다.";
+		    		$("#wishList__check--mark").removeClass("wishList__check--mark-n");
+		    		$("#wishList__check--mark").addClass("wishList__check--mark-y");
+		    	}else{
+		    		wish_modal_text.textContent = "이미 찜목록에 등록된 상품입니다.";
+		    	}
+		    	
+		    	
+		    },
+		    error: function(){
+		    	
+		    }
+		});
+		
 		modal_ok.value = "위시리스트로";
 		btn_check.value = 3;
+		break;
+	case "2":
+		wish_modal_text.textContent = "판매자 ID로는 구매하실 수 없습니다.";
+		modal_ok.value = "로그아웃";
+		btn_check.value = 4;
+		break;
+    case "3":
+    	wish_modal_text.textContent = "관리자 ID로는 구매하실 수 없습니다.";
+		modal_ok.value = "로그아웃";
+		btn_check.value = 4;
 		break;
 	default:
 		wish_modal_text.textContent = "로그인한 회원이 아닙니다.";
@@ -406,6 +499,9 @@ function modal_ok(){
 	case "3":  // 위시리스트로
 		location.href = "BuyerMyPageWishList.by";
 		break;
+	case "4":  // 판매자, 관리자 ID일 때
+		location.href = "logout.ad";
+		break;
 	default: // 로그인한 회원이 아닐 때 (찜목록만 사용)
 		location.href = "Login.ad";
 		break;
@@ -421,11 +517,12 @@ function modal_cancle(){
 
 function modal_review_write(){
 	
+	modal_review_show();
 }
 
-function modal_review_show(modalContent){
-	var modal = document.getElementById("modal-client");
-	var modal_content = document.getElementById(modalContent);
+function modal_review_show(){
+	var modal = document.getElementsByClassName("modal__board");
+	var modal_content = document.getElementById("modal__board--wirte");
 	
 	modal.style.display = "block"; // 모달창 display none에서 block으로 변경함으로써 띄워줌
 	
@@ -438,5 +535,6 @@ function modal_review_show(modalContent){
 }
 
 function modal_review_cancle(){
-	
+	var modal_client = document.getElementById("modal__board");
+	modal_client.style.display = "none";
 }

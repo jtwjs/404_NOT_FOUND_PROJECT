@@ -23,6 +23,7 @@
 		<result column = "wthdr_date" property = "wthdrDate" />
 		<result column = "save_point" property = "savePoint" />
 		<result column = "profile_img" property = "profileImg" />
+		<result column = "profile_img_path" property = "profileImgPath" />
 		<result column = "last_loginDate" property = "loginDate" />
 	</resultMap>
 	
@@ -119,7 +120,7 @@
 	
 	
 	<update id = "UpdateBuyerAccount" parameterType = "com.spring.buyer.BuyerVO"  >
-		UPDATE member_buyer SET email=#{email}, tel=#{tel}, profile_img=#{profileImg}
+		UPDATE member_buyer SET email=#{email}, tel=#{tel}, profile_img=#{profileImg}, profile_img_path=#{profileImgPath}
 		 WHERE buyer_id = #{id}
 	</update>
 	
@@ -148,9 +149,7 @@
 		SELECT * FROM list_delivery where num = #{num}
 	</select>
 	
-	<!-- <select id="getDefaultAddressOneById" resultMap="deliveryResultMap">
-		select * from list_delivery where buyer_id = #{id} and default_address = 'Y'
-	</select> -->
+
 
 
 	<update id="ListDeliveryModify" parameterType="com.spring.buyer.deliveryVO">

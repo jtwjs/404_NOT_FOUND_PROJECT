@@ -109,3 +109,19 @@ defaultAddr.addEventListener('click',function(){
 	}
 });
 
+
+/*주소록 팝업창*/
+var addrBookBtn = document.getElementById('addrBook_btn');
+
+addrBookBtn.addEventListener('click',function(){
+	popupOpen();
+});
+
+function popupOpen(){
+	var url = "addrBook_popup.or";
+	var winWidth = 500;
+	var winHeight = 600;
+	var popupOption = "width=" +winWidth+",height="+winHeight;
+	window.open(url,"",popupOption)
+		
+}

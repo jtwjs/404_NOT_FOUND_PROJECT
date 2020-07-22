@@ -19,6 +19,7 @@ public class BuyerVO {
     private String addrDetail;
     private String address;  
     private String profileImg;
+    private String profileImgPath;
     private String joinDate;    
     private String wthdrDate;   
     private String loginDate;
@@ -120,6 +121,13 @@ public class BuyerVO {
 	}
 	public void setProfileImg(String profileImg) {
 		this.profileImg = profileImg;
+	}
+	
+	public String getProfileImgPath() {
+		return profileImgPath;
+	}
+	public void setProfileImgPath(String profileImgPath) {
+		this.profileImgPath = profileImgPath;
 	}
 	public void setAddress(String addrNum, String addrRoadName, String addrDetail) {
 		this.address = addrNum + "+" + addrRoadName + "/" + addrDetail;

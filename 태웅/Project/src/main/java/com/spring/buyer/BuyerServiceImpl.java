@@ -162,15 +162,39 @@ public class BuyerServiceImpl implements BuyerService {
 	}
 
 
-
-//	@Override
-//	public deliveryVO getDefaultAddressOneById(String id) {
-//		
-//		deliveryVO vo = mapper.getDefaultAddressOneById(id);
-//
-//		return vo;		
-//	}	
+	@Override
+	public int selectWishListCountOneById(String buyer_id) {
+		WishListMapper wishListMapper = sqlSession.getMapper(WishListMapper.class);
+		
+		int res = wishListMapper.selectWishListCountOneById(buyer_id);
+		
+		return res;
+	}
 	
 	
+	@Override
+	public ArrayList<WishListVO> selectWishList(String buyer_id, int sort_list, int page_num, int page_amount) {
+		
+		WishListMapper wishListMapper = sqlSession.getMapper(WishListMapper.class);
+		
+		ArrayList<WishListVO> wishList = new ArrayList<WishListVO>();
+		
+		wishList = wishListMapper.selectWishList(buyer_id, sort_list, page_num, page_amount);
+		
+		System.out.println("wishList impl : " + wishList);
+				
+		return wishList;
+	}
 	
+	@Override
+	public int deleteWishList(HashMap<String, String> hashmap) {
+		WishListMapper wishListMapper = sqlSession.getMapper(WishListMapper.class);
+		int res = wishListMapper.isWishListWriter(hashmap);
+		String wish_id = hashmap.get("wish_id");
+		if (res == 1) {
+			res = wishListMapper.deleteWishList(wish_id);
+		}
+		return res;
+	}	
 }
+	

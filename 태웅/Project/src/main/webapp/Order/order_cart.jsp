@@ -16,7 +16,7 @@ String buyer_id = "";%>
     buyer_id = pageContext.getAttribute("user").toString();%>
 </sec:authorize>
 <%
-    
+
     int totProductPrice = 0;
     int totDeliveryPrice = 0;
     int vo_list_size = 0;
@@ -24,11 +24,12 @@ String buyer_id = "";%>
     if((int[])request.getAttribute("quantity") != null){
 	    quantity = (int[])request.getAttribute("quantity");
     }
-
+	    
     ArrayList<BoardProductVO> vo_list = null;
     if((ArrayList<BoardProductVO>)request.getAttribute("vo_list") != null){
         vo_list = (ArrayList<BoardProductVO>)request.getAttribute("vo_list");
         vo_list_size = vo_list.size();
+        
         for(int i = 0; i < vo_list.size(); i++){
             totProductPrice += (vo_list.get(i).getPrice() * quantity[i]);
         }
@@ -150,7 +151,7 @@ String buyer_id = "";%>
                                 <input type="hidden" class="board_id_check" value="<%=vo_list.get(i).getBoard_id() %>" />
                             </td>
                             <td class="cart__td--img">
-                            <img src="<%=vo_list.get(i).getThumbnail_thum_path() %><%=vo_list.get(i).getThumbnail_thum()%>">
+                            <img src="display?path=<%=java.net.URLEncoder.encode(vo_list.get(i).getThumbnail_thum_path(), "UTF-8") %>&name=<%=java.net.URLEncoder.encode(vo_list.get(i).getThumbnail_thum(), "UTF-8")%>">
                             </td>
                             <td class="cart__td--title">
                                 <a href="BoardProductView.bo?board_id=<%=vo_list.get(i).getBoard_id()%>"><%=vo_list.get(i).getTitle() %></a>
@@ -160,12 +161,14 @@ String buyer_id = "";%>
                             <td>
                                 <input type="hidden" value="<%=cart_id[i] %>" class="cart_id" name="cart_id" />
                                 <input type="button" value="-" class="quantity-minus-btn" 
-                                    onclick="btnQuantityChange(this.value, '<%=i %>', '<%=vo_list.get(i).getPrice() %>', '<%=vo_list.get(i).getDelivery_price() %>', '<%=vo_list.get(i).getQuantity() %>');" />
+                                    onclick="btnQuantityChange(this.value, '<%=i %>', '<%=vo_list.get(i).getPrice() %>', 
+                                    '<%=vo_list.get(i).getDelivery_price() %>', '<%=vo_list.get(i).getQuantity() %>', '<%=login_case %>');" />
                                 <input type="text" value="<%=quantity[i] %>" maxlength="2" 
                                     class="quantity-input" oninput="onInputCheck(this, '<%=vo_list.get(i).getQuantity() %>', '<%=quantity[i] %>');" 
                                     onchange="tableTotPriceChange(this.value, '<%=i %>', '<%=vo_list.get(i).getPrice() %>', '<%=vo_list.get(i).getDelivery_price() %>', '<%=login_case %>');" />
                                 <input type="button" value="+" class="quantity-plus-btn" 
-                                    onclick="btnQuantityChange(this.value,'<%=i %>', '<%=vo_list.get(i).getPrice() %>', '<%=vo_list.get(i).getDelivery_price() %>', '<%=vo_list.get(i).getQuantity() %>');" />
+                                    onclick="btnQuantityChange(this.value,'<%=i %>', '<%=vo_list.get(i).getPrice() %>', 
+                                    '<%=vo_list.get(i).getDelivery_price() %>', '<%=vo_list.get(i).getQuantity() %>', '<%=login_case %>');" />
                             </td>
                             <td class="table__tot-price">
                             <%=(vo_list.get(i).getPrice() * quantity[i]) + vo_list.get(i).getDelivery_price() %>
@@ -187,7 +190,8 @@ String buyer_id = "";%>
                 </table>
             </div>
             <form id="orderForm" method="post" action="OrderSheet.or">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" 
+                    id="csrf-post-form"/>
             </form>
             
             <div class="col-xs-12" id="cart__calc">

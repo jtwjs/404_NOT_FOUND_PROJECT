@@ -72,12 +72,13 @@
                      		<thead>
                      			<tr>
                      				<th></th>
-                     				<th scope="row">LV.1<th>
-                     				<th scope="row">LV.2<th>
-                     				<th scope="row">LV.3<th>
-                     				<th scope="row">LV.4<th>
+                     				<th scope="row">LV.1</th>
+                     				<th scope="row">LV.2</th>
+                     				<th scope="row">LV.3</th>
+                     				<th scope="row">LV.4</th>
                      			</tr>
-                     		
+                     		<thead>
+                     		<tbody>
                      				<tr>
                      					<th scope="col">등급 점수</th>
                      					<td>회원가입 ~ 2000</td>
@@ -86,20 +87,20 @@
                      					<td>100,001 ~ 200,000</td>
                      				</tr>
                      				<tr>
-                     					<th scope="col">이웃# 혜택</th>
+                     					<th scope="col">혜택</th>
                      					<td></td>
-                     					<td>-이웃# 추가 할인 1%<span class="enter">-이웃# 추가 적립 1%</span></td>
-                     					<td>-이웃# 추가 할인 2%<span class="enter">-이웃# 추가 적립 1%</span></td>
-                     					<td>-이웃# 추가 할인 2%<span class="enter">-이웃# 추가 적립 2%</span></td>
+                     					<td>- 추가 할인 1%<span class="enter">- 추가 적립 1%</span></td>
+                     					<td>- 추가 할인 2%<span class="enter">- 추가 적립 1%</span></td>
+                     					<td>- 추가 할인 2%<span class="enter">- 추가 적립 2%</span></td>
                      				</tr>
                      		</tbody>
                      		<thead>
                      			<tr>
                      				<th></th>
-                     				<th scope="row">LV.5<th>
-                     				<th scope="row">LV.6<th>
-                     				<th scope="row">LV.7<th>
-                     				<th scope="row">LV.8<th>
+                     				<th scope="row">LV.5</th>
+                     				<th scope="row">LV.6</th>
+                     				<th scope="row">LV.7</th>
+                     				<th scope="row">LV.8</th>
                      			</tr>
                      		</thead>
                      		<tbody>
@@ -111,11 +112,11 @@
                      					<td>2,000,001 ~ </td>
                      				</tr>
                      				<tr>
-                     					<th scope="col">이웃# 혜택</th>
-                     					<td>-이웃# 추가 할인 3%<span class="enter">-이웃# 추가 적립 2%</span></td>
-                     					<td>-이웃# 추가 할인 3%<span class="enter">-이웃# 추가 적립 3%</span></td>
-                     					<td>-이웃# 추가 할인 4%<span class="enter">-이웃# 추가 적립 3%</span></td>
-                     					<td>-이웃# 추가 할인 4%<span class="enter">-이웃# 추가 적립 4%</span></td>
+                     					<th scope="col">혜택</th>
+                     					<td>- 추가 할인 3%<span class="enter">- 추가 적립 2%</span></td>
+                     					<td>- 추가 할인 3%<span class="enter">- 추가 적립 3%</span></td>
+                     					<td>- 추가 할인 4%<span class="enter">- 추가 적립 3%</span></td>
+                     					<td>- 추가 할인 4%<span class="enter">- 추가 적립 4%</span></td>
                      				</tr>
                      		</tbody>
                      	</table>

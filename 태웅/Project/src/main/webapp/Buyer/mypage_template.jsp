@@ -4,7 +4,7 @@
 	<article id="side__profile">
 	    <dl>
 	        <dt class="profile-img">
-	            <img src="./resources/Images/Buyer/Avatar 3.png" alt="profile" />
+	            <img src="display?path=${user.profileImgPath}&name=${user.profileImg}" alt="profile" />
 	        </dt>
 	        <dd class="profile-content">
 	            <p class="buyer">구매자</p>

@@ -45,14 +45,14 @@
 	width: 15%;
 }
 
-.wish-date {
+.wish-delete {
 	width: 15%;
 }
 
 .wish-check,
 .wish-title,
 .wish-price,
-.wish-date {
+.wish-delete {
   font-weight: 500;
   font-size: 20px;
   color: #fff;
@@ -66,3 +66,20 @@
   height: 200px;
   font-size: 20px;
 }
+
+.wish_thum {
+	width: 80px;
+	height: 80px;
+	border: 1px solid #d2d2d2;
+
+}
+
+.deleteBtn{
+
+    width: 60px;
+    height: 35px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    text-align: center;
+}
+

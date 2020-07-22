@@ -7,7 +7,6 @@ constraint all_account_pk primary key(account_id)
 );
 
 
-drop table admin;
 create table admin(                 -- 愿�由ъ옄 �뀒�씠釉�
     admin_id varchar2(16) not null, -- 愿�由ъ옄 ID (湲곕낯�궎)
     password varchar2(100) not null, -- 鍮꾨�踰덊샇
@@ -17,8 +16,8 @@ create table admin(                 -- 愿�由ъ옄 �뀒�씠釉�
     constraint admin_admin_id_pk primary key(admin_id)
 );
 
-insert into admin 
-values ('admin','{bcrypt}$2a$10$UgciI5e8vDo2uZlnRDSL4eZlPwkWMyd4pOCj90wja8UWqkX.GSAqu','관리자',admin_num_seq.nextval,'ADMIN');
+--insert into admin 
+--values ('admin','{bcrypt}$2a$10$UgciI5e8vDo2uZlnRDSL4eZlPwkWMyd4pOCj90wja8UWqkX.GSAqu','관리자',admin_num_seq.nextval,'ADMIN');
 
 CREATE SEQUENCE admin_num_seq
     INCREMENT BY 1
@@ -36,10 +35,6 @@ values (:new.admin_id, :new.password, :new.member_type);
 END;
 
 
-/*援щℓ�옄*/
-select * from member_seller;
-select* from member_buyer;
-
 create table member_buyer(          -- 援щℓ�옄 �뀒�씠釉�
     buyer_id varchar2(16) not null, -- 援щℓ�옄 ID (湲곕낯�궎)
     password varchar2(100) not null, -- 鍮꾨�踰덊샇 (*�븫�샇�솕�븣臾몄뿉 �겕湲곕뒛由�)
@@ -48,20 +43,20 @@ create table member_buyer(          -- 援щℓ�옄 �뀒�씠釉�
     email varchar2(33) not null,    -- �씠硫붿씪
     address varchar2(100) not null, -- 二쇱냼
     buyer_num number not null,      -- 援щℓ�옄 �벑濡앸쾲�샇
-    grade char(1) default 0 not null,         -- 援щℓ�옄 �벑湲�
+    grade char(1) default 1 not null,         -- 援щℓ�옄 �벑湲�
     member_type varchar(10) default 'BUYER' not null,    -- 硫ㅻ쾭���엯 (援щℓ�옄:B �뙋留ㅼ옄:S 愿�由ъ옄:A)
     del_flag char(1) default 'N' not null,      -- �깉�눜�뿬遺� (Y,N�쑝濡� 援щ텇�빐�꽌 蹂닿�)
     join_date date default sysdate not null,        -- �쉶�썝媛��엯�씪
     wthdr_date date,                -- �쉶�썝�깉�눜�씪
     save_point number  default 0 not null,     -- �쟻由쎄툑
-    profile_img varchar2(200),          --�봽濡쒗븘�궗吏�
+    profile_img varchar2(200) ,          --�봽濡쒗븘�궗吏�
+    profile_img_path varchar2(100),
     last_loginDate date default sysdate,                --留덉�留됱젒�냽�씪�옄
     constraint member_buyer_buyer_id_pk primary key(buyer_id)
 );
 
 
-
-desc member_buyer;
+select * from member_buyer;
 /*buyer_num Sequence*/
 CREATE SEQUENCE buyer_num_seq
     INCREMENT BY 1
@@ -72,7 +67,6 @@ CREATE SEQUENCE buyer_num_seq
 --     select buyer_num_seq.currval from dual;   
 
 /*적립금 테이블*/     
-
 create table save_point (
  sp_status varchar2(4) not null,
  sp_point number not null,
@@ -93,38 +87,12 @@ CREATE SEQUENCE point_num_seq
     MAXVALUE 9999
     NOCYCLE;
 
---적립 Test
-insert into save_point 
-values ('적립',300,'주문결제 적립+테스트',123123123,SYSDATE,'buyer123',point_num_seq.nextval);
---사용 Test
-insert into save_point
-values ('사용',300,'적립금 결제+테스트',123123123,SYSDATE,'buyer123',point_num_seq.nextval);
-
-select * from save_point;
-commit;
-
-
-
---create trigger trg_save_point 
---AFTER UPDATE ON member_buyer
---for each row
---DECLARE 
---bfValue number := old.save_point;
---afValue number := new.save_point;
---point number := 
---BEGIN
---
---if bfValue-afValue >0 THEN --차감
---insert into save_point (BUYER_ID, sp_status, sp_point, sp_content,sp_orderNum )
---values (:new.buyer_id, '사용',bfValue - afValue , :new.name, :new.tel);
---
---ELSE IF bfValue-afValue < 0 THEN --적립
---insert into save_point (BUYER_ID, ADDRESS, RECEIVER_NAME, RECEIVER_PHONE)
---values (:new.buyer_id, '적립',afValue - bfValue , :new.address, :new.name, :new.tel);
---
---END IF;
---END;// 보류 
-     
+----적립 Test
+--insert into save_point 
+--values ('적립',300,'주문결제 적립+테스트',123123123,SYSDATE,'buyer123',point_num_seq.nextval);
+----사용 Test
+--insert into save_point
+--values ('사용',300,'적립금 결제+테스트',123123123,SYSDATE,'buyer123',point_num_seq.nextval);     
 
 create or replace trigger TRG_buyer_account
 AFTER INSERT ON member_buyer
@@ -134,10 +102,6 @@ insert into all_account (account_ID, account_pw, account_type)
 values (:new.buyer_id, :new.password, :new.member_type);
 END;
 
-
-    /*媛쒖씤諛곗넚吏�(援щℓ�옄)*/
-drop table list_delivery;
-select * from list_delivery;
 create table list_delivery(                 -- 개인저장 배송지 목록
     num number default(1),                    -- 배송지 번호 
     buyer_id varchar2(16) not null,         -- 구매자 ID(member_buyer테이블 외래키)
@@ -149,8 +113,6 @@ create table list_delivery(                 -- 개인저장 배송지 목록
     constraint list_delivery_buyer_id_fk foreign key(buyer_id)
     references member_buyer(buyer_id) on delete cascade
 );
- desc list_delivery;
-/*援щℓ�옄 �쉶�썝媛��엯�떆 媛쒖씤諛곗넚吏� 異붽� �듃由ш굅*/
 
 create or replace trigger TRG_Buyer_delivery
 AFTER INSERT ON member_buyer
@@ -159,55 +121,39 @@ BEGIN
 insert into list_delivery (BUYER_ID, ADDRESS, RECEIVER_NAME, RECEIVER_PHONE)
 values (:new.buyer_id, :new.address, :new.name, :new.tel);
 END;
---     select sum(s.count) from (
---     select count(*) as count
---     from member_buyer 
---     where buyer_id='zkfna123'
---     union all
---     select count(*) as count
---     from member_seller
---     where seller_id='zkfna123'
---     union all
---     select count(*) as count
---     from admin
---     where admin_id='zkfna123'
---     )s;
      
-     select * from member_seller;
-     /*�뙋留ㅼ옄*/
-     create table member_seller(               -- �뙋留ㅼ옄 �뀒�씠釉�
-    seller_id varchar2(16) not null,      -- �뙋留ㅼ옄 ID (湲곕낯�궎)
-    password varchar2(100) not null,       -- 鍮꾨�踰덊샇(*�븫�샇�솕�븣臾몄뿉 �겕湲곕뒛由�)
-    shop_name varchar2(16) not null,      -- �긽�샇紐�
-    representative varchar2(16) not null, -- ���몴�옄
-    address varchar2(100) not null,       -- 二쇱냼
-    manager_phone varchar2(13) not null,  -- �떞�떦�옄 �뿰�씫泥�
-    manager_email varchar2(33) not null,  -- �떞�떦�옄 �씠硫붿씪
-    manager_name varchar2(16) not null,   -- �떞�떦�옄 �씠由�
-    mail_order_report_num varchar2(20) not null,  -- �넻�떊�뙋留ㅼ떊怨좊쾲�샇
-    mail_order_report_img varchar2(200) not null,
-    bank_name varchar2(20) not null,
-    bank_account varchar2(20) not null,   -- �젙�궛��湲덉엯湲덇퀎醫�
-    seller_reg_num number not null,       -- �뙋留ㅼ옄 �벑濡앸쾲�샇
-    seller_grade char(1) default 0 not null,        -- �뙋留ㅼ옄 �벑湲� 
-    member_type varchar2(10) default 'SELLER' not null,          -- 硫ㅻ쾭���엯 (�뙋留ㅼ옄) (援щℓ�옄:B �뙋留ㅼ옄:S 愿�由ъ옄:A)
-    del_flag char(1) default 'N' not null,            -- �깉�눜�뿬遺� (Y,N�쑝濡� 援щ텇)
-    join_date date default sysdate not null,              -- �쉶�썝媛��엯�씪
-    wthdr_date date,                        -- �쉶�썝�깉�눜�씪
-    profile_img varchar2(200),
-    last_loginDate date default sysdate,
-    constraint member_seller_seller_id_pk primary key(seller_id)
-);
 
+     /*�뙋留ㅼ옄*/
+ create table member_seller(               -- �뙋留ㅼ옄 �뀒�씠釉�
+seller_id varchar2(16) not null,      -- �뙋留ㅼ옄 ID (湲곕낯�궎)
+password varchar2(100) not null,       -- 鍮꾨�踰덊샇(*�븫�샇�솕�븣臾몄뿉 �겕湲곕뒛由�)
+shop_name varchar2(16) not null,      -- �긽�샇紐�
+representative varchar2(16) not null, -- ���몴�옄
+address varchar2(100) not null,       -- 二쇱냼
+manager_phone varchar2(13) not null,  -- �떞�떦�옄 �뿰�씫泥�
+manager_email varchar2(33) not null,  -- �떞�떦�옄 �씠硫붿씪
+manager_name varchar2(16) not null,   -- �떞�떦�옄 �씠由�
+mail_order_report_num varchar2(20) not null,  -- �넻�떊�뙋留ㅼ떊怨좊쾲�샇
+mail_order_report_img varchar2(200) not null,
+bank_name varchar2(20) not null,
+bank_account varchar2(20) not null,   -- �젙�궛��湲덉엯湲덇퀎醫�
+seller_reg_num number not null,       -- �뙋留ㅼ옄 �벑濡앸쾲�샇
+seller_grade char(1) default 0 not null,        -- �뙋留ㅼ옄 �벑湲� 
+member_type varchar2(10) default 'SELLER' not null,          -- 硫ㅻ쾭���엯 (�뙋留ㅼ옄) (援щℓ�옄:B �뙋留ㅼ옄:S 愿�由ъ옄:A)
+del_flag char(1) default 'N' not null,            -- �깉�눜�뿬遺� (Y,N�쑝濡� 援щ텇)
+join_date date default sysdate not null,              -- �쉶�썝媛��엯�씪
+wthdr_date date,                        -- �쉶�썝�깉�눜�씪
+profile_img varchar2(200),
+profile_img_path varchar2(100),
+last_loginDate date default sysdate,
+constraint member_seller_seller_id_pk primary key(seller_id)
+);
+select  *from member_seller;
 CREATE SEQUENCE seller_num_seq
     INCREMENT BY 1
     START WITH 1
     MAXVALUE 9999
-    NOCYCLE;
-     
-     select * from member_buyer;
-     select * from member_seller;
-
+    NOCYCLE;     
 
 create or replace trigger TRG_seller_account
 AFTER INSERT ON member_seller
@@ -217,7 +163,7 @@ insert into all_account (account_ID, account_pw, account_type)
 values (:new.seller_id, :new.password, :new.member_type);
 END;    
     
- create table board_faq(          -- �옄二쇰Щ�뒗吏덈Ц 寃뚯떆�뙋
+create table board_faq(          -- �옄二쇰Щ�뒗吏덈Ц 寃뚯떆�뙋
 num number not null,         -- 由ъ뒪�듃 踰덊샇 (湲곕낯�궎)
 title varchar2(50),          -- 寃뚯떆�뙋 �젣紐�
 content varchar2(2000),      -- 寃뚯떆�뙋 �궡�슜
@@ -226,7 +172,6 @@ constraint board_faq_num_pk primary key(num)
 );
 
 create table board_notice(            -- 怨듭��궗�빆
-
     num number not null,                -- 怨듭��궗�빆 湲�踰덊샇
     title varchar2(1600) not null,      -- 怨듭��궗�빆 �젣紐�
     content varchar2(4000) not null,    -- 怨듭��궗�빆 湲��궡�슜
@@ -234,9 +179,7 @@ create table board_notice(            -- 怨듭��궗�빆
     register_date date not null            -- 怨듭��궗�빆 �벑濡앹씪
     
 );
-/*�긽�뭹�벑濡�*/
-drop table board_product;
-select* from board_product;
+select * from board_product;
 create table board_product(                     -- �뙋留ㅺ쾶�떆�뙋
     board_id varchar2(32) not null,             -- 寃뚯떆�뙋 ID (湲곕낯�궎)
     seller_id varchar2(16) not null,            -- �옉�꽦�옄 (member_seller�뀒�씠釉� �쇅�옒�궎)
@@ -282,21 +225,21 @@ create table board_product(                     -- �뙋留ㅺ쾶�떆�뙋
     read_count number not null,                 -- 議고쉶�닔
     constraint board_product_board_id_pk primary key(board_id)
 );
+select * from board_product;
 
-
-
-/*�쐞�떆由ъ뒪�듃*/
-drop table wish_list;
 create table wish_list(
-    wish_id varchar2(32) not null,         -- �쐞�떆由ъ뒪�듃 ID媛� (湲곕낯�궎, �옖�뜡�깮�꽦)
-    buyer_id varchar2(16) not null,        -- 援щℓ�옄 ID (member_buyer�뀒�씠釉� �쇅�옒�궎)
-    board_id varchar2(32) not null,        -- �뙋留ㅺ쾶�떆�뙋 ID (board_product�뀒�씠釉� �쇅�옒�궎)
+    wish_id varchar2(32) not null,         -- 위시리스트 ID값 (기본키, 랜덤생성)
+    buyer_id varchar2(16) not null,        -- 구매자 ID (member_buyer테이블 외래키)
+    board_id varchar2(32) not null,        -- 판매게시판 ID (board_product테이블 외래키)
+    title varchar2(100) not null,               -- 게시판 이름
+    price number not null,                      -- 판매가
+    thumbnail_thum varchar2(100),               -- 썸네일 이미지 이름
+    thumbnail_thum_path varchar2(100),          -- 썸네일 썸네일 경로
     constraint wish_list_wish_id_pk primary key(wish_id)
 );
 
 
-/*二쇰Ц湲곕줉*/
-drop table order_record;
+
 create table order_record(                   -- 二쇰Ц湲곕줉
     order_num number not null,               -- 二쇰Ц踰덊샇 (湲곕낯�궎)
     order_id varchar2(32) not null,          -- 二쇰Ц踰덊샇 ID
@@ -326,8 +269,6 @@ create table order_record(                   -- 二쇰Ц湲곕줉
     non_member_flag char(1) not null,        -- 鍮꾪쉶�썝 �뿬遺� ('Y', 'N' �쑝濡� 援щ텇)
     constraint order_record_order_num_pk primary key(order_num)
 );
-/*�옣諛붽뎄�땲*/
-drop table product_cart;
 create table product_cart(          -- �옣諛붽뎄�땲
     cart_id varchar2(32) not null,  -- �옣諛붽뎄�땲ID (湲곕낯�궎, �옖�뜡肄붾뱶 �깮�꽦)
     board_id varchar2(32) not null, -- �뙋留ㅺ� ID
@@ -339,9 +280,6 @@ create table product_cart(          -- �옣諛붽뎄�땲
 
  
  /*주문기록*/
- 
- drop table order_record;
- 
 create table order_record(                   -- 주문기록
     order_id number not null,                -- 주문번호 ID
     buyer_id varchar2(16) not null,          -- 구매자 ID (member_buyer테이블 외래키)
@@ -366,34 +304,8 @@ create table order_record(                   -- 주문기록
 --    constraint order_record_option_id_fk foreign key(option_id)
         references board_product_option(option_id) on delete cascade
 );
-commit;
-select * from product_cart;
-select * from board_product;
-commit;
-select * from member_buyer;
 
 
-insert into order_record 
-values ('1','234tr234','a','b','seller123', 'yoon2726', '3', '1000', '5000', '0', '8000', '결제완료', '조하나', '01086522726', 'asphyxiated1@naver.com',
-        '06611', '서울 서초구 강남대로 459/302', '조하나', '01086522726', '건강하세요', 'cj택배', '1234345634', '현금' ,'110111111111', '20/07/15', 'Y');
 
-insert into order_record 
-values ('2','123134','c','d','seller123', 'yoon2726', '7', '10000', '10000', '0', '80000', '결제완료', '조하나', '01086522726', 'yoon@naver.com',
-        '06611', '서울 서초구 강남대로 459/301', '히토미', '01011112222', 'ㅋㅋㅋ', 'cj택배', '231434153', '현금' ,'110111111111', '20/07/15', 'Y');        
-    
-insert into order_record 
-values ('3','asdfsd','e','f','seller123', 'nako123', '10', '10000', '10000', '0', '110000', '결제완료', '야부키', '01033334444', 'nako@naver.com',
-        '06611', '서울 서초구 강남대로 459/202', '야부키', '01033334444', 'ㅋㅋㅋ', 'cj택배', 'a2104123', '현금' ,'110111111111', '20/07/15', 'N');   
-        
-insert into order_record 
-values ('6','456dfsd','g','h','seller123', 'yoon2726', '2', '10000', '10000', '0', '20000', '결제완료', '조하나', '01086522726', 'asphyxiated1@naver.com',
-        '06611', '서울 서초구 강남대로 459/302', '조하나', '01086522726', '건강하세요', 'cj택배', '12adsf5634', '현금' ,'110111111111', '20/07/16', 'Y');
-        
-insert into order_record 
-values ('4','asd123','ㄱ','ㄴ','seller123', 'sakura123', '1', '10000', '10000', '0', '20000', '결제완료', '사쿠라', '01055556666', 'sakura@naver.com',
-        '06611', '서울 서초구 강남대로 459/201', '사쿠라', '01055556666', '111ㅋㅋㅋ', 'cj택배', 'a21023dfs', '현금' ,'110111111111', '20/07/15', 'Y'); 
 
-insert into order_record 
-values ('5','asd456','ㄷ','ㄹ','seller123', 'yuri123', '1', '20000', '20000', '0', '20000', '결제완료', '조유리', '01077778888', 'yuri@naver.com',
-        '06611', '서울 서초구 강남대로 459/203', '조유리', '01077778888', '222ㅋㅋㅋ', 'cj택배', 'a21adsfdfs', '현금' ,'110111111111', '20/07/15', 'N'); 
-commit;
+

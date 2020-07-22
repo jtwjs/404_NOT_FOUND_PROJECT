@@ -11,7 +11,6 @@ public interface SellerService {
 	void RegisterSellerAccout(SellerVO seller);
 	int UpdateSellerAccount(SellerVO seller);
 	int DeleteSellerAccount(String id);
-	void UpdateProfileImg(SellerVO account);
 	ArrayList<BoardProductVO> selectProductListById(String id);
 	BoardProductVO BoardSelectOneByBoardId(String board_id);
 	public int getOrderRecordOneByIdListCount(String seller_id);

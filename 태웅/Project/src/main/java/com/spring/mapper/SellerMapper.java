@@ -15,7 +15,6 @@ public interface SellerMapper {
 	void InsertSellerAccout(SellerVO account);
 	int DeleteSellerAccount(String id);
 	void UpdateLoginDateBy(String id);
-	void UpdateProfileImg(SellerVO account);
 	ArrayList<BoardProductVO> selectProductListById(String id);
 
 	int UpdateSellerAccount(SellerVO seller);
