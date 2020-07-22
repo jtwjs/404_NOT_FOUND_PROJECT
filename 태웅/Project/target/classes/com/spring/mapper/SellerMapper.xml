@@ -28,6 +28,7 @@
 		<result column = "wthder_date" property = "wtdrDate" />
 		<result column = "join_date" property = "joinDate" />
 		<result column = "profile_img" property = "profileImg" />
+		<result column = "profile_img_path" property ="profileImgPath" />
 		<result column = "last_loginDate" property = "loginDate" />
 	</resultMap>  
 	
@@ -61,14 +62,10 @@
 		WHERE seller_id = #{id} AND password = #{password}
 	</delete>
 	
-	<update id = "UpdateProfileImg" parameterType = "com.spring.seller.SellerVO">
-		UPDATE member_seller SET profile_img=#{profileImg}
-		WHERE seller_id = #{id}
-	</update>
-	
 	<update id = "UpdateSellerAccount" parameterType = "com.spring.seller.SellerVO"  >
 		UPDATE member_seller SET manager_phone = #{tel}, manager_email = #{email}, manager_name = #{name}, 
-									bank_name = #{bankName}, bank_account = #{bankAccountNum},profile_img=#{profileImg} 
+									bank_name = #{bankName}, bank_account = #{bankAccountNum},profile_img=#{profileImg}
+									,profile_img_path=#{profileImgPath} 
 		WHERE seller_id = #{id}
 	</update>
 	

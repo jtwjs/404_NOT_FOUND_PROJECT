@@ -21,6 +21,9 @@ public interface BuyerService {
     public int ListDeliveryModify(deliveryVO delivery);
     public int ListDeliveryDelete(HashMap<String, String> hashmap);
     public int UpdateListDeliverList(deliveryVO delivery);
-//    public deliveryVO getDefaultAddressOneById(String id);
+    public int selectWishListCountOneById(String buyer_id);
+    public ArrayList<WishListVO> selectWishList(String buyer_id, int sort_list, int page_num, int page_amount);
+    public int deleteWishList(HashMap<String, String> hashmap);
+    
     
 }

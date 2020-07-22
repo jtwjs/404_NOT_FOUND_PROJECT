@@ -54,7 +54,7 @@ function onInputCheck(val, quantity, cartAmount){
 	
 }
 
-function btnQuantityChange(val, i, price, deliveryPrice, quantity){
+function btnQuantityChange(val, i, price, deliveryPrice, quantity, login_case){
 
 	var quantityText = document.getElementsByClassName("quantity-input")[Number(i)];
     var quantityNum = Number(quantityText.value);
@@ -71,7 +71,7 @@ function btnQuantityChange(val, i, price, deliveryPrice, quantity){
 	
 	quantityText.value = quantityNum;
 	saveVal = quantityNum;
-	tableTotPriceChange(quantityNum, i , price, deliveryPrice);
+	tableTotPriceChange(quantityNum, i , price, deliveryPrice, login_case);
 }
 
 function tableTotPriceChange(val, i, price, deliveryPrice, login_case){
@@ -87,6 +87,7 @@ function tableTotPriceChange(val, i, price, deliveryPrice, login_case){
 	
 	totPriceChange();
 	
+	
 	if(login_case == 1){
 	    var cart_id = document.getElementsByClassName("cart_id")[Number(i)];
 	
@@ -98,6 +99,7 @@ function tableTotPriceChange(val, i, price, deliveryPrice, login_case){
 
 	    // send() 메서드는 준비된 요청을 서버로 전송하는 메서드입니다. (서버에 전달될 정보)
 	    xhr.send();
+	    
 	}else{
 		
 		var cookieQuantity = getCookieValue("nonMember_quantity");
@@ -174,12 +176,21 @@ function btn_select_delete(login_case){
 			if($("input[class='cart__check']").eq(count).prop("checked")){
 				
 				// open() 메서드는 요청을 준비하는 메서드입니다. (http 메서드, 데이터를 받아올 URL 경로, 비동기 여부)
-				xhr.open("GET", "CartDelete.or?cart_id=" + cart_id[count].value, true);
+				xhr.open("POST", "CartDelete.or", true);
 				// send() 메서드는 준비된 요청을 서버로 전송하는 메서드입니다. (서버에 전달될 정보)
-				xhr.send();
+				
+				var formData = new FormData();
+				formData.append("cart_id", cart_id[count].value);
+				var csrf = document.getElementById("csrf-post-form");
+				formData.append(csrf.name, csrf.value);
+				
+				xhr.send(formData);
 				
 				cart_table.deleteRow(count);
+				
 				count -= 1;
+				
+				
 			}
 			count++;
 		}

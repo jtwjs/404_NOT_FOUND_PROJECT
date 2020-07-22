@@ -10,11 +10,39 @@
     <link href="<c:url value='/resources/css/module/header.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css'/>" rel="stylesheet" />
     <!-- header, css end -->
-    
+    <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Admin/join_seller_complete.css'/>" rel="stylesheet" />
     <title>판매자 회원가입 완료</title>
 </head>
 <body>
+<section id="sub-main" class="serviceCenter">
+	  <div class="sub-top">
+	  	<h2 class="sub-title">회원가입</h2>
+	  	<ul class="sub-location">
+	  		<li class="home">
+	  		  <a href="Index.in"><span class="hide-text">home</span></a>
+	  		</li>
+	  		<li>
+	  		  <strong>회원가입</strong>
+	  		</li>
+	  		<li>
+	  		  <strong>판매자 회원가입</strong>
+	  		</li>
+	  		<li>
+	  		  <strong>회원가입 완료</strong>
+	  		</li>
+	  	</ul>
+	  </div>
+	  <div class="sub-tab">
+	  	<ul>
+	  		<li>
+	  			<a href="JoinSelect.ad">
+	  				<span>회원가입</span>
+	  			</a>
+	  		</li>
+	  	</ul>
+	  </div>
+	</section>
     <main id="main">
         <div class="container">
             <div class="row">

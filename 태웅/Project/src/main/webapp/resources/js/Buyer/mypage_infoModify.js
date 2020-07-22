@@ -8,19 +8,53 @@ changeBtn.addEventListener('click',function(){
 	}
 		
 });
+//기본이미지로변경
+var thumbnail = document.getElementById('profile_thumbnail');
+var defaultImgBtn = document.getElementById('default-photo');
 
-//기본이미지로 변경
-var defultPhoto = document.getElementById('defult-photo');
+defaultImgBtn.addEventListener('click',function(){
+	thumbnail.src = "display?path=/img/common/&name=no_profile.png";
+	fileInput.value = null;
+	
+});
+
+//이미지 등록 썸네일변경
+var fileInput = document.getElementById('change-photo');
+fileInput.addEventListener('change',ajax);
+		
+	  
+function ajax() {
+	var xhr = new XMLHttpRequest();
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	var file = fileInput.files[0];
+	var fileData = new FormData();
+	fileData.append('imgFile', file);
+	
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === 4 && xhr.status === 200) {
+			
+			var index = xhr.responseText.indexOf("@");
+			var path = xhr.responseText.substring(0,index);
+			var img = xhr.responseText.substring(index+1); 
+			thumbnail.src = "display?path="+path+"&name="+img;
+		}
+	}
+	xhr.open("POST", "/project/profileThumbnail.by",true);
+	xhr.setRequestHeader(header, token);
+	xhr.send(fileData);
+}
 
 
 //이미지취소버튼
 var cancleBtn = document.getElementById('result-cancleBtn');
-
+var currentImg = document.getElementById('thumbnail_Value');
 cancleBtn.addEventListener('click',function(){
 	hidePart.style.display = "none";
 	changeBtn.style.display = null;
+	thumbnail.src = currentImg.value;
+	
 });
-
 
 //이미지완료버튼
 
@@ -30,6 +64,7 @@ completeBtn.addEventListener('click',function() {
 	hidePart.style.display = "none";
 	changeBtn.style.display = null;
 });
+
 
 
 /*이메일*/

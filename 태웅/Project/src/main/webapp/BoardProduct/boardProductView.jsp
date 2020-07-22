@@ -10,21 +10,26 @@
     if((BoardProductVO)request.getAttribute("vo") != null){
     	vo = (BoardProductVO)request.getAttribute("vo");
     }
-    
-    String buyer_id = null;
-    if((String)request.getAttribute("buyer_id") != null){
-    	buyer_id = (String)request.getAttribute("buyer_id");
-    	System.out.println(buyer_id);
-    }
-    
-    String member_type = null;
-    if((String)request.getAttribute("member_type") != null){
-    	member_type = (String)request.getAttribute("member_type");
-    	System.out.println(member_type);
-    }
-    
    
 %>
+
+<%  int login_case = 0; 
+    String user_id = "0";%>
+<sec:authorize access="isAuthenticated() and hasRole('BUYER')">
+    <sec:authentication var="user" property="principal.username" />
+    <%login_case = 1; 
+    user_id = pageContext.getAttribute("user").toString();%>
+</sec:authorize>
+<sec:authorize access="isAuthenticated() and hasRole('SELLER')">
+    <sec:authentication var="user" property="principal.username" />
+    <%login_case = 2; 
+    user_id = pageContext.getAttribute("user").toString();%>
+</sec:authorize>
+<sec:authorize access="isAuthenticated() and hasRole('ADMIN')">
+    <sec:authentication var="user" property="principal.username" />
+    <%login_case = 3; 
+    user_id = pageContext.getAttribute("user").toString();%>
+</sec:authorize>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,12 +38,14 @@
     <link href="<c:url value='/resources/css/module/reset.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/header.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css?after'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/BoardProduct/recentProduct.css?after'/>" rel="stylesheet" />
     <!-- header, css end -->
     <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/BoardProduct/boardProductView.css'/>" rel="stylesheet" />
     <title><%=vo.getTitle() %></title>
 </head>
-<body onload="enableCheck('<%=vo.getQuantity()%>', '<%=vo.getSale_status()%>')">
+<body onload="enableCheck('<%=vo.getQuantity()%>', '<%=vo.getSale_status()%>', '<%=login_case%>', '<%=user_id%>', '<%=vo.getBoard_id()%>')">
+<jsp:include page="recentProduct.jsp" flush="false"/>
    <section id="sub-main" class="seller">
 	  <div class="sub-top">
 	  	<h2 class="sub-title">상품</h2>
@@ -67,6 +74,7 @@
 
     <!-- contents 시작 -->
     <main id="main">
+    
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
@@ -76,27 +84,40 @@
                         <!-- 이미지 -->
                         <div class="seller__datathumb--img">
                             <div class="seller-imgBig">
-                                <img src="<%=vo.getProduct_origin_path() %><%=vo.getProduct_origin_1() %>" alt="">
+                                <% String origin_path = java.net.URLEncoder.encode(vo.getProduct_origin_path(), "UTF-8"); 
+                                   String thumb_path = java.net.URLEncoder.encode(vo.getProduct_thum_path(), "UTF-8"); 
+                                if(vo.getProduct_thum_1() != null){ %>
+                                <img src="display?path=<%=origin_path %>&name=<%=java.net.URLEncoder.encode(vo.getProduct_origin_1(), "UTF-8") %>" alt="">
+                                <%}else if(vo.getProduct_thum_2() != null){ %>
+                                <img src="display?path=<%=origin_path %>&name=<%=java.net.URLEncoder.encode(vo.getProduct_origin_2(), "UTF-8") %>" alt="">
+                                <%}else if(vo.getProduct_thum_3() != null){ %>
+                                <img src="display?path=<%=origin_path %>&name=<%=java.net.URLEncoder.encode(vo.getProduct_origin_3(), "UTF-8") %>" alt="">
+                                <%}else{ %>
+                                <img src="display?path=<%=origin_path %>&name=<%=java.net.URLEncoder.encode(vo.getProduct_origin_4(), "UTF-8") %>" alt="">
+                                <%} %>
                             </div>
                             
                             <div class="seller__img--thumb">
                                 <ul>
-                                    <% String origin_path = vo.getProduct_origin_path(); 
-                                    if(vo.getProduct_thum_1() != null){ %>
-                                    <li onclick="selectBigImg('<%=origin_path %>', '<%=vo.getProduct_origin_1()%>');">
-                                        <img src="<%=vo.getProduct_thum_path() %><%=vo.getProduct_thum_1() %>" alt="" ></li>
+                                    <%if(vo.getProduct_thum_1() != null){ %>
+                                    <li onclick="selectBigImg('<%=origin_path %>', '<%=java.net.URLEncoder.encode(vo.getProduct_origin_1(), "UTF-8")%>');">
+                                        <img src="display?path=<%=thumb_path %>&name=<%=java.net.URLEncoder.encode(vo.getProduct_thum_1(), "UTF-8") %>" alt="" >
+                                    </li>
                                     <%}
                                     if(vo.getProduct_thum_2() != null){ %>
-                                    <li onclick="selectBigImg('<%=origin_path%>', '<%=vo.getProduct_origin_2()%>');">
-                                        <img src="<%=vo.getProduct_thum_path() %><%=vo.getProduct_thum_2() %>" alt=""></li>
+                                    <li onclick="selectBigImg('<%=origin_path%>', '<%=java.net.URLEncoder.encode(vo.getProduct_origin_2(), "UTF-8")%>');">
+                                        <img src="display?path=<%=thumb_path %>&name=<%=java.net.URLEncoder.encode(vo.getProduct_thum_2(), "UTF-8") %>" alt="">
+                                    </li>
                                     <%}
                                     if(vo.getProduct_thum_3() != null){ %>
-                                    <li onclick="selectBigImg('<%=origin_path%>', '<%=vo.getProduct_origin_3()%>');">
-                                        <img src="<%=vo.getProduct_thum_path() %><%=vo.getProduct_thum_3() %>" alt=""></li>
+                                    <li onclick="selectBigImg('<%=origin_path%>', '<%=java.net.URLEncoder.encode(vo.getProduct_origin_3(), "UTF-8")%>');">
+                                        <img src="display?path=<%=thumb_path %>&name=<%=java.net.URLEncoder.encode(vo.getProduct_thum_3(), "UTF-8") %>" alt="">
+                                    </li>
                                     <%}
                                     if(vo.getProduct_thum_4() != null){ %>
-                                    <li onclick="selectBigImg('<%=origin_path%>', '<%=vo.getProduct_origin_4()%>');">
-                                    <img src="<%=vo.getProduct_thum_path() %><%=vo.getProduct_thum_4() %>" alt=""></li>
+                                    <li onclick="selectBigImg('<%=origin_path%>', '<%=java.net.URLEncoder.encode(vo.getProduct_origin_4(), "UTF-8")%>');">
+                                        <img src="display?path=<%=thumb_path %>&name=<%=java.net.URLEncoder.encode(vo.getProduct_thum_4(), "UTF-8") %>" alt="">
+                                    </li>
                                     <%} %>
                                 </ul>
                             </div>
@@ -196,18 +217,20 @@
                             <hr/>
                             <!-- 농원소개 -->
                             
-                            <%int login_case = 0; 
-                              String user_id = "0";%>
-                            <sec:authorize access="isAuthenticated()">
-                                <sec:authentication var="user" property="principal.username" />
-                                <%login_case = 1; 
-                                  user_id = pageContext.getAttribute("user").toString();%>
-                            </sec:authorize>
                             <input type="hidden" value="" id="btn__check--val" />
                             
                             <form id="buyForm" method="post" action="OrderSheet.or">
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                 <input type="hidden" value="<%=vo.getBoard_id() %>" name="board_id" id="board_id" />
+                            </form>
+                            <form id="wishForm" method="post" action="">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" id="wishForm-csrf"/>
+                                <input type="hidden" value="<%=vo.getBoard_id() %>" name="board_id"/>
+                                <input type="hidden" value="<%=user_id %>" name="buyer_id"/>
+                                <input type="hidden" value="<%=vo.getTitle() %>" name="title"/>
+                                <input type="hidden" value="<%=vo.getPrice() %>" name="price"/>
+                                <input type="hidden" value="<%=vo.getThumbnail_thum() %>" name="thumbnail_thum"/>
+                                <input type="hidden" value="<%=vo.getThumbnail_thum_path() %>" name="thumbnail_thum_path"/>
                             </form>
                             <div class="seller__data--btn">
                                 <div class="seller__btnWrap">
@@ -223,7 +246,8 @@
                                 <div class="seller__btnWrap">
                                     <button type="button" class="button3" id="wish-btn" 
                                         onclick="wishForm('<%=user_id %>', '<%=login_case%>');">
-                                    <b>♡위시리스트</b></button>
+                                    <b id="wishList__check--mark" class="wishList__check--mark-n">위시리스트</b>
+                                    </button>
                                 </div>
                             </div>
                             
@@ -342,15 +366,23 @@
                     <!-- 상품 후기 -->
                     <div class="customer-review" id="customer-review">
                         <h4 class="seller-head">상품 후기</h4>
-                        <div id="customer-review__write">
-                            <input type="button" id="customer-review__write--btn" value="글쓰기"
-                                onclick="modal_review_write();" />
-                        </div>
                         
-                        <div id="modal__board">
-                            <div id="modal__board--wirte">
-                                <div id="board__write--title"><h4>상품평 남기기</h4>
+                        <sec:authorize access="isAuthenticated() and hasRole('BUYER')">
+                            <div id="customer-review__write">
+                                <input type="button" id="customer-review__write--btn" value="리뷰쓰기"
+                                    onclick="modal_review_write();" />
                             </div>
+                        </sec:authorize>
+                        
+                        <div class="modal__board">
+                            <div id="modal__board--wirte">
+                                <div id="board__write--title">
+                                    <h4>상품평 남기기</h4>
+                                </div>
+                                
+                                <div id="board__write--satisfaction">
+                                    
+                                </div>
                             </div>
                         </div>
                         
@@ -469,6 +501,7 @@
 
 
     <script type="text/javascript" src="<c:url value='/resources/js/BoardProduct/boardProductView.js?after'/>" ></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/BoardProduct/recentProduct.js?after'/>" ></script>
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    

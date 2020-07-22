@@ -57,13 +57,14 @@
 								<h5>
 									<b>회원정보 입력</b>
 								</h5>
-								<form name="update__form--seller" id="update__profile--form" action="UpdateSellerAccount.se" method="post">
+								<form name="update__form--seller" id="update__profile--form" action="UpdateSellerAccount.se" method="post"
+								encType="multipart/form-data">
 									<div class="update_profile-photo">
 										<div id="update_profile-showingPart">
 											<label for="profilePhoto" class="virtual">사진</label>
 											<dl>
 												<dt>
-													<img src="./resources/Images/Seller/profile.jpg"
+													<img id="profile_thumbnail" src="display?path=${user.profileImgPath}&name=${user.profileImg}"
 														alt="profile photo" />
 												</dt>
 												<dd>
@@ -76,8 +77,9 @@
 										</div>
 										<div id="update_profile-hidePart">
 											<div class="profile_hidePart-change">
-												<label for="change-photo">사진 선택</label> <input type="file"
-													id="change-photo" class="hide" />
+												<label for="change-photo">사진 선택</label>
+												 <input type="file" id="change-photo" name="profileImg" class="hide" accept=".gif, .jpg, .png"/>
+												 <input type="hidden" id="thumbnail_Value" value="display?path=${user.profileImgPath}&name=${user.profileImg}"/>
 												<button type="button" id="default-photo">기본이미지로 변경</button>
 											</div>
 											<div class="profile_hidePart-result">
@@ -108,7 +110,7 @@
 										</div>
 										<div>
 											<label for="representativeName" class="virtual">대표자명</label>
-											<input type="hidden" id="shopName" value="${user.represent }" />${user.represent }
+											<input type="hidden" id="represent" value="${user.represent }" />${user.represent }
 											<span class="guide">대표자명을 변경하려면 관리자에게 문의바랍니다</span>
 										</div>
 									</div>
