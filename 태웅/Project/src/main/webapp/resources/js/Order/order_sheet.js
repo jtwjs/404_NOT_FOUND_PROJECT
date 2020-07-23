@@ -19,6 +19,22 @@ function orderSheetCheck(){
 	order_phone.value = order_phone_input[0].value + "-" + order_phone_input[1].value + "-" 
         + order_phone_input[2].value;
 	
+	/*submit 버튼*/
+	var submitBtn = document.getElementById('submitBtn');
+	var form = document.getElementById('orerSheetForm');
+	var privacyCheck = document.getElementById('privacy-agree');
+	var purchaseCheck = document.getElementById('purchase-agree');
+//	submitBtn.addEventListener('click',function(){
+//		if(privacyCheck.checked == false) {
+//			alert('[개인정보 제3자 제공 동의(필수)] 반드시 입력하셔야 하는 항목입니다.');
+//			return false;
+//		}else if (purchaseCheck.checked == false){
+//			alert('[구매 진행에 동의(필수)] 반드시 입력하셔야 하는 항목입니다.');
+//			return false;
+//		}
+//	}) ;
+		
+
 	
 	return true;
 }
@@ -53,10 +69,30 @@ function data_check(){
 
 
 /*적립금 사용*/
-var reserves = document.querySelector('.reserves');
-var savePoint = document.getElementById('save-point__input-text');
-var reserveUse = document.getElementById('reserveUse');
-var totalDiscount = document.getElementById('totalDiscount');
+var reserves = document.getElementById('reserves');
+	savePoint = document.getElementById('save-point__input-text'),
+	totalProductValue = document.getElementById('totalProductAmountValue').value,
+	totalDelvieryValue = document.getElementById('totalDeliveryAmountValue').value,
+	reserveUse = document.getElementById('reserveUse'),
+	totalDiscount = document.getElementById('totalDiscount'),
+	totalPayment = document.getElementById('totalPaymentAmount');
+	
+totalPayment.value = Number(totalProductValue) + Number(totalDelvieryValue); 
+
+$('#save-point__input-text').on("propertychange change keyup paste input",function(){
+	if(Number(savePoint.value) >Number(reserves.value)){
+		if(reserves.value > (totalProductValue*0.07)) {
+			savePoint.value = parseInt(totalProductValue*0.07);
+		} else {
+			savePoint.value = reserves.value;
+		}
+	}
+	totalPayment.value = Number(totalProductValue) + Number(totalDelvieryValue); 
+	reserveUse.value = $(this).val();
+	totalDiscount.value = reserveUse.value;
+	totalPayment.value -= totalDiscount.value;
+});
+
 
 
 
@@ -79,7 +115,16 @@ function full_use() {
 		dataType: 'json',
 		contentType: 'application/x-www-form-urlencoded; charset=utf-8',
 		success: function(data){
-			savePoint.value = data;
+			if((totalProductValue*0.07)<data){
+				savePoint.value = parseInt(totalProductValue*0.07);
+			}else {
+				savePoint.value = data;
+			}
+			
+			totalPayment.value = Number(totalProductValue) + Number(totalDelvieryValue); 
+			reserveUse.value = savePoint.value;
+			totalDiscount.value = reserveUse.value;
+			totalPayment.value -= totalDiscount.value;
 		},
 		error: function(xhr,status,error){
 			  console.log('error:'+error);
@@ -90,9 +135,9 @@ function full_use() {
 
 /*예상적립금*/
 var exceptedSp = document.getElementById('expected_sp');
-var totalSp = document.getElementById('total_sp').innerText;
+var totalSp = document.getElementById('total_sp').value;
 if(exceptedSp != null){
-exceptedSp.innerText = totalSp;
+exceptedSp.value = totalSp;
 }
 
 
@@ -187,6 +232,31 @@ $(function() {
 	});
 });
 
+/*가상계좌 유효기간*/
+var timer = document.querySelector('.timer');
+var today = new Date(),
+	 year = today.getFullYear(),
+	 month = today.getMonth() + 1,
+	 date = today.getDate() + 2;
+timer.innerText = year+"년 "+month+"월 "+date+"일 59분 59초";
+
+
+
+/*주문자 동의 (자세히)*/
+var detail = document.querySelector('.detail'),
+	desc = document.querySelector('.detail-desc');
+
+detail.addEventListener('click',function(){
+	if(desc.classList.contains('hide')){
+		desc.classList.remove('hide');
+		detail.innerText = '닫기';
+	} else {
+		desc.classList.add('hide');
+		detail.innerText = '자세히';
+	}
+	
+});
+
 /*주문자 동의(전체동의)*/
 
 var allCheck = document.getElementById('all_check'),
@@ -223,20 +293,21 @@ function uncheck_all(){
 	}
 }
 
-/*submit 버튼*/
-var submitBtn = document.getElementById('submitBtn');
-var form = document.getElementById('orerSheetForm');
-var privacyCheck = document.getElementById('privacy-agree');
-var purchaseCheck = document.getElementById('purchase-agree');
-submitBtn.addEventListener('click',function(){
-	if(privacyCheck.checked == false) {
-		alert('[개인정보 제3자 제공 동의(필수)] 반드시 입력하셔야 하는 항목입니다.');
-		return false;
-	}else if (purchaseCheck.checked == false){
-		alert('[구매 진행에 동의(필수)] 반드시 입력하셔야 하는 항목입니다.');
-		return false;
-	}else{
-		form.submit();
-	}
-}) ;
-	
+///*submit 버튼*/
+//var submitBtn = document.getElementById('submitBtn');
+//var form = document.getElementById('orerSheetForm');
+//var privacyCheck = document.getElementById('privacy-agree');
+//var purchaseCheck = document.getElementById('purchase-agree');
+//submitBtn.addEventListener('click',function(){
+//	if(privacyCheck.checked == false) {
+//		alert('[개인정보 제3자 제공 동의(필수)] 반드시 입력하셔야 하는 항목입니다.');
+//		return false;
+//	}else if (purchaseCheck.checked == false){
+//		alert('[구매 진행에 동의(필수)] 반드시 입력하셔야 하는 항목입니다.');
+//		return false;
+//	}else{
+//		form.submit();
+//	}
+//}) ;
+//	
+

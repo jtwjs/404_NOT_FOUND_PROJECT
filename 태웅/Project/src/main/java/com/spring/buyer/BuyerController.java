@@ -621,32 +621,41 @@ private boolean checkImageType(File file) {  // 파일 이미지 체크
 		return "redirect:/BuyerMyPage.by";
 	}
 
-	@RequestMapping(value = "/BuyerMyPageDeliveryManager.by") // �봽濡쒗븘 - 諛곗넚吏� 愿�由�
-	public String buyerMyPageDeliveryManager(Model model, @CurrentUser AccountVO account) {
-		BuyerVO BuyerAccount = buyerService.selectOneById(account.getId());
-		BuyerAccount.setLoginDate(BuyerAccount.getLoginDate().substring(0, 10));
-		ArrayList<deliveryVO> list = buyerService.deliveryListAll(account.getId());
 
+    @RequestMapping(value = "/BuyerMyPageDeliveryManager.by") // �봽濡쒗븘 - 諛곗넚吏� 愿�由�
+	public String buyerMyPageDeliveryManager(Model model, @CurrentUser AccountVO account) {
+    	
+    	BuyerVO BuyerAccount = buyerService.selectOneById(account.getId());
+    	BuyerAccount.setLoginDate(BuyerAccount.getLoginDate().substring(0,10));
+		ArrayList<deliveryVO> list = buyerService.deliveryListAll(account.getId());
+		
+		deliveryVO deliveryY = buyerService.getDefaultDeliveryList(account.getId());
+		
+		model.addAttribute("deliveryY", deliveryY);
+
+		  
 		model.addAttribute("list", list);
-		model.addAttribute("user", BuyerAccount);
+		model.addAttribute("user",BuyerAccount);
 
 		return "Buyer/mypage_deliveryManager";
 	}
 
+
 	@RequestMapping(value = "/ListDeliveryWriteForm.by")
 	public String listdeliverywriteForm(Model model, @CurrentUser AccountVO account) {
-		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
-		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
-
-		model.addAttribute("user", buyerAccount);
+      	BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
+    	buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0,10));
+		
+    	model.addAttribute("user",buyerAccount);
 
 		return "Buyer/mypage_deliveryManager_write";
 	}
 
-	@RequestMapping(value = "/ListDeliveryWrite.by")
+	
+@RequestMapping(value = "/ListDeliveryWrite.by")
 	public String InsertListDeliveryList(deliveryVO delivery, @CurrentUser AccountVO account) {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
-		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
+		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0,10));
 
 		String addrNum = delivery.getAddrNum();
 		String addrRoadName = delivery.getAddrRoadName();
@@ -668,77 +677,79 @@ private boolean checkImageType(File file) {  // 파일 이미지 체크
 		delivery.setAddress(addrNum, addrRoadName, addrDetail);
 		delivery.setReceiverPhone(telCarrierNum, telAllocationNum, telDiscretionaryNum);
 		delivery.setId(account.getId());
-
-		if (delivery.getDefaultaddress().equals("Y"))
+		
+		if (delivery.getDefaultaddress().equals("Y")) {
 			buyerService.UpdateListDeliverList(delivery);
-
+			BuyerVO buyer = new BuyerVO();
+			buyer.setId(delivery.getId());
+			buyer.setAddress(delivery.getAddrNum(), delivery.getAddrRoadName(), delivery.getAddrDetail());
+			buyerService.UpdateDefaultAddress(buyer);
+		}
 		int res = buyerService.InsertListDeliveryList(delivery);
+		
+
 
 		return "redirect:/BuyerMyPageDeliveryManager.by";
 	}
 
 	@RequestMapping(value = "/ListDeliveryDetail.by")
-	public String getListDeliveryDetail(@RequestParam(value = "num", required = true) int num, Model model,
-			@CurrentUser AccountVO account) {
+	public String getListDeliveryDetail(@RequestParam(value = "num", required = true) int num, Model model, @CurrentUser AccountVO account) {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		deliveryVO vo = buyerService.getListDeliveryDetail(num);
 		
-		try {
-			buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
-			buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-
 		model.addAttribute("vo", vo);
-		model.addAttribute("user", buyerAccount);
+		model.addAttribute("user",buyerAccount);
 		return "redirect:/BuyerMyPageDeliveryManager.by";
 	}
 
 	@RequestMapping(value = "/ListDeliveryModifyForm.by")
-	public String ListDeliveryModifyForm(@RequestParam(value = "num", required = true) int num, Model model,
-			@CurrentUser BuyerVO account) {
+	public String ListDeliveryModifyForm(@RequestParam(value = "num", required = true) int num,
+			Model model /* , @CurrentUser BuyerVO account */ ) {		
+		
+		/* BuyerVO buyerAccount = buyerService.selectOneById(account.getId()); */
+		  deliveryVO vo = buyerService.getListDeliveryDetail(num);
+		  
+		  int addr1 = vo.getAddress().indexOf("+"); 
+		  int addr2 = vo.getAddress().indexOf("/");
+		  
+		  model.addAttribute("num", vo.getNum());
+		  System.out.println("vo.getNum=" + vo.getNum());	
+		  
+		  model.addAttribute("id", vo.getId());
+		  System.out.println("vo.getId=" + vo.getId());	 
 
-		deliveryVO vo = buyerService.getListDeliveryDetail(num);
-
-		int addr1 = vo.getAddress().indexOf("+");
-		int addr2 = vo.getAddress().indexOf("/");
-
-		model.addAttribute("num", vo.getNum());
-		System.out.println("vo.getNum=" + vo.getNum());
-
-		model.addAttribute("id", vo.getId());
-		System.out.println("vo.getId=" + vo.getId());
-
-		model.addAttribute("deliveryName", vo.getDeliveryName());
-		System.out.println("vo.getDeliveryName=" + vo.getDeliveryName());
-
-		model.addAttribute("receiverName", vo.getReceiverName());
-		System.out.println("vo.getReceiverName()=" + vo.getReceiverName());
-
-		System.out.println("vo.getAddress()=" + vo.getAddress());
-		model.addAttribute("addrNum", vo.getAddress().substring(0, addr1));
-		System.out.println("vo.getAddress().substring(0, addr1)=" + vo.getAddress().substring(0, addr1));
-
-		model.addAttribute("addrRoadName", vo.getAddress().substring(addr1 + 1, addr2));
-		System.out
-				.println("vo.getAddress().substring(addr1 + 1, addr2)=" + vo.getAddress().substring(addr1 + 1, addr2));
-
-		model.addAttribute("addrDetail", vo.getAddress().substring(addr2 + 1));
-		System.out.println("vo.getAddress().substring(addr2+ 1)=" + vo.getAddress().substring(addr2 + 1));
-
-		model.addAttribute("telCarrierNum", vo.getReceiverPhone().substring(0, 3));
-		System.out.println("vo.getReceiverPhone().substring(0, 3)=" + vo.getReceiverPhone().substring(0, 3));
-		model.addAttribute("telAllocationNum", vo.getReceiverPhone().substring(3, 7));
-		System.out.println("vo.getReceiverPhone().substring(3, 7)=" + vo.getReceiverPhone().substring(3, 7));
-		model.addAttribute("telDiscretionaryNum", vo.getReceiverPhone().substring(7));
-		System.out.println("vo.getReceiverPhone().substring(7)=" + vo.getReceiverPhone().substring(7));
-
-		model.addAttribute("defaultaddress", vo.getDefaultaddress());
-		System.out.println("vo.getDefaultaddress=" + vo.getDefaultaddress());
-
-		model.addAttribute("name", account.getName());
-		model.addAttribute("loginDate", account.getLoginDate().substring(0, 10));
+		  model.addAttribute("deliveryName", vo.getDeliveryName());
+		  System.out.println("vo.getDeliveryName=" + vo.getDeliveryName());	  
+		  
+		  model.addAttribute("receiverName", vo.getReceiverName());
+		  System.out.println("vo.getReceiverName()=" + vo.getReceiverName());
+		  
+		  System.out.println("vo.getAddress()=" + vo.getAddress());
+		  model.addAttribute("addrNum", vo.getAddress().substring(0, addr1));	
+		  System.out.println("vo.getAddress().substring(0, addr1)=" + vo.getAddress().substring(0, addr1));
+		  
+		  model.addAttribute("addrRoadName", vo.getAddress().substring(addr1 + 1, addr2));
+		  System.out.println("vo.getAddress().substring(addr1 + 1, addr2)=" + vo.getAddress().substring(addr1 + 1, addr2));
+		  
+		  model.addAttribute("addrDetail", vo.getAddress().substring(addr2+ 1));
+		  System.out.println("vo.getAddress().substring(addr2+ 1)=" + vo.getAddress().substring(addr2+ 1));
+		  		  
+		  model.addAttribute("telCarrierNum", vo.getReceiverPhone().substring(0, 3));		  
+		  System.out.println("vo.getReceiverPhone().substring(0, 3)=" + vo.getReceiverPhone().substring(0, 3));
+		  model.addAttribute("telAllocationNum", vo.getReceiverPhone().substring(3, 7));		
+		  System.out.println("vo.getReceiverPhone().substring(3, 7)=" + vo.getReceiverPhone().substring(3, 7));
+		  model.addAttribute("telDiscretionaryNum", vo.getReceiverPhone().substring(7));
+		  System.out.println("vo.getReceiverPhone().substring(7)=" + vo.getReceiverPhone().substring(7));
+		  
+		  model.addAttribute("defaultaddress", vo.getDefaultaddress());
+		  System.out.println("vo.getDefaultaddress=" + vo.getDefaultaddress());
+		  
+			
+			/*
+			 * model.addAttribute("name", account.getName());
+			 * model.addAttribute("loginDate", account.getLoginDate().substring(0, 10));
+			 */
+			 
 
 		return "Buyer/mypage_deliveryManager_modify";
 
@@ -746,6 +757,7 @@ private boolean checkImageType(File file) {  // 파일 이미지 체크
 
 	@RequestMapping(value = "/ListDeliveryModfy.by")
 	public String ListDeliveryModify(deliveryVO delivery) {
+		
 
 		String addrNum = delivery.getAddrNum();
 		String addrRoadName = delivery.getAddrRoadName();
@@ -755,7 +767,6 @@ private boolean checkImageType(File file) {  // 파일 이미지 체크
 		String telAllocationNum = delivery.getTelAllocationNum();
 		String telDiscretionaryNum = delivery.getTelDiscretionaryNum();
 
-		System.out.println("delivery.getId() : " + delivery.getId());
 		System.out.println("delivery.getId() : " + delivery.getId());
 		System.out.println("delivery.getAddrNum() : " + delivery.getAddrNum());
 		System.out.println("delivery.getAddrRoadName() : " + delivery.getAddrRoadName());
@@ -767,7 +778,7 @@ private boolean checkImageType(File file) {  // 파일 이미지 체크
 
 		delivery.setAddress(addrNum, addrRoadName, addrDetail);
 		delivery.setReceiverPhone(telCarrierNum, telAllocationNum, telDiscretionaryNum);
-
+		
 		if (delivery.getDefaultaddress().equals("Y"))
 			buyerService.UpdateListDeliverList(delivery);
 
@@ -775,24 +786,28 @@ private boolean checkImageType(File file) {  // 파일 이미지 체크
 
 		return "redirect:/ListDeliveryDetail.by?num=" + delivery.getNum();
 
-	}
-
+	}	
+	
+	
 	@RequestMapping("/ListDeliveryDeleteDelete.by")
 	public String ListDeliveryDelete(@RequestParam(value = "num", required = true) int num, HttpSession session,
 			HttpServletResponse response) throws Exception {
+		
 
 		HashMap<String, String> hashmap = new HashMap<String, String>();
-		hashmap.put("num", Integer.toString(num));
+		hashmap.put("num", Integer.toString(num));		
 		int res = buyerService.ListDeliveryDelete(hashmap);
 		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8");
+		response.setContentType("text/html; charset=utf-8");		
 		PrintWriter writer = response.getWriter();
-		if (res == 1) {
+		
+		if (res == 1)  {
 			writer.write("<script>alert('삭제 성공!!');" + "location.href='./BuyerMyPageDeliveryManager.by';</script>");
 		} else {
-			writer.write("<script>alert('삭제 실패!!');" + "location.href='./BuyerMyPageDeliveryManager.by';</script>");
+			writer.write("<script>alert('기본 주소지는 삭제할 수 없습니다.!!');" + "location.href='./BuyerMyPageDeliveryManager.by';</script>");
 		}
+		
 		return null;
-	}
-
+		
+	}    
 }

@@ -5,8 +5,10 @@ account_pw varchar2(100) not null,
 account_type varchar2(10) not null,
 constraint all_account_pk primary key(account_id)
 );
+select * from list_delivery;
 
 
+select * from member_buyer;
 create table admin(                 -- 愿�由ъ옄 �뀒�씠釉�
     admin_id varchar2(16) not null, -- 愿�由ъ옄 ID (湲곕낯�궎)
     password varchar2(100) not null, -- 鍮꾨�踰덊샇
@@ -105,7 +107,7 @@ END;
 create table list_delivery(                 -- 개인저장 배송지 목록
     num number default(1),                    -- 배송지 번호 
     buyer_id varchar2(16) not null,         -- 구매자 ID(member_buyer테이블 외래키)
-    delivery_name varchar2(20) default '기본 배송지' not null,    -- 배송지명
+    delivery_name varchar2(20) default '가입한 주소' not null,    -- 배송지명
     address varchar2(100) not null,          -- 배송지 주소
     default_address char(1) default 'Y',       --기본배송지 구분 (Y=기본배송지, N=배송지)
     receiver_name varchar2(20) not null,    -- 수령인
@@ -113,6 +115,21 @@ create table list_delivery(                 -- 개인저장 배송지 목록
     constraint list_delivery_buyer_id_fk foreign key(buyer_id)
     references member_buyer(buyer_id) on delete cascade
 );
+select* from list_delivery;
+
+
+CREATE SEQUENCE delivery_num_seq
+    INCREMENT BY 1
+    START WITH 1
+    MAXVALUE 9999
+    NOCYCLE;   
+
+
+
+select * from list_delivery ;
+
+select * from member_buyer;
+
 
 create or replace trigger TRG_Buyer_delivery
 AFTER INSERT ON member_buyer

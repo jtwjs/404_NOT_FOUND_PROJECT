@@ -14,5 +14,6 @@ public interface OrderService {
     
     
     public int insertOrderRecord(OrderRecordVO vo);
+    public String[] getOrderID(String board_id, String buyer_id);
     
 }

@@ -24,4 +24,5 @@ public interface BoardProductMapper {
     public int getBoardListSize_1(int category_1);
     public int getBoardListSize_2(int category_2);
     public int getBoardListSize_local(int category_local);
+    public int boardReadCountPlus(String board_id);
 }

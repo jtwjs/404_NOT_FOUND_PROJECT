@@ -74,4 +74,13 @@ public class OrderServiceImpl implements OrderService {
 		
         return result;
     }
+    
+    public String[] getOrderID(String board_id, String buyer_id) {
+   	 // 주문한 상품 중 14일 이내의 주문번호를 가져옴 (날짜는 데이터베이스 내에서 처리)
+   	
+   	OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
+   	String[] result = orderRecordMapper.getOrderID(board_id, buyer_id);
+		
+       return result;
+   }
 }

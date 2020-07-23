@@ -13,7 +13,6 @@ import java.util.UUID;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.admin.AccountVO;
@@ -45,6 +45,9 @@ public class OrderController {
 	
 	@Autowired
 	private BuyerService buyerService;
+	
+	@Autowired
+	private KakaoPay kakaoPay;
 	
     @RequestMapping(value = "/OrderLogin.or")  // 주문배송 로그인 (회원)
     public String orderLogin() {
@@ -288,12 +291,14 @@ public class OrderController {
     	buyerAccount.setTelCarrierNum(buyerAccount.getTel().substring(0,3));
     	buyerAccount.setTelAllocationNum(buyerAccount.getTel().substring(3,7));
     	buyerAccount.setTelDiscretionaryNum(buyerAccount.getTel().substring(7));
+    	if(buyerAccount.getProfileImg() != null && buyerAccount.getProfileImgPath() != null) {
     	try {
 			buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
 			buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(),"UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+    	}
     	model.addAttribute("user",buyerAccount);
     	model.addAttribute("buyer_id", buyer_id);
     	}
@@ -317,7 +322,9 @@ public class OrderController {
     		int[] amount, int[] price, int[] delivery_price, int tot_price, String status, 
     		String buyer_name, String buyer_phone, String buyer_email, String order_postalCode, 
     		String order_address, String order_name, String order_phone, String order_demand, 
-    		String order_delivery, String order_payment, String order_account, @CurrentUser AccountVO account ) {
+    		String order_delivery, String order_payment, String order_account, String buyer_id ) {
+    	
+    	System.out.println("1");
     	
     	OrderRecordVO vo = new OrderRecordVO();
     	
@@ -341,6 +348,8 @@ public class OrderController {
 		vo.setOrder_account("000-111-222222");  // test
 		vo.setNon_member_flag('Y'); // test용으로 Y 고정 (회원, 비회원 구분)
 		
+		System.out.println("2");
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String str = sdf.format(date);
@@ -353,7 +362,9 @@ public class OrderController {
 		
 		vo.setOrder_id(long_uuid.toString());
 		
-		vo.setBuyer_id("test"); // test
+		vo.setBuyer_id(buyer_id); // test
+		
+		System.out.println("3");
 		
 		// ====================================================================
 		
@@ -366,18 +377,51 @@ public class OrderController {
 			vo.setPrice(price[i]);
 			vo.setDelivery_price(delivery_price[i]);	
 			
+			System.out.println(vo.getAmount());
+			System.out.println(vo.getBoard_id());
+			System.out.println(vo.getBoard_title());
+			System.out.println(vo.getBuyer_email());
+			System.out.println(vo.getBuyer_id());
+			System.out.println(vo.getBuyer_name());
+			System.out.println(vo.getBuyer_phone());
+			System.out.println(vo.getDelivery_price());
+			System.out.println(vo.getOrder_account());
+			System.out.println(vo.getNon_member_flag());
+			System.out.println(vo.getOrder_address());
+			System.out.println(vo.getOrder_delivery());
+			System.out.println(vo.getOrder_demand());
+			System.out.println(vo.getOrder_id());
+			System.out.println(vo.getOrder_invoicenum());
+			System.out.println(vo.getOrder_name());
+			System.out.println(vo.getOrder_num());
+			
+			System.out.println(vo.getOrder_payment());
+			System.out.println(vo.getOrder_phone());
+			System.out.println(vo.getOrder_postalCode());
+			System.out.println(vo.getPrice());
+			System.out.println(vo.getSeller_id());
+			
+			System.out.println(vo.getStatus());
+			System.out.println(vo.getTot_price());
+			System.out.println(vo.getUse_point());
+			
+			
+			
 			orderService.insertOrderRecord(vo); // 배열 수 만큼 테이블에 저장
+			
 		}
 		
 		
     	return "Order/order_complete";
     }
     
+
+    
     /*적립금 전액 사용*/
     @RequestMapping(value = "/savePointFullUse.or", method = RequestMethod.POST,
     produces = "application/json;charset=utf-8")
     @ResponseBody
-    public int UseSavePoint(@CurrentUser AccountVO account) {
+    public int fullUseSavePoint(@CurrentUser AccountVO account) {
     	String id = account.getId();
     	BuyerVO buyerAccount = buyerService.selectOneById(id);
     	int savePoint = buyerAccount.getSavePoint();
@@ -411,4 +455,39 @@ public class OrderController {
     	model.addAttribute("list",list);
     	return "Order/address_book";
     }
+    
+    @RequestMapping(value="/kakaoPay", method=RequestMethod.POST) 
+    public String kakaoPay(String buyer_id, String[] product_name, int[] quantity, String total_amount) {
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Date date = new Date();
+		String str = sdf.format(date);
+		
+		UUID uuid = UUID.randomUUID(); // 중복 방지를 위해 랜덤값 생성
+    	long getl = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
+    	
+    	StringBuilder long_uuid = new StringBuilder(
+    			str + "-" + Long.toString(getl, 32));
+		
+		String order_id = long_uuid.toString();
+		int count = product_name.length -1;
+		String item_name = product_name[0]+"외 "+count+"개";
+		
+		int item_quantity = 0;
+		for(int i=0; i<quantity.length; i++) {
+			item_quantity += quantity[i];
+		}
+		String total_quantity = Integer.toString(item_quantity);
+		
+		
+		
+		
+    	return "redirect:"+kakaoPay.kakaoPayReady(order_id,buyer_id,item_name,total_quantity,total_amount);
+    }
+    
+//    @GetMapping(value="kakaoPaySuccess.or")
+//    public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model) {
+//    	model.addAttribute("info",kakaoPay.kakaoPayInfo(pg_token, order_id, buyer_id, total_amount))
+//    	
+//    }
+    
 }

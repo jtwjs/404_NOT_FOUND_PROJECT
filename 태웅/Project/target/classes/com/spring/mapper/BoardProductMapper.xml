@@ -213,5 +213,9 @@
 	<select id="getBoardListSize_local" parameterType="int" resultType="int">
 	    SELECT COUNT(*) FROM board_product WHERE category_local = #{category_local}
 	</select>
+	<update id="boardReadCountPlus" parameterType="String">
+	    UPDATE board_product SET read_count = read_count + 1 WHERE board_id = #{board_id}
+	</update>
+	
 
 </mapper>

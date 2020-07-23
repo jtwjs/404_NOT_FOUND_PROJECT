@@ -1,0 +1,87 @@
+.container {
+    width: 1200px;
+    max-width: none !important;
+}
+
+.content-title {
+	width: 1200px;
+	padding: 50px;
+	text-align: center;
+}
+
+
+#account__info {
+    display: flex;
+    margin-bottom: 40px;
+}
+
+.buyer__info,
+.seller__info,
+.disabledBuyer__info,
+.disabledSeller__info,
+.allAccount__info {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    margin-top: 50px;
+    margin-right: 10px;
+}
+
+.info--title {
+  position: absolute;
+  top: -15px;
+  font-size: 25px;
+  background-color: #fff;
+}
+
+.info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-top: 50px;
+  font-size: 20px;
+}
+
+.account_count {
+  display: block;
+  margin-top: 5px;
+  font-size: 15px;
+  
+}
+
+.account-counting {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+#account {
+  font-size: 35px;
+  color: #092c4c;
+}
+
+.account_info-connect {
+  position: relative;
+  padding-right: 20px;
+  font-size: 15px;
+  color: #4f4f4f;
+}
+
+.account_info-connect:hover {
+  color: #4f4f4f;
+}
+
+.account_info-connect::after {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  width: 13px;
+  height: 13px;
+  background-image: url(../../Images/Buyer/arrow-right.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  content: "";
+}
+

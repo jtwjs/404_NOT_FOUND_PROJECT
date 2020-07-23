@@ -9,7 +9,8 @@ import com.spring.admin.AdminVO;
 @Repository
 public interface AdminMapper {
 
-	AdminVO selectOndById(String id);
-	int selectCountById(String id);
-	AccountVO selectAccountById(String id);
+	public AdminVO selectOneById(String id);
+	public int selectCountById(String id);
+	public AccountVO selectAccountById(String id);
+	public int getAllAccountCount();
 }

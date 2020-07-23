@@ -77,5 +77,36 @@
 		UPDATE member_seller SET password = #{password}
 		 WHERE seller_id = #{id}
 	</update>
+	
+	
+	
+	<!-- 판매자 리스트 -->
+
+	<select id="getSellerListCount" resultType="int">
+		select count(*) from member_seller where del_flag = 'N'
+	</select>
+
+	<select id="SelectAllSellerList" parameterType="HashMap"
+		resultMap="sellerResultMap">
+		<![CDATA[
+			select seller_id,password,shop_name,representative,address,manager_phone,manager_email,manager_name,
+			mail_order_report_num,mail_order_report_img,bank_name,bank_account,seller_reg_num,seller_grade,
+			member_type,del_flag,join_date,wthdr_date,profile_img,last_loginDate
+	        	from (select rownum rnum,seller_id,password,shop_name,representative,address,manager_phone,manager_email,manager_name,
+			mail_order_report_num,mail_order_report_img,bank_name,bank_account,seller_reg_num,seller_grade,
+			member_type,del_flag,join_date,wthdr_date,profile_img,last_loginDate
+            		from (select * from member_seller where del_flag = 'N' order by join_date desc)) 
+	        where rnum>=#{startrow} and rnum<=#{endrow}
+     	]]>
+	</select>
+
+
+	<update id="AdminUpdateSellerList"
+		parameterType="com.spring.seller.SellerVO">
+		UPDATE member_seller SET
+		shop_name=#{shopName},mail_order_report_num=#{orderReportNum},
+		mail_order_report_img=#{orderReportImg},representative=#{represent},address=#{address},del_flag=#{delFlag}
+		WHERE seller_id = #{id}
+	</update>
 
 </mapper>

@@ -109,9 +109,9 @@
 												</tr>
 												<tr >
 													<td class="form_tD">기본 배송지</td>
-													<td class="checkbox_BTN">
-													<input type="radio" id="defaultaddress" name="defaultaddress" value="Y">설정
-													<input type="radio" id="defaultaddress"name="defaultaddress" value="N" />미설정</td>
+													<td>
+													<input type="radio" id="defaultaddress" name="defaultaddress" value="Y">기본 배송지설정
+													<input type="radio" id="defaultaddress"name="defaultaddress" value="N" checked="checked"/>미설정</td>
 												</tr>
 											</thead>
 										</table>

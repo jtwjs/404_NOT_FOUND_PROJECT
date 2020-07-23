@@ -28,6 +28,9 @@
               	 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
               	</form>
               </li>
+              <sec:authorize access="hasRole('ROLE_ADMIN')">
+              <li><a href="#" onclick="javascript:location.href='AccountManagement.ad'">회원관리</a></li>
+              </sec:authorize>
               <sec:authorize access="hasRole('ROLE_BUYER')">
               <li><a href="#" onclick="javascript:location.href='BuyerMyPage.by'">마이페이지</a></li>
               </sec:authorize>

@@ -9,7 +9,7 @@ var headerTimer2 = setInterval(function(){
 		scrollCheck = false;
 	}
 	
-}, 250);
+}, 50);
 
 var lastScrollTop2 = 0;
 
@@ -25,6 +25,15 @@ function checkScrolled(){
 		
 		$(".menu-bar").attr("id", "view__menu-bar--fixed");
 		
+//		var leftPosition = Number(350);
+//		var bodyWidth = document.body.scrollWidth - document.body.clientWidth;
+//		
+//		if(bodyWidth > 350){
+//			leftPosition -= Number(350);
+//		}else{
+//			leftPosition -= Number(bodyWidth);
+//		}
+//		$("#view__menu-bar--fixed").children().css("left", String(leftPosition));
 		
 	}else{
 		$(".menu-bar").attr("id", "view__menu-bar");
@@ -112,7 +121,7 @@ $("#board__delivery--move").on("click", function (e) {
 });
 
 
-function enableCheck(quantity, status, login_case, user_id, board_id){
+function enableCheck(quantity, status, login_case, user_id, board_id, location){
 	
 	if(Number(quantity) < 1 || status == 'N'){  // 재고량이 1개 이하이거나 판매중지 상태일 경우 버튼 비활성화
 		var buy_btn = document.getElementById("buy-btn");
@@ -124,6 +133,21 @@ function enableCheck(quantity, status, login_case, user_id, board_id){
 		cart_btn.disabled = true;
 		wish_btn.disabled = true;
 	}
+	
+	// 사용자가 글을 볼 때마다 조회수(read_count) 1 증가
+	$.ajax({
+	    type: 'GET',
+	    url: "ReadCountPlus.bo?board_id=" + board_id,
+	    contentType: 'application/html; charset=utf-8',
+	    cache: false,
+	    success: function(data){
+	    	
+	    },
+	    error: function(){
+	    	
+	    }
+	});
+	
 	
 	// 위시리스트 부분 수정하여 게시글 타이틀, 사진 썸네일 경로, 이름 테이블에 넣을 것
 	if(login_case == 1){ // 구매자 ID로 로그인 중일 때 해당 ID의 위시리스트를 체크하여 등록된 상품일 경우 가상태그로 위시리스트 표시
@@ -145,6 +169,11 @@ function enableCheck(quantity, status, login_case, user_id, board_id){
 		    }
 		});
 		
+	}
+	
+	
+	if(location != "0"){
+		window.scrollTo(0, Number(location));
 	}
 	
 }
@@ -515,26 +544,249 @@ function modal_cancle(){
 
 
 
-function modal_review_write(){
+var order_id = "test";
+
+function modal_review_write(board_id, user_id){
 	
-	modal_review_show();
+	$.ajax({
+	    type: 'GET',
+	    url: "BoardReviewCheck.bo?board_id=" + board_id + "&buyer_id=" + user_id,
+	    contentType: 'application/html; charset=utf-8',
+	    cache: false,
+	    success: function(data){
+	    	
+	    	if(data == 1){
+	    		modal_warning("리뷰작성은 1회만 가능합니다.");
+	    	}else if(data == 2){
+	    		modal_warning("리뷰작성은 판매물품을 구매하신 고객님만 가능합니다.");
+	    	}else{
+	    		order_id = data;
+	    		modal_review_show();
+	    	}
+	    	
+	    },
+	    error: function(){
+	    	
+	    }
+	});
+	
 }
 
 function modal_review_show(){
-	var modal = document.getElementsByClassName("modal__board");
-	var modal_content = document.getElementById("modal__board--wirte");
+	var modal = document.getElementById("modal__review");
+	var modal_content = document.getElementById("modal__review--content");
 	
 	modal.style.display = "block"; // 모달창 display none에서 block으로 변경함으로써 띄워줌
 	
 	var scrollTop = document.documentElement.scrollTop; 
 
 	// 현재 스크롤한 위치 + (모니터 높이 /2) = 현재 화면의 중앙지점 - 컨텐츠 창 높이
-	modal_content.style.top = String(Number(scrollTop) + (Number(screen.height) / 2) - (Number(modal_content.clientHeight))) + "px";
+	//modal_content.style.top = String(Number(scrollTop) + (Number(screen.height) / 2) - (Number(modal_content.clientHeight))) + "px";
     // 모달창 중앙 위치 (이용자 화면 길이 - 모달창 크기) / 2 가 모달창 left시작위치
-	modal_content.style.left = String((screen.width - modal_content.clientWidth) / 2) +"px";
+	//modal_content.style.left = String((screen.width - modal_content.clientWidth) / 2) +"px";
 }
 
 function modal_review_cancle(){
-	var modal_client = document.getElementById("modal__board");
+	var modal_client = document.getElementById("modal__review");
 	modal_client.style.display = "none";
+	$('.star').parent().children('span').removeClass('on');
+}
+
+var starOnChildEQ = 0;
+
+var star = $('.star').click(function(){
+	
+    $(this).parent().children('span').removeClass('on');
+    $(this).addClass('on').prevAll('span').addClass('on');
+    starOnChildEQ = $('.star.on').length;
+    
+    return false;
+});
+
+var starHover = $('.star').hover(function(){
+	
+	starOnChildEQ = $('.star.on').length;
+	
+	if(starOnChildEQ != 0){
+		$(this).parent().children('span').removeClass('on');
+	}
+	
+	$(this).parent().children('span').removeClass('hover');
+    $(this).addClass('hover').prevAll('span').addClass('hover');
+    
+}, function(){
+	$(this).parent().children('span').removeClass('hover');
+	
+	for(var i = 0; i < starOnChildEQ; i++){
+		$('.star:nth-child(' + (i+1) + ')').addClass('on');
+	}
+});
+
+
+function review_regist(){
+	
+	var starCount = parseFloat($('#star-satisfaction').children('span.star.on').length * 0.5);
+	var reviewContent = document.getElementById("review-content--text").value;
+	
+	if(starCount == 0){
+		modal_warning("평점을 선택해주세요.");
+		return false;
+	}
+	
+	if(reviewContent == ""){
+		modal_warning("후기 내용을 입력해주세요.");
+		return false;
+	}
+	
+	var reviewForm = document.getElementById("reviewForm");
+	
+	var contentFiled = document.createElement("input");
+	contentFiled.setAttribute("type", "hidden");
+	contentFiled.setAttribute("name", "content");
+	contentFiled.setAttribute("value", reviewContent);
+	reviewForm.appendChild(contentFiled);
+	
+	var satisfactionFiled = document.createElement("input");
+	satisfactionFiled.setAttribute("type", "hidden");
+	satisfactionFiled.setAttribute("name", "satisfaction");
+	satisfactionFiled.setAttribute("value", starCount);
+	reviewForm.appendChild(satisfactionFiled);
+	
+	var location = document.querySelector("#customer-review").offsetTop - 120;
+	
+	var locationFiled = document.createElement("input");
+	locationFiled.setAttribute("type", "hidden");
+	locationFiled.setAttribute("name", "location");
+	locationFiled.setAttribute("value", location);
+	reviewForm.appendChild(locationFiled);
+	
+	var OrderIdFiled = document.createElement("input");
+	OrderIdFiled.setAttribute("type", "hidden");
+	OrderIdFiled.setAttribute("name", "order_id");
+	OrderIdFiled.setAttribute("value", order_id);
+	reviewForm.appendChild(OrderIdFiled);
+	
+	reviewForm.submit();
+	
+}
+
+function modal_warning(str){
+	
+	var msg = document.querySelector("#dialog-message--review > p");
+	msg.textContent = str;
+	msg.style.textAlign = "center";
+
+	$('#dialog-message--review').dialog({
+		modal: true, 
+		resize: false, 
+		width: "500", 
+		buttons: {
+			dialog_ok_btn:{
+				class: "dialog_ok_btn",
+				text: "확인",
+				click: function(){
+					$(this).dialog('close');
+				}
+			}
+		}
+	});
+	
+	$('.dialog_ok_btn').css("margin-right", "190px");
+	
+}
+
+function reviewComments(flag, i, loc){
+	
+	
+	if(flag == 1){
+		var commentBox = document.getElementsByClassName("seller__review--comment")[Number(i)];
+		
+		if(commentBox.style.display == "table-row"){
+			commentBox.style.display = "none";
+		}else{
+			commentBox.style.display = "table-row";
+		}
+		
+	}else if(flag == 2){
+		if(loc > Number(-1)){
+			
+			var reviewComment = document.getElementsByClassName("review-comment")[Number(loc)];
+			
+			reviewComment.style.height = "33px";
+			reviewComment.style.borderBottom = "none";
+			
+		    if(reviewComment.style.display == "table-row"){
+			    reviewComment.style.display = "none";
+		    }else{
+			    reviewComment.style.display = "table-row";
+		    }
+		}
+	}
+
+}
+
+function reviewCommentSubmit(insertNode, seller_id, review_id, csrfToken, i, flag){
+	
+     var content = document.getElementsByClassName("seller__review--comment-content")[Number(i)];
+     
+//     let classes = Array.prototype.slice.call(document.querySelectorAll('.seller__review--comment'));
+//     var len = classes[i].getElementsByClassName("seller__review--comment-list").length - 1;
+//     var reviewTable = classes[i].getElementsByClassName("seller__review--comment-list")[len];
+     
+	var reviewList = document.getElementsByClassName("seller__review--comment-list")[i];
+     
+     $.ajax({
+		    type: 'GET',
+		    url: "ReviewCommentRegist.bo",
+		    contentType: 'application/html; charset=UTF-8',
+		    data: "seller_id=" + seller_id + "&content=" + content.value + "&review_id=" + review_id,
+		    cache: false,
+		    beforeSend : function(xhr) {
+		    	 xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+		    },
+		    success: function(data){
+		    	
+		    	var obj = JSON.parse(data);
+		    	
+		    	reviewList.insertAdjacentHTML("afterend",
+		                "<div class='seller__review--comment-read'>" + 
+		                "    <div class='review-comment--seller'>판매자</div>" + 
+                        "    <div class='review-comment--content'>" + content.value + "</div>" + 
+                        "    <div class='review-comment--date'>" + obj.date +  
+                        "    <input type='button' class='review__comment--delete-btn' value='x' " + 
+                        "onclick='reviewCommentDelete(this, \"" + obj.num + "\", \"" + review_id + 
+                        "\", \"" + csrfToken + "\");' /></div>" +
+                        "</div>");
+		    	
+		    	content.value = "";
+		    },
+		    error: function(){
+		    	
+		    }
+		});
+}
+
+function reviewCommentDelete(cancleNode, num, review_id, csrfToken){
+	
+	
+	$.ajax({
+	    type: 'GET',
+	    url: "ReviewCommentDelete.bo",
+	    contentType: 'application/html; charset=UTF-8',
+	    data: "review_id=" + review_id + "&review_cmt_num=" + num,
+	    cache: false,
+	    beforeSend : function(xhr) {
+	    	 xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+	    },
+	    success: function(data){
+	    	
+	    	var commentNode = cancleNode.parentNode.parentNode;
+	    	
+	        commentNode.parentNode.removeChild(commentNode);
+	    	
+	    },
+	    error: function(){
+	    	
+	    }
+	});
 }

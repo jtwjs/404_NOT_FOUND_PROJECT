@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.mapper.BoardProductMapper;
+import com.spring.mapper.BoardReviewMapper;
+import com.spring.mapper.CommentReviewMapper;
 
 @Service("boardProductService")
 public class BoardProductServiceImpl implements BoardProductService {
@@ -91,4 +93,89 @@ public class BoardProductServiceImpl implements BoardProductService {
 	
 	return result;
 }
+    
+ public int boardReadCountPlus(String board_id) {
+    	
+    	BoardProductMapper boardProductMapper = sqlSession.getMapper(BoardProductMapper.class);
+	    int result = boardProductMapper.boardReadCountPlus(board_id);
+	
+	    return result;
+    }
+    
+    
+    
+    // ---------------------------------------------------------------------------------------------
+    public int checkReview(String board_id, String buyer_id, String order_id) {
+    	
+    	BoardReviewMapper boardReviewMapper = sqlSession.getMapper(BoardReviewMapper.class);
+	    int result = boardReviewMapper.checkReview(board_id, buyer_id, order_id);
+	
+	    return result;
+    }
+    
+    public int getReviewTotNum() {
+    	
+    	BoardReviewMapper boardReviewMapper = sqlSession.getMapper(BoardReviewMapper.class);
+	    int result = boardReviewMapper.getReviewTotNum();
+	
+	    return result;
+    }
+    
+    public int getReviewNum(String board_id) {
+    	BoardReviewMapper boardReviewMapper = sqlSession.getMapper(BoardReviewMapper.class);
+	    int result = boardReviewMapper.getReviewNum(board_id);
+	
+	    return result;
+    }
+    
+    public int insertReview(BoardReviewVO vo) {
+    	
+    	BoardReviewMapper boardReviewMapper = sqlSession.getMapper(BoardReviewMapper.class);
+	    int result = boardReviewMapper.insertReview(vo);
+	
+	    return result;
+    }
+    
+    public ArrayList<BoardReviewVO> getBoardReviewList(String board_id) {
+    	
+    	BoardReviewMapper boardReviewMapper = sqlSession.getMapper(BoardReviewMapper.class);
+    	ArrayList<BoardReviewVO> result = boardReviewMapper.getBoardReviewList(board_id);
+	
+	    return result;
+    }
+    
+    
+    public int getReviewCommentNum(String review_id) {
+    	
+    	CommentReviewMapper commentReviewMapper = sqlSession.getMapper(CommentReviewMapper.class);
+	    int result = commentReviewMapper.getReviewCommentNum(review_id);
+	
+	    return result;
+    }
+    
+    public int insertReviewComment(CommentReviewVO vo) {
+    	
+    	CommentReviewMapper commentReviewMapper = sqlSession.getMapper(CommentReviewMapper.class);
+    	int result = commentReviewMapper.insertReviewComment(vo);
+	
+	    return result;
+    }
+    
+    public CommentReviewVO[] getReviewComment(String review_id) {
+    	
+    	CommentReviewMapper commentReviewMapper = sqlSession.getMapper(CommentReviewMapper.class);
+    	CommentReviewVO[] result = commentReviewMapper.getReviewComment(review_id);
+	
+	    return result;
+    }
+    
+    public int deleteReviewComment(String review_id, int review_cmt_num) {
+    	
+    	CommentReviewMapper commentReviewMapper = sqlSession.getMapper(CommentReviewMapper.class);
+    	int result = commentReviewMapper.deleteReviewComment(review_id, review_cmt_num);
+	
+	    return result;
+    }
+    
+    
 }

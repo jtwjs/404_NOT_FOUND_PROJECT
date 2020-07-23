@@ -109,6 +109,7 @@
 }
 
 .list__thum {
+	position: relative;
 	padding-left: 10px;
 }
 
@@ -118,6 +119,14 @@
 	height:110px;
 }
 
+.list__thum::before {
+    position: absolute;
+    left: 0;
+    width: 10px;
+    height: 110px;
+    background-color: #f1eeee;
+    content: '';
+}
 
 #order-product_table tr > .list__title {
 	min-width: 290px;
@@ -203,7 +212,7 @@
 }
 
 #order__final-payment--save-point > div {
-	margin: 30px 0 0 0;
+	margin-top: 15px;
 	padding: 0;
 }
 
@@ -213,11 +222,14 @@
 }
 
 #save-point__input-btn {
+	position: relative;
+	top: -2px;
+	height: 24px;
 	margin: 0 0 0 10px;
 	padding: 5px;
 	font-size: 13px;
-	background-color: #846767;
 	color: #fff;
+	background-color: #846767;
 }
 
 #order__final-payment--total-price {
@@ -226,7 +238,7 @@
 }
 
 #order__final-payment--total-price > div {
-	margin: 8% 10%;
+	margin: 8% 10% 8% 18%;
 	padding: 0;
 }
 
@@ -240,30 +252,84 @@
 	float: right;
 }
 
-.discountWrap dl{
+.reserveWrap {
 	display: flex;
 }
 
-.discountWrap dt{
-	width: 81px;
-	font-weight: 400;
+.my_reserves,
+.expected_reserve {
+	position: relative;
 }
 
-.discountWrap dd{
-	positoin: relative;
-	
-}
-
-.discountWrap dd::after {
+.my_reserves::after,
+.expected_reserve::after {
 	position: absolute;
-	right: -20px;
+	right: -15px;
 	content: '원';
 }
 
-
-#reserveUse,
-#totalDiscount{
+#reserves,
+#expected_sp {
+	width: 70px;
+	border: none;
 	text-align: right;
+}
+
+
+.amountWrap dl{
+	display: flex;
+}
+
+.amountWrap dt{
+	position: relative;
+	width: 95px;
+	font-weight: 400;
+}
+
+.amountWrap:nth-child(2) dt::after {
+	position: absolute;
+	right: 10px;
+	content: '(+)';
+}
+
+.amountWrap:nth-child(4) dt::after {
+		position: absolute;
+	right: 27px;
+	content: '(-)';
+}
+
+.amountWrap dd{
+	width: 160px;
+	position: relative;
+}
+
+.amountWrap dd::after {
+	position: absolute;
+	right: -14px;
+	content: '원';
+}
+
+.amountWrap input {
+	width: 100%;
+}
+
+#totalProductAmount,
+#totalDeliveryAmount,
+#reserveUse,
+#totalDiscount,
+#totalPaymentAmount{
+	text-align: right;
+}
+
+.finalAmount,
+#totalPaymentAmount {
+	font-weight: 600;
+	color: #2F80ED;
+}
+
+.finalAmount dt {
+	min-width: 95px;
+	font-weight: 500;
 }
 
 
@@ -326,7 +392,7 @@
 }
 
 #order__info--precautions {
-	margin: 30px 0 0 0;
+	margin: 65px 0 0 0;
 	padding: 0;
 	font-size: 15px;
 }
@@ -376,6 +442,9 @@
 }
 
 .order__delivery--search-btn {
+	position: relative;
+	top: -2px;
+	height: 24px;
 	margin: 0 10px 0 0;
 	padding: 5px;
 	font-size: 13px;
@@ -452,6 +521,8 @@
 }
 
 .payment-method_list-item {
+    display: flex;
+    align-items: center;
 	margin-right: 20px;
 }
 
@@ -485,10 +556,14 @@
 	font-size: 14px;
 }
 
-.order-consent,
-.order-consent-desc {
+.order-consent{
 	display: flex;
 	align-items: center;
+}
+.order-consent-desc {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .detail {
@@ -496,6 +571,11 @@
 	font-weight: 600;
 	text-decoration: underline;
 	cursor: pointer;
+}
+.detail-desc {
+	height: 100px;
+    overflow: scroll;
+    overflow-x: hidden;
 }
 
 .virtual-account_guide p{
@@ -569,6 +649,10 @@
 	border-radius: 5px;
 	background-color: #90a0a0;
 	color: #fff;
+}
+
+#kakao-pay {
+	
 }
 
 /* 결제확인 버튼 end --------------------------------------------------------------- */

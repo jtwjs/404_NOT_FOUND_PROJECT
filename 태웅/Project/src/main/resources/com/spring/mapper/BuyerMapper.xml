@@ -133,14 +133,18 @@
 		 WHERE buyer_id = #{id}
 	</update>
 	
-	
 	<update id="UpdateListDeliverList"	parameterType="com.spring.buyer.deliveryVO">
 		update list_delivery  set default_address='N' where buyer_id = #{id}
 	</update>
+	
+	<update id="UpdateDefaultAddress" parameterType="com.spring.buyer.BuyerVO">
+		update member_buyer SET address=#{address} WHERE buyer_id = #{id}
+	</update>
 
-	<insert id="InsertListDeliveryList" 	parameterType="com.spring.buyer.deliveryVO">
+
+	<insert id="InsertListDeliveryList"	parameterType="com.spring.buyer.deliveryVO">
 		<selectKey keyProperty="num" order="BEFORE" resultType="int">
-			select nvl(max(num), 0)+1 from list_delivery
+			SELECT delivery_num_seq.nextval FROM dual
 		</selectKey>
 		INSERT INTO list_delivery VALUES (#{num}, #{id}, #{deliveryName}, #{address}, #{defaultaddress}, #{receiverName}, #{receiverPhone})
 	</insert>
@@ -149,23 +153,72 @@
 		SELECT * FROM list_delivery where num = #{num}
 	</select>
 	
-
-
-
 	<update id="ListDeliveryModify" parameterType="com.spring.buyer.deliveryVO">
-
 		UPDATE list_delivery SET delivery_name=#{deliveryName},address=#{address},default_address=#{defaultaddress},receiver_name=#{receiverName},receiver_phone=#{receiverPhone}
-		where num = #{num}
+		where num = #{num} 
 	</update>
 
 
 	<delete id="ListDeliveryDelete" parameterType="int">
-		delete from	list_delivery where num=#{num}
+		delete from	list_delivery where num=#{num} and default_address='N'
 	</delete>
 
 	<select id="isListDelivery" parameterType="HashMap"	resultType="int">
 		select count(*) from list_delivery where num=#{num}
 	</select>
+		
+	
+	<select id="getDefaultDeliveryList" resultMap = "deliveryResultMap" >
+		SELECT * FROM list_delivery WHERE buyer_id = #{id} and default_address='Y'
+	</select>
+	
+	
+	
+	<!-- 구매자 리스트 -->
+	<select id="getBuyerListCount" resultType="int">
+		select count(*) from
+		member_buyer where del_flag = 'N'
+	</select>
+
+	<select id="SelectAllMemberBuyerList" parameterType="HashMap"
+		resultMap="buyerResultMap">
+		  <![CDATA[
+			  select buyer_id,password,name,tel,email,address,buyer_num,grade,member_type,del_flag,join_date,
+	        	           wthdr_date,save_point,profile_img,profile_img_path,last_loginDate
+	          	  from (select rownum rnum,buyer_id,password,name,tel,email,address,buyer_num,grade,member_type,del_flag,join_date,
+	        	           wthdr_date,save_point,profile_img,profile_img_path,last_loginDate
+            		  from (select * from member_buyer where del_flag = 'N' order by join_date desc)) 
+	          where rnum>=#{startrow} and rnum<=#{endrow}
+     	  ]]>
+	</select>
+
+	<update id="AdminUpdateBuyerList"
+		parameterType="com.spring.buyer.deliveryVO">
+		UPDATE member_buyer SET del_flag=#{delFlag} WHERE buyer_id = #{id}
+	</update>
+
+
+	<!-- 비활성회원 리스트 -->
+
+	<select id="getDelflagListCount" resultType="int">
+		select count(*) from member_buyer where del_flag = 'Y'
+	</select>
+
+	<select id="SelectAllDelflagList" parameterType="HashMap"
+		resultMap="buyerResultMap">
+		<![CDATA[
+			select buyer_id,password,name,tel,email,address,buyer_num,grade,member_type,del_flag,join_date,
+	        	         wthdr_date,save_point,profile_img,profile_img_path,last_loginDate
+	        	from (select rownum rnum,buyer_id,password,name,tel,email,address,buyer_num,grade,member_type,del_flag,join_date,
+	        	         wthdr_date,save_point,profile_img,profile_img_path,last_loginDate
+            		from (select * from member_buyer where del_flag = 'Y' order by join_date desc)) 
+	        where rnum>=#{startrow} and rnum<=#{endrow}
+     	]]>
+	</select>
+
+	<update id="AdminUpdateBuyerDelflagList"	parameterType="com.spring.buyer.deliveryVO">
+		UPDATE member_buyer SET del_flag=#{delFlag} WHERE buyer_id = #{id}
+	</update>
 	
 	
 	

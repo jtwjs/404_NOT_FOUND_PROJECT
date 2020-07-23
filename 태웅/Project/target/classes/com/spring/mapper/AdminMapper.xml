@@ -21,7 +21,7 @@
 	<result column = "account_type" property = "memberType" />
 </resultMap>
 	  
-	  <select id = "selectOndById" resultMap = "adminResultMap">
+	  <select id = "selectOneById" resultMap = "adminResultMap">
 	  	SELECT * FROM admin WHERE admin_id = #{id}
 	  </select>
 	  
@@ -32,7 +32,12 @@
 	  <select id = "selectAccountById" resultMap = "accountResultMap">
 	  	SELECT * FROM all_account WHERE account_id = #{id}
 	  </select>
+	  	  
+	  <select id="getAllAccountCount" resultType="int">
+	  	select count(*) from all_account
+	  </select>
 	  
+	 
 	
 
 </mapper>

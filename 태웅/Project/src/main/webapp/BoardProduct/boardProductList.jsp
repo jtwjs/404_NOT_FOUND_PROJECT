@@ -63,8 +63,8 @@
     <link href="<c:url value='/resources/css/module/header.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css?after'/>" rel="stylesheet" />
     <!-- header, css end -->
+	<link href="<c:url value='/resources/css/BoardProduct/recentProduct.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/BoardProduct/recentProduct.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/BoardProduct/boardProductList.css'/>" rel="stylesheet" />
     <title></title>
 </head>
@@ -92,7 +92,6 @@
 	  	</ul>
 	  </div>
 	</section> 
-	
 
     <!-- contents 시작 -->
     <main id="main">
@@ -117,7 +116,7 @@
                                 </td>
                             </tr>
                             
-                 
+                            <hr />
                             
                             <%
                             String param_code = category_param_code.charAt(0) + "0";
@@ -182,11 +181,11 @@
                         <%} %>
                         <div id="new">
                             <%for(int i = 0; i < vo_list.size(); i++){ %>
-                             <sec:authorize access = "isAnonymous()">
+                            <sec:authorize access = "isAnonymous()">
                             <div class="item_box" 
                             onclick="javascript:location.href='BoardProductView.bo?board_id=<%=vo_list.get(i).getBoard_id()%>'">
-                             </sec:authorize>
-                            <sec:authorize access="hasRole('ROLE_SELLER')">
+                           </sec:authorize>
+                           <sec:authorize access="hasRole('ROLE_SELLER')">
                             <div class="item_box" 
                             onclick="javascript:location.href='BoardProductView.bo?board_id=<%=vo_list.get(i).getBoard_id()%>'">
                             </sec:authorize>
@@ -241,7 +240,7 @@
     <!-- contents 끝 -->
 
     <script type="text/javascript" src="<c:url value='/resources/js/BoardProduct/boardProductList.js?after'/>" ></script>
-        <script type="text/javascript" src="<c:url value='/resources/js/BoardProduct/recentProduct.js?after'/>" ></script>
+<script type="text/javascript" src="<c:url value='/resources/js/BoardProduct/recentProduct.js?after'/>" ></script>
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    

@@ -1,0 +1,80 @@
+contnt__buyerlist {
+	display: flex;
+	flex-direction: column;
+	margin-top: 50px;
+	padding-bottom: 100px;
+	width: 800px;
+}
+
+.site_content {
+	padding: 0 0 15px 0;
+}
+
+.content-title--site {
+	margin-top: 10px;
+	padding-bottom: 15px;
+}
+
+.buyer_B {
+	padding: 0 0 25px 0;
+}
+
+.buyer_B1 {
+	border: 1px solid #888888;
+	border-radius: 15px;
+	padding: 5px 10px 5px 10px;
+	margin: 0 0 35px;
+}
+
+.setting_form {
+	width: 100%;
+}
+
+.setting_form {
+
+	color: #000000;
+}
+
+.buyerlist_Tr {
+	border-bottom: 1px solid #008000;
+}
+
+.TH--id, .TH--name, .TH--tel, .TH--email, .TH--address, .TH--joindate,
+	.TH--delFlag, .TH--membertype, .TH--buyernum, .TH-grade, .TH-logindate, .TH-delFlag2
+	{
+	height: 45px;
+	padding: 0 0 0 25px;
+	color: #232323;
+}
+
+
+.TH--id1, .TH--name1, .TH--tel1, .TH--email1, .TH--address1,
+	.TH--joindate1, .TH--delFlag1, .TH--membertype1, .TH--buyernum1,
+	.TH-grade1, .TH-logindate1, .delFlag_checkbox_B {
+	padding: 15px 0 15px 0;
+	
+}
+.delFlag_checkbox_B {
+	
+	margin: 15px 0 15px 0;
+}
+
+.delFlag_checkbox_B1 {
+	
+	margin: 0 0 0 135px;
+}
+
+
+.buyerlist_btn {
+	text-align: right;
+	margin: 15px 0 0 0;
+}
+
+.buyerlist_modify, .buyerlist_main {
+	width: 60px;
+	height: 35px;
+	border: 1px solid #c0c0c0;
+	border-radius: 5px;
+	text-align: center;
+}
+

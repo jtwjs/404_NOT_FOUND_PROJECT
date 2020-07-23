@@ -1,6 +1,8 @@
 package com.spring.mapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +22,9 @@ public interface SellerMapper {
 	int UpdateSellerAccount(SellerVO seller);
 	int SellerConfirmPassword(SellerVO seller);
 	int UpdateSellerPassword(SellerVO seller);
+    public int  getSellerListCount();
+    public List<SellerVO> SelectAllSellerList(HashMap<String, Object> hashmap);
+    public int AdminUpdateSellerList(SellerVO seller);
 	
 
 }

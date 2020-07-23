@@ -3,6 +3,8 @@ package com.spring.mapper;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.spring.order.OrderRecordVO;
 
 public interface OrderRecordMapper {
@@ -11,4 +13,6 @@ public interface OrderRecordMapper {
     public int insertOrderRecord(OrderRecordVO vo);
     public int getOrderRecordOneByIdListCount(String seller_id);
     public List<OrderRecordVO> getOrderRecordOneByIdList(HashMap<String, Object> hashmap);
+    public String[] getOrderID(
+    		@Param("board_id")String board_id, @Param("buyer_id")String buyer_id);
 }

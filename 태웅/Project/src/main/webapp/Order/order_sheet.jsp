@@ -87,6 +87,8 @@ totPrice = totProductPrice + totDeliveryPrice;
 				<!-- 주문상품 목록 -->
 				<form id="orerSheetForm" method="post" action="OrderComplete.or"
 					onsubmit="return orderSheetCheck();">
+					<input type="hidden" name="buyer_id" value="${buyer_id}"/>
+					
 					<div class="col-xs-12" id="order__list--check">
 						<div class="order__title">
 							<span>주문상품 확인 및 할인적용</span>
@@ -106,9 +108,12 @@ totPrice = totProductPrice + totDeliveryPrice;
 							<tbody>
 								<%
 									if (vo_list != null) {
+										int totalSP =0;
 								%>
 								<%
 									for (int i = 0; i < vo_list.size(); i++) {
+									
+										totalSP +=  (int)(((vo_list.get(i).getPrice() * quantity_list.get(i)) - discount) / 10);
 								%>
 								<tr class="product__list">
 									<td class="list__thum"><img
@@ -128,13 +133,15 @@ totPrice = totProductPrice + totDeliveryPrice;
 									<td><input type="text" name="tot_price" class="tot_price"
 										value="<%=(vo_list.get(i).getPrice() * quantity_list.get(i)) - discount%>"
 										readonly /></td>
-									<td class="save_point" id="total_sp"><%=(int) (((vo_list.get(i).getPrice() * quantity_list.get(i)) - discount) / 10)%></td>
+									<td class="save_point"><%=(int) (((vo_list.get(i).getPrice() * quantity_list.get(i)) - discount) / 10)%></td>
 									<td><input type="text" name="delivery_price"
 										class="delivery_price"
 										value="<%=vo_list.get(i).getDelivery_price()%>" readonly /></td>
 								</tr>
 								<%
-									}
+									}%>
+									<input type="hidden" id="total_sp" value="<%=totalSP%>" />
+								<%
 								}
 								%>
 							</tbody>
@@ -220,7 +227,7 @@ totPrice = totProductPrice + totDeliveryPrice;
 											<input type="text" id="sample4_postcode" name="addrNum"
 												maxlength="5" />
 										</sec:authorize>
-										<input type="hidden" value="${user.addrNum}" id="userAddrNum" />
+										<input type="hidden" value="${user.addrNum}" id="userAddrNum" name="order_postalCode"/>
 										<input type="button" value="우편번호 검색"
 											class="order__delivery--search-btn" id="zip-code-btn"
 											onclick="sample4_execDaumPostcode()" />
@@ -318,60 +325,68 @@ totPrice = totProductPrice + totDeliveryPrice;
 										<span> <input type="text" id="save-point__input-text" />원
 											<input type="button" value="전액사용" id="save-point__input-btn" />
 										</span>
+										<p class="explain">적립금은 상품 금액의 7%까지만 사용 가능합니다.</p>
 									</div>
 								</div>
-								<div>
+								<div class="reserveWrap">
 									<div class="order__delivery--info-head">
 										<span>보유한 적립금</span>
 									</div>
-									<div class="order__delivery--info-body">
-										<span class="reserves">${user.savePoint} 원</span>
+									<div class="my_reserves">
+										<input type="text" id="reserves" value="${user.savePoint}" readonly /> 
+										
 									</div>
 								</div>
-								<div>
+								<div class="reserveWrap">
 									<div class="order__delivery--info-head">
 										<span>예상적립혜택</span>
 									</div>
+									<sec:authorize access="isAnonymous()">
 									<div class="order__delivery--info-body">
-										<sec:authorize access="isAnonymous()">
-                           	비회원인 경우에는 적립혜택이 없습니다
-                           </sec:authorize>
-										<sec:authorize access="isAuthenticated()">
-											<p>
-												적립금 <span id="expected_sp"></span> 원
-											</p>
-										</sec:authorize>
+                           				비회원인 경우에는 적립혜택이 없습니다
+                           			</div>
+                         			</sec:authorize>
+									<sec:authorize access="isAuthenticated()">
+									<div class="expected_reserve">
+										<input type="text" id="expected_sp" readonly />
 									</div>
+									</sec:authorize>
+									
 								</div>
 							</div>
 							<div id="order__final-payment--total-price">
 								<div>
-									<div>
-										<span>총 상품금액</span> <span
-											class="order__final-payment--price-check"><%=totProductPrice%>
-											원</span>
+									<div class="amountWrap">
+										<dl>
+											<dt>총 상품금액</dt>
+											<dd><input type="text" id="totalProductAmount" value="<%=totProductPrice%>" readonly /></dd>
+											<input type="hidden" id="totalProductAmountValue" value="<%=totProductPrice%>" />
+										</dl>
 									</div>
-									<div>
-										<span>총 배송비</span> <span
-											class="order__final-payment--price-check"><%=totDeliveryPrice%>
-											원</span>
+									<div class="amountWrap">
+										<dl>
+											<dt>총 배송비</dt>
+											<dd><input type="text" id="totalDeliveryAmount" value="<%=totDeliveryPrice%>" readonly /></dd>
+											<input type="hidden" id="totalDeliveryAmountValue" value="<%=totDeliveryPrice%>" />
+										</dl>
 									</div>
-									<div class="discountWrap">
+									<div class="amountWrap">
 										<dl>
 											<dt class="discount-title">사용 적립금</dt>
 											<dd><input type="text" id="reserveUse" value="0" readonly /></dd>
 										</dl>
 									</div>
-									<div class="discountWrap">
+									<div class="amountWrap">
 										<dl>
 											<dt class="discount-title">총 할인</dt>
 											<dd><input type="text" id="totalDiscount" value="0" readonly /></dd>
 										</dl>
 									</div>
-									<div class="order__final-payment--total-price-check">
-										<span><b>총 결제금액</b></span> <span
-											class="order__final-payment--price-check"><b><%=totPrice%>
-												원</b></span>
+									<div class="amountWrap">
+										<dl class="finalAmount">
+											<dt>총 결제금액</dt>
+											<dd><input type="text" id="totalPaymentAmount" value="0" readonly /></dd>
+										</dl>
 									</div>
 
 								</div>
@@ -387,8 +402,14 @@ totPrice = totProductPrice + totDeliveryPrice;
 							<div class="payment-subContent">
 								<h2 class="payment-title">결제 수단</h2>
 								<ul class="payment-method_list">
+									<li class="payment-method_list-item">
+											<input id="kakao" type="radio" name="payment-method" value="카카오페이" checked />
+											 <label for="kakao" id="kakao-pay">
+											 	<img src="./resources/Images/Order/payment_icon_yellow_small.png" alt="카카오페이결제">
+											 </label>
+									 </li>
 									<li class="payment-method_list-item"><input id="credit"
-										type="radio" name="payment-method" value="신용카드" checked /> <label
+										type="radio" name="payment-method" value="신용카드"  /> <label
 										for="credit">신용카드</label></li>
 									<li class="payment-method_list-item"><input id="virtual"
 										type="radio" name="payment-method" value="가상계좌" /> <label
@@ -399,16 +420,23 @@ totPrice = totProductPrice + totDeliveryPrice;
 									<li class="payment-method_list-item"><input id="mobile"
 										type="radio" name="payment-method" value="휴대전화" /> <label
 										for="mobile">휴대전화</label></li>
-									<li class="payment-method_list-item"><input id="kakao"
-										type="radio" name="payment-method" value="카카오페이" /> <label
-										for="kakao">카카오페이</label></li>
 								</ul>
 							</div>
 							<div class="payment-subContent">
 								<h2 class="payment-title">결제 안내</h2>
 								<div class="payment-guide">
+									<!-- 카카오페이 -->
+									<div id="kakao_pay">
+										<div class="kakao-detail">
+											<p class="bold">카카오페이 안내</p>
+											<p class="explain">
+												카카오페이는 카카오톡에서 카드를 등록, 간단하게 비밀번호만으로 결제할 수 있는 빠르고 편리한 모바일 결제
+												서비스입니다.<span class="enter">-지원 카드 : 모든 카드 등록/결제 가능</span>
+											</p>
+										</div>
+									</div>
 									<!-- 신용카드 -->
-									<div id="credit-card">
+									<div id="credit-card" class="hide">
 										<div class="card-detail">
 											<div class="card-datail-content">
 												<select name="card">
@@ -496,7 +524,7 @@ totPrice = totProductPrice + totDeliveryPrice;
 										<div class="virtual-account_guide">
 											<p>
 												<span class="bold">가상 계좌 안내</span> 계좌 유효 기간 <span
-													class="timer"> 2020년 07월 24일 59분 59초</span>
+													class="timer"></span>
 											</p>
 											<p class="explain small">
 												가상계좌는 주문 시 고객님께 발급되는 일회성 계좌번호 이므로 입금자명이 다르더라도 입금이 확인이 가능합니다.
@@ -506,7 +534,7 @@ totPrice = totProductPrice + totDeliveryPrice;
 												ATM/CD기계, 은행 창구 등에서 입금할 수 있습니다.<span class="enter">ATM
 													기기는 100원 단위 입금이 되지 않으므로 통장 및 카드로 계좌이체 해주셔야 합니다. 은행 창구에서도 1원
 													단위 입금이 가능합니다.<span class="enter"> 자세한 내용은 <span
-														class="faq">FAQ</span>를 확인하여 주시기 바랍니다.
+														class="faq"onclick="window.open('BoardFaq.sc')">FAQ</span>를 확인하여 주시기 바랍니다.
 												</span>
 												</span>
 											</p>
@@ -541,16 +569,6 @@ totPrice = totProductPrice + totDeliveryPrice;
 											</p>
 										</div>
 									</div>
-									<!-- 카카오페이 -->
-									<div id="kakao_pay" class="hide">
-										<div class="kakao-detail">
-											<p class="bold">카카오페이 안내</p>
-											<p class="explain">
-												카카오페이는 카카오톡에서 카드를 등록, 간단하게 비밀번호만으로 결제할 수 있는 빠르고 편리한 모바일 결제
-												서비스입니다.<span class="enter">-지원 카드 : 모든 카드 등록/결제 가능</span>
-											</p>
-										</div>
-									</div>
 								</div>
 							</div>
 							<div class="payment-subContent">
@@ -571,6 +589,15 @@ totPrice = totProductPrice + totDeliveryPrice;
 										<p class="explain">
 											배송 등 거래를 위한 판매자에게 개인정보가 공유됩니다. <span class="detail">자세히</span>
 										</p>
+										<p class="explain detail-desc hide">이웃#의 회원계정으로 상품 및 서비스를 구매하고자 할 경우, 이웃#은 거래 당사자간 원활한 의사소통 및 배송, 상담 등 거래이행을 위하여 필요한 최소한의 개인정보만을 판매자 및 배송업체에 아래와 같이 공유하고 있습니다.
+										<span class="enter">1. 이웃#은 귀하께서 판매자로부터 상품 및 서비스를 구매하고자 할 경우, 정보통신망 이용촉진 및 정보보호 등에 관한 법률 제 24조의 2(개인정보 공유동의 등)에 따라 아래와 같은 사항은 안내하고 동의를 받아 귀하의 개인정보를 판매자에게 공유합니다. "개인정보 제3자 공유 동의"를 체크하시면 개인정보 공유에 대해 동의한 것으로 간주합니다.</span>
+										<span class="enter">2. 개인정보를 공유받는자 :<span class="bold">판매자</span></span>
+										<span class="enter">3. 공유하는 개인정보 항목</span>
+										<span class="enter">- 구매자 정보: 성명, 전화번호, ID, 휴대전화 번호, 메일주소, 상품 구매정보</span>
+										<span class="enter">- 수령자 정보: 성명, 전화번호, 휴대전화 번호, 배송지 주소</span>
+										<span class="enter">4. 개인정보를 공유받는 자의 이용 목적 : <span class="bold">판매자와 구매자의 거래의 원활한 진행, 본인의사의 확인, 고객 상담 및 불만처리, 상품과 경품 배송을 위한 배송지 확인 등</span></span>
+										<span class="enter">5. 개인정보를 공유받는 자의 개인정보 보유 및 이용 기간 : <span class="bold">개인정보 수집 및 이용 목적 달성 시까지 보관합니다.</span></span>
+										<span class="enter">6. 동의 거부 시 불이익 : 본 개인정보 공유에 동의하지 않으시는 경우, 동의를 거부할 수 있으며, 이 경우 거래가 제한됩니다.</span></p>
 									</div>
 									<div class="order-conset">
 										<input type="checkbox" name="buyer_agree" id="purchase-agree"
@@ -588,7 +615,7 @@ totPrice = totProductPrice + totDeliveryPrice;
 						<div id="order__submit--payment">
 							<input type="hidden" name="${_csrf.parameterName}"
 								value="${_csrf.token}" />
-							<button type="button" id="submitBtn">상품 결제하기</button>
+							<button type="submit" id="submitBtn">상품 결제하기</button>
 							<button type="button" id="cancleBtn"
 								onclick="javascript:location.href='Index.in'">결제 취소하기</button>
 						</div>

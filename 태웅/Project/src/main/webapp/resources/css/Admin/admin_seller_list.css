@@ -1,0 +1,48 @@
+contnt_sellerlist {
+	display: flex;
+	flex-direction: column;
+	margin-top: 50px;
+	padding-bottom: 100px;
+	width: 800px;
+}
+
+.site_content1 {
+	padding: 0 0 15px 0;
+}
+
+.content-title--site {
+	margin-top: 10px;
+	padding-bottom: 15px;
+}
+
+.sellerlist_C {
+	
+	padding : 0 0 15px 0;
+}
+
+.setting_form {
+	width: 100%;
+}
+
+.setting_form {
+	text-align: center;
+	color: #000000;
+}
+
+.TH--se-num, .TH--se-name, .TH--se-add, .TH--se-tel, .TH--se-joindate,
+	.TH--se-logindate, .TH-delflag {
+	height: 45px;
+	text-align: center;
+	background-color: #14c772;
+	color: #232323;
+	text-align: center;
+}
+
+.TH--se-NO1, .TH--se-id1, .TH--se-name1, .TH--se-tel1, .TH--se-joindate1,
+	.TH--se-logindate1, .TH--se-del_flag1 {
+	padding: 15px 0 15px 0;
+}
+
+.sellerlist_page {
+	padding: 300px 0 0 0;
+}

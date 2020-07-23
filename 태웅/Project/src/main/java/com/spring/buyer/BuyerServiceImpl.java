@@ -105,6 +105,42 @@ public class BuyerServiceImpl implements BuyerService {
 
 
 
+
+	@Override
+	public int selectWishListCountOneById(String buyer_id) {
+		WishListMapper wishListMapper = sqlSession.getMapper(WishListMapper.class);
+		
+		int res = wishListMapper.selectWishListCountOneById(buyer_id);
+		
+		return res;
+	}
+	
+	
+	@Override
+	public ArrayList<WishListVO> selectWishList(String buyer_id, int sort_list, int page_num, int page_amount) {
+		
+		WishListMapper wishListMapper = sqlSession.getMapper(WishListMapper.class);
+		
+		ArrayList<WishListVO> wishList = new ArrayList<WishListVO>();
+		
+		wishList = wishListMapper.selectWishList(buyer_id, sort_list, page_num, page_amount);
+		
+		System.out.println("wishList impl : " + wishList);
+				
+		return wishList;
+	}
+	
+	@Override
+	public int deleteWishList(HashMap<String, String> hashmap) {
+		WishListMapper wishListMapper = sqlSession.getMapper(WishListMapper.class);
+		int res = wishListMapper.isWishListWriter(hashmap);
+		String wish_id = hashmap.get("wish_id");
+		if (res == 1) {
+			res = wishListMapper.deleteWishList(wish_id);
+		}
+		return res;
+	}	
+	
 	@Override
 	public int InsertListDeliveryList(deliveryVO delivery) {
 		BuyerMapper buyerMapper = sqlSession.getMapper(BuyerMapper.class);		
@@ -161,40 +197,21 @@ public class BuyerServiceImpl implements BuyerService {
 		return res;
 	}
 
+	@Override
+	public deliveryVO getDefaultDeliveryList(String id) {
+
+		deliveryVO vo = mapper.getDefaultDeliveryList(id);
+
+		return vo;		
+	}
+
+
 
 	@Override
-	public int selectWishListCountOneById(String buyer_id) {
-		WishListMapper wishListMapper = sqlSession.getMapper(WishListMapper.class);
+	public void UpdateDefaultAddress(BuyerVO buyer) {
+		mapper.UpdateDefaultAddress(buyer);
 		
-		int res = wishListMapper.selectWishListCountOneById(buyer_id);
-		
-		return res;
 	}
 	
-	
-	@Override
-	public ArrayList<WishListVO> selectWishList(String buyer_id, int sort_list, int page_num, int page_amount) {
-		
-		WishListMapper wishListMapper = sqlSession.getMapper(WishListMapper.class);
-		
-		ArrayList<WishListVO> wishList = new ArrayList<WishListVO>();
-		
-		wishList = wishListMapper.selectWishList(buyer_id, sort_list, page_num, page_amount);
-		
-		System.out.println("wishList impl : " + wishList);
-				
-		return wishList;
-	}
-	
-	@Override
-	public int deleteWishList(HashMap<String, String> hashmap) {
-		WishListMapper wishListMapper = sqlSession.getMapper(WishListMapper.class);
-		int res = wishListMapper.isWishListWriter(hashmap);
-		String wish_id = hashmap.get("wish_id");
-		if (res == 1) {
-			res = wishListMapper.deleteWishList(wish_id);
-		}
-		return res;
-	}	
 }
 	

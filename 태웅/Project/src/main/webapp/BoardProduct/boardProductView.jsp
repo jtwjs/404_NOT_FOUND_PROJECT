@@ -3,6 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ page import="com.spring.boardproduct.BoardProductVO" %>
+<%@ page import="com.spring.boardproduct.BoardReviewVO" %>
+<%@ page import="com.spring.boardproduct.CommentReviewVO" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.UUID" %>
 <%@ page import="java.nio.ByteBuffer" %>
 <%
@@ -10,7 +14,34 @@
     if((BoardProductVO)request.getAttribute("vo") != null){
     	vo = (BoardProductVO)request.getAttribute("vo");
     }
+    
+    String location = null;
+    if((String)request.getAttribute("location") != null){
+    	location = (String)request.getAttribute("location");
+    }
+    
+    ArrayList<BoardReviewVO> review_list = null;
+    if((ArrayList<BoardReviewVO>)request.getAttribute("review_list") != null){
+    	review_list = (ArrayList<BoardReviewVO>)request.getAttribute("review_list");
+    }
+    
+    ArrayList<CommentReviewVO[]> reviewComment = null;
+    if((ArrayList<CommentReviewVO[]>)request.getAttribute("reviewComment") != null){
+    	reviewComment = (ArrayList<CommentReviewVO[]>)request.getAttribute("reviewComment");
+    }
    
+    int reviewNum = 0;
+    double reviewNumCalc = 0.0;
+    if((int)request.getAttribute("reviewNum") != 0){
+    	reviewNum = (int)request.getAttribute("reviewNum");
+    	
+    	for(int i = 0; i < reviewNum; i++){
+    		reviewNumCalc += review_list.get(i).getSatisfaction();
+    	}
+    	
+    	reviewNumCalc /= reviewNum;
+    }
+  
 %>
 
 <%  int login_case = 0; 
@@ -38,13 +69,13 @@
     <link href="<c:url value='/resources/css/module/reset.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/header.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css?after'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/BoardProduct/recentProduct.css?after'/>" rel="stylesheet" />
     <!-- header, css end -->
+    <link href="<c:url value='/resources/css/BoardProduct/recentProduct.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/BoardProduct/boardProductView.css'/>" rel="stylesheet" />
     <title><%=vo.getTitle() %></title>
 </head>
-<body onload="enableCheck('<%=vo.getQuantity()%>', '<%=vo.getSale_status()%>', '<%=login_case%>', '<%=user_id%>', '<%=vo.getBoard_id()%>')">
+<body onload="enableCheck('<%=vo.getQuantity()%>', '<%=vo.getSale_status()%>', '<%=login_case%>', '<%=user_id%>', '<%=vo.getBoard_id()%>', '<%=location%>')">
 <jsp:include page="recentProduct.jsp" flush="false"/>
    <section id="sub-main" class="seller">
 	  <div class="sub-top">
@@ -74,7 +105,6 @@
 
     <!-- contents 시작 -->
     <main id="main">
-    
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
@@ -168,7 +198,14 @@
                             <div class="seller__datatxtBox">
                                 <ul>
                                     <li class="dataBox__title">고객평가</li>
-                                    <li class="dataBox__content">()건 <%=vo.getSatisfaction() %>/5</li>
+                                    <li class="dataBox__content">
+                                        <span><%=reviewNum %> 건 <%=reviewNumCalc%> / 5</span>
+                                        <div id="review-calc__star-rating--box">
+                                            <div id="review-calc__star-rating">
+                                                <span style="width: <%=(int)(reviewNumCalc*20)%>%;"></span>
+                                            </div>
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
 
@@ -281,6 +318,15 @@
                         <a href="#seller-etc" id="board__delivery--move">배송/교환/환불안내</a>
                         
                     </div>
+                    
+                    <style>
+                        #view__menu-bar--fixed > #board__review--move:after {
+	                        margin-left: 5px;
+	                        font-size: 15px;
+	                        font-family: inherit;
+	                        content: '<%=reviewNum%>';
+                        }
+                    </style>
 
                     <!-- 상세정보 -->
                     <div class="seller-data" id="seller-data">
@@ -365,50 +411,209 @@
 
                     <!-- 상품 후기 -->
                     <div class="customer-review" id="customer-review">
-                        <h4 class="seller-head">상품 후기</h4>
+                        <h4 class="seller-head">상품 후기 <span style="color: cornflowerblue;"><%=reviewNum %></span></h4>
                         
                         <sec:authorize access="isAuthenticated() and hasRole('BUYER')">
                             <div id="customer-review__write">
-                                <input type="button" id="customer-review__write--btn" value="리뷰쓰기"
-                                    onclick="modal_review_write();" />
+                                <input type="button" id="customer-review__write--btn" value="리뷰작성"
+                                    onclick="modal_review_write('<%=vo.getBoard_id() %>', '<%=user_id %>');" />
                             </div>
                         </sec:authorize>
                         
-                        <div class="modal__board">
-                            <div id="modal__board--wirte">
-                                <div id="board__write--title">
+                        <div id="modal__review">
+                            <div id="modal__review--content">
+                                <div id="review__write--title">
                                     <h4>상품평 남기기</h4>
+                                    <a href="javascript:;" id="modal__reivew--close" onclick="modal_review_cancle();">X</a>
+                                    
+                                    <div id="review__write--satisfaction">
+                                        
+                                        <div id="star-satisfaction">
+                                            
+                                            <span class="star star-left" onclick=""></span>
+                                            <span class="star star-right" onclick=""></span>
+                                            
+                                            <span class="star star-left" onclick=""></span>
+                                            <span class="star star-right" onclick=""></span>
+                                            
+                                            <span class="star star-left" onclick=""></span>
+                                            <span class="star star-right" onclick=""></span>
+                                            
+                                            <span class="star star-left" onclick=""></span>
+                                            <span class="star star-right" onclick=""></span>
+                                            
+                                            <span class="star star-left" onclick=""></span>
+                                            <span class="star star-right" onclick=""></span>
+                                            
+
+
+                                        </div>
+                                    </div>
                                 </div>
                                 
-                                <div id="board__write--satisfaction">
-                                    
-                                </div>
+                                
+                                <div id="review__write--content">
+                                    <textarea id="review-content--text" maxlength="200" 
+                                        placeholder="200자 이내로 후기를 작성해주십시오."></textarea>
+                                    <input type="button" onclick="review_regist();" value="작성완료" id="review-submit-btn" />
+                                    <input type="button" onclick="modal_review_cancle();" value="취소" id="review-cancle-btn"/>
+                                </div>            
+                                
+                                <form id="reviewForm" method="post" action="BoardReviewRegist.bo">
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                    <input type="hidden" value="<%=vo.getBoard_id() %>" name="board_id"/>
+                                    <input type="hidden" value="<%=user_id %>" name="buyer_id"/>
+                                    <input type="hidden" value="<%=vo.getTitle() %>" name="title"/>
+                                    <input type="hidden" value="<%=vo.getThumbnail_thum() %>" name="review_img_name"/>
+                                    <input type="hidden" value="<%=vo.getThumbnail_thum_path() %>" name="review_img_path"/>
+                                </form>
                             </div>
                         </div>
                         
-                        <div class="customer-review__table">
+                        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+                        <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+                        <div id="dialog-message--review" title="상품 후기">
+                            <p></p>
+                        </div>
+                        
+                        <div id="customer-review__table">
                             <table>
-                                <thead>
-                                    <tr>
-                                        <td class="customer-review__table--num" align="center">번호</td>
-                                        <td class="customer-review__table--title" align="center">후기</td>
-                                        <td class="customer-review__table--date" align="center">작성일</td>
-                                        <td class="customer-review__table--hit" align="center">조회</td>
-                                    </tr>
-                                </thead>
                                 <tbody>
-                                    
+                                    <%if(reviewNum != 0){
+                                    	int loc = -1;
+                                    	int saveLoc = -1;
+                                    	
+                                    for(int i = 0; i < reviewNum; i++){ 
+                                    	int flag = 2;
+                                    	if(reviewComment.get(i).length != 0){
+                                    		loc = saveLoc;
+                                    		loc++;
+                                    		saveLoc = loc;
+                                    	}else{
+                                    		loc = -1;
+                                    	}
+                                    	
+                                    	if(login_case == 2){
+                                    	    if(user_id.equals(vo.getSeller_id())){
+                                    		    flag = 1;
+                                    	    }
+                                    	}
+                                        if((login_case == 2 && user_id.equals(vo.getSeller_id())) || reviewComment.get(i).length != 0){%>
+                                    <tr onclick="reviewComments('<%=flag%>', '<%=i%>', '<%=loc %>');" style="cursor:pointer;">
+                                    <%}else{ %>
                                     <tr>
-                                        <td colspan="4" class="customer-review__table--none-content" align="center">등록된 게시글이 없습니다</td>
+                                    <%} %>
+                                        <td class="customer-review__table--photo">
+                                            <img src="display?path=<%=java.net.URLEncoder.encode(review_list.get(i).getReview_img_path(), "UTF-8") %>&name=<%=java.net.URLEncoder.encode(review_list.get(i).getReview_img_name(), "UTF-8") %>" />
+                                        </td>
+                                        <td class="customer-review__table--recommend">
+                                            <%if(review_list.get(i).getSatisfaction() <= 1.0){ %>
+                                            <div class="recommend-1">적극비추천</div>
+                                            <%}else if(review_list.get(i).getSatisfaction() <= 2.0){ %>
+                                            <div class="recommend-2">추천 안함</div>
+                                            <%}else if(review_list.get(i).getSatisfaction() <= 3.0){ %>
+                                            <div class="recommend-3">보통</div>
+                                            <%}else if(review_list.get(i).getSatisfaction() <= 4.0){ %>
+                                            <div class="recommend-4">추천</div>
+                                            <%}else { %>
+                                            <div class="recommend-5">적극추천</div>
+                                            <%} %>
+                                        </td>
+                                        <td class="customer-review__table--content">
+                                            <p class="review__content--title"><%=review_list.get(i).getTitle() %></p>
+                                            <span class="review__content"><%=review_list.get(i).getContent() %></span>
+                                        </td>
+                                        <%
+                                        
+                                        StringBuilder getReviewId 
+                                            = new StringBuilder(review_list.get(i).getBuyer_id().substring(0,3));
+                                        
+                                        for(int j = 0; j < review_list.get(i).getBuyer_id().length() - 3; j++){
+                                        	getReviewId.append("*");
+                                        }
+                                        
+                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                		String getReviewDate = sdf.format(review_list.get(i).getRegister_date()); 
+                                        %>
+                                        <td class="customer-review__table--info">
+                                            <dl>
+                                                <dt>작성자: </dt>
+                                                <dd><%=getReviewId.toString()%></dd>
+                                                <dt>등록일: </dt>
+                                                <dd><%=getReviewDate %></dd>
+                                            </dl>
+                                            <div id="customer-review__table--star-rating">
+                                                <span style="width: <%=(int)(review_list.get(i).getSatisfaction() * 20)%>%;"></span>
+                                            </div>
+                                        </td>
                                     </tr>
                                     
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
                                     
+                                    
+                                    <%if(user_id.equals(vo.getSeller_id())){// 접속한 id와 판매자의 id가 같다면 %>
+                                    
+                                    <tr class="seller__review--comment"> 
+                                        <td colspan="4">
+                                            <div class="seller__review--comment-list">
+                                            <%if(reviewComment.get(i).length != 0){
+                                            for(int j = 0; j < reviewComment.get(i).length; j++){ 
+	                                            SimpleDateFormat reviewDateFormat = new SimpleDateFormat("yyyy-MM-dd a hh:mm:ss");
+	                                            String reviewDate = reviewDateFormat.format(reviewComment.get(i)[j].getRegister_date());
+	                                            reviewDate.replace("AM", "오전");
+	                                            reviewDate.replace("PM", "오후");%>
+                                            
+                                                <div class="seller__review--comment-read">
+	                                                <div class="review-comment--seller">판매자</div>
+	                                                <div class="review-comment--content"><%=reviewComment.get(i)[j].getContent() %></div>
+	                                                <div class="review-comment--date"><%=reviewDate %>
+	                                                    <input type="button" class="review__comment--delete-btn" 
+	                                                        value="x" onclick="reviewCommentDelete(this,'<%=reviewComment.get(i)[j].getReview_cmt_num()%>','<%=review_list.get(i).getReview_id()%>', '${_csrf.token}');" />
+	                                                </div>
+	                                            </div>
+	                                        
+	                                            <%} %>
+	                                        <%} %>
+                                            </div>
+                                            <div class="seller__review--comment-box">
+                                                <textarea name="content" maxlength="200" class="seller__review--comment-content"
+                                                    placeholder="200자 이하로 댓글을 작성해주세요."></textarea>
+                                                <input type="button" value="등록" 
+                                                    onclick="reviewCommentSubmit(this, '<%=user_id%>', '<%=review_list.get(i).getReview_id()%>', '${_csrf.token}', '<%=i%>');"/>
+                                            </div>
+                                        </td>   
+                                        	
+                                    </tr>	
+                                        
+                                    <%}else{ %>
+                                    
+	                                    <%if(reviewComment.get(i).length != 0){ %>
+	                                    <tr class="review-comment">
+	                                        <td colspan="4">
+	                                            <%for(int j = 0; j < reviewComment.get(i).length; j++){ 
+	                                            SimpleDateFormat reviewDateFormat = new SimpleDateFormat("yyyy-MM-dd a hh:mm:ss");
+	                                            String reviewDate = reviewDateFormat.format(reviewComment.get(i)[j].getRegister_date());
+	                                            reviewDate.replace("AM", "오전");
+	                                            reviewDate.replace("PM", "오후");%>
+	                                            <div>
+	                                                <div class="review-comment--seller">판매자</div>
+	                                                <div class="review-comment--content"><%=reviewComment.get(i)[j].getContent() %></div>
+	                                                <div class="review-comment--date"><%=reviewDate %></div>
+	                                            </div>
+	                                            <%} %>
+	                                        </td>
+	                                    </tr>
+	                                    <%} %>
+                                    
+                                    <%} %>
+                                    
+                                     	
+                                    <%}
+                                    
+                                    }else{%>
+                                    <tr id="customer-review__non-table">
+                                        <td colspan="4">등록된 리뷰가 없습니다.</td>
+                                    </tr>
+                                    <%} %>  
                                 </tbody>
                             </table>
                         </div>

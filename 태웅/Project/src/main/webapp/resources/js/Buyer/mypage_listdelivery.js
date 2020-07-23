@@ -1,3 +1,4 @@
+ 
 //submit(배송지 등록) 버튼
 
 var submitBtn = document.getElementById('submitBtn');

@@ -3,6 +3,7 @@ package com.spring.boardproduct;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.file.Files;
@@ -19,13 +20,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FilenameUtils;
 import org.imgscalr.Scalr;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.admin.AccountVO;
 import com.spring.config.Security.CurrentUser;
+import com.spring.order.OrderService;
 import com.spring.util.PageMaker;
 
 
@@ -42,6 +44,8 @@ public class BoardProductController {
 	
 	@Autowired
 	private BoardProductService boardProductService;
+	@Autowired
+	private OrderService orderService;
 
     @GetMapping(value = "/BoardProductList.bo") // 판매글 리스트
 	public String boardProductList(Model model,
@@ -55,8 +59,7 @@ public class BoardProductController {
 		
     	ArrayList<BoardProductVO> vo_list = null;
         String category_title = null;
-        ArrayList<String> category_sub = new ArrayList<String>();
-        
+        ArrayList<String> category_sub = new ArrayList<String>();        
         Cookie[] cookies = request.getCookies();
         Cookie non_userCK = null;
         Cookie userCK = null;
@@ -221,7 +224,8 @@ public class BoardProductController {
 		  
    
     @GetMapping(value = "/BoardProductView.bo") // 판매글 보기
-	public String boardProductView(Model model,HttpServletRequest request,HttpServletResponse response, String board_id) {
+	public String boardProductView(Model model,HttpServletRequest request,HttpServletResponse response, String board_id
+			,@RequestParam(value="location", required=false, defaultValue="0")String location) {
     	Cookie[] cookies = request.getCookies();
     	Cookie cookie = null;
     	for( Cookie c : cookies) {
@@ -264,15 +268,37 @@ public class BoardProductController {
      		non_recentList.add(product);
  		}
     	response.addCookie(cookie);
-    	System.out.println("쿠키값: "+cookie.getValue());
+    	
     	BoardProductVO vo = boardProductService.getBoardProductVO(board_id);
+    	ArrayList<BoardReviewVO> review_list = boardProductService.getBoardReviewList(board_id);
+    	int reviewNum = boardProductService.getReviewNum(board_id);
+    	
+    	ArrayList<CommentReviewVO[]> reviewComment = new ArrayList<CommentReviewVO[]>();
+    	CommentReviewVO[] comment = null;
+    		
+    	for(int i = 0; i < review_list.size(); i++) {
+    		comment  = boardProductService.getReviewComment(review_list.get(i).getReview_id());
+    		reviewComment.add(comment);
+    		
+
+    	}
+    	
+    	System.out.println("쿠키값: "+cookie.getValue());
     	model.addAttribute("vo", vo);     
     	model.addAttribute("non_list",non_recentList);
+    	model.addAttribute("location", location);
+    	model.addAttribute("review_list", review_list);
+    	model.addAttribute("reviewNum", reviewNum);
+    	model.addAttribute("reviewComment", reviewComment);
 		return "BoardProduct/boardProductView";
+	
+
 	}
     
+    
     @GetMapping(value = "/BoardProductView2.bo") //구매회원일경우 판매글 보기
-	public String boardProductView2(Model model,HttpServletRequest request,HttpServletResponse response, String board_id,@CurrentUser AccountVO account) {
+	public String boardProductView2(Model model,HttpServletRequest request,HttpServletResponse response, String board_id,@CurrentUser AccountVO account,
+			@RequestParam(value="location", required=false, defaultValue="0")String location) {
     	Cookie[] cookies = request.getCookies();
     	Cookie cookie = null;
     	for(Cookie c: cookies) {
@@ -312,11 +338,27 @@ public class BoardProductController {
      		recentList.add(product);
      	}
     	response.addCookie(cookie);
-    	System.out.println("쿠키값2: "+cookie.getValue());
+    	
     	BoardProductVO vo = boardProductService.getBoardProductVO(board_id);
+    	ArrayList<BoardReviewVO> review_list = boardProductService.getBoardReviewList(board_id);
+    	int reviewNum = boardProductService.getReviewNum(board_id);
+    	
+    	ArrayList<CommentReviewVO[]> reviewComment = new ArrayList<CommentReviewVO[]>();
+    	CommentReviewVO[] comment = null;
+    		
+    	for(int i = 0; i < review_list.size(); i++) {
+    		comment  = boardProductService.getReviewComment(review_list.get(i).getReview_id());
+    		reviewComment.add(comment);
+    		
+
+    	}
+    	System.out.println("쿠키값2: "+cookie.getValue());
     	model.addAttribute("vo", vo);     
     	model.addAttribute("list",recentList);
-		
+    	model.addAttribute("location", location);
+    	model.addAttribute("review_list", review_list);
+    	model.addAttribute("reviewNum", reviewNum);
+    	model.addAttribute("reviewComment", reviewComment);
 		return "BoardProduct/boardProductView";
 	}
 	
@@ -700,50 +742,157 @@ public class BoardProductController {
 		
 		return false;
 	}
+	@GetMapping(value = "/ReadCountPlus.bo")
+	@ResponseBody
+	private void readCountPlus(String board_id) {
+		
+		
+		if(boardProductService.boardReadCountPlus(board_id) == 1) {
+			
+		}
+		
+	}
 	
-//	@GetMapping(value = "/imgLoad.bo")
-//	public void imgLoadFile(HttpServletRequest req, HttpServletResponse res,
-//			@RequestParam("fileDir") String fileDir, @RequestParam("fileName") String fileName){
-//		
-//		File imgFile = new File(fileDir, fileName);
-//		System.out.println(fileDir);
-//		System.out.println(fileName);
-//		
-//		res.setHeader("Content-Length", String.valueOf(imgFile.length()));
-//		res.setHeader("Content-Disposition", "inline; filename=\"" + imgFile.getName() + "\"");
-//		try {
-//			Files.copy(imgFile.toPath(), res.getOutputStream());
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//	}
+	@GetMapping(value = "/BoardReviewCheck.bo") // orderRecord에서 order_id값 받은 다음 BoardReview에서 찾음
+	@ResponseBody
+	private void boardReviewCheck(HttpServletRequest request, HttpServletResponse response, 
+			String board_id, String buyer_id) throws IOException {
+		
+		request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        
+        String[] order_id = orderService.getOrderID(board_id, buyer_id); // 주문한 상품 중 14일 이내의 주문번호를 가져옴
+        
+        boolean flag = false;
+        
+        if(order_id.length != 0) {
+        	
+        	for(int i = 0; i < order_id.length; i++) {
+        		
+        		if(boardProductService.checkReview(board_id, buyer_id, order_id[i]) == 0) {
+        			
+        			out.println(order_id[i]);
+        			flag = true;
+        			break;
+        		}
+        	}
+        	
+        	if(!flag) {
+        		out.println("1");
+        	}
+        	
+        }else {
+        	out.println("2");
+        }
+        
+        
+        out.flush();
+		
+	}
 	
-//    @GetMapping(value = "/display")
-//    public ResponseEntity<byte[]> displayFile(
-//            @RequestParam("name") String fileName) throws Exception {
-//        
-//    	InputStream in = null;
-//    	ResponseEntity<byte[]> entity = null;
-//    	
-//    	try {
-//    		String formatName = fileName.substring(fileName.lastIndexOf(".") + 1);
-//    		MediaType mType = MediaUtils.getMediaType(formatName);
-//    		HttpHeaders headers = new HttpHeaders();
-//    		
-//    		
-//    	}catch(Exception e) {
-//    		
-//    	}finally {
-//    		in.close();
-//    	}
-//    	
-//    	
-//    	
-//    	
-//    	
-//    	return entity;
-//    }
+	
+	@PostMapping(value = "/BoardReviewRegist.bo")
+	private String boardReviewRegist(String board_id, String buyer_id, String title, String content, 
+			double satisfaction, String review_img_path, String review_img_name, String location, 
+			String order_id) {
+		
+		BoardReviewVO vo = new BoardReviewVO();
+		int review_num = boardProductService.getReviewTotNum() + 1;
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Date date = new Date();
+		String str = sdf.format(date);
+    	
+    	StringBuilder review_id = new StringBuilder(
+    			str + "-" + review_num);
+		
+    	vo.setReview_id(review_id.toString());
+		vo.setReview_num(review_num);
+		vo.setBoard_id(board_id);
+		vo.setBuyer_id(buyer_id);
+		vo.setOrder_id(order_id.trim());
+		vo.setTitle(title);
+		vo.setContent(content);
+		vo.setSatisfaction(satisfaction);
+		vo.setReview_img_path(review_img_path);
+		vo.setReview_img_name(review_img_name);
+		
+		
+		System.out.println("review_id: " + vo.getReview_id());
+		System.out.println("review_num: " + vo.getReview_num());
+		System.out.println("board_id: " + vo.getBoard_id());
+		System.out.println("buyer_id: " + vo.getBuyer_id());
+		System.out.println("order_id: " + vo.getOrder_id());
+		System.out.println("title: " + vo.getTitle());
+		System.out.println("content: " + vo.getContent());
+		System.out.println("satisfaction: " + vo.getSatisfaction());
+		System.out.println("review_img_path: " + vo.getReview_img_path());
+		System.out.println("review_img_name: " + vo.getReview_img_name());
+		System.out.println("location: " + location);
+		
+		if(boardProductService.insertReview(vo) == 1) {
+			
+		}
+
+		
+		return "redirect:/BoardProductView.bo?board_id=" + board_id + "&location=" + location;
+	}
+	
+	
+	@RequestMapping(value = "/ReviewCommentRegist.bo")
+	@ResponseBody
+	public void reviewCommentRegist(HttpServletRequest request, HttpServletResponse response, 
+			@RequestParam(value="seller_id", required=false)String seller_id, 
+			@RequestParam(value="content", required=false)String content, 
+			@RequestParam(value="review_id", required=false)String review_id) throws IOException {
+		
+		request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+		CommentReviewVO vo = new CommentReviewVO();
+		int reviewCommentNum = boardProductService.getReviewCommentNum(review_id) + 1;
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Date date = new Date();
+		String str = sdf.format(date);
+		StringBuilder review_cmt_id = new StringBuilder(review_id + "-" + str + "-" + reviewCommentNum);
+		
+		vo.setReview_cmt_id(review_cmt_id.toString());
+		vo.setReview_cmt_num(reviewCommentNum);
+		vo.setSeller_id(seller_id);
+		vo.setContent(content);
+		vo.setReview_id(review_id);
+		
+		if(boardProductService.insertReviewComment(vo) == 1) {
+			
+			Date reviewDate = new Date();
+			SimpleDateFormat reviewDateFormat = new SimpleDateFormat("yyyy-MM-dd a hh:mm:ss");
+            String reviewDateStr = reviewDateFormat.format(reviewDate);
+            reviewDateStr.replace("AM", "오전");
+            reviewDateStr.replace("PM", "오후");
+            
+            JSONObject resultObj = new JSONObject();
+            resultObj.put("date", reviewDateStr);
+            resultObj.put("num", reviewCommentNum);
+            
+			out.println(resultObj);
+		}
+		
+		out.flush();
+		
+	}
+	
+	@RequestMapping(value = "/ReviewCommentDelete.bo")
+	@ResponseBody
+	public void reviewCommentDelete(String review_id, int review_cmt_num) throws IOException {
+		
+		
+		if(boardProductService.deleteReviewComment(review_id, review_cmt_num) == 1) {
+			
+		}
+
+	}
 	
 }

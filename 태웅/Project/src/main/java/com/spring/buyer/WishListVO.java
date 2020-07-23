@@ -6,6 +6,10 @@ create table wish_list(
     wish_id varchar2(32) not null,         -- 위시리스트 ID값 (기본키, 랜덤생성)
     buyer_id varchar2(16) not null,        -- 구매자 ID (member_buyer테이블 외래키)
     board_id varchar2(32) not null,        -- 판매게시판 ID (board_product테이블 외래키)
+    title varchar2(100) not null,          -- 게시판 이름
+    price number not null,                 -- 판매가
+    thumbnail_thum varchar2(100),          -- 썸네일 이미지 이름
+    thumbnail_thum_path varchar2(100),     -- 썸네일 썸네일 경로
     constraint wish_list_wish_id_pk primary key(wish_id)
 );
  */
