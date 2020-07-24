@@ -82,7 +82,7 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 														<th class="TH-tel">연락처</th>
 														<th class="TH-joindate">가입일</th>
 														<th class="TH-logindate">마지막 접속</th>
-														<th class="TH-delflag">비활성 상태</th>
+														<th class="TH-delflag">활성 상태</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -113,8 +113,6 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 															}															
 															%>
 														</td>
-	
-														<%-- <%=byl.getDelFlag()%> --%>
 													</tr>
 													<%
 														num--;

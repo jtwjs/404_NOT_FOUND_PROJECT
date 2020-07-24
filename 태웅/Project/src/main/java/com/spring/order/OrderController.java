@@ -46,9 +46,6 @@ public class OrderController {
 	@Autowired
 	private BuyerService buyerService;
 	
-	@Autowired
-	private KakaoPay kakaoPay;
-	
     @RequestMapping(value = "/OrderLogin.or")  // 주문배송 로그인 (회원)
     public String orderLogin() {
     	
@@ -322,7 +319,9 @@ public class OrderController {
     		int[] amount, int[] price, int[] delivery_price, int tot_price, String status, 
     		String buyer_name, String buyer_phone, String buyer_email, String order_postalCode, 
     		String order_address, String order_name, String order_phone, String order_demand, 
-    		String order_delivery, String order_payment, String order_account, String buyer_id ) {
+    		String order_delivery, String order_payment, String order_account, String buyer_id,
+    		int reserveUse,@RequestParam(value ="payment-method")String pay_method, String member_flag
+    		,Model model) {
     	
     	System.out.println("1");
     	
@@ -331,7 +330,7 @@ public class OrderController {
     	// 리스트 수 (배열)과 관계 없이 변하지 않는 값 저장
     	// 결제일은 데이터베이스에서 sysdate로 처리, 주문번호는 데이터베이스에서 selectKey 처리
     	// =================================================================
-		vo.setUse_point(0);  // 사용적립금은 현재 0으로 고정하여 test
+		vo.setUse_point(reserveUse);  // 사용적립금은 현재 0으로 고정하여 test
 		vo.setTot_price(tot_price);
 		vo.setStatus("상품준비중");  // 배송 상태 = 상품준비중 고정
 		vo.setBuyer_name(buyer_name);
@@ -342,12 +341,19 @@ public class OrderController {
 		vo.setOrder_name(order_name);
 		vo.setOrder_phone(order_phone);
 		vo.setOrder_demand(order_demand);
-		vo.setOrder_delivery("test"); // test
+		vo.setOrder_delivery("롯데택배"); //구현안함ㅋ
 		vo.setOrder_invoicenum("배송준비중입니다");  // 송장번호 고정
-		vo.setOrder_payment("testPay");  // test
-		vo.setOrder_account("000-111-222222");  // test
-		vo.setNon_member_flag('Y'); // test용으로 Y 고정 (회원, 비회원 구분)
-		
+		vo.setOrder_payment(pay_method);  
+		if(pay_method == "카카오페이") {
+		vo.setOrder_account("카카오페이");  
+		}else{
+			vo.setOrder_account("000-111-222222");
+		}
+		if(member_flag.equals("Y")) {
+			vo.setNon_member_flag('Y'); //비회원
+		} else {
+			vo.setNon_member_flag('N'); //회원
+		}
 		System.out.println("2");
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -410,7 +416,7 @@ public class OrderController {
 			orderService.insertOrderRecord(vo); // 배열 수 만큼 테이블에 저장
 			
 		}
-		
+		model.addAttribute("order",vo);
 		
     	return "Order/order_complete";
     }
@@ -455,39 +461,6 @@ public class OrderController {
     	model.addAttribute("list",list);
     	return "Order/address_book";
     }
-    
-    @RequestMapping(value="/kakaoPay", method=RequestMethod.POST) 
-    public String kakaoPay(String buyer_id, String[] product_name, int[] quantity, String total_amount) {
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		Date date = new Date();
-		String str = sdf.format(date);
-		
-		UUID uuid = UUID.randomUUID(); // 중복 방지를 위해 랜덤값 생성
-    	long getl = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
-    	
-    	StringBuilder long_uuid = new StringBuilder(
-    			str + "-" + Long.toString(getl, 32));
-		
-		String order_id = long_uuid.toString();
-		int count = product_name.length -1;
-		String item_name = product_name[0]+"외 "+count+"개";
-		
-		int item_quantity = 0;
-		for(int i=0; i<quantity.length; i++) {
-			item_quantity += quantity[i];
-		}
-		String total_quantity = Integer.toString(item_quantity);
-		
-		
-		
-		
-    	return "redirect:"+kakaoPay.kakaoPayReady(order_id,buyer_id,item_name,total_quantity,total_amount);
-    }
-    
-//    @GetMapping(value="kakaoPaySuccess.or")
-//    public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model) {
-//    	model.addAttribute("info",kakaoPay.kakaoPayInfo(pg_token, order_id, buyer_id, total_amount))
-//    	
-//    }
+
     
 }

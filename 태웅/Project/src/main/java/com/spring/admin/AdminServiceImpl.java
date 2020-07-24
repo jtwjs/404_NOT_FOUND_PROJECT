@@ -16,9 +16,9 @@ import com.spring.seller.SellerVO;
 @Service
 public class AdminServiceImpl implements AdminService {
 
-	@Autowired 
-	private AdminMapper mapper;
-	
+	@Autowired
+	AdminMapper mapper;
+
 	@Autowired
 	private SqlSession sqlSession;
 
@@ -28,17 +28,20 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private SellerMapper sellerMapper;
 
-	
-	
 	@Override
 	public boolean duplicateCheck(String id) {
 
-			int count = mapper.selectCountById(id);
-			System.out.println("count :" + count);
-			
-			return count!=0?true:false;
-		}
-	
+		int count = mapper.selectCountById(id);
+		System.out.println("count :" + count);
+
+		return count != 0 ? true : false;
+	}
+
+	@Override
+	public AdminVO selectOneById(String id) {
+		AdminVO adminAccount = mapper.selectOneById(id);
+		return adminAccount;
+	}
 
 	@Override
 	public int getAllAccountCount() {
@@ -101,16 +104,17 @@ public class AdminServiceImpl implements AdminService {
 
 		return isUpdateDelflagList;
 	}
+	
+	
+	
+	
+	
+	
+	
+
+	// ================= 기석 작업 ===================================================
 
 	// 판매자 회원 목록 페이지
-	
-	@Override
-	public AdminVO selectOneById(String id) {
-		AdminVO adminAccount = mapper.selectOneById(id);
-		return adminAccount;
-	}
-
-	
 	@Override
 	public int getSellerListCount() {
 		SellerMapper sellerMapper = sqlSession.getMapper(SellerMapper.class);
@@ -137,5 +141,34 @@ public class AdminServiceImpl implements AdminService {
 
 		return isUpdateSellerList;
 	}
+
+	// 판매자 비활성 회원 페이지
+	@Override
+	public int getSellerDelflagListCount() {
+		SellerMapper sellerMapper = sqlSession.getMapper(SellerMapper.class);
+		int res = sellerMapper.getSellerDelflagListCount();
+
+		return res;
+
 	}
 
+	@Override
+	public List<SellerVO> SelectAllSellerDelflagList(HashMap<String, Object> hashmap) {
+		SellerMapper sellerMapper = sqlSession.getMapper(SellerMapper.class);
+
+		List<SellerVO> SellerDelflaglist = sellerMapper.SelectAllSellerDelflagList(hashmap);
+
+		return SellerDelflaglist;
+
+	}
+
+	@Override
+	public int AdminUpdateSellerDelflagList(SellerVO seller) {
+		SellerMapper sellerMapper = sqlSession.getMapper(SellerMapper.class);
+
+		int isUpdateSellerDelflagList = sellerMapper.AdminUpdateSellerDelflagList(seller);
+
+		return isUpdateSellerDelflagList;
+
+	}
+}

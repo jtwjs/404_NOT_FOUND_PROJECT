@@ -1,4 +1,4 @@
-contnt__buyerlist {
+.contnt__buyerlist {
 	display: flex;
 	flex-direction: column;
 	margin-top: 50px;
@@ -39,7 +39,7 @@ contnt__buyerlist {
 	border-bottom: 1px solid #008000;
 }
 
-.TH--id, .TH--name, .TH--tel, .TH--email, .TH--address, .TH--joindate,
+.TH--profileImg, .TH--id, .TH--name, .TH--tel, .TH--email, .TH--address, .TH--joindate,
 	.TH--delFlag, .TH--membertype, .TH--buyernum, .TH-grade, .TH-logindate, .TH-delFlag2
 	{
 	height: 45px;
@@ -48,7 +48,7 @@ contnt__buyerlist {
 }
 
 
-.TH--id1, .TH--name1, .TH--tel1, .TH--email1, .TH--address1,
+.TH--profileImg1, .TH--id1, .TH--name1, .TH--tel1, .TH--email1, .TH--address1,
 	.TH--joindate1, .TH--delFlag1, .TH--membertype1, .TH--buyernum1,
 	.TH-grade1, .TH-logindate1, .delFlag_checkbox_B {
 	padding: 15px 0 15px 0;

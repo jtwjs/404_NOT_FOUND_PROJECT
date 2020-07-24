@@ -62,10 +62,7 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 					<section id="content">
 						<jsp:include page="admin_template.jsp" flush="false" />
 						<section id="myPage">
-							<form name="update__form--listdelivery"
-								id="update__listdelivery--form"
-								action="listdeliverymodifyform.by" method="post">
-								<div class="site_content1">
+								<div class="contnt__sellerlist">
 									<h4 class="content-title--site" align="center">판매자 회원 목록</h4>
 									<input type="hidden" name="${_csrf.parameterName}"
 										value="${_csrf.token}" />
@@ -75,14 +72,14 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 										</div>
 										<table class="setting_form">
 											<thead>
-												<tr class="delivery--cont">
+												<tr class="sellerlist--cont">
 													<th class="TH--se-num">NO.</th>
 													<th class="TH--se-name">아이디</th>
 													<th class="TH--se-add">상호명</th>
 													<th class="TH--se-tel">연락처</th>
 													<th class="TH--se-joindate">가입일</th>
 													<th class="TH--se-logindate">마지막 접속</th>
-													<th class="TH-delflag">활성상태</th>
+													<th class="TH--se-delflag">활성상태</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -100,7 +97,19 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 													<td class="TH--se-tel1"><%=sel.getTel()%></td>
 													<td class="TH--se-joindate1"><%=sel.getJoinDate()%></td>
 													<td class="TH--se-logindate1"><%=sel.getLoginDate()%></td>
-													<td class="TH--se-del_flag1"><%=sel.getDelFlag()%></td>
+													<td class="TH--se-del_flag1">
+														<% 
+															if(sel.getDelFlag() == ('N')) {
+														%>
+															활성
+														<%
+															} else {
+														%>
+															비활성
+														<%
+														}															
+														%>	
+													</td>
 												</tr>
 												<%
 													num--;
@@ -139,7 +148,6 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 										</table>
 									</div>
 								</div>
-							</form>
 						</section>
 					</section>
 				</div>
@@ -150,6 +158,7 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 
 	<script type="text/javascript"
 		src="<c:url value='/resources/js/Admin/admin_menu.js?after'/>"></script>
+		
 	<!-- footer,js -->
 	<jsp:include page="../footer.jsp" flush="false" />
 	<script type="text/javascript"

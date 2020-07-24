@@ -1,7 +1,7 @@
-contnt_sellerlist {
+.contnt__sellerlist {
 	display: flex;
 	flex-direction: column;
-	margin-top: 50px;
+	margin-top: 20px;
 	padding-bottom: 100px;
 	width: 800px;
 }
@@ -30,7 +30,7 @@ contnt_sellerlist {
 }
 
 .TH--se-num, .TH--se-name, .TH--se-add, .TH--se-tel, .TH--se-joindate,
-	.TH--se-logindate, .TH-delflag {
+	.TH--se-logindate, .TH--se-delflag {
 	height: 45px;
 	text-align: center;
 	background-color: #14c772;

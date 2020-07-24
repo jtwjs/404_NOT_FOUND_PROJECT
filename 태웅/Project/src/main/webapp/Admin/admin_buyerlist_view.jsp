@@ -164,6 +164,8 @@
 
 	<!-- footer,js -->
 	<script type="text/javascript"
+		src="<c:url value='/resources/js/Admin/admin_menu.js?after'/>"></script>
+	<script type="text/javascript"
 		src="<c:url value='/resources/js/Admin/admin_buyerlist_modify.js?after'/>"></script>
 	<jsp:include page="../footer.jsp" flush="false" />
 	<script type="text/javascript"

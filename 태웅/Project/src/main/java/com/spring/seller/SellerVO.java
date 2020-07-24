@@ -121,7 +121,7 @@ public class SellerVO {
 		return address;
 	}
 	public void setAddress(String addrNum, String addrRoadName, String addrDetail) {
-		this.address = addrNum + " " + addrRoadName + " " + addrDetail;
+		this.address = addrNum + "+" + addrRoadName + "/" + addrDetail;
 	}
 	public String getName() {
 		return name;

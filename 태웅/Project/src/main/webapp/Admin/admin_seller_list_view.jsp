@@ -32,17 +32,16 @@
 <body>
 	<section id="sub-main" class="">
 		<div class="sub-top">
-			<h2 class="sub-title">관리자페이지</h2>
+			<h2 class="sub-title">회원관리페이지</h2>
 			<ul class="sub-location">
 				<li class="home"><a href="Index.in"><span class="hide-text">home</span></a>
 				</li>
-				<li><strong>관리자페이지</strong></li>
-				<li><strong>회원 관리</strong></li>
+				<li><strong>회원관리페이지</strong></li>
 			</ul>
 		</div>
 		<div class="sub-tab">
 			<ul>
-				<li><a href="BuyerMyPage.by"> <span>관리자페이지</span>
+				<li><a href="AccountManagement.ad"> <span>회원관리페이지</span>
 				</a></li>
 			</ul>
 		</div>
@@ -57,8 +56,7 @@
 							<div class="contnt__sellerlist">
 								<div class="site_content">
 									<h4 class="content-title--site">판매자 회원 정보</h4>
-									<form name="update__form--sellerlist"
-										id="update__form--sellerlist"
+									<form name="update__form--sellerlist" id="update__form--sellerlist"
 										action="AdminUpdateSellerList.ad" method="post">
 										<input type="hidden" name="${_csrf.parameterName}"
 											value="${_csrf.token}" />
@@ -69,8 +67,8 @@
 											</div>
 
 											<table class="setting_form">
- 												<tr class="buyerlist_Tr">
-													<td class="TH--profileImg">구매자 프로필 사진</td>
+												<tr class="sellerlist_Tr">
+													<td class="TH--profileImg">판매자 프로필 사진</td>
 													<td class="TH--profileImg1"><img src="display?path=${sellerlist.profileImgPath}&name=${sellerlist.profileImg}" alt="profile" style="width: auto; height: 200px;"/></td>
 												</tr>
 												<tr class="sellerlist_Tr">
@@ -133,7 +131,7 @@
 													<td class="TH-tel1"><input type="hidden"
 														class="seller_list_tel" name="tel"
 														value="${sellerlist.tel}">${sellerlist.tel}</td>
-												</tr>											
+												</tr>
 												<tr class="sellerlist_Tr">
 													<td class="TH-email">담당자 이메일</td>
 													<td class="TH-email1"><input type="hidden"
@@ -214,9 +212,11 @@
 		</div>
 	</main>
 
+	<!-- footer,js -->
+	<script type="text/javascript"
+		src="<c:url value='/resources/js/Admin/admin_menu.js?after'/>"></script>
 	<script type="text/javascript"
 		src="<c:url value='/resources/js/Admin/post_search.js'/>"></script>
-	<!-- footer,js -->
 	<script type="text/javascript"
 		src="<c:url value='/resources/js/Admin/admin_sellerlist_modify.js?after'/>"></script>
 	<jsp:include page="../footer.jsp" flush="false" />

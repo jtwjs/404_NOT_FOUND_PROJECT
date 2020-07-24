@@ -1,43 +1,4 @@
-function orderSheetCheck(){
-	
-	// 유효성 검사 넣어야함
-	
-	var buyer_phone_input = document.getElementsByClassName("order__info--input-phone");
-	var buyer_phone = document.getElementById("buyer_phone");
-		
-	buyer_phone.value = buyer_phone_input[0].value + "-" + buyer_phone_input[1].value + "-" 
-	    + buyer_phone_input[2].value;
-	
-	var address_text = document.getElementsByClassName("address__text");
-	var order_address = document.getElementById("order_address");
-	
-	order_address.value = address_text[0].value + " " + address_text[1].value;
-	
-	var order_phone_input = document.getElementsByClassName("recipient__text--phone"); 
-	var order_phone = document.getElementById("order_phone");
-	
-	order_phone.value = order_phone_input[0].value + "-" + order_phone_input[1].value + "-" 
-        + order_phone_input[2].value;
-	
-	/*submit 버튼*/
-	var submitBtn = document.getElementById('submitBtn');
-	var form = document.getElementById('orerSheetForm');
-	var privacyCheck = document.getElementById('privacy-agree');
-	var purchaseCheck = document.getElementById('purchase-agree');
-//	submitBtn.addEventListener('click',function(){
-//		if(privacyCheck.checked == false) {
-//			alert('[개인정보 제3자 제공 동의(필수)] 반드시 입력하셔야 하는 항목입니다.');
-//			return false;
-//		}else if (purchaseCheck.checked == false){
-//			alert('[구매 진행에 동의(필수)] 반드시 입력하셔야 하는 항목입니다.');
-//			return false;
-//		}
-//	}) ;
-		
 
-	
-	return true;
-}
 
 function data_check(){
 	var data_checkBox = document.getElementsByClassName("data-checkBox");
@@ -293,21 +254,97 @@ function uncheck_all(){
 	}
 }
 
-///*submit 버튼*/
-//var submitBtn = document.getElementById('submitBtn');
-//var form = document.getElementById('orerSheetForm');
-//var privacyCheck = document.getElementById('privacy-agree');
-//var purchaseCheck = document.getElementById('purchase-agree');
-//submitBtn.addEventListener('click',function(){
-//	if(privacyCheck.checked == false) {
-//		alert('[개인정보 제3자 제공 동의(필수)] 반드시 입력하셔야 하는 항목입니다.');
-//		return false;
-//	}else if (purchaseCheck.checked == false){
-//		alert('[구매 진행에 동의(필수)] 반드시 입력하셔야 하는 항목입니다.');
-//		return false;
-//	}else{
-//		form.submit();
-//	}
-//}) ;
-//	
+
+
+
+
+	
+	
+	
+	/*submit 버튼*/
+	var submitBtn = document.getElementById('submitBtn');
+	var form = document.getElementById('orerSheetForm');
+	var privacyCheck = document.getElementById('privacy-agree');
+	var purchaseCheck = document.getElementById('purchase-agree');
+	var kakaoPay = document.getElementById('kakao');
+	
+	
+	var board_title = document.getElementsByClassName('board_title');
+	var count = board_title.length - 1;
+	var item_name;
+	if(count == 0){
+		 item_name = board_title[0].value;
+	} else {
+		item_name = board_title[0].value + "외" +count+ "개"
+	}
+	submitBtn.addEventListener('click',function(){
+		var buyer_email = document.getElementById('buyer_email').value;
+		var buyer_name = document.getElementById('buyer_name').value;
+		var buyer_phoneNum = document.getElementById('caarierNum').value + "-" +
+		document.getElementById('allocatioNum').value + "-" + document.getElementById('discretionaryNum').value;
+		var buyer_phone = document.getElementById("buyer_phone");
+		buyer_phone.value = buyer_phoneNum;
+		
+		var recipent_phone = document.getElementById('recipent_carrierNum').value + "-" +
+		document.getElementById('recipent_allocationNum').value + "-" + document.getElementById('recipent_discretionaryNum').value;
+		
+		var order_phone = document.getElementById("order_phone");
+		order_phone.value = recipent_phone;
+		
+		var buyer_addr = document.getElementById('sample4_roadAddress').value + " " +
+		document.getElementById('sample4_detailAddress').value;
+		var buyer_postcode = document.getElementById('userAddrNum').value;
+		var order_address = document.getElementById("order_address");
+		order_address.value = buyer_postcode + "+" + document.getElementById('sample4_roadAddress').value +"/" +
+				document.getElementById('sample4_detailAddress').value;
+		
+		var totalPaymentAmount = document.getElementById('totalPaymentAmount').value;
+		
+		if(privacyCheck.checked == false) {
+			alert('[개인정보 제3자 제공 동의(필수)] 반드시 입력하셔야 하는 항목입니다.');
+			return false;
+		}else if (purchaseCheck.checked == false){
+			alert('[구매 진행에 동의(필수)] 반드시 입력하셔야 하는 항목입니다.');
+			return false;
+		}else if(kakaoPay.checked == true) {
+			var IMP = window.IMP;
+			IMP.init('imp90337340');
+
+			IMP.request_pay({
+				pg : 'kakao',
+				pay_method : 'card',
+				merchant_uid : 'merchant_' + new Date().getTime(),
+				name : item_name,
+				amount : totalPaymentAmount,
+				buyer_meail : buyer_email,
+				buyer_name : buyer_name,
+				buyer_tel : buyer_phone,
+				buyer_addr : buyer_addr,
+				buyer_postcode : buyer_postcode,
+			},function(rsp) {
+				if( rsp.success) {
+					var msg ='결제가 완료되었습니다.';
+					msg += '고유ID : ' + rsp.imp_uid;
+					msg += '상점 거래ID : ' + rsp.merchant_uid;
+					msg += '결제 금액 : ' + rsp.paid_amount;
+					msg += '카드 승인번호 : ' + rsp.apply_num;
+	
+					form.submit();
+					
+				}else {
+					var msg = '결제에 실패하였습니다.';
+					msg += '에러내용 : ' + rsp.error_msg;
+					return false;
+				}
+			});
+		}else {
+	
+			form.submit();
+			
+		}
+		
+	}) ;
+
+	
+	
 

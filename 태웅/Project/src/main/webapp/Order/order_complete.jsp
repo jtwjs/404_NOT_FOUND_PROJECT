@@ -73,7 +73,7 @@
                             <span>주문번호</span>
                         </div>
                         <div class="order__record--table-body">
-                            <span>030303-030303</span>
+                            <span>${order.order_num}</span>
                         </div>
                     </div>
                     <div>
@@ -81,7 +81,7 @@
                             <span>배송지</span>
                         </div>
                         <div class="order__record--table-body">
-                            <span>서울 서초구 강남대로 459</span>
+                            <span>${order.order_address}</span>
                         </div>
                     </div>
                     <div>
@@ -89,7 +89,7 @@
                             <span>받으시는 분</span>
                         </div>
                         <div class="order__record--table-body">
-                            <span>비트캠프 서초본점</span>
+                            <span>${order.order_name}</span>
                         </div>
                     </div>
                     <div>
@@ -97,7 +97,7 @@
                             <span>받으시는 분 번호</span>
                         </div>
                         <div class="order__record--table-body">
-                            <span>02-3486-9600</span>
+                            <span>${order.order_phone }</span>
                         </div>
                     </div>
                     <div>
@@ -105,7 +105,7 @@
                             <span>배송 메모</span>
                         </div>
                         <div class="order__record--table-body">
-                            <span>부재시 경비실에 맡겨주세요ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</span>
+                            <span>${order.order_demand}</span>
                         </div>
                     </div>
                     <div>
@@ -113,7 +113,7 @@
                             <span>결제 금액</span>
                         </div>
                         <div class="order__record--table-body">
-                            <span>29000원</span>
+                            <span>${order.tot_price}</span>
                         </div>
                     </div>
                 </div>

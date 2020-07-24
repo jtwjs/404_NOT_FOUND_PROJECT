@@ -22,9 +22,16 @@ public interface SellerMapper {
 	int UpdateSellerAccount(SellerVO seller);
 	int SellerConfirmPassword(SellerVO seller);
 	int UpdateSellerPassword(SellerVO seller);
+
+	//판매자 회원 리스트
     public int  getSellerListCount();
     public List<SellerVO> SelectAllSellerList(HashMap<String, Object> hashmap);
     public int AdminUpdateSellerList(SellerVO seller);
-	
+    
+    //판매자 비활성 리스트    
+    public int getSellerDelflagListCount();    
+    public List<SellerVO> SelectAllSellerDelflagList(HashMap<String, Object> hashmap);
+    public int AdminUpdateSellerDelflagList(SellerVO seller);
+
 
 }

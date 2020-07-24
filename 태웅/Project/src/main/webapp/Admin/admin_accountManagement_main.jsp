@@ -44,16 +44,15 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<section id="content">
-						<%-- <jsp:include page="admin_template.jsp" flush="false" /> --%>
 						<section id="myPage">
 							<h2 class="content-title">회원 현황</h2>
 							
 							<article id="account__info">
 								<div class="buyer__info">
-									<div>
+									<div onclick="javascript:location.href='AdminBuyerList.ad'">
 										<h2 class="info--title">구매자 회원</h2>
 										<ul class="info">
-											<li><span class="account_count">회원 수</span></li>
+											<li><span class="account_count" >회원 수</span></li>
 											<li class="account-counting">
 												<h2 id="account">
 													<c:choose>
@@ -74,7 +73,7 @@
 								</div>
 
 								<div class="seller__info">
-									<div>
+									<div onclick="javascript:location.href='AdminSellerList.ad'">
 										<h2 class="info--title">판매자 회원</h2>
 										<ul class="info">
 											<li><span class="account_count">회원 수</span></li>
@@ -98,8 +97,8 @@
 								</div>
 								
 								<div class="disabledBuyer__info">
-									<div>
-										<h2 class="info--title">비활성화 회원 <br/> (구매자)</h2>
+									<div onclick="javascript:location.href='AdminBuyerDelflagList.ad'">
+										<h2 class="info--title">비활성화 회원 <br /> (구매자)</h2>
 										<ul class="info">
 											<li><span class="account_count">회원 수</span></li>
 											<li class="account-counting">
@@ -122,15 +121,24 @@
 								</div>
 								
 								<div class="disabledSeller__info">
-									<div>
+									<div onclick="javascript:location.href='AdminSellerDelflagList.ad'">
 										<h2 class="info--title">비활성화 회원<br/> (판매자)</h2>
 										<ul class="info">
 											<li><span class="account_count">회원 수</span></li>
 											<li class="account-counting">
-												<h2 id="account">0</h2>
+												<h2 id="account">
+													<c:choose>
+														<c:when test="${sellerDelFlagAccountCount eq 0}" >
+															0
+														</c:when>
+														<c:otherwise>
+															${sellerDelFlagAccountCount }
+														</c:otherwise>
+													</c:choose>													
+												</h2>
 											</li>
 											<li>
-												<a class="account_info-connect" href="#">회원 현황 보기</a>
+												<a class="account_info-connect" href="AdminSellerDelflagList.ad">회원 현황 보기</a>
 											</li>											
 										</ul>
 									</div>
@@ -143,10 +151,7 @@
 											<li><span class="account_count">총 회원 수</span></li>
 											<li class="account-counting">
 												<h2 id="account">${allAccountCount}</h2>
-											</li>
-											<li>
-												<a class="account_info-connect" href="#">회원 현황 보기</a>
-											</li>											
+											</li>										
 										</ul>
 									</div>
 								</div>							

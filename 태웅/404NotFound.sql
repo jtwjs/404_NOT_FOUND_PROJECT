@@ -323,6 +323,67 @@ create table order_record(                   -- 주문기록
 );
 
 
+drop table board_review;
+create table board_review(              -- 상품후기 게시판
+    review_id varchar2(32) not null,    -- 리뷰글 ID (기본키)
+    review_num number not null,         -- 리뷰글 번호
+    board_id varchar2(32) not null,     -- 게시판 ID
+    buyer_id varchar2(32) not null,     -- 구매자 ID
+    order_id varchar2(32) not null,     -- 주문번호 (order_record테이블 외래키)
+    title varchar2(100) not null,       -- 판매글 제목
+    content varchar2(200) not null,     -- 글내용
+    satisfaction number(2,1) not null,  -- 구매만족도(별점)
+    register_date date not null,        -- 작성일
+    review_img_path varchar2(50),       -- 작성 후기글 이미지 경로
+    review_img_name varchar2(100),       -- 작성 후기글 이미지 이름
+    constraint board_review_review_id_pk primary key(review_id)
+);
 
+drop table comment_review;
+create table comment_review(               -- 상품 리뷰 댓글
+    review_cmt_id varchar2(32) not null,   -- 리뷰댓글 ID (기본키)
+    review_cmt_num number not null,        -- 리뷰댓글 번호 (각 댓글당 1부터 적용)
+    review_id varchar2(32),                -- 상품후기게시판 ID (board_review테이블 외래키)
+    content varchar2(200) not null,        -- 글내용
+    register_date date not null,           -- 작성일
+    seller_id varchar2(16) not null,       -- 작성자 (해당 글의 판매자)
+    constraint comment_review_cmt_id_pk primary key(review_cmt_id),
+    constraint comment_review_id_fk foreign key(review_id)
+        references board_review(review_id) on delete cascade
+);
 
+drop table order_record;
+create table order_record(                   -- 주문기록
+    order_num number not null,               -- 주문번호 (기본키)
+    order_id varchar2(32) not null,          -- 주문번호 ID
+    board_id varchar2(32) not null,          -- 상품판매글 ID (member_buyer테이블 외래키)
+    board_title varchar2(100) not null,      -- 상품판매글 제목
+	seller_id varchar2(16) not null,         -- 판매자 ID
+	buyer_id varchar2(16) not null,          -- 구매자 ID
+    amount number not null,                  -- 구매수량
+    price number not null,                   -- 상품 금액
+    delivery_price number not null,          -- 배송비
+    use_point number not null,               -- 사용한 적립금
+	tot_price number not null,               -- 총합 금액
+    status varchar2(16) not null,            -- 주문상태
+    buyer_name varchar2(16) not null,        -- 주문자 이름
+    buyer_phone varchar2(13) not null,       -- 주문자 번호
+    buyer_email varchar2(33) not null,       -- 주문자 이메일
+    order_postalCode varchar2(5) not null,   -- 우편번호
+    order_address varchar2(100) not null,    -- 배송 주소
+    order_name varchar2(16) not null,        -- 받으실 분
+    order_phone varchar2(13) not null,       -- 배송 연락처
+    order_demand varchar2(200),              -- 배송 요구사항
+    order_delivery varchar2(10) not null,    -- 배송사
+    order_invoicenum varchar2(20),           -- 송장번호
+    order_payment varchar2(20) not null,     -- 결제방식
+    order_account varchar2(20) not null,     -- 결제계좌/카드번호
+    order_date date not null,                -- 결제일
+    non_member_flag char(1) not null,        -- 비회원 여부 ('Y', 'N' 으로 구분)
+    constraint order_record_order_num_pk primary key(order_num)
+);
 
+select * from board_review;
+
+select * from board_product;
+select * from order_record;

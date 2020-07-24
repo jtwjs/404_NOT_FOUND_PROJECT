@@ -1,14 +1,14 @@
 var profile = document.getElementById("menu-accountManagement");
 var profileItem = document.getElementById("menu-accountManagement--item");
 profile.addEventListener("click", function () {
-  if (profileItem.style.height == "175px") {
+  if (profileItem.style.height == "140px") {
     profile.style.backgroundColor = null;
     profile.style.color = null;
     profileItem.style.height = "0px";
   } else {
     profile.style.backgroundColor = "#34C759";
     profile.style.color = "#fff";
-    profileItem.style.height = "175px";
+    profileItem.style.height = "140px";
 
     myShopping.style.backgroundColor = null;
     myShopping.style.color = null;

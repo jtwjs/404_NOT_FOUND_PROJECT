@@ -1,7 +1,7 @@
-.contnt__sellerlist {
+.contnt__Sellerdelflaglist {
 	display: flex;
 	flex-direction: column;
-	margin-top: 50px;
+	margin-top: 20px;
 	padding-bottom: 100px;
 	width: 800px;
 }
@@ -92,18 +92,18 @@
 	text-align: center;
 }
 
-.TH--id, .TH--shopName, .TH-represent, .TH-tel, .TH-address, .TH-email,
+.TH--profileImg, .TH--id, .TH--shopName, .TH-represent, .TH-tel, .TH-address, .TH-email,
 	.TH-bank_name, .TH-bank_account, .TH-seller_reg_num, .TH-seller_grade,
 	.TH-member_type, .TH-del_flag, .TH-join_date, .TH-loginDate,
 	.TH-delFlag, .TH--orderReportNum, .TH-name, .orderReportNum,
 	.TH--orderReportImg {
-	width: 150px;
+	width: 155px;
 	height: 45px;
 	padding: 0 0 0 25px;
 	color: #232323;
 }
 
-.TH--id1, .TH--shopName1, .TH-represent1, .TH-tel1, .TH-address1,
+.TH--profileImg1, .TH--id1, .TH--shopName1, .TH-represent1, .TH-tel1, .TH-address1,
 	.TH-email1, .TH-bank_name1, .TH-bank_account1, .TH-seller_reg_num1,
 	.TH-seller_grade1, .TH-member_type1, .TH-del_flag1, .TH-join_date1,
 	.TH-loginDate1, .TH-delFlag1, .TH--orderReportNum1, .TH-name1,
@@ -112,6 +112,37 @@
 	
 	padding: 15px 0 15px 135px;
 }
+
+.reportCard-btn {
+	padding: 0 15px 0 15px;
+	margin: 0 0 0 165px;
+	border: 1px solid #c0c0c0;
+	text-align: center;
+	border-radius: 5px;
+}
+
+.TH--orderReportImg1 {
+	position: relative;
+
+}
+
+.TH--orderReportImg1::after {
+	position: absolute;
+	top: 25px;
+	right: 25px;
+	width: 20px;
+	height: 20px;
+	background-image: url(../../Images/Admin/check_fail.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	content: '';
+}
+
+.TH--orderReportImg1.succeed::after {
+	background-image: url(../../Images/Admin/check_success.png);
+}
+
 
 .delFlag_checkbox{
 	
@@ -132,35 +163,8 @@
 	text-align: center;
 }
 
-.reportCard-btn {
-	padding: 0 15px 0 15px;
-	margin: 0 0 0 165px;
-	border: 1px solid #c0c0c0;
-	text-align: center;
-	border-radius: 5px;
-}
 
-.TH--orderReportImg1 {
-	position: relative;
 
-}
-
-.TH--orderReportImg1::after {
-	position: absolute;
-	top: 25px;
-	right: 48px;
-	width: 20px;
-	height: 20px;
-	background-image: url(../../Images/Admin/check_fail.png);
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center;
-	content: '';
-}
-
-.TH--orderReportImg1.succeed::after {
-	background-image: url(../../Images/Admin/check_success.png);
-}
 
 
 

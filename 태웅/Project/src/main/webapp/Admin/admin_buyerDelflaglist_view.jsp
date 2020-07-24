@@ -66,7 +66,7 @@
 												<span class="delflag_B1">${delflaglist.id}님의 회원정보입니다.</span>
 											</div>
 											<table class="setting_form">
-												<tr class="buyerlist_Tr">
+												<tr class="delflaglist_Tr">
 													<td class="TH--profileImg">구매자 프로필 사진</td>
 													<td class="TH--profileImg1"><img src="display?path=${delflaglist.profileImgPath}&name=${delflaglist.profileImg}" alt="profile" style="width: auto; height: 200px;"/></td>
 												</tr>
@@ -162,6 +162,8 @@
 	</main>
 
 	<!-- footer,js -->
+	<script type="text/javascript"
+		src="<c:url value='/resources/js/Admin/admin_menu.js?after'/>"></script>
 	<script type="text/javascript"
 		src="<c:url value='/resources/js/Admin/admin_buyerDelflagList_modify.js?after'/>"></script>
 	<jsp:include page="../footer.jsp" flush="false" />

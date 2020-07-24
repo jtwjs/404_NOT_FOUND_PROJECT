@@ -44,6 +44,8 @@ totPrice = totProductPrice + totDeliveryPrice;
 	rel="stylesheet" />
 <link href="<c:url value='/resources/css/Order/order_sheet.css?after'/>"
 	rel="stylesheet" />
+ <!-- iamport.payment.js -->
+
 <title>주문서 작성/결제</title>
 </head>
 <body>
@@ -83,10 +85,10 @@ totPrice = totProductPrice + totDeliveryPrice;
 					<span>STEP03</span><br /> <b>주문접수/완료</b>
 				</div>
 
-
-				<!-- 주문상품 목록 -->
+<!-- onsubmit="return orderSheetCheck();" -->
+				<!-- 주문상품 목록 --> <!-- action="OrderComplete.or" -->
 				<form id="orerSheetForm" method="post" action="OrderComplete.or"
-					onsubmit="return orderSheetCheck();">
+					>
 					<input type="hidden" name="buyer_id" value="${buyer_id}"/>
 					
 					<div class="col-xs-12" id="order__list--check">
@@ -168,11 +170,12 @@ totPrice = totProductPrice + totDeliveryPrice;
 										class="order__info--classification">휴대폰</span> <span
 										class="order__info--input-phone-data"> <input
 										type="text" class="order__info--input-phone"
-										value="${user.telCarrierNum}" maxlength="3" /> - <input
+										value="${user.telCarrierNum}" maxlength="3" id="caarierNum"/> - <input
 										type="text" class="order__info--input-phone"
-										value="${user.telAllocationNum}" maxlength="4" /> - <input
+										value="${user.telAllocationNum}" maxlength="4" id="allocatioNum" /> - <input
 										type="text" class="order__info--input-phone"
-										value="${user.telDiscretionaryNum}" maxlength="4" /> <input
+										value="${user.telDiscretionaryNum}" maxlength="4" id="discretionaryNum" />
+										 <input
 										type="hidden" value="" name="buyer_phone" id="buyer_phone" />
 									</span>
 								</div>
@@ -286,9 +289,11 @@ totPrice = totProductPrice + totDeliveryPrice;
 									</div>
 									<div class="order__delivery--info-body">
 										<input type="text" class="recipient__text--phone"
-											maxlength="3" /> - <input type="text"
-											class="recipient__text--phone" maxlength="4" /> - <input
-											type="text" class="recipient__text--phone" maxlength="4" />
+											maxlength="3" id="recipent_carrierNum"/> - <input type="text"
+											class="recipient__text--phone" maxlength="4"
+											id="recipent_allocationNum" /> - <input
+											type="text" class="recipient__text--phone" maxlength="4" 
+											id="recipent_discretionaryNum"/>
 										<input type="hidden" value="" name="order_phone"
 											id="order_phone" />
 									</div>
@@ -345,11 +350,13 @@ totPrice = totProductPrice + totDeliveryPrice;
 									<div class="order__delivery--info-body">
                            				비회원인 경우에는 적립혜택이 없습니다
                            			</div>
+                           			<input type="hidden" value="Y" name="member_flag">
                          			</sec:authorize>
 									<sec:authorize access="isAuthenticated()">
 									<div class="expected_reserve">
 										<input type="text" id="expected_sp" readonly />
 									</div>
+									<input type="hidden" value="N" name="member_flag">
 									</sec:authorize>
 									
 								</div>
@@ -373,7 +380,7 @@ totPrice = totProductPrice + totDeliveryPrice;
 									<div class="amountWrap">
 										<dl>
 											<dt class="discount-title">사용 적립금</dt>
-											<dd><input type="text" id="reserveUse" value="0" readonly /></dd>
+											<dd><input type="text" name= "reserveUse" id="reserveUse" value="0" readonly /></dd>
 										</dl>
 									</div>
 									<div class="amountWrap">
@@ -615,7 +622,7 @@ totPrice = totProductPrice + totDeliveryPrice;
 						<div id="order__submit--payment">
 							<input type="hidden" name="${_csrf.parameterName}"
 								value="${_csrf.token}" />
-							<button type="submit" id="submitBtn">상품 결제하기</button>
+							<button type="button" id="submitBtn">상품 결제하기</button>
 							<button type="button" id="cancleBtn"
 								onclick="javascript:location.href='Index.in'">결제 취소하기</button>
 						</div>
@@ -629,12 +636,11 @@ totPrice = totProductPrice + totDeliveryPrice;
 		</div>
 	</main>
 
-	<script
-		src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script type="text/javascript"
-		src="<c:url value='/resources/js/Admin/post_search.js'/>"></script>
-	<script type="text/javascript"
-		src="<c:url value='/resources/js/Order/order_sheet.js?after'/>"></script>
+
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script type="text/javascript" src="<c:url value='/resources/js/Admin/post_search.js'/>"></script>
+	<script type="text/javascript" src="<c:url value='/resources/js/Order/order_sheet.js?after'/>"></script>
 	<!-- footer,js -->
 	<jsp:include page="../footer.jsp" flush="false" />
 	<script type="text/javascript"
