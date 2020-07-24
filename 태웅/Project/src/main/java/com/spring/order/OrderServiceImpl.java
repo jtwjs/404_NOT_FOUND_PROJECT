@@ -14,6 +14,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private SqlSession sqlSession;
+    
+    @Autowired
+    private OrderRecordMapper mapper;
+    
 	
     public int getCartNum(String buyer_id) {
 		
@@ -83,4 +87,26 @@ public class OrderServiceImpl implements OrderService {
 		
        return result;
    }
+
+	@Override
+	public ArrayList<OrderRecordVO> selectOrderByOrderId(String order_id) {
+		ArrayList<OrderRecordVO> list = mapper.selectOrderByOrderId(order_id);
+		return list;
+	}
+
+
+	@Override
+	public ArrayList<OrderRecordVO> selectOrderListById(String buyer_id, int rowStart, int rowEnd) {
+		ArrayList<OrderRecordVO> list = mapper.selectOrderListById(buyer_id,rowStart,rowEnd);
+		return list;
+	}
+
+	@Override
+	public int listCount(String buyer_id) {
+		int count = mapper.orderListCountById(buyer_id);
+		return count;
+	}
+    
+    
+    
 }

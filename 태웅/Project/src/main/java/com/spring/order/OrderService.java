@@ -15,5 +15,7 @@ public interface OrderService {
     
     public int insertOrderRecord(OrderRecordVO vo);
     public String[] getOrderID(String board_id, String buyer_id);
-    
+    public ArrayList<OrderRecordVO> selectOrderByOrderId(String order_id);
+    public ArrayList<OrderRecordVO> selectOrderListById(String buyer_id,int rowStart, int rowEnd);
+    public int listCount(String buyer_id);
 }

@@ -15,12 +15,7 @@
     margin-bottom: 25px;
 }
 
-.b__member img {
-
-    width: 77px;
-    height: 57px;
-    
-} 
+ 
 
 .b__member span {
 
@@ -29,9 +24,16 @@
 
 }
 
-.b__member input {
+.detail_info input{
+	width: 100%;
+	padding: 0 10px;
+}
 
+.product_tbody input {
+	width: 200px;
     padding: 0px 10px;
+    font-size: 16px;
+    text-align: center;
 }
 
 
@@ -75,11 +77,11 @@
 .b__member--text_2 p::before,
 .b__memberor_order--list P::before{
 
-    display: inline-block;
+  display: inline-block;
     width: 15px;
     height: 15px;
     margin-right: 5px;
-    background-image: url(./assets/orderckicon6.png);
+    background-image: url(../../Images/Order/orderckicon6.png);
     background-position: right;
     background-repeat: no-repeat;
     content: '';
@@ -121,11 +123,16 @@
 
 .order_content1 td,
 .order_content2 td {
-
     border-bottom: 1px solid #b3b3b3;
     border-top: 1px solid #b3b3b3;
 
-} 
+}
+ 
+.product_img {
+	display: block;
+	width: 200px;
+	height: 150px;
+}
     
 .order_content1 td{
 

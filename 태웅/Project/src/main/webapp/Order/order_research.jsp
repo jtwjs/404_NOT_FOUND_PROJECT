@@ -13,10 +13,10 @@
     <!-- header, css end -->
     <link href="<c:url value='/resources/css/Common/sub_main.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Order/order_login.css'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/Order/order_check.css?after'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Order/order_research.css?after'/>" rel="stylesheet" />
     <title>주문조회</title>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8" ></script>
-    <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8" ></script>
+    <!-- <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8" ></script> -->
 </head>
 <body>
   <section id="sub-main" class="delivery">
@@ -119,64 +119,40 @@
                         </div>
 
                         <div class="order_content1">
-                            <table>
-                                
+                            <table class="detail_info">
                                     <tr class="order_phone">
                                         <th>휴대폰번호</th>
-                                        <td><input name="order_phone" class="order_phone" value="#"></td>
+                                        <td><input name="order_phone" class="order_phone" value="${list[0].buyer_phone}"></td>
                                     </tr>
-                 
-
-
                                     <tr class="order_irum">
                                         <th>주문자</th>
-                                        <td><input name="order_irum" class="order_irum" value="#"></td>
+                                        <td><input name="order_irum" class="order_irum" value="${list[0].buyer_name}"></td>
                                     </tr>
-
-
-
                                     <tr class="order_addr">
                                         <th>배송지 주소</th>
-                                        <td><input name="order_addr" class="order_addr" value="#"></td>
+                                        <td><input name="order_addr" class="order_addr" value="${list[0].order_address}"></td>
                                     </tr>
-
-
-
                                     <tr class="order_addrmemo">
                                         <th>배송시 요청사항</th>
-                                        <td><input name="order_addrmemo" class="order_addrmemo" value="#">
+                                        <td><input name="order_addrmemo" class="order_addrmemo" value="${list[0].order_demand}">
                                         </td>
                                     </tr>
-
-
-
-
                                     <tr class="order_pay">
                                         <th>결제수단</th>
-                                        <td><input name="order_pay" class="order_pay" value="#"></td>
+                                        <td><input name="order_pay" class="order_pay" value="${list[0].order_payment}"></td>
                                     </tr>
-
-
-
-
-                                <tr class="order_amount">
-                                    <th>결제금액</th>
-                                    <td><input name="order_amount" class="order_amount" value="#">
-                                    </td>
-                                </tr>
-
-
+	                                <tr class="order_amount">
+	                                    <th>결제금액</th>
+	                                    <td><input name="order_amount" class="order_amount" value="${list[0].tot_price}">
+	                                    </td>
+	                                </tr>
                                     <tr class="order_status">
                                         <th>주문상태</th>
-                                        <td><input name="order_status" class="order_status" value="#"></td>
+                                        <td><input name="order_status" class="order_status" value="${list[0].status}"></td>
                                     </tr>
-
-
-
                                     <tr class="order_parcelnum">
                                         <th>운송장번호</th>
-                                        <td><input name="order_parcelnum" class="order_parcelnum" value="#"></td>
-
+                                        <td><input name="order_parcelnum" class="order_parcelnum" value="${list[0].order_invoicenum}"></td>
                             </table>
                         </div>
 
@@ -197,15 +173,17 @@
                                     </tr>
                                     <tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="product_tbody">
+                                	<c:forEach var="orderList" items="${list}" varStatus="status" >
                                     <tr>
-                                        <td><input name="order_list_img" class="order_list_img" value="#"></td>
-                                        <td><input name="order_list_name" class="order_list_name" value="#"></td>
-                                        <td><input name="order_price" class="order_price" value="#"></td>
-                                        <td><input name="order_volume" class="order_volume" value="#"></td>
-                                        <td><input name="order_airfreight" class="order_airfreight" value="#"></td>
-                                        <td><input name="order_option" class="order_option" value="#"></td>
+                                        <td><img class="product_img" src="display?path=${orderList.thumbnail_thum_path}&name=${orderList.thumbnail_thum}" alt="상품 이미지"/></td>
+                                        <td><input name="order_list_name" class="order_list_name" value="${orderList.board_title}"></td>
+                                        <td><input name="order_price" class="order_price" value="${orderList.price}"></td>
+                                        <td><input name="order_volume" class="order_volume" value="${orderList.amount}"></td>
+                                        <td><input name="order_airfreight" class="order_airfreight" value="${orderList.delivery_price}"></td>
+                                        <td><input name="order_option" class="order_option" value="-"></td>
                                     </tr>
+                                    </c:forEach>
                                 </tbody>
                             </table>
                         </div>

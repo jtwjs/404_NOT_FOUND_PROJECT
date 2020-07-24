@@ -52,5 +52,34 @@
 	    SELECT order_id FROM order_record 
 	        WHERE board_id = #{board_id} AND buyer_id = #{buyer_id} AND order_date > SYSDATE-14
 	</select>
+	
+	<select id="selectOrderByOrderId" resultType="com.spring.order.OrderRecordVO">
+		SELECT a.*, b.thumbnail_thum, b.thumbnail_thum_path FROM order_record a,board_product b WHERE order_id=#{order_id} AND a.board_id = b.board_id(+)
+	</select>
+	
+	<select id="selectOrderListById" resultType="com.spring.order.OrderRecordVO">
+		SELECT a.order_num,a.order_id,a.board_id,a.board_title,a.buyer_id,a.amount,a.price,a.status,a.order_date,
+        b.thumbnail_thum,b.thumbnail_thum_path
+		FROM (
+			SELECT order_num,
+				    order_id,
+					board_id,
+					board_title,
+					buyer_id,
+					amount,
+					price,
+					status,
+					order_date,
+					row_number() OVER (ORDER BY order_num DESC)AS rNum
+			FROM order_record
+			) a,
+            board_product b
+		WHERE rNum between ${rowStart} AND ${rowEnd} AND buyer_id = #{buyer_id} AND a.board_id = b.board_id(+)
+		ORDER BY order_num DESC
+	</select>
+	
+	<select id="orderListCountById" resultType="int">
+		SELECT count(*) FROM order_record WHERE buyer_id=#{buyer_id}
+	</select>
 
 </mapper>

@@ -37,6 +37,8 @@ import com.spring.boardproduct.BoardProductService;
 import com.spring.boardproduct.BoardProductVO;
 import com.spring.config.Security.CurrentUser;
 import com.spring.config.Security.CustomDetailService;
+import com.spring.order.OrderRecordVO;
+import com.spring.order.OrderService;
 
 @Controller
 public class BuyerController {
@@ -49,6 +51,9 @@ public class BuyerController {
 
 	@Autowired
 	BoardProductService productService;
+	
+	@Autowired
+	OrderService orderService;
 
 	@RequestMapping(value = "/BuyerMyPage.by")
 	public String buyerMyPage(Model model, @CurrentUser AccountVO account) {
@@ -72,10 +77,30 @@ public class BuyerController {
 		return "Buyer/mypage_main";
 	}
 
-	@RequestMapping(value = "/BuyerMyPageOrderList.by") // �굹�쓽 �눥�븨 �솢�룞 - 二쇰Ц�궡�뿭
-	public String buyerMyPageOrderList(Model model, @CurrentUser AccountVO account) {
+	@RequestMapping(value = "/BuyerMyPageOrderList.by") 
+	public String buyerMyPageOrderList(Model model, @CurrentUser AccountVO account,
+			CriteriaVO cri)throws Exception {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
+		
+		String buyer_id = account.getId();
+		int rowStart = cri.getRowStart();
+		int rowEnd = cri.getRowEnd();
+		ArrayList<OrderRecordVO> list = orderService.selectOrderListById(buyer_id, rowStart, rowEnd);
+		
+		
+
+		for(int i=0; i<list.size(); i++) {
+			list.get(i).setOrder_date(list.get(i).getOrder_date().substring(0,10));
+				list.get(i).setThumbnail_thum(URLEncoder.encode(list.get(i).getThumbnail_thum(), "UTF-8"));
+				list.get(i).setThumbnail_thum_path(URLEncoder.encode(list.get(i).getThumbnail_thum_path(), "UTF-8"));
+			
+			}
+		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(orderService.listCount(buyer_id));
+		
 		try {
 			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
 				buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
@@ -88,12 +113,14 @@ public class BuyerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
+		model.addAttribute("currentPage", cri.getPage());
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("orderList",list);
 		model.addAttribute("user", buyerAccount);
 		return "Buyer/mypage_orderList";
 	}
 
-	@RequestMapping(value = "/BuyerMyPageWishList.by")  // �굹�쓽 �눥�븨 �솢�룞 - 李쒕ぉ濡�
+	@RequestMapping(value = "/BuyerMyPageWishList.by") 
     public String buyerMyPageWishList(Model model, @CurrentUser AccountVO account,
     		@RequestParam(value="buyer_id", required = false)String buyer_id, 
 		    @RequestParam(value="sort_list", required = false, defaultValue="1")int sort_list, 
@@ -109,6 +136,17 @@ public class BuyerController {
     		wishList = buyerService.selectWishList(account.getId(), sort_list, page_num, page_amount);
     		wishList_size = buyerService.selectWishListCountOneById(account.getId());
     	}
+    	try {
+			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+				buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			}
+    	} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
     	
     	model.addAttribute("pageMaker", new com.spring.util.PageMaker(page_num, page_amount, wishList_size));
     	model.addAttribute("sort_list", sort_list);
@@ -122,7 +160,7 @@ public class BuyerController {
     	model.addAttribute("user",buyerAccount);
     	return "Buyer/mypage_wishList";
     }
-    
+	
     
     
     
@@ -307,6 +345,18 @@ public class BuyerController {
 	public String buyerMyPageServiceQna(Model model, @CurrentUser AccountVO account) {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
+		try {
+			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+				buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 
 		model.addAttribute("user", buyerAccount);
 		return "Buyer/mypage_serviceQna";
@@ -602,6 +652,18 @@ private boolean checkImageType(File file) {  // 파일 이미지 체크
 
 		BuyerVO vo = buyerService.selectOneById(buyer.getId());
 		vo.setLoginDate(vo.getLoginDate().substring(0, 10));
+		try {
+			if(vo.getProfileImg() == null&&vo.getProfileImgPath() ==null) {
+				vo.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				vo.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				vo.setProfileImg(URLEncoder.encode(vo.getProfileImg(),"UTF-8"));
+				vo.setProfileImgPath(URLEncoder.encode(vo.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("user", vo);
 
 		System.out.println("11buyer.getId() : " + vo.getId());

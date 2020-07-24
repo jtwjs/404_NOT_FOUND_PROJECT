@@ -69,7 +69,7 @@
 											<table class="setting_form">
 												<tr class="Sellerdelflaglist_Tr">
 													<td class="TH--profileImg">판매자 프로필 사진</td>
-													<td class="TH--profileImg1"><img src="display?path=${sellerlist.profileImgPath}&name=${sellerlist.profileImg}" alt="profile" style="width: auto; height: 200px;"/></td>
+													<td class="TH--profileImg1"><img src="display?path=${sellerDelflaglist.profileImgPath}&name=${sellerDelflaglist.profileImg}" alt="profile" style="width: auto; height: 200px;"/></td>
 												</tr>
 												<tr class="Sellerdelflaglist_Tr">
 													<th class="TH--id">판매자 아이디</th>

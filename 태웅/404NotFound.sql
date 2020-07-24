@@ -256,36 +256,6 @@ create table wish_list(
 );
 
 
-
-create table order_record(                   -- 二쇰Ц湲곕줉
-    order_num number not null,               -- 二쇰Ц踰덊샇 (湲곕낯�궎)
-    order_id varchar2(32) not null,          -- 二쇰Ц踰덊샇 ID
-    board_id varchar2(32) not null,          -- �긽�뭹�뙋留ㅺ� ID (member_buyer�뀒�씠釉� �쇅�옒�궎)
-    board_title varchar2(100) not null,      -- �긽�뭹�뙋留ㅺ� �젣紐�
-	seller_id varchar2(16) not null,         -- �뙋留ㅼ옄 ID
-	buyer_id varchar2(16) not null,          -- 援щℓ�옄 ID
-    amount number not null,                  -- 援щℓ�닔�웾
-    price number not null,                   -- �긽�뭹 湲덉븸
-    delivery_price number not null,          -- 諛곗넚鍮�
-    use_point number not null,               -- �궗�슜�븳 �쟻由쎄툑
-	tot_price number not null,               -- 珥앺빀 湲덉븸
-    status varchar2(16) not null,            -- 二쇰Ц�긽�깭
-    buyer_name varchar2(16) not null,        -- 二쇰Ц�옄 �씠由�
-    buyer_phone varchar2(13) not null,       -- 二쇰Ц�옄 踰덊샇
-    buyer_email varchar2(33) not null,       -- 二쇰Ц�옄 �씠硫붿씪
-    order_postalCode varchar2(5) not null,   -- �슦�렪踰덊샇
-    order_address varchar2(100) not null,    -- 諛곗넚 二쇱냼
-    order_name varchar2(16) not null,        -- 諛쏆쑝�떎 遺�
-    order_phone varchar2(13) not null,       -- 諛곗넚 �뿰�씫泥�
-    order_demand varchar2(200),              -- 諛곗넚 �슂援ъ궗�빆
-    order_delivery varchar2(10) not null,    -- 諛곗넚�궗
-    order_invoicenum varchar2(20),           -- �넚�옣踰덊샇
-    order_payment varchar2(20) not null,     -- 寃곗젣諛⑹떇
-    order_account varchar2(20) not null,     -- 寃곗젣怨꾩쥖/移대뱶踰덊샇
-    order_date date not null,                -- 寃곗젣�씪
-    non_member_flag char(1) not null,        -- 鍮꾪쉶�썝 �뿬遺� ('Y', 'N' �쑝濡� 援щ텇)
-    constraint order_record_order_num_pk primary key(order_num)
-);
 create table product_cart(          -- �옣諛붽뎄�땲
     cart_id varchar2(32) not null,  -- �옣諛붽뎄�땲ID (湲곕낯�궎, �옖�뜡肄붾뱶 �깮�꽦)
     board_id varchar2(32) not null, -- �뙋留ㅺ� ID
@@ -296,31 +266,7 @@ create table product_cart(          -- �옣諛붽뎄�땲
 
 
  
- /*주문기록*/
-create table order_record(                   -- 주문기록
-    order_id number not null,                -- 주문번호 ID
-    buyer_id varchar2(16) not null,          -- 구매자 ID (member_buyer테이블 외래키)
-    option_id number ,               -- 옵션 ID (board_product_option테이블 외래키)
-    count number not null,                   -- 구매수량
-    price number not null,                   -- 상품 금액
-    sum_price number not null,               -- 총합 금액
-    board_delivery number not null,          -- 배송비
-    status varchar2(16) default '입금대기' not null ,            -- 주문상태
-    order_address varchar2(100) not null,    -- 배송 주소
-    order_phone varchar2(13) not null,       -- 배송 연락처
-    order_demand varchar2(100),              -- 배송 요구사항
-    order_delivery varchar2(10) not null,    -- 배송사
-    order_invoicenum varchar2(20) not null,  -- 송장번호
-    order_payment varchar2(20) not null,     -- 결제방식
-    order_account varchar2(20) not null,     -- 결제계좌/카드번호
-    order_date date not null,                -- 결제일
-    non_member_flag char(1) default 'N' not null,        -- 비회원 여부 (비회원:Y, 회원:N)
-    constraint order_record_order_id_pk primary key(order_id),
-    constraint order_record_buyer_id_fk foreign key(buyer_id)
---        references member_buyer(buyer_id) on delete cascade,
---    constraint order_record_option_id_fk foreign key(option_id)
-        references board_product_option(option_id) on delete cascade
-);
+ 
 
 
 drop table board_review;
@@ -386,4 +332,7 @@ create table order_record(                   -- 주문기록
 select * from board_review;
 
 select * from board_product;
+select * from order_record where buyer_id ='test01' order by order_num desc;
+
+
 select * from order_record;

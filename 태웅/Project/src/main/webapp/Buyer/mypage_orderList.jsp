@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Calendar" %>
 <%
@@ -113,6 +114,8 @@
                                         </tr>   
                                     </thead>
                                     <tbody>
+	                              	<c:choose>
+	                              		<c:when test="${fn:length(orderList)==0}">
                                         <tr>
                                             <td class="non-post" colspan="6">
                                                 주문내역이 없습니다.
@@ -124,8 +127,45 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
+                                      </c:when>
+                                      <c:otherwise>
+                                      	<c:forEach var="orderList" items="${orderList}" varStatus="status">
+                                      		<tr class="">
+                                      			<td><a href="OrderResearch.or?order_id=${orderList.order_id}">${orderList.order_id}</a></td>
+                                      			<td class="imgWrap"><a href="BoardProductView.bo?board_id=${orderList.board_id}">
+                                      			<img src="display?path=${orderList.thumbnail_thum_path}&name=${orderList.thumbnail_thum}" class="product_img" alt="상품 이미지"/>
+                                      			${orderList.board_title}</a>
+                                      			</td>
+                                      			<td>${orderList.amount}</td>
+                                      			<td>${orderList.price}</td>
+                                      			<td>${orderList.order_date}</td>
+                                      			<td>${orderList.status}</td>
+                                      		</tr>
+                                      	</c:forEach>
+                                      </c:otherwise>
+                                   </c:choose>
                                     </tbody>
                                 </table>
+                                <div class="n-paging">
+                     		<ul>
+                     			<c:if test="${pageMaker.prev}">
+                     				<li><a href="BuyerMyPageOrderList.by${pageMaker.makeQuery(pageMaker.startPage - 1)}" class="prev">이전</a></li>
+                     			</c:if>
+                     			
+                     			<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+                     				<c:if test="${currentPage eq idx}">
+                     				<li><a href="BuyerMyPageOrderList.by${pageMaker.makeQuery(idx)}" class="page active">${idx}</a></li>
+                     				</c:if>
+                     				<c:if test="${currentPage ne idx}">
+                     				<li><a href="BuyerMyPageOrderList.by${pageMaker.makeQuery(idx)}" class="page">${idx}</a></li>
+                     				</c:if>
+                     			</c:forEach>
+                     			
+                     			<c:if test="${pageMaker.next && pageMaker.endPage> 0}">
+                     				<li><a href="BuyerMyPageOrderList.by${pageMaker.makeQuery(pageMaker.endPage + 1)}" class="next">다음</a></li>
+                     			</c:if>
+                     		</ul>
+                     	</div>
                             </article>
 
                     </section>

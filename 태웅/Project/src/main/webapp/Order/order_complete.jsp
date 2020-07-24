@@ -73,7 +73,7 @@
                             <span>주문번호</span>
                         </div>
                         <div class="order__record--table-body">
-                            <span>${order.order_num}</span>
+                            <span>${order.order_id}</span>
                         </div>
                     </div>
                     <div>
@@ -120,7 +120,7 @@
             </div>
             
             <div class="col-xs-12" id="order__complete--btn">
-                <input type="button" value="주문내역 확인하기" onclick="javascript:location.href='OrderCheck.or'" />
+                <input type="button" value="주문내역 확인하기" onclick="javascript:location.href='OrderCheck.or?order_id=${order.order_id}'" />
             </div>
             
         </div>

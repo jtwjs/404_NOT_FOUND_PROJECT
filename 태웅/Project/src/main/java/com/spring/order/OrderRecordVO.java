@@ -61,8 +61,11 @@ public class OrderRecordVO {           // 주문기록
     private String order_invoicenum;   // 송장번호
     private String order_payment;      // 결제방식
     private String order_account;      // 결제계좌/카드번호
-    private Date order_date;           // 결제일
+    private String order_date;           // 결제일
     private char non_member_flag;      // 비회원 여부 ('Y', 'N' 으로 구분)
+    
+    private String thumbnail_thum;
+    private String thumbnail_thum_path;
     
 	public int getOrder_num() {
 		return order_num;
@@ -190,10 +193,10 @@ public class OrderRecordVO {           // 주문기록
 	public void setOrder_account(String order_account) {
 		this.order_account = order_account;
 	}
-	public Date getOrder_date() {
+	public String getOrder_date() {
 		return order_date;
 	}
-	public void setOrder_date(Date order_date) {
+	public void setOrder_date(String order_date) {
 		this.order_date = order_date;
 	}
 	public char getNon_member_flag() {
@@ -220,6 +223,18 @@ public class OrderRecordVO {           // 주문기록
 	public void setBuyer_email(String buyer_email) {
 		this.buyer_email = buyer_email;
 	}
-    
+	public String getThumbnail_thum() {
+		return thumbnail_thum;
+	}
+	public void setThumbnail_thum(String thumbnail_thum) {
+		this.thumbnail_thum = thumbnail_thum;
+	}
+	public String getThumbnail_thum_path() {
+		return thumbnail_thum_path;
+	}
+	public void setThumbnail_thum_path(String thumbnail_thum_path) {
+		this.thumbnail_thum_path = thumbnail_thum_path;
+	}
+	
 	
 }

@@ -119,6 +119,7 @@
 	</select>
 	
 	
+	
 	<update id = "UpdateBuyerAccount" parameterType = "com.spring.buyer.BuyerVO"  >
 		UPDATE member_buyer SET email=#{email}, tel=#{tel}, profile_img=#{profileImg}, profile_img_path=#{profileImgPath}
 		 WHERE buyer_id = #{id}

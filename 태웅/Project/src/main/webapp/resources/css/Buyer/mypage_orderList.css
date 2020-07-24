@@ -17,9 +17,14 @@
 
 #product-list__search-box--line-1 > input[type="text"] {
 	width: 60%;
-	text-align: center;
+	text-align: left;
 	border: 1px solid #a7a3a3;
+	padding: 0 10px;
 	background-color: #fff;
+}
+
+#product-list__search-box--line-1 > input[type="text"]::placeholder {
+	text-align: center;
 }
 
 #product-list__search-box--line-1 > input[type="submit"] {
@@ -58,8 +63,9 @@
 
 #product-list__search-box--line-2 > div > input[type="date"] {
 	margin: 0 10px;
-	padding: 0;
 	border: 1px solid #a7a3a3;
+	padding: 0 5px;
+	text-align: center;
 	background-color: #fff;
 }
 
@@ -103,13 +109,22 @@
 }
 
 .transaction__detail--table > thead {
-  background-color: #34c759;
+  border-top: 1px solid #509b59;
+  border-bottom: 1px solid #509b59;  
+}
+
+transaction__detail--table {
+	color: #333;
 }
 
 .transaction__detail--table th,
 .transaction__detail--table td {
   padding: 10px;
-}
+ }
+ 
+ .transaction__detail--table td {
+ 	height: 70px;
+ }
 
 .order-number {
   width: 15%;
@@ -142,15 +157,72 @@
 .order-date,
 .order-status {
   font-weight: 500;
-  font-size: 20px;
-  color: #fff;
+  font-size: 16px;
 }
 
 .transaction__detail--table > tbody {
-  font-size: 1.2rem;
+  font-size: 16px;
 }
 
 .non-post {
   height: 200px;
   font-size: 20px;
+}
+
+#transaction__detail .imgWrap {
+	position: relative;
+	padding: 10px 10px 10px 70px;
+	text-align: left;
+}
+
+.product_img {
+	position: absolute;
+	top: 3px;
+	left: 0;
+	display: block;
+	width: 65px;
+	height: 65px;
+}
+/*페이징버튼*/
+
+.n-paging {
+	display: flex;
+	justify-content: center;
+	padding-top: 20px;
+	text-align: center;
+}
+
+.n-paging ul {
+	display: flex;
+}
+
+.page {
+	display: inline-block;
+    width: 28px;
+    margin: 5px 0;
+    border: 0;
+    padding: 0;
+    line-height: 1.375;
+    font-size: 16px;
+    color: #dadada;
+    vertical-align: top;
+}
+
+.page.active {
+	color: #000;
+	font-weight: 600;
+}
+
+.prev, 
+.next
+{
+	display: inline-block;
+    width: 35px;
+    margin: 5px 0;
+    border: 0;
+    padding: 0;
+    line-height: 1.375;
+    font-size: 16px;
+    color: #dadada;
+    vertical-align: top;	
 }

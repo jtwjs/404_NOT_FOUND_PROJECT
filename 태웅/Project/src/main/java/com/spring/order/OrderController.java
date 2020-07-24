@@ -58,11 +58,15 @@ public class OrderController {
     	return "Order/order_nonMember";
     }
     
-    @RequestMapping(value = "/OrderCheck.or")  // 주문내역
-    public String orderCheck() {
-    	
-    	return "Order/order_check";
-    }
+//    @RequestMapping(value = "/OrderCheck.or")  // 주문내역
+//    public String orderCheck(@RequestParam(value ="order_id")String order_id, Model model) {
+//    	
+//    	
+//    	model.addAttribute("order",order);
+//    	
+//    	
+//    	return "Order/order_check";
+//    }
     
     @GetMapping(value = "/AddCart.or")  // 장바구니
     @ResponseBody
@@ -277,6 +281,13 @@ public class OrderController {
     
     @PostMapping(value = "/OrderSheet.or")  // 주문서  
     public String orderSheet(Model model, String[] board_id, int[] quantity, String buyer_id) {
+    	
+    	for(int i=0; i<board_id.length; i++) {
+    		System.out.println(i+"-"+board_id[i]);
+    	}
+    	for(int i=0; i<quantity.length;i++) {
+    		System.out.println(i+"-"+quantity[i]);
+    	}
     	if(buyer_id != null) {
     	System.out.println(buyer_id);
     	BuyerVO buyerAccount = buyerService.selectOneById(buyer_id);
@@ -323,6 +334,13 @@ public class OrderController {
     		int reserveUse,@RequestParam(value ="payment-method")String pay_method, String member_flag
     		,Model model) {
     	
+    	for(int i=0; i<board_id.length; i++) {
+    		System.out.println(i+"-"+board_id[i]);
+    	}
+    	for(int i=0; i<amount.length;i++) {
+    		System.out.println(i+"-"+amount[i]);
+    	}
+    	
     	System.out.println("1");
     	
     	OrderRecordVO vo = new OrderRecordVO();
@@ -344,7 +362,7 @@ public class OrderController {
 		vo.setOrder_delivery("롯데택배"); //구현안함ㅋ
 		vo.setOrder_invoicenum("배송준비중입니다");  // 송장번호 고정
 		vo.setOrder_payment(pay_method);  
-		if(pay_method == "카카오페이") {
+		if(pay_method.equals("카카오페이")) {
 		vo.setOrder_account("카카오페이");  
 		}else{
 			vo.setOrder_account("000-111-222222");
@@ -363,8 +381,9 @@ public class OrderController {
 		UUID uuid = UUID.randomUUID(); // 중복 방지를 위해 랜덤값 생성
     	long getl = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
     	
+    	
     	StringBuilder long_uuid = new StringBuilder(
-    			str + "-" + Long.toString(getl, 32));
+    			str + "-" + Long.toString(getl).replaceAll("[^0-9]", "").substring(0,10));
 		
 		vo.setOrder_id(long_uuid.toString());
 		
@@ -382,6 +401,9 @@ public class OrderController {
 			vo.setAmount(amount[i]);
 			vo.setPrice(price[i]);
 			vo.setDelivery_price(delivery_price[i]);	
+			
+			System.out.println("");
+			System.out.println("========================================");
 			
 			System.out.println(vo.getAmount());
 			System.out.println(vo.getBoard_id());
@@ -411,11 +433,23 @@ public class OrderController {
 			System.out.println(vo.getTot_price());
 			System.out.println(vo.getUse_point());
 			
+			System.out.println("========================================");
+			System.out.println();
+			
 			
 			
 			orderService.insertOrderRecord(vo); // 배열 수 만큼 테이블에 저장
 			
 		}
+		
+		System.out.println("test");
+		
+		
+			int index1 = vo.getOrder_address().indexOf("+");
+			int index2 = vo.getOrder_address().indexOf("/");
+			vo.setOrder_address(vo.getOrder_address().substring(index1+1,index2)
+			+ " " +vo.getOrder_address().substring(index2+1));
+		
 		model.addAttribute("order",vo);
 		
     	return "Order/order_complete";
@@ -437,8 +471,23 @@ public class OrderController {
     }
     
     @RequestMapping(value = "/OrderResearch.or")
-    public String OrderResearch(@CurrentUser AccountVO account) {
+    public String OrderResearch(@CurrentUser AccountVO account,@RequestParam("order_id")String order_id, Model model) {
+    	ArrayList<OrderRecordVO> list = orderService.selectOrderByOrderId(order_id);
+    	for(int i=0; i<list.size(); i++) {
+    		try {
+				list.get(i).setThumbnail_thum(URLEncoder.encode(list.get(i).getThumbnail_thum(),"UTF-8"));
+				list.get(i).setThumbnail_thum_path(URLEncoder.encode(list.get(i).getThumbnail_thum_path(),"UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+    		int index1 = list.get(i).getOrder_address().indexOf("+");
+    		int index2 = list.get(i).getOrder_address().indexOf("/");
+    		list.get(i).setOrder_address(list.get(i).getOrder_address().substring(index1+1,index2)+" "+
+    					list.get(i).getOrder_address().substring(index2+1));
+    	}
+    
     	
+    	model.addAttribute("list",list);
     	return "Order/order_research";
     }
     
