@@ -135,7 +135,8 @@ totPrice = totProductPrice + totDeliveryPrice;
 									<td><input type="text" name="tot_price" class="tot_price"
 										value="<%=(vo_list.get(i).getPrice() * quantity_list.get(i)) - discount%>"
 										readonly /></td>
-									<td class="save_point"><%=(int) (((vo_list.get(i).getPrice() * quantity_list.get(i)) - discount) / 10)%></td>
+									<td class="save_point"><input type="text"
+										name="save_point" value="<%=(int) (((vo_list.get(i).getPrice() * quantity_list.get(i)) - discount) / 10)%>" /></td>
 									<td><input type="text" name="delivery_price"
 										class="delivery_price"
 										value="<%=vo_list.get(i).getDelivery_price()%>" readonly /></td>
@@ -327,7 +328,7 @@ totPrice = totProductPrice + totDeliveryPrice;
 										<span>적립금</span>
 									</div>
 									<div class="order__delivery--info-body">
-										<span> <input type="text" id="save-point__input-text" />원
+										<span> <input type="text" id="save-point__input-text" value="0"/>원
 											<input type="button" value="전액사용" id="save-point__input-btn" />
 										</span>
 										<p class="explain">적립금은 상품 금액의 7%까지만 사용 가능합니다.</p>
@@ -354,7 +355,7 @@ totPrice = totProductPrice + totDeliveryPrice;
                          			</sec:authorize>
 									<sec:authorize access="isAuthenticated()">
 									<div class="expected_reserve">
-										<input type="text" id="expected_sp" readonly />
+										<input type="text" id="expected_sp" name="expected_sp" readonly />
 									</div>
 									<input type="hidden" value="N" name="member_flag">
 									</sec:authorize>

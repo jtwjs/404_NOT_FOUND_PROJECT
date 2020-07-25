@@ -319,21 +319,13 @@ public class OrderController {
     
     
     @PostMapping(value = "/OrderComplete.or")  // 주문완료
-    public String orderComplete(String[] board_id, String[] board_title, String[] seller_id, 
-    		int[] amount, int[] price, int[] delivery_price, int tot_price, String status, 
+    public String orderComplete(String[] board_id, String[] board_title, String[] seller_id,
+    		int[] save_point, int[] amount, int[] price, int[] delivery_price, int tot_price, String status, 
     		String buyer_name, String buyer_phone, String buyer_email, String order_postalCode, 
     		String order_address, String order_name, String order_phone, String order_demand, 
     		String order_delivery, String order_payment, String order_account, String buyer_id,
-    		int reserveUse,@RequestParam(value ="payment-method")String pay_method, String member_flag
+    		int reserveUse,int expected_sp,@RequestParam(value ="payment-method")String pay_method, String member_flag
     		,Model model) {
-    	
-    	for(int i=0; i<board_id.length; i++) {
-    		System.out.println(i+"-"+board_id[i]);
-    	}
-    	for(int i=0; i<amount.length;i++) {
-    		System.out.println(i+"-"+amount[i]);
-    	}
-    	
     	System.out.println("1");
     	
     	OrderRecordVO vo = new OrderRecordVO();
@@ -387,7 +379,12 @@ public class OrderController {
 		// ====================================================================
 		
 		for(int i = 0; i < board_id.length; i++) {
-	    	
+			if(vo.getNon_member_flag()=='N') {
+				buyerService.InsertSavePoint(buyer_id,"적립", "주문결제", save_point[i],"주문결제 적립 +"+board_title[i], vo.getOrder_id());
+	    		if(reserveUse != 0 ) {
+				buyerService.InsertSavePoint(buyer_id,"사용","적립금결제",reserveUse, board_title[i], vo.getOrder_id());
+	    		}
+			}
 			vo.setBoard_id(board_id[i]);
 			vo.setBoard_title(board_title[i]);
 			vo.setSeller_id(seller_id[i]);
@@ -415,7 +412,6 @@ public class OrderController {
 			System.out.println(vo.getOrder_invoicenum());
 			System.out.println(vo.getOrder_name());
 			System.out.println(vo.getOrder_num());
-			
 			System.out.println(vo.getOrder_payment());
 			System.out.println(vo.getOrder_phone());
 			System.out.println(vo.getOrder_postalCode());
@@ -428,11 +424,7 @@ public class OrderController {
 			
 			System.out.println("========================================");
 			System.out.println();
-			
-			
-			
 			orderService.insertOrderRecord(vo); // 배열 수 만큼 테이블에 저장
-			
 		}
 		
 		System.out.println("test");

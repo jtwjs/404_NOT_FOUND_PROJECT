@@ -10,8 +10,10 @@ public class SavePointVO {
 	private String contentDetail;
 	private String applicationDate;
 	private String id;
+	private String board_title;
+	private String board_id;
 	private int point;
-	private int orderNum;
+	private String orderId;
 	public String getStatus() {
 		return status;
 	}
@@ -48,17 +50,29 @@ public class SavePointVO {
 	public void setId(String id) {
 		this.id = id;
 	}
+	public String getBoard_title() {
+		return board_title;
+	}
+	public void setBoard_title(String board_title) {
+		this.board_title = board_title;
+	}
+	public String getBoard_id() {
+		return board_id;
+	}
+	public void setBoard_id(String board_id) {
+		this.board_id = board_id;
+	}
 	public int getPoint() {
 		return point;
 	}
 	public void setPoint(int point) {
 		this.point = point;
 	}
-	public int getOrderNum() {
-		return orderNum;
+	public String getOrderId() {
+		return orderId;
 	}
-	public void setOrderNum(int orderNum) {
-		this.orderNum = orderNum;
+	public void setOrderId(String orderNum) {
+		this.orderId = orderNum;
 	}
 	
 	

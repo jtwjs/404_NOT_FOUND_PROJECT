@@ -87,4 +87,5 @@
 		WHERE buyer_id = #{buyer_id} AND status != '구매확정' AND status != '주문취소' 
 		ORDER BY order_num desc
 	</select>
+		
 </mapper>

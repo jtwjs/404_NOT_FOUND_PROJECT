@@ -182,6 +182,11 @@
 	width: 100px;
 
 	}
+	
+.save_point input {
+	width: 100%
+}
+	
 .board_title {
 	width: 185px;	
 }

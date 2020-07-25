@@ -382,6 +382,7 @@ public class BuyerController {
 		int rowStart = cri.getRowStart();
 		int rowEnd = cri.getRowEnd();
 		ArrayList<SavePointVO> pointList = buyerService.savePointListAll(id, status, rowStart, rowEnd);
+		
 		BuyerVO buyerAccount = buyerService.selectOneById(id);
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
 		PageMaker pageMaker = new PageMaker();
@@ -393,6 +394,7 @@ public class BuyerController {
 			pointList.get(i).setContentTitle(pointList.get(i).getContent().substring(0, contentIndex));
 			pointList.get(i).setContentDetail(pointList.get(i).getContent().substring(contentIndex + 1));
 			pointList.get(i).setApplicationDate(pointList.get(0).getApplicationDate().substring(0, 11));
+			
 		}
 		try {
 			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {

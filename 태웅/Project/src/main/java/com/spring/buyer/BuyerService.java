@@ -3,6 +3,8 @@ package com.spring.buyer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.annotations.Param;
+
 public interface BuyerService {
 
 	public BuyerVO selectOneById(String id);
@@ -12,7 +14,8 @@ public interface BuyerService {
 	public int DeleteBuyerAccount(String id);
     public int getWishListOverlapCheck(String board_id, String buyer_id);
     public int insertWishList(WishListVO vo);
-
+   
+    public void InsertSavePoint(String id,String sp_status, String savingDetails, int point, String board_title,String orderId);
     public ArrayList<SavePointVO> savePointListAll(String id,String status,int rowStart, int rowEnd) throws Exception;
     public int listCount(String id, String status) throws Exception;
 

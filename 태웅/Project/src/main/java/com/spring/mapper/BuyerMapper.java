@@ -18,6 +18,9 @@ public interface BuyerMapper {
 	public void InsertBuyerAccount(BuyerVO buyer);
 	public int DeleteBuyerAccount(String id);
 	public void UpdateLoginDateBy(String id);	
+	
+	public void InsertSavePoint(@Param("id")String id,@Param("sp_status")String sp_status, @Param("savingDetails")String savingDetails,
+				@Param("point")int point, @Param("board_title")String board_title,@Param("orderId")String orderId);
 	public ArrayList<SavePointVO> savePointListAll(@Param("id")String id,@Param("status")String status,
 													@Param("rowStart") int rowStart,@Param("rowEnd") int rowEnd);
 	public int savePointCountById(@Param("id")String id, @Param("status")String status);

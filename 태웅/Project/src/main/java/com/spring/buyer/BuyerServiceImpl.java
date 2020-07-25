@@ -212,6 +212,15 @@ public class BuyerServiceImpl implements BuyerService {
 		mapper.UpdateDefaultAddress(buyer);
 		
 	}
+
+
+
+	@Override
+	public void InsertSavePoint(String id, String sp_status, String savingDetails, int point, String board_title,
+			String orderId) {
+		mapper.InsertSavePoint(id, sp_status, savingDetails, point, board_title, orderId);
+		
+	}
 	
 }
 	

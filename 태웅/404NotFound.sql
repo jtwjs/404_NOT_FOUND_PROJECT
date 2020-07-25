@@ -69,19 +69,23 @@ CREATE SEQUENCE buyer_num_seq
 --     select buyer_num_seq.currval from dual;   
 
 /*적립금 테이블*/     
+select*from save_point;
+
 create table save_point (
- sp_status varchar2(4) not null,
+ sp_status varchar2(4) not null, --적립, 사용
  sp_point number not null,
  sp_content varchar2(100) not null,
  --주문결제 적립 +[상품명], 상품후기 작성으로 인한 적립금 지급, 적립금 결제 + [상품명]
- sp_orderNum number not null,
+ order_id varchar2(32) not null,
  sp_application_date date default sysdate not null,
  buyer_id varchar2(16) not null,
  point_num number not null,
 constraint save_point_fk foreign key(buyer_id)
-        references member_buyer(buyer_id) on delete cascade
+        references member_buyer(buyer_id) on delete cascade,
+constraint save_point_pk primary key(point_num)
 );
 
+select * from save_point;
 /*point_num Sequence*/
 CREATE SEQUENCE point_num_seq
     INCREMENT BY 1
@@ -102,6 +106,24 @@ for each row
 BEGIN
 insert into all_account (account_ID, account_pw, account_type)
 values (:new.buyer_id, :new.password, :new.member_type);
+END;
+
+select * from save_point;
+
+
+create or replace trigger TRG_buyer_savePoint --구매자 적립금 update 
+AFTER INSERT ON save_point
+for each row
+DECLARE 
+    status varchar2(4) := :new.sp_status;
+BEGIN 
+IF status = '적립' THEN
+    UPDATE member_buyer SET save_point = save_point+:new.sp_point
+    WHERE buyer_id = :new.buyer_id;
+ELSE 
+    UPDATE member_buyer SET save_point = save_point-:new.sp_point
+    WHERE buyer_id = :new.buyer_id;
+END IF;
 END;
 
 
@@ -336,7 +358,7 @@ create table order_record(                   -- 주문기록
 select * from board_review;
 
 select * from board_product;
-select * from order_record where buyer_id ='test01' order by order_num desc;
-
-
 select * from order_record;
+
+
+select a.*,b.thumbnail_thum,b.thumbnail_thum_path from order_record a, board_product b where a.board_id = b.board_id AND buyer_id = 'v_oyb' AND status != '구매확정' AND status != '주문취소' order by order_num desc;
