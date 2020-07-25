@@ -73,7 +73,7 @@ public class BoardProductController {
         		int non_index1 = non_userCK.getValue().indexOf("/");
         		String non_str = non_userCK.getValue().substring(non_index1+1);
         		String[] non_recentArray = non_str.split("/");
-        		for(int i=0; i<non_recentArray.length; i++) {
+        		for(int i=non_recentArray.length-1; i>0; i--) {
         			BoardProductVO product = boardProductService.getBoardProductVO(non_recentArray[i]);
         			try {
         				product.setThumbnail_thum(URLEncoder.encode(product.getThumbnail_thum(), "UTF-8"));
@@ -90,7 +90,7 @@ public class BoardProductController {
         		int index1 = userCK.getValue().indexOf("/");
             	String str = userCK.getValue().substring(index1+1);
             	String[] recentArray = str.split("/");
-            	for(int i=0; i<recentArray.length; i++) {
+            	for(int i=recentArray.length-1; i>0; i--) {
             		BoardProductVO product = boardProductService.getBoardProductVO(recentArray[i]);
             		try {
             			product.setThumbnail_thum(URLEncoder.encode(product.getThumbnail_thum(), "UTF-8"));
@@ -105,7 +105,7 @@ public class BoardProductController {
         }
     	model.addAttribute("non_list",non_recentList);
     	model.addAttribute("list",recentList);
-    
+    	
         int vo_list_size = 0;
         
         if(category_1 != 0) {
@@ -255,7 +255,7 @@ public class BoardProductController {
     	 int non_index1 = cookie.getValue().indexOf("/");
     	 	String non_str = cookie.getValue().substring(non_index1+1);
  			String[] non_recentArray = non_str.split("/");
- 		for(int i=0; i<non_recentArray.length; i++) {
+ 		for(int i=non_recentArray.length-1; i>0; i--) {
  			BoardProductVO product = boardProductService.getBoardProductVO(non_recentArray[i]);
  			try {
  				product.setThumbnail_thum(URLEncoder.encode(product.getThumbnail_thum(), "UTF-8"));
@@ -327,7 +327,7 @@ public class BoardProductController {
     	 int index1 = cookie.getValue().indexOf("/");
      	String str = cookie.getValue().substring(index1+1);
      	String[] recentArray = str.split("/");
-     	for(int i=0; i<recentArray.length; i++) {
+     	for(int i=recentArray.length-1; i>0; i--) {
      		BoardProductVO product = boardProductService.getBoardProductVO(recentArray[i]);
      		try {
      			product.setThumbnail_thum(URLEncoder.encode(product.getThumbnail_thum(), "UTF-8"));
@@ -378,7 +378,7 @@ public class BoardProductController {
         		int non_index1 = non_userCK.getValue().indexOf("/");
         		String non_str = non_userCK.getValue().substring(non_index1+1);
         		String[] non_recentArray = non_str.split("/");
-        		for(int i=0; i<non_recentArray.length; i++) {
+        		for(int i=non_recentArray.length-1; i>0; i--) {
         			BoardProductVO product = boardProductService.getBoardProductVO(non_recentArray[i]);
         			try {
         				product.setThumbnail_thum(URLEncoder.encode(product.getThumbnail_thum(), "UTF-8"));
@@ -395,7 +395,7 @@ public class BoardProductController {
         		int index1 = userCK.getValue().indexOf("/");
             	String str = userCK.getValue().substring(index1+1);
             	String[] recentArray = str.split("/");
-            	for(int i=0; i<recentArray.length; i++) {
+            	for(int i=recentArray.length-1; i>0; i--) {
             		BoardProductVO product = boardProductService.getBoardProductVO(recentArray[i]);
             		try {
             			product.setThumbnail_thum(URLEncoder.encode(product.getThumbnail_thum(), "UTF-8"));

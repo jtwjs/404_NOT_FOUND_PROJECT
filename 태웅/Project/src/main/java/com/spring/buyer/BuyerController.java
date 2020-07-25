@@ -202,6 +202,19 @@ public class BuyerController {
 		int index1 = cookie.getValue().indexOf("/");
 		String str = cookie.getValue().substring(index1 + 1);
 		recentArray = str.split("/");
+		int maxCount = recentArray.length;
+		int left = 0;
+		int right = maxCount -1;
+		String temp = "";
+		for(int i=0; i<maxCount/2;i++) {
+			temp = recentArray[left];
+			recentArray[left] = recentArray[right];
+			recentArray[right] = temp;
+			
+			left++;
+			right--;
+		}
+		
 		if(recentArray.length < rowEnd) {
 			rowEnd = recentArray.length;
 		}

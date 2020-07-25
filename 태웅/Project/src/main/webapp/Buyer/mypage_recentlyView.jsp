@@ -91,7 +91,7 @@
                                         <c:forEach var="list" items="${list}" varStatus="status">
                                         <tr>
                                         	<th class="product-check"><input type="checkbox" name="ck_item" value="${list.board_id}"/></th>
-                                        	<td class="product-name"><img class="product-img" src="display?path=${list.thumbnail_thum_path}&name=${list.thumbnail_thum}"  alt="상품 썸네일 이미지" />${list.title}</td>
+                                        	<td class="product-name"><a href="BoardProductView.bo?board_id=${list.board_id}"><img class="product-img" src="display?path=${list.thumbnail_thum_path}&name=${list.thumbnail_thum}"  alt="상품 썸네일 이미지" />${list.title}</a></td>
                                         	<td>${list.price}원</td>
                                         </tr>
                                         </c:forEach>

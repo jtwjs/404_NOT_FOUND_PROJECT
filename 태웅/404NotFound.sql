@@ -104,6 +104,7 @@ insert into all_account (account_ID, account_pw, account_type)
 values (:new.buyer_id, :new.password, :new.member_type);
 END;
 
+
 create table list_delivery(                 -- 개인저장 배송지 목록
     num number default(1),                    -- 배송지 번호 
     buyer_id varchar2(16) not null,         -- 구매자 ID(member_buyer테이블 외래키)
@@ -116,8 +117,7 @@ create table list_delivery(                 -- 개인저장 배송지 목록
     references member_buyer(buyer_id) on delete cascade
 );
 select* from list_delivery;
-
-
+commit;
 CREATE SEQUENCE delivery_num_seq
     INCREMENT BY 1
     START WITH 1
@@ -243,6 +243,7 @@ create table board_product(                     -- �뙋留ㅺ쾶�떆�뙋
     constraint board_product_board_id_pk primary key(board_id)
 );
 select * from board_product;
+
 
 create table wish_list(
     wish_id varchar2(32) not null,         -- 위시리스트 ID값 (기본키, 랜덤생성)
