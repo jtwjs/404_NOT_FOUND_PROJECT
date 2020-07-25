@@ -106,6 +106,12 @@ public class OrderServiceImpl implements OrderService {
 		int count = mapper.orderListCountById(buyer_id);
 		return count;
 	}
+
+	@Override
+	public ArrayList<OrderRecordVO> orderBeingDeliveredListById(String buyer_id) {
+		ArrayList<OrderRecordVO> list = mapper.orderBeingDeliveredListById(buyer_id);
+		return list;
+	}
     
     
     

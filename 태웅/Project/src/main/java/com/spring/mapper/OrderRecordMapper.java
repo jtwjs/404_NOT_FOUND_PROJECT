@@ -22,5 +22,6 @@ public interface OrderRecordMapper {
     public ArrayList<OrderRecordVO> selectOrderListById(@Param("buyer_id")String buyer_id,
     		@Param("rowStart")int rowStart, @Param("rowEnd")int rowEnd);
     public int orderListCountById(@Param("buyer_id")String buyer_id);
+    public ArrayList<OrderRecordVO> orderBeingDeliveredListById(String buyer_id);
    
 }

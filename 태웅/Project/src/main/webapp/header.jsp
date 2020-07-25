@@ -40,7 +40,6 @@
 		</sec:authorize>
         <sec:authorize access = "isAuthenticated()">      
               <li><a href="#" id="order_delivery">주문배송</a></li>
-              <li><a href="#" onclick="javascript:location.href='OrderResearch.or'">주문배송페이지</a></li> 
         </sec:authorize>
         <sec:authorize access = "isAnonymous()">
         	  <li><a href="#" onclick="javascript:location.href='non-OrderResearch.or'">주문배송</a></li>

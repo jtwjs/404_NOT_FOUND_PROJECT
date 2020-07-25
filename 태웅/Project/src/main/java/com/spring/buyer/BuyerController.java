@@ -88,12 +88,10 @@ public class BuyerController {
 		int rowEnd = cri.getRowEnd();
 		ArrayList<OrderRecordVO> list = orderService.selectOrderListById(buyer_id, rowStart, rowEnd);
 		
-		
-
 		for(int i=0; i<list.size(); i++) {
 			list.get(i).setOrder_date(list.get(i).getOrder_date().substring(0,10));
-				list.get(i).setThumbnail_thum(URLEncoder.encode(list.get(i).getThumbnail_thum(), "UTF-8"));
-				list.get(i).setThumbnail_thum_path(URLEncoder.encode(list.get(i).getThumbnail_thum_path(), "UTF-8"));
+			list.get(i).setThumbnail_thum(URLEncoder.encode(list.get(i).getThumbnail_thum(), "UTF-8"));
+			list.get(i).setThumbnail_thum_path(URLEncoder.encode(list.get(i).getThumbnail_thum_path(), "UTF-8"));
 			
 			}
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));

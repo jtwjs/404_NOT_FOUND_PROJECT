@@ -81,5 +81,10 @@
 	<select id="orderListCountById" resultType="int">
 		SELECT count(*) FROM order_record WHERE buyer_id=#{buyer_id}
 	</select>
-
+	
+	<select id="orderBeingDeliveredListById" resultType="com.spring.order.OrderRecordVO">
+		SELECT * FROM order_record 
+		WHERE buyer_id = #{buyer_id} AND status != '구매확정' AND status != '주문취소' 
+		ORDER BY order_num desc
+	</select>
 </mapper>

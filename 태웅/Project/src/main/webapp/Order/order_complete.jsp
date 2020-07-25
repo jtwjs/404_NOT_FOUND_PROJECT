@@ -120,7 +120,7 @@
             </div>
             
             <div class="col-xs-12" id="order__complete--btn">
-                <input type="button" value="주문내역 확인하기" onclick="javascript:location.href='OrderCheck.or?order_id=${order.order_id}'" />
+                <input type="button" value="주문내역 확인하기" onclick="javascript:location.href='OrderResearch.or?order_id=${order.order_id}'" />
             </div>
             
         </div>

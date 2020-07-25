@@ -118,6 +118,8 @@ create table list_delivery(                 -- 개인저장 배송지 목록
 );
 select* from list_delivery;
 commit;
+
+select* from member_seller;
 CREATE SEQUENCE delivery_num_seq
     INCREMENT BY 1
     START WITH 1
@@ -244,6 +246,7 @@ create table board_product(                     -- �뙋留ㅺ쾶�떆�뙋
 );
 select * from board_product;
 
+desc wish_list;
 
 create table wish_list(
     wish_id varchar2(32) not null,         -- 위시리스트 ID값 (기본키, 랜덤생성)

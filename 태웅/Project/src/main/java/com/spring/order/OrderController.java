@@ -8,6 +8,7 @@ import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -58,15 +59,7 @@ public class OrderController {
     	return "Order/order_nonMember";
     }
     
-//    @RequestMapping(value = "/OrderCheck.or")  // 주문내역
-//    public String orderCheck(@RequestParam(value ="order_id")String order_id, Model model) {
-//    	
-//    	
-//    	model.addAttribute("order",order);
-//    	
-//    	
-//    	return "Order/order_check";
-//    }
+
     
     @GetMapping(value = "/AddCart.or")  // 장바구니
     @ResponseBody
@@ -469,6 +462,26 @@ public class OrderController {
     	return savePoint;
     	
     }
+    
+    @RequestMapping(value = "/orderBeingDelivered.or", method = RequestMethod.POST,
+    		produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public HashMap<String,Object> orderBeingDelivered(@CurrentUser AccountVO account) {
+    	String buyer_id = account.getId();
+    	ArrayList<OrderRecordVO> list = orderService.orderBeingDeliveredListById(buyer_id);
+    	HashMap<String,Object> map = new HashMap<String,Object>();
+    	String order_id = "";
+    	
+    	if(list.size() != 0) {
+    		order_id = list.get(0).getOrder_id();
+    		map.put("result",order_id);
+    	}else {
+    		map.put("result","empty");
+    	}
+    	
+    	return map;
+    }
+    
     
     @RequestMapping(value = "/OrderResearch.or")
     public String OrderResearch(@CurrentUser AccountVO account,@RequestParam("order_id")String order_id, Model model) {
