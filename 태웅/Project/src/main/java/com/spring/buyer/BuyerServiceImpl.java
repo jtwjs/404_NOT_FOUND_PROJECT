@@ -221,6 +221,14 @@ public class BuyerServiceImpl implements BuyerService {
 		mapper.InsertSavePoint(id, sp_status, savingDetails, point, board_title, orderId);
 		
 	}
+
+
+
+	@Override
+	public void BuyerGradeSetting(BuyerVO buyer) {
+		mapper.BuyerGradeSetting(buyer);
+		
+	}
 	
 }
 	

@@ -11,6 +11,7 @@ public interface BuyerService {
 	public ArrayList<BuyerVO> selectListAll();
 	public void RegisterBuyerAccount(BuyerVO buyer);
 	public int UpdateBuyerAccount(BuyerVO buyer);
+	public void BuyerGradeSetting(BuyerVO buyer);
 	public int DeleteBuyerAccount(String id);
     public int getWishListOverlapCheck(String board_id, String buyer_id);
     public int insertWishList(WishListVO vo);

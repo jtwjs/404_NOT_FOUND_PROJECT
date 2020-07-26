@@ -36,7 +36,7 @@ public interface BuyerMapper {
     public int UpdateListDeliverList(deliveryVO delivery);      
     public deliveryVO getDefaultDeliveryList(String id);  
     public void UpdateDefaultAddress(BuyerVO buyer);
-    
+    public void BuyerGradeSetting(BuyerVO buyer);
     //구매자 회원 리스트
     public int getBuyerListCount();
     public List<BuyerVO> SelectAllMemberBuyerList(HashMap<String, Object> hashmap);

@@ -51,13 +51,15 @@
                      <h2 class="content-title">나의 등급</h2>
                       <div class="my_grade--grade">
                      	<div class="grade-desc">
+                     	<c:set var="cumulative_amount" value="${user.cumulative_amount}" />
 	                     	<dl>
 	                     		<dt class="cumulativeAmount">누적 구매금액 / 10</dt>
-	                     		<dd class="amount">1,965,087원<span class="text-lighter"> / 10</span></dd>
+	                     		<dd class="amount">${cumulative_amount}원<span class="text-lighter"> / 10</span></dd>
 	                   		</dl>
+	                   		
 	                   		<dl>
 	                     		<dt class="grade-score text-green">현재 등급점수</dt>
-	                     		<dd class="amount text-green">0점</dd>
+	                     		<dd class="amount text-green">${user.grade_exp}점</dd>
 	                     	</dl>
                      	</div>
                      	<div class="grade-explain">

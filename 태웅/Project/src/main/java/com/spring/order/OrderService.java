@@ -19,5 +19,5 @@ public interface OrderService {
     public ArrayList<OrderRecordVO> selectOrderListById(String buyer_id,int rowStart, int rowEnd);
     public int listCount(String buyer_id);
     public ArrayList<OrderRecordVO> orderBeingDeliveredListById(String buyer_id);
-    
+    public ArrayList<OrderRecordVO> orderListAllById(String buyer_id);
 }

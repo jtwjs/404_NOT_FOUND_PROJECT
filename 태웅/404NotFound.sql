@@ -355,10 +355,8 @@ create table order_record(                   -- 주문기록
     constraint order_record_order_num_pk primary key(order_num)
 );
 
+
 select * from board_review;
-
 select * from board_product;
-select * from order_record;
+select * from order_record where buyer_id = 'v_oyb';
 
-
-select a.*,b.thumbnail_thum,b.thumbnail_thum_path from order_record a, board_product b where a.board_id = b.board_id AND buyer_id = 'v_oyb' AND status != '구매확정' AND status != '주문취소' order by order_num desc;

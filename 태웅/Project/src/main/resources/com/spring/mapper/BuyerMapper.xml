@@ -140,6 +140,11 @@
 		 WHERE buyer_id = #{id}
 	</update>
 	
+	<update id ="BuyerGradeSetting" parameterType = "com.spring.buyer.BuyerVO">
+		UPDATE member_buyer SET grade = #{grade}
+		WHERE buyer_id = #{id}
+	</update> 
+		
 	<select id = "BuyerConfirmPassword" resultMap = "buyerResultMap" >
 		SELECT * FROM member_buyer where buyer_id = #{id} and password = #{password}
 	</select>

@@ -57,6 +57,37 @@ public class BuyerController {
 
 	@RequestMapping(value = "/BuyerMyPage.by")
 	public String buyerMyPage(Model model, @CurrentUser AccountVO account) {
+		int exp = 0;
+		ArrayList<OrderRecordVO> list = orderService.orderListAllById(account.getId());
+		for(int i=0; i<list.size(); i++) {
+			exp += list.get(i).getAmount() * list.get(i).getPrice();
+		}
+		
+		exp /= 10;
+		char grade;
+		if(exp < 2000) {
+			grade = '1';
+		} else if (exp < 10001) {
+			grade = '2';
+		} else if (exp < 100001) {
+			grade = '3';
+		} else if (exp < 200001) {
+			grade = '4';
+		} else if (exp < 500001) {
+			grade = '5';
+		} else if (exp < 1000001) {
+			grade = '6';
+		} else if (exp < 2000001) {
+			grade = '7';
+		} else {
+			grade = '8';
+		}
+		BuyerVO buyer = new BuyerVO();
+		buyer.setId(account.getId());
+		buyer.setGrade(grade);
+		buyerService.BuyerGradeSetting(buyer);
+		
+		
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
 		buyerAccount.setJoinDate(buyerAccount.getJoinDate().substring(0, 10));
@@ -72,7 +103,7 @@ public class BuyerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		
+	
 		model.addAttribute("user", buyerAccount);
 		return "Buyer/mypage_main";
 	}
@@ -434,9 +465,47 @@ public class BuyerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+		int price = 0;
+		int exp = 0;
+		int cumulative_amount = 0;
+		ArrayList<OrderRecordVO> list = orderService.orderListAllById(account.getId());
+		for(int i=0; i<list.size(); i++) {
+			price = list.get(i).getAmount() * list.get(i).getPrice();
+			exp += price;
+		}
+		cumulative_amount = exp; 
+		exp /= 10;
+		
+		String change_cumulative_amount = numberOfDigit(cumulative_amount);
+		String change_exp = numberOfDigit(exp);
+		
+		change_cumulative_amount = reverseString(change_cumulative_amount);
+		change_exp = reverseString(change_exp);
+		
+		buyerAccount.setCumulative_amount(change_cumulative_amount);
+		buyerAccount.setGrade_exp(change_exp);
 		model.addAttribute("user", buyerAccount);
 		return "Buyer/mypage_grade";
 	}
+	
+	public static String numberOfDigit(int amount) {
+		String str = Integer.toString(amount);
+		int count = 0;
+		String change_amount = "";
+		for(int i=str.length()-1; i>0; i--) {
+			if(count%3 == 0 && count != 0) {
+				change_amount += ",";
+			}
+			change_amount += str.charAt(i);
+			count++;
+		}
+		
+		return change_amount;
+	}
+	
+  public static String reverseString(String s){
+        return (new StringBuffer(s)).reverse().toString();
+    }
 
 	@GetMapping(value = "/WishListCheck.by")
     @ResponseBody

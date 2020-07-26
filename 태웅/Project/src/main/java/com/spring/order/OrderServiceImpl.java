@@ -112,6 +112,12 @@ public class OrderServiceImpl implements OrderService {
 		ArrayList<OrderRecordVO> list = mapper.orderBeingDeliveredListById(buyer_id);
 		return list;
 	}
+
+	@Override
+	public ArrayList<OrderRecordVO> orderListAllById(String buyer_id) {
+		ArrayList<OrderRecordVO> list = mapper.orderListAllById(buyer_id);
+		return list;
+	}
     
     
     

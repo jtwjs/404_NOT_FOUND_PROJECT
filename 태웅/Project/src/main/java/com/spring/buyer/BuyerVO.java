@@ -25,9 +25,11 @@ public class BuyerVO {
     private String loginDate;
     private String memberType;  
     private int buyerNum;     
-    private char grade;        
+    private char grade;
+    private String grade_exp;
+    private String cumulative_amount;
     private char delFlag;     
-
+    
     private int savePoint;    
     
 	
@@ -162,6 +164,21 @@ public class BuyerVO {
 	}
 	public void setGrade(char grade) {
 		this.grade = grade;
+	}
+	
+	public String getGrade_exp() {
+		return grade_exp;
+	}
+	public void setGrade_exp(String grade_exp) {
+		this.grade_exp = grade_exp;
+	}
+	
+	
+	public String getCumulative_amount() {
+		return cumulative_amount;
+	}
+	public void setCumulative_amount(String cumulative_amount) {
+		this.cumulative_amount = cumulative_amount;
 	}
 	public String getMemberType() {
 		return memberType;
