@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,6 +36,7 @@ import org.springframework.web.multipart.MultipartRequest;
 import com.spring.admin.AccountVO;
 import com.spring.boardproduct.BoardProductService;
 import com.spring.boardproduct.BoardProductVO;
+import com.spring.boardproduct.BoardReviewVO;
 import com.spring.config.Security.CurrentUser;
 import com.spring.config.Security.CustomDetailService;
 import com.spring.order.OrderRecordVO;
@@ -54,34 +56,48 @@ public class BuyerController {
 	
 	@Autowired
 	OrderService orderService;
+	
+	
 
 	@RequestMapping(value = "/BuyerMyPage.by")
 	public String buyerMyPage(Model model, @CurrentUser AccountVO account) {
 		int exp = 0;
+		int rest_exp = 0;
 		ArrayList<OrderRecordVO> list = orderService.orderListAllById(account.getId());
 		for(int i=0; i<list.size(); i++) {
 			exp += list.get(i).getAmount() * list.get(i).getPrice();
 		}
 		
 		exp /= 10;
+		System.out.println("exp1="+exp);
 		char grade;
 		if(exp < 2000) {
 			grade = '1';
+			rest_exp = 2001 - exp;
 		} else if (exp < 10001) {
 			grade = '2';
+			rest_exp = 10001 - exp;
 		} else if (exp < 100001) {
 			grade = '3';
+			rest_exp = 100001 - exp;
 		} else if (exp < 200001) {
 			grade = '4';
+			rest_exp = 200001 - exp;
 		} else if (exp < 500001) {
 			grade = '5';
+			rest_exp = 500001 - exp;
 		} else if (exp < 1000001) {
 			grade = '6';
+			rest_exp = 1000001 - exp;
 		} else if (exp < 2000001) {
 			grade = '7';
+			rest_exp = 2000001 - exp;
 		} else {
 			grade = '8';
 		}
+		String changeRest_exp = numberOfDigit(rest_exp);
+		changeRest_exp = reverseString(changeRest_exp);
+		
 		BuyerVO buyer = new BuyerVO();
 		buyer.setId(account.getId());
 		buyer.setGrade(grade);
@@ -103,7 +119,10 @@ public class BuyerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-	
+		int reviewCount = productService.countReviewById(account.getId());
+		
+		model.addAttribute("reveiwCount",reviewCount);
+		model.addAttribute("rest_exp",changeRest_exp);
 		model.addAttribute("user", buyerAccount);
 		return "Buyer/mypage_main";
 	}
@@ -341,7 +360,83 @@ public class BuyerController {
 	}
 
 	@RequestMapping(value = "/BuyerMyPageReview.by") 
-	public String buyerMyPageReview(Model model, @CurrentUser AccountVO account) {
+	public String buyerMyPageReview(Model model, @CurrentUser AccountVO account,
+			CriteriaVO cri) {
+		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
+		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
+		int rowStart = cri.getRowStart();
+		int rowEnd = cri.getRowEnd();
+		ArrayList<BoardReviewVO> list = productService.boardReviewListAllById(account.getId(), rowStart, rowEnd);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(productService.countReviewById(account.getId()));
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		
+		try {
+			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+				buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		
+		for(int i=0; i<list.size(); i++ ) {
+		
+			switch(Double.toString(list.get(i).getSatisfaction())){
+			case "5.0": list.get(i).setSatisfaction_img("./resources/Images/Home/stars_5.png");
+						break;
+			case "4.5": list.get(i).setSatisfaction_img("./resources/Images/Home/stars_4-5.png");
+						break;
+			case "4.0": list.get(i).setSatisfaction_img("./resources/Images/Home/star_4.png");
+						break;
+			case "3.5": list.get(i).setSatisfaction_img("./resources/Images/Home/stars_3-5.png");
+						break;
+			case "3.0": list.get(i).setSatisfaction_img("./resources/Images/Home/star_3.png");
+						break;
+			case "2.5": list.get(i).setSatisfaction_img("./resources/Images/Home/stars_2-5.png");
+						break;
+			case "2.0": list.get(i).setSatisfaction_img("./resources/Images/Home/stars_2.png");
+						break;
+			case "1.5": list.get(i).setSatisfaction_img("./resources/Images/Home/star_1-5.png");
+						break;
+			case "1.0": list.get(i).setSatisfaction_img("./resources/Images/Home/star_1.png");
+						break;
+			default: list.get(i).setSatisfaction_img("./resources/Images/Home/star_0-5.png");
+						break;
+			}
+			
+				try {
+					String reg_date = format.format(list.get(i).getRegister_date());
+					list.get(i).setFormat_reg_date(reg_date);
+					list.get(i).setReview_img_path(URLEncoder.encode(list.get(i).getReview_img_path(),"UTF-8"));
+					list.get(i).setReview_img_name(URLEncoder.encode(list.get(i).getReview_img_name(), "UTF-8"));
+					
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+		}
+		
+		
+
+		
+		
+		model.addAttribute("currentPage", cri.getPage());
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("reviewList", list);
+		model.addAttribute("user", buyerAccount);
+		
+		return "Buyer/mypage_review";
+	}
+	
+	@RequestMapping(value = "/BuyerMyPageReviewWrite.by") 
+	public String buyerMyPageReviewWrite(Model model, @CurrentUser AccountVO account,
+			CriteriaVO cri) {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
 		try {
@@ -356,12 +451,33 @@ public class BuyerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
-		model.addAttribute("user", buyerAccount);
+		int rowStart = cri.getRowStart();
+		int rowEnd = cri.getRowEnd();
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(orderService.listCount(account.getId()));
+		ArrayList<OrderRecordVO> list = orderService.selectOrderListById(account.getId(), rowStart, rowEnd);
 		
-		return "Buyer/mypage_review";
+		for(int i =0; i<list.size(); i++) {
+			if(productService.checkReview(list.get(i).getBoard_id(), account.getId(), list.get(i).getOrder_id()) == 0) {
+				list.get(i).setReviewCheck(true);
+			} else {
+				list.get(i).setReviewCheck(false);
+			}
+			try {
+				list.get(i).setThumbnail_thum(URLEncoder.encode(list.get(i).getThumbnail_thum(), "UTF-8"));
+				list.get(i).setThumbnail_thum_path(URLEncoder.encode(list.get(i).getThumbnail_thum_path(), "UTF-8"));
+				list.get(i).setOrder_date(list.get(i).getOrder_date().substring(0,11));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		model.addAttribute("currentPage", cri.getPage());
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("orderList", list);
+		model.addAttribute("user", buyerAccount);
+		return "Buyer/mypage_review_write";
 	}
-
 	@RequestMapping(value = "/BuyerMyPageProductQna.by")
 	public String buyerMyPageProductQna(Model model, @CurrentUser AccountVO account) {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
@@ -424,7 +540,7 @@ public class BuyerController {
 			int contentIndex = pointList.get(i).getContent().indexOf('+');
 			pointList.get(i).setContentTitle(pointList.get(i).getContent().substring(0, contentIndex));
 			pointList.get(i).setContentDetail(pointList.get(i).getContent().substring(contentIndex + 1));
-			pointList.get(i).setApplicationDate(pointList.get(0).getApplicationDate().substring(0, 11));
+			pointList.get(i).setApplicationDate(pointList.get(i).getApplicationDate().substring(0, 11));
 			
 		}
 		try {
@@ -482,6 +598,8 @@ public class BuyerController {
 		change_cumulative_amount = reverseString(change_cumulative_amount);
 		change_exp = reverseString(change_exp);
 		
+		
+		
 		buyerAccount.setCumulative_amount(change_cumulative_amount);
 		buyerAccount.setGrade_exp(change_exp);
 		model.addAttribute("user", buyerAccount);
@@ -492,7 +610,7 @@ public class BuyerController {
 		String str = Integer.toString(amount);
 		int count = 0;
 		String change_amount = "";
-		for(int i=str.length()-1; i>0; i--) {
+		for(int i=str.length()-1; i>=0; i--) {
 			if(count%3 == 0 && count != 0) {
 				change_amount += ",";
 			}

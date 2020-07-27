@@ -4,7 +4,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Calendar" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +15,7 @@
     <!-- header, css end -->
     <link href="<c:url value='/resources/css/Common/sub_main.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Buyer/mypage_template.css'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/Buyer/mypage_review.css?after'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Buyer/mypage_review_write.css?after'/>" rel="stylesheet" />
     <title>구매후기</title>
 </head>
 <body>
@@ -65,31 +64,40 @@
                             	<p class="explain">- 후기작성은 구매확정일로부터 90일까지 가능합니다. </p>
                             </div>
                             <article id="review_history">
-                                <table id="review_history--table">
+                                <table id="order_history--table">
                                     <thead>
                                         <tr>                
                                             <th scope="col" class="product-info">상품정보</th>
-                                            <th scope="col" class="review-content">내용</th>                
-                                            <th scope="col" class="review-date">작성일</th>                
+                                            <th scope="col" class="purchase-date">구매일</th>  
+                                            <th scope="col" class="review-write">일반 후기</th>                
                                              
                                         </tr>   
                                     </thead>
                                     <tbody>
-                                   	<c:if test="${fn:length(reviewList) == 0}">
+                                   	<c:if test="${fn:length(orderList) == 0}">
                                         <tr>
                                             <td class="non-list" colspan="5">
-                                               등록한 후기가 없습니다.
+                                               주문한 상품이 없습니다.
                                             </td>
                                         </tr>
                                    
                                    </c:if>
-                                   <c:forEach var="list" items="${reviewList}" varStatus="status" >
+                                   <c:forEach var="list" items="${orderList}" varStatus="status" >
                                    	<tr>
-                                   		<td class="product-title"><img src="display?path=${list.review_img_path}&name=${list.review_img_name}"/><p>${list.title}</p></td>
-                                   		<td class="content"><img src="${list.satisfaction_img}" alt="별점"/><p>${list.content}</p></td>
-                                   		<td>${list.format_reg_date}</td>
+                                   		<td class="product-title"><img src="display?path=${list.thumbnail_thum_path}&name=${list.thumbnail_thum}" onclick="location.href='BoardProductView.bo?board_id=${list.board_id}'"/><p onclick="location.href='BoardProductView.bo?board_id=${list.board_id}'">${list.board_title}</p></td>
+                                   		<c:if test="${list.reviewCheck eq true}">
+                                   		<td class="order-date">${list.order_date}</td>
+                                   		<td><button type="button" class="reviewBtn">작성하기</button></td>
+                                   		
+                                   		</c:if>
+                                   		<c:if test="${list.reviewCheck eq false }" >
+                                   		<td class="last_order-date">${list.order_date}</td>
+                                   		<td><span class="complete">작성 완료</span><span class="enter">(적립금 지급)</span></td>
+                                   		</c:if>
+                               		
                                    	</tr>
                                    	</c:forEach>
+                                  
                                     </tbody>
                                 </table>
                                 <div class="n-paging">

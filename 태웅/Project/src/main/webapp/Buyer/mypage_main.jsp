@@ -69,7 +69,7 @@
                                         <ul class="rating">
                                             <li><span class="rating-grade">회원등급</span></li>
                                             <li class="my_rating-grade"><h2 id="my-rating">LV.${user.grade}</h2> <a class="rating-benefit" href="BuyerMyPageMyGrade.by">등급 혜택 보기</a> </li>
-                                            <li id="rating-explain">* 다음 등급인 <span class="next-level">실버</span>까지 <span class="required-score">61,670</span>점 남았습니다<span class="register-date">가입일: ${user.joinDate}</span></li>
+                                            <li id="rating-explain"><p class="required-score">* 다음 등급까지 ${rest_exp}점 남았습니다</p> <p class="register-date">가입일: ${user.joinDate}</p></li>
                                         </ul>
                                     </div>
                                     
@@ -82,11 +82,11 @@
                                             <dd>${user.savePoint}</dd>
                                         </dl>
                                     </div>
-                                    <div class="write-review">
+                                    <div class="write-review" onclick="location.href='BuyerMyPageReview.by'">
                                         <img src="./resources/Images/Buyer/wirte.png" alt="write review image"/>
                                         <dl>
                                             <dt>후기작성</dt>
-                                            <dd>9</dd>   
+                                            <dd>${reveiwCount}</dd>   
                                         </dl>
                                     </div>
                                 </div>

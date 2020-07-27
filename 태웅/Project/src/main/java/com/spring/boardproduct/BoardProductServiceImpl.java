@@ -16,6 +16,9 @@ public class BoardProductServiceImpl implements BoardProductService {
     @Autowired
     private SqlSession sqlSession;
 	
+    @Autowired
+    private BoardReviewMapper mapper;
+    
     public int getBoardNum() {
 		
         BoardProductMapper boardProductMapper = sqlSession.getMapper(BoardProductMapper.class);
@@ -176,6 +179,20 @@ public class BoardProductServiceImpl implements BoardProductService {
 	
 	    return result;
     }
+
+	@Override
+	public int countReviewById(String buyer_id) {
+		int count = mapper.countReviewById(buyer_id);
+		return count;
+	}
+
+	@Override
+	public ArrayList<BoardReviewVO> boardReviewListAllById(String buyer_id, int rowStart, int rowEnd) {
+		ArrayList<BoardReviewVO> list = mapper.boardReviewListAllById(buyer_id, rowStart, rowEnd);
+		return list;
+	}
+
+
     
     
 }

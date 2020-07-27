@@ -67,6 +67,8 @@ public class OrderRecordVO {           // 주문기록
     private String thumbnail_thum;
     private String thumbnail_thum_path;
     
+    private boolean reviewCheck;
+    
 	public int getOrder_num() {
 		return order_num;
 	}
@@ -235,6 +237,13 @@ public class OrderRecordVO {           // 주문기록
 	public void setThumbnail_thum_path(String thumbnail_thum_path) {
 		this.thumbnail_thum_path = thumbnail_thum_path;
 	}
+	public boolean isReviewCheck() {
+		return reviewCheck;
+	}
+	public void setReviewCheck(boolean reviewCheck) {
+		this.reviewCheck = reviewCheck;
+	}
+	
 	
 	
 }

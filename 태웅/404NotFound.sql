@@ -85,6 +85,9 @@ constraint save_point_fk foreign key(buyer_id)
 constraint save_point_pk primary key(point_num)
 );
 
+
+select * from save_point;
+
 select * from save_point;
 /*point_num Sequence*/
 CREATE SEQUENCE point_num_seq
@@ -293,7 +296,7 @@ create table product_cart(          -- �옣諛붽뎄�땲
 
  
  
-
+select * from board_review;
 
 drop table board_review;
 create table board_review(              -- 상품후기 게시판
@@ -310,6 +313,17 @@ create table board_review(              -- 상품후기 게시판
     review_img_name varchar2(100),       -- 작성 후기글 이미지 이름
     constraint board_review_review_id_pk primary key(review_id)
 );
+
+select * from save_point;
+
+create or replace trigger TRG_board_review
+AFTER INSERT ON board_review
+for each row
+BEGIN
+insert into save_point (SP_STATUS, SP_POINT, SP_CONTENT, order_id, SP_APPLICATION_DATE, BUYER_ID, POINT_NUM)
+values ('적립', '500', '상품후기 작성으로 인한 적립금 지급+',:new.order_id,sysdate,:new.buyer_id,point_num_seq.nextval);
+update member_buyer SET save_point = save_point + 500 WHERE buyer_id = :new.buyer_id;
+END;
 
 drop table comment_review;
 create table comment_review(               -- 상품 리뷰 댓글

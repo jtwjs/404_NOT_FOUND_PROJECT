@@ -70,18 +70,24 @@
 }
 
 #rating-explain {
-  padding-top: 23px;
-  font-size: 13px;
+	display: flex;
+	justify-content: space-between;
+  padding: 23px 13px 0 0;
   color: rgba(54, 54, 54, 0.5);
   text-align: left;
   letter-spacing: -0.01em;
 }
 
-.register-date {
-  position: relative;
+#rating-explain p {
+	font-size: 13px;
 }
 
-.register-date::before {
+.register-date {
+  position: relative;
+
+}
+
+/* .register-date::before {
   display: inline-block;
   position: relative;
   top: -1px;
@@ -91,7 +97,7 @@
   vertical-align: middle;
   background: rgba(54, 54, 54, 0.5);
   content: "";
-}
+} */
 
 .mypage__subInfo {
   display: flex;

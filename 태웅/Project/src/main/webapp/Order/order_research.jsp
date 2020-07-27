@@ -176,12 +176,12 @@
                                 <tbody class="product_tbody">
                                 	<c:forEach var="orderList" items="${list}" varStatus="status" >
                                     <tr>
-                                        <td><img class="product_img" src="display?path=${orderList.thumbnail_thum_path}&name=${orderList.thumbnail_thum}" alt="상품 이미지"/></td>
-                                        <td><input name="order_list_name" class="order_list_name" value="${orderList.board_title}"></td>
-                                        <td><input name="order_price" class="order_price" value="${orderList.price}"></td>
-                                        <td><input name="order_volume" class="order_volume" value="${orderList.amount}"></td>
-                                        <td><input name="order_airfreight" class="order_airfreight" value="${orderList.delivery_price}"></td>
-                                        <td><input name="order_option" class="order_option" value="-"></td>
+                                        <td><img class="product_img" src="display?path=${orderList.thumbnail_thum_path}&name=${orderList.thumbnail_thum}" alt="상품 이미지" onclick="location.href='BoardProductView.bo?board_id=${orderList.board_id}'"/></td>
+                                        <td><input name="order_list_name" class="order_list_name" value="${orderList.board_title}" onclick="location.href='BoardProductView.bo?board_id=${orderList.board_id}'" readonly></td>
+                                        <td><input name="order_price" class="order_price" value="${orderList.price}"readonly></td>
+                                        <td><input name="order_volume" class="order_volume" value="${orderList.amount}"readonly></td>
+                                        <td><input name="order_airfreight" class="order_airfreight" value="${orderList.delivery_price}"readonly></td>
+                                        <td><input name="order_option" class="order_option" value="-"readonly></td>
                                     </tr>
                                     </c:forEach>
                                 </tbody>

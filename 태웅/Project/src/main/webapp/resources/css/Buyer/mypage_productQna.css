@@ -111,25 +111,20 @@
   padding: 10px;
 }
 
-.qna-number {
-  width: 15%;
-}
 
 .qna-title {
-	width: 50%;
+	width: 30%;
 }
 
+.qna-desc {
+	width: 55%;
+}
 .qna-date {
 	width: 15%;
 }
 
-.qna-hit {
-	width: 10%;
-}
 
-.qna-secret {
-	width: 10%;
-}
+
 
 .qna-number,
 .qna-title,
@@ -148,4 +143,49 @@
 .non-post {
   height: 200px;
   font-size: 20px;
+}
+
+
+/*페이징버튼*/
+
+.n-paging {
+	display: flex;
+	justify-content: center;
+	padding-top: 20px;
+	text-align: center;
+}
+
+.n-paging ul {
+	display: flex;
+}
+
+.page {
+	display: inline-block;
+    width: 28px;
+    margin: 5px 0;
+    border: 0;
+    padding: 0;
+    line-height: 1.375;
+    font-size: 16px;
+    color: #dadada;
+    vertical-align: top;
+}
+
+.page.active {
+	color: #000;
+	font-weight: 600;
+}
+
+.prev, 
+.next
+{
+	display: inline-block;
+    width: 35px;
+    margin: 5px 0;
+    border: 0;
+    padding: 0;
+    line-height: 1.375;
+    font-size: 16px;
+    color: #dadada;
+    vertical-align: top;	
 }

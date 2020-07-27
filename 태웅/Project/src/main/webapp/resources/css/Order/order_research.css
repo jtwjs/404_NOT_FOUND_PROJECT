@@ -132,11 +132,18 @@
 	display: block;
 	width: 200px;
 	height: 150px;
+	cursor: pointer;
 }
-    
+
+.order_list_name {
+   cursor: pointer;	
+}
+
+.order_list_name:hover {
+	text-decoration: underline;
+}
+
 .order_content1 td{
-
-
     width: 85%;
 }
 

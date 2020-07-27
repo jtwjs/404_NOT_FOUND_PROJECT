@@ -29,4 +29,7 @@ public interface BoardProductService {
     public int insertReviewComment(CommentReviewVO vo);
     public CommentReviewVO[] getReviewComment(String review_id);
     public int deleteReviewComment(String review_id, int review_cmt_num);
+    public int countReviewById(String buyer_id);
+	public ArrayList<BoardReviewVO> boardReviewListAllById(String buyer_id,int rowStart,int rowEnd);
+    
 }
