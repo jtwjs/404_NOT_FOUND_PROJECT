@@ -15,8 +15,10 @@ public interface BoardReviewMapper {
 	public int getReviewTotNum();
 	public int getReviewNum(String board_id);
 	public int insertReview(BoardReviewVO vo);
-	public ArrayList<BoardReviewVO> getBoardReviewList(String board_id);
+	public ArrayList<BoardReviewVO> getBoardReviewList(@Param("board_id")String board_id, 
+			@Param("page_num")int page_num, @Param("page_amount")int page_amount);
 	public int countReviewById(String buyer_id);
 	public ArrayList<BoardReviewVO> boardReviewListAllById(@Param("buyer_id")String buyer_id,
 			@Param("rowStart")int rowStart, @Param("rowEnd")int rowEnd);
+	public double getAvgSatisfaction(String board_id);
 }

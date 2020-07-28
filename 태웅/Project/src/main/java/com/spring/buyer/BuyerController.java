@@ -411,6 +411,30 @@ public class BuyerController {
 						break;
 			}
 			
+			switch(Double.toString(list.get(i).getDelivery_satisfaction())){
+			case "5.0": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/stars_5.png");
+						break;
+			case "4.5": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/stars_4-5.png");
+						break;
+			case "4.0": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/star_4.png");
+						break;
+			case "3.5": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/stars_3-5.png");
+						break;
+			case "3.0": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/star_3.png");
+						break;
+			case "2.5": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/stars_2-5.png");
+						break;
+			case "2.0": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/stars_2.png");
+						break;
+			case "1.5": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/star_1-5.png");
+						break;
+			case "1.0": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/star_1.png");
+						break;
+			default: list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/star_0-5.png");
+						break;
+			}
+			
+			
 				try {
 					String reg_date = format.format(list.get(i).getRegister_date());
 					list.get(i).setFormat_reg_date(reg_date);
@@ -478,6 +502,64 @@ public class BuyerController {
 		model.addAttribute("user", buyerAccount);
 		return "Buyer/mypage_review_write";
 	}
+	
+	@RequestMapping(value = "/BuyerMyPageReviewWriteForm.by")
+	public String buyerMyPageReviewWrtieForm(Model model, @CurrentUser AccountVO account,
+			@RequestParam("board_id")String board_id,@RequestParam("order_id")String order_id) {
+		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
+		try {
+			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+				buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		BoardProductVO product = productService.getBoardProductVO(board_id);
+		try {
+			product.setThumbnail_thum_path(URLEncoder.encode(product.getThumbnail_thum_path(), "UTF-8"));
+			product.setThumbnail_thum(URLEncoder.encode(product.getThumbnail_thum(),"UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		model.addAttribute("order_id",order_id);
+		model.addAttribute("user",buyerAccount);
+		model.addAttribute("item",product);
+		return "Buyer/mypage_review_write_form";
+	}
+	
+	@RequestMapping(value = "/BuyerMyPageReviewWriteRegist", method = RequestMethod.POST)
+	public String buyerMyPageReviewWriteRegist(@CurrentUser AccountVO account,BoardReviewVO vo) {
+		
+		BoardProductVO product = productService.getBoardProductVO(vo.getBoard_id()); 
+		int review_num = productService.getReviewTotNum() + 1;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Date date = new Date();
+		String str = sdf.format(date);
+    	
+    	StringBuilder review_id = new StringBuilder(
+    			str + "-" + review_num);
+    	vo.setBuyer_id(account.getId());
+    	vo.setReview_num(review_num);
+    	vo.setReview_id(review_id.toString());
+    	vo.setReview_img_name(product.getThumbnail_thum());
+    	vo.setReview_img_path(product.getThumbnail_thum_path());
+		
+    	
+    	
+		
+		productService.insertReview(vo);
+		return "redirect:BuyerMyPageReviewWrite.by";
+	}
+	
+	
 	@RequestMapping(value = "/BuyerMyPageProductQna.by")
 	public String buyerMyPageProductQna(Model model, @CurrentUser AccountVO account) {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());

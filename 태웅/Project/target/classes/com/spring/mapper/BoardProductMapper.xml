@@ -217,5 +217,91 @@
 	    UPDATE board_product SET read_count = read_count + 1 WHERE board_id = #{board_id}
 	</update>
 	
+	<update id="updateSatisfaction">
+	    UPDATE board_product SET satisfaction = #{satisfaction} WHERE board_id = #{board_id}
+	</update>
+	
+	<select id="getBestBoardProductList" resultMap="BoardProductMap">
+	    SELECT * FROM board_product ORDER BY satisfaction DESC
+	</select>
+	
+	<select id="getSearchBoardProductList" resultMap="BoardProductMap">
+	    <choose>
+	        <when test="sort_list == 1">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product 
+	                    WHERE (title LIKE '%'||#{keyword}||'%' OR product_name LIKE '%'||#{keyword}||'%') 
+	                    AND (category_1 BETWEEN #{minCategory_1} AND #{maxCategory_1}) 
+	                    AND (category_2 BETWEEN #{minCategory_2} AND #{maxCategory_2}) 
+	                    AND (category_local BETWEEN #{minCategory_local} AND #{maxCategory_local}) 
+	                    AND (price BETWEEN #{min_price} AND #{max_price}) 
+	                    ORDER BY read_count DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <when test="sort_list == 2">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product 
+	                    WHERE (title LIKE '%'||#{keyword}||'%' OR product_name LIKE '%'||#{keyword}||'%') 
+	                    AND (category_1 BETWEEN #{minCategory_1} AND #{maxCategory_1}) 
+	                    AND (category_2 BETWEEN #{minCategory_2} AND #{maxCategory_2}) 
+	                    AND (category_local BETWEEN #{minCategory_local} AND #{maxCategory_local}) 
+	                    AND (price BETWEEN #{min_price} AND #{max_price}) 
+	                    ORDER BY board_num DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <when test="sort_list == 3">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product 
+	                    WHERE (title LIKE '%'||#{keyword}||'%' OR product_name LIKE '%'||#{keyword}||'%') 
+	                    AND (category_1 BETWEEN #{minCategory_1} AND #{maxCategory_1}) 
+	                    AND (category_2 BETWEEN #{minCategory_2} AND #{maxCategory_2}) 
+	                    AND (category_local BETWEEN #{minCategory_local} AND #{maxCategory_local}) 
+	                    AND (price BETWEEN #{min_price} AND #{max_price}) 
+	                    ORDER BY hit DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <when test="sort_list == 4">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product 
+	                    WHERE (title LIKE '%'||#{keyword}||'%' OR product_name LIKE '%'||#{keyword}||'%') 
+	                    AND (category_1 BETWEEN #{minCategory_1} AND #{maxCategory_1}) 
+	                    AND (category_2 BETWEEN #{minCategory_2} AND #{maxCategory_2}) 
+	                    AND (category_local BETWEEN #{minCategory_local} AND #{maxCategory_local}) 
+	                    AND (price BETWEEN #{min_price} AND #{max_price}) 
+	                    ORDER BY price ASC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <when test="sort_list == 5">
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product 
+	                    WHERE (title LIKE '%'||#{keyword}||'%' OR product_name LIKE '%'||#{keyword}||'%') 
+	                    AND (category_1 BETWEEN #{minCategory_1} AND #{maxCategory_1}) 
+	                    AND (category_2 BETWEEN #{minCategory_2} AND #{maxCategory_2}) 
+	                    AND (category_local BETWEEN #{minCategory_local} AND #{maxCategory_local}) 
+	                    AND (price BETWEEN #{min_price} AND #{max_price}) 
+	                    ORDER BY price DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </when>
+	        <otherwise>
+	            SELECT * FROM(
+	                SELECT ROWNUM AS RNUM, B.* FROM (
+	                    SELECT * FROM board_product 
+	                    WHERE (title LIKE '%'||#{keyword}||'%' OR product_name LIKE '%'||#{keyword}||'%') 
+	                    AND (category_1 BETWEEN #{minCategory_1} AND #{maxCategory_1}) 
+	                    AND (category_2 BETWEEN #{minCategory_2} AND #{maxCategory_2}) 
+	                    AND (category_local BETWEEN #{minCategory_local} AND #{maxCategory_local}) 
+	                    AND (price BETWEEN #{min_price} AND #{max_price}) 
+	                    ORDER BY board_num DESC) B 
+	            ) WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+	        </otherwise>
+	    </choose>
+	</select>
+	
+	
 
 </mapper>

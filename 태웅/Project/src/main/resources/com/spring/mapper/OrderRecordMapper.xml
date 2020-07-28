@@ -92,5 +92,7 @@
 		SELECT * FROM order_record
 		WHERE buyer_id = #{buyer_id}
 	</select>
+	
+
 		
 </mapper>

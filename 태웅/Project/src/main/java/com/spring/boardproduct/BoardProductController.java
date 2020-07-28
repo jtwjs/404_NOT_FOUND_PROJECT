@@ -47,6 +47,111 @@ public class BoardProductController {
 	@Autowired
 	private OrderService orderService;
 
+	@GetMapping(value = "/BoardProductSearch.bo")
+	public String boardProductSearch(Model model, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value="category_1", required = false, defaultValue="0")int category_1, 
+			@RequestParam(value="category_2", required = false, defaultValue="0")int category_2, 
+			@RequestParam(value="category_local", required = false, defaultValue="0")int category_local,
+			@RequestParam(value="sort_list", required = false, defaultValue="2")int sort_list, 
+		    @RequestParam(value="page_num", required = false, defaultValue="1")int page_num, 
+		    @RequestParam(value="page_amount", required = false, defaultValue="30")int page_amount, 
+		    @RequestParam(value="min_price", required = false, defaultValue="0")int min_price, 
+		    @RequestParam(value="max_price", required = false, defaultValue="9999999")int max_price, 
+		    @RequestParam(value="priceSelect", required = false, defaultValue="10")int priceSelect, 
+		    String keyword) {
+		
+        Cookie[] cookies = request.getCookies();
+        Cookie non_userCK = null;
+        Cookie userCK = null;
+        
+        ArrayList<BoardProductVO> non_recentList = new ArrayList<>();
+        ArrayList<BoardProductVO> recentList = new ArrayList<>();
+        
+        for(Cookie c : cookies) {
+        	if(c.getName().equals("recentlyProduct")) {
+        		non_userCK = c;
+        		int non_index1 = non_userCK.getValue().indexOf("/");
+        		String non_str = non_userCK.getValue().substring(non_index1+1);
+        		String[] non_recentArray = non_str.split("/");
+        		for(int i=0; i<non_recentArray.length; i++) {
+        			BoardProductVO product = boardProductService.getBoardProductVO(non_recentArray[i]);
+        			try {
+        				product.setThumbnail_thum(URLEncoder.encode(product.getThumbnail_thum(), "UTF-8"));
+        				product.setThumbnail_thum_path(URLEncoder.encode(product.getThumbnail_thum_path(),"UTF-8"));
+        				
+        			}catch(UnsupportedEncodingException e) {
+        				e.printStackTrace();
+        				
+        			}
+            		non_recentList.add(product);
+            	}
+        	}else if(c.getName().equals("AccountRecentlyProduct")) {
+        		userCK = c;
+        		int index1 = userCK.getValue().indexOf("/");
+            	String str = userCK.getValue().substring(index1+1);
+            	String[] recentArray = str.split("/");
+            	for(int i=0; i<recentArray.length; i++) {
+            		BoardProductVO product = boardProductService.getBoardProductVO(recentArray[i]);
+            		try {
+            			product.setThumbnail_thum(URLEncoder.encode(product.getThumbnail_thum(), "UTF-8"));
+            			product.setThumbnail_thum_path(URLEncoder.encode(product.getThumbnail_thum_path(), "UTF-8"));
+            		}catch(UnsupportedEncodingException e) {
+            			e.printStackTrace();
+            		}
+            		recentList.add(product);
+            	}
+        	}
+        
+        }
+    	model.addAttribute("non_list",non_recentList);
+    	model.addAttribute("list",recentList);
+    	
+    	int minCategory_1 = 1;
+    	int maxCategory_1 = 10;
+    	
+    	int minCategory_2 = 101;
+    	int maxCategory_2 = 1004;
+    	
+    	int minCategory_local = 1;
+    	int maxCategory_local = 10;
+    	
+    	if(category_1 != 0) {
+    		minCategory_1 = category_1;
+    		maxCategory_1 = category_1;
+    	}
+    	
+    	if(category_2 != 0) {
+    		minCategory_2 = category_2;
+    		maxCategory_2 = category_2;
+    	}
+    	
+    	if(category_local != 0) {
+    		minCategory_local = category_local;
+    		maxCategory_local = category_local;
+    	}
+    	
+    	
+    	
+    	ArrayList<BoardProductVO> vo_list 
+    	    = boardProductService.getSearchBoardProductList(keyword, minCategory_1, maxCategory_1, 
+    	    		minCategory_2, maxCategory_2, minCategory_local, maxCategory_local, 
+    	    		min_price, max_price, sort_list, page_num, page_amount);
+    	
+    	model.addAttribute("pageMaker", new PageMaker(page_num, page_amount, vo_list.size()));
+    	model.addAttribute("sort_list", sort_list);
+    	model.addAttribute("vo_list", vo_list);
+    	model.addAttribute("category_1" , category_1);
+    	model.addAttribute("category_2" , category_2);
+    	model.addAttribute("category_local" , category_local);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("min_price", min_price);
+		model.addAttribute("max_price", max_price);
+		model.addAttribute("priceSelect", priceSelect);
+		
+		return "BoardProduct/boardProductSearch";
+	}
+	
+	
     @GetMapping(value = "/BoardProductList.bo") // 판매글 리스트
 	public String boardProductList(Model model,
 			@RequestParam(value="category_1", required = false, defaultValue="0")int category_1, 
@@ -270,8 +375,9 @@ public class BoardProductController {
     	response.addCookie(cookie);
     	
     	BoardProductVO vo = boardProductService.getBoardProductVO(board_id);
-    	ArrayList<BoardReviewVO> review_list = boardProductService.getBoardReviewList(board_id);
-    	int reviewNum = boardProductService.getReviewNum(board_id);
+    	ArrayList<BoardReviewVO> review_list  // 페이징처리는 뷰에서 비동기로 함
+	    = boardProductService.getBoardReviewList(board_id, 1, 5); // 리스트에서 1페이지(5개)만 가져옴
+	int reviewNum = boardProductService.getReviewNum(board_id);
     	
     	ArrayList<CommentReviewVO[]> reviewComment = new ArrayList<CommentReviewVO[]>();
     	CommentReviewVO[] comment = null;
@@ -340,7 +446,8 @@ public class BoardProductController {
     	response.addCookie(cookie);
     	
     	BoardProductVO vo = boardProductService.getBoardProductVO(board_id);
-    	ArrayList<BoardReviewVO> review_list = boardProductService.getBoardReviewList(board_id);
+    	ArrayList<BoardReviewVO> review_list  // 페이징처리는 뷰에서 비동기로 함
+    	    = boardProductService.getBoardReviewList(board_id, 1, 5); // 리스트에서 1페이지(5개)만 가져옴
     	int reviewNum = boardProductService.getReviewNum(board_id);
     	
     	ArrayList<CommentReviewVO[]> reviewComment = new ArrayList<CommentReviewVO[]>();
@@ -794,8 +901,8 @@ public class BoardProductController {
 	
 	@PostMapping(value = "/BoardReviewRegist.bo")
 	private String boardReviewRegist(String board_id, String buyer_id, String title, String content, 
-			double satisfaction, String review_img_path, String review_img_name, String location, 
-			String order_id) {
+			double satisfaction, double delivery_satisfaction, String review_img_path, 
+			String review_img_name, String location, String order_id) {
 		
 		BoardReviewVO vo = new BoardReviewVO();
 		int review_num = boardProductService.getReviewTotNum() + 1;
@@ -815,30 +922,36 @@ public class BoardProductController {
 		vo.setTitle(title);
 		vo.setContent(content);
 		vo.setSatisfaction(satisfaction);
+		vo.setDelivery_satisfaction(delivery_satisfaction);
 		vo.setReview_img_path(review_img_path);
 		vo.setReview_img_name(review_img_name);
 		
 		
-		System.out.println("review_id: " + vo.getReview_id());
-		System.out.println("review_num: " + vo.getReview_num());
-		System.out.println("board_id: " + vo.getBoard_id());
-		System.out.println("buyer_id: " + vo.getBuyer_id());
-		System.out.println("order_id: " + vo.getOrder_id());
-		System.out.println("title: " + vo.getTitle());
-		System.out.println("content: " + vo.getContent());
-		System.out.println("satisfaction: " + vo.getSatisfaction());
-		System.out.println("review_img_path: " + vo.getReview_img_path());
-		System.out.println("review_img_name: " + vo.getReview_img_name());
-		System.out.println("location: " + location);
+//		System.out.println("review_id: " + vo.getReview_id());
+//		System.out.println("review_num: " + vo.getReview_num());
+//		System.out.println("board_id: " + vo.getBoard_id());
+//		System.out.println("buyer_id: " + vo.getBuyer_id());
+//		System.out.println("order_id: " + vo.getOrder_id());
+//		System.out.println("title: " + vo.getTitle());
+//		System.out.println("content: " + vo.getContent());
+//		System.out.println("satisfaction: " + vo.getSatisfaction());
+//		System.out.println("delivery_satisfaction: " + vo.getDelivery_satisfaction());
+//		System.out.println("review_img_path: " + vo.getReview_img_path());
+//		System.out.println("review_img_name: " + vo.getReview_img_name());
+//		System.out.println("location: " + location);
+		
+		double avgSatisfaction = 0.0;
 		
 		if(boardProductService.insertReview(vo) == 1) {
+			avgSatisfaction = boardProductService.getAvgSatisfaction(board_id);
+		}
+		
+		if(boardProductService.updateSatisfaction(board_id, avgSatisfaction) == 1) {
 			
 		}
-
 		
 		return "redirect:/BoardProductView.bo?board_id=" + board_id + "&location=" + location;
 	}
-	
 	
 	@RequestMapping(value = "/ReviewCommentRegist.bo")
 	@ResponseBody

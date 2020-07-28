@@ -196,16 +196,16 @@
               <input
                 type="text"
                 class="search-input"
+                id="search-input"
                 placeholder="지역 특산품"
               />
-              <button type="submit" class="search-btn">
+              <button type="button" class="search-btn" onclick="boardProductSearch();">
                 <img
                   src="./resources/Images/module/header/search-icon.png"
                   alt="search icon"
                 />
               </button>
             </div>
-          </div>
         </nav>
       </div>
     </header>

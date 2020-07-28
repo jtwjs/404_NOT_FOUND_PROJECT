@@ -87,7 +87,7 @@
                                    		<td class="product-title"><img src="display?path=${list.thumbnail_thum_path}&name=${list.thumbnail_thum}" onclick="location.href='BoardProductView.bo?board_id=${list.board_id}'"/><p onclick="location.href='BoardProductView.bo?board_id=${list.board_id}'">${list.board_title}</p></td>
                                    		<c:if test="${list.reviewCheck eq true}">
                                    		<td class="order-date">${list.order_date}</td>
-                                   		<td><button type="button" class="reviewBtn">작성하기</button></td>
+                                   		<td><button type="button" class="reviewBtn" onclick="location.href='BuyerMyPageReviewWriteForm.by?board_id=${list.board_id}&order_id=${list.order_id}'">작성하기</button></td>
                                    		
                                    		</c:if>
                                    		<c:if test="${list.reviewCheck eq false }" >

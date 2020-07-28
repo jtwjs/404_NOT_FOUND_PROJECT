@@ -293,11 +293,6 @@ create table product_cart(          -- �옣諛붽뎄�땲
     constraint product_cart_cart_id_pk primary key(cart_id)
 );
 
-
- 
- 
-select * from board_review;
-
 drop table board_review;
 create table board_review(              -- 상품후기 게시판
     review_id varchar2(32) not null,    -- 리뷰글 ID (기본키)
@@ -308,13 +303,15 @@ create table board_review(              -- 상품후기 게시판
     title varchar2(100) not null,       -- 판매글 제목
     content varchar2(200) not null,     -- 글내용
     satisfaction number(2,1) not null,  -- 구매만족도(별점)
+    delivery_satisfaction number(2,1) not null,  -- 배달 속도
     register_date date not null,        -- 작성일
     review_img_path varchar2(50),       -- 작성 후기글 이미지 경로
     review_img_name varchar2(100),       -- 작성 후기글 이미지 이름
     constraint board_review_review_id_pk primary key(review_id)
 );
 
-select * from save_point;
+drop table board_review;
+
 
 create or replace trigger TRG_board_review
 AFTER INSERT ON board_review
@@ -337,6 +334,21 @@ create table comment_review(               -- 상품 리뷰 댓글
     constraint comment_review_id_fk foreign key(review_id)
         references board_review(review_id) on delete cascade
 );
+
+drop table board_qna;
+create table board_qna(              -- 상품 문의 게시판
+    qna_num number not null,          -- Qna게시판 ID (기본키)
+    board_id number not null,        -- 게시판 ID (board_product테이블 외래키)
+    qna_status number not null,      -- 문의종류
+    anser_status char(1) not null,   -- 답변여부
+    buyer_id varchar2(16) not null,  -- 작성자
+    regiser_date date not null,      -- 등록일자
+    title varchar2(50) not null,     -- 글제목
+    content varchar2(200) not null,  -- 글내용
+    secret_flag char(1) not null,    -- 비밀글 여부
+    constraint board_qna_qna_num_pk primary key(qna_num)
+);
+
 
 drop table order_record;
 create table order_record(                   -- 주문기록

@@ -548,40 +548,37 @@ function hasScrolled() {
 }
 
 
-/*주문배송*/
+/*주문배송 모달창*/
+
 var ord_deliveryBtn = document.getElementById('order_delivery');
 var deliveryModal = document.querySelector('.delivery-modal-bg');
 var closeBtn = document.querySelector('.close-btn');
 
 if(ord_deliveryBtn != null){
-ord_deliveryBtn.addEventListener('click',deliveryCheck);
+ord_deliveryBtn.addEventListener('click',function(){
+	deliveryModal.classList.remove('hide');
+});
 
 closeBtn.addEventListener('click', function(){
 	deliveryModal.classList.add('hide');
 });
 
-function deliveryCheck() {
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
-	$.ajax({
-		url: '/project/orderBeingDelivered.or',
-		type: 'POST',
-		beforeSend: function(xhr){
-			xhr.setRequestHeader(header,token);
-		},
-		contentType: 'application/x-www-form-urlencoded; charset=utf-8',
-		success: function(data) {
-			if(data.result == "empty"){
-				deliveryModal.classList.remove('hide');
-			}else {
-				location.href='OrderResearch.or?order_id='+data.result;
-			}
-			
-		},
-		error:function(xhr,status,error) {
-				console.log('error:'+error);
-		}
-	});
 }
 
+
+// redirect
+function checkRedirect(indexCheck){
+	if(indexCheck != 1){
+		location.replace("Index.in");
+	}
+}
+
+// 상품 검색
+
+function boardProductSearch(){
+	var searchText = document.getElementById("search-input");
+	
+	if(searchText.value != ""){
+	    location.href= "BoardProductSearch.bo?keyword=" + searchText.value;
+	}
 }

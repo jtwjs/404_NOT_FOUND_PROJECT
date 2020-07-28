@@ -65,63 +65,58 @@
                             	<p class="explain">- 이메일,휴대전화 번호 등의 개인 정보/광고/비속어가 포함된 후기는 블라인드 처리됩니다.</p>
                             	<p class="explain">- 등록하신 후기는 공개되어 회원이 조회가능합니다</p>
                             </div>
-                            <article id="review_history">
-                                <table id="order_history--table">
-                                    <thead>
-                                        <tr>                
-                                            <th scope="col" class="product-info">상품정보</th>
-                                            <th scope="col" class="purchase-date">구매일</th>  
-                                            <th scope="col" class="review-write">일반 후기</th>                
-                                             
-                                        </tr>   
-                                    </thead>
-                                    <tbody>
-                                   	<c:if test="${fn:length(orderList) == 0}">
-                                        <tr>
-                                            <td class="non-list" colspan="5">
-                                               주문한 상품이 없습니다.
-                                            </td>
-                                        </tr>
-                                   
-                                   </c:if>
-                                   <c:forEach var="list" items="${orderList}" varStatus="status" >
-                                   	<tr>
-                                   		<td class="product-title"><img src="display?path=${list.thumbnail_thum_path}&name=${list.thumbnail_thum}" onclick="location.href='BoardProductView.bo?board_id=${list.board_id}'"/><p onclick="location.href='BoardProductView.bo?board_id=${list.board_id}'">${list.board_title}</p></td>
-                                   		<c:if test="${list.reviewCheck eq true}">
-                                   		<td class="order-date">${list.order_date}</td>
-                                   		<td><button type="button" class="reviewBtn">작성하기</button></td>
-                                   		
-                                   		</c:if>
-                                   		<c:if test="${list.reviewCheck eq false }" >
-                                   		<td class="last_order-date">${list.order_date}</td>
-                                   		<td><span class="complete">작성 완료</span><span class="enter">(적립금 지급)</span></td>
-                                   		</c:if>
-                               		
-                                   	</tr>
-                                   	</c:forEach>
-                                  
-                                    </tbody>
-                                </table>
-                                <div class="n-paging">
-                     		<ul>
-                     			<c:if test="${pageMaker.prev}">
-                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(pageMaker.startPage - 1)}" class="prev">이전</a></li>
-                     			</c:if>
-                     			
-                     			<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-                     				<c:if test="${currentPage eq idx}">
-                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(idx)}" class="page active">${idx}</a></li>
-                     				</c:if>
-                     				<c:if test="${currentPage ne idx}">
-                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(idx)}" class="page">${idx}</a></li>
-                     				</c:if>
-                     			</c:forEach>
-                     			
-                     			<c:if test="${pageMaker.next && pageMaker.endPage> 0}">
-                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(pageMaker.endPage + 1)}" class="next">다음</a></li>
-                     			</c:if>
-                     		</ul>
-                     	</div>
+                            <article id="review_write">
+                            	<dl class="item-info">
+                            		<dt><img src="display?path=${item.thumbnail_thum_path}&name=${item.thumbnail_thum}"/></dt>
+                            		<dd><p class="item-title">${item.product_country} / ${item.product_name}<span class="enter bold">${item.title}</span></p></dd>
+                            	</dl>
+                            	<form id="review_form" action="/project/BuyerMyPageReviewWriteRegist" method="POST">
+	                            	<div class="satisfaction">
+	                            		<dl class="item-satisfaction">
+	                            			<dt>상품 만족도</dt>
+	                            			<dd>
+	                            				<a href="#a" class="score-0_5"></a>
+	                            				<a href="#a" class="score-1"></a>
+	                            				<a href="#a" class="score-1_5"></a>
+	                            				<a href="#a" class="score-2"></a>
+	                            				<a href="#a" class="score-2_5"></a>
+	                            				<a href="#a" class="score-3"></a>
+	                            				<a href="#a" class="score-3_5"></a>
+	                            				<a href="#a" class="score-4"></a>
+	                            				<a href="#a" class="score-4_5"></a>
+	                            				<a href="#a" class="score-5"></a>
+	                           				</dd>
+	                            		</dl>
+	                            		<input type="hidden" id="satisfaction" name="satisfaction"  />
+	                            		<dl class="delivery-satisfaction">
+	                            			<dt>배송 만족도</dt>
+	                            			<dd>
+	                            				<a href="#a" class="score-0_5"></a>
+	                            				<a href="#a" class="score-1"></a>
+	                            				<a href="#a" class="score-1_5"></a>
+	                            				<a href="#a" class="score-2"></a>
+	                            				<a href="#a" class="score-2_5"></a>
+	                            				<a href="#a" class="score-3"></a>
+	                            				<a href="#a" class="score-3_5"></a>
+	                            				<a href="#a" class="score-4"></a>
+	                            				<a href="#a" class="score-4_5"></a>
+	                            				<a href="#a" class="score-5"></a>
+	                            			</dd>
+	                            		</dl>
+	                            		<input type="hidden" id="delivery_satisfaction" name="delivery_satisfaction"  />
+	                            		<input type="hidden" name="title" value="${item.title}" />
+	                            		<input type="hidden" name="board_id" value="${item.board_id}" />
+	                            		<input type="hidden" name="order_id" value="${order_id}" />
+	                            	</div>
+	                            	<div class="product_review">
+	                            		<label for="goods_text" class="label">상품에 대한 평가를 20자 이상 작성해 주세요</label>
+	                            		<textarea name="content" id="goods_text" placeholder="내용을 입력해주세요" ></textarea>
+	                            	</div>
+	                            	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                            	</form>
+                            	<div class="regist_review">
+                            		<button type="button" id="submitBtn"> 등록 </button>
+                           		</div>
                             </article>
 
                     </section>
@@ -133,6 +128,7 @@
     
 
     <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_menu.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_review_write_form.js?after'/>"></script>
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js'/>" ></script>    

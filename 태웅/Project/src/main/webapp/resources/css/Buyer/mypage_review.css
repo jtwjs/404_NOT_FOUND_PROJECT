@@ -90,8 +90,20 @@
 	height: 15px;
     margin-bottom: 5px;
 }
+.content dl {
+	display: flex;
+}
 
-.content p {
+.content dt {
+	margin-right: 8px;
+	font-size: 16px;
+}
+
+.satisfaction dd {
+	margin-right: 10px;
+}
+
+.content .detail {
 	height: 55px;
 	padding-top: 5px;
 }

@@ -86,7 +86,14 @@
                                    <c:forEach var="list" items="${reviewList}" varStatus="status" >
                                    	<tr>
                                    		<td class="product-title"><img src="display?path=${list.review_img_path}&name=${list.review_img_name}"/><p>${list.title}</p></td>
-                                   		<td class="content"><img src="${list.satisfaction_img}" alt="별점"/><p>${list.content}</p></td>
+                                   		<td class="content">
+                                   			<dl class="satisfaction">
+                                   				<dt>상품만족도</dt> 
+                                   				<dd><img src="${list.satisfaction_img}" alt="구매만족도별점"/></dd>
+                                   				<dt>배송만족도</dt>
+                                   				<dd><img src="${list.delivery_satisfaction_img}" alt="배송별점"/></dd>
+                               				</dl>
+                               				<p class="detail">${list.content}</p></td>
                                    		<td>${list.format_reg_date}</td>
                                    	</tr>
                                    	</c:forEach>

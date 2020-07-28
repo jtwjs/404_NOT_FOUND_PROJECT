@@ -1,6 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.spring.boardproduct.BoardProductVO" %>
+<%@ page import="java.util.ArrayList" %>
+<%
+    ArrayList<BoardProductVO> vo_list = null;
+    if((ArrayList<BoardProductVO>)request.getAttribute("vo_list") != null){
+    	vo_list = (ArrayList<BoardProductVO>)request.getAttribute("vo_list");
+    }
+    
+    int indexRedirect = 0;
+    if((String)request.getAttribute("indexRedirect") != null){
+    	indexRedirect = 1;
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +27,7 @@
     <link href="<c:url value='/resources/css/Home/index.css'/>" rel="stylesheet" />
     <title>Home</title>
 </head>
-<body>
+<body onload="checkRedirect('<%=indexRedirect%>');">
     <main id="main">
         <section id="main__visual1">
         	<div id="control">
@@ -83,276 +96,58 @@
           	</div>
           	<div class="best-product--content">
           		<ul id="best-product--list">
-          			<li class="product--list-item">
+          		<%if(vo_list != null){ 
+          			int count = 0;
+          			int max = vo_list.size();
+          			if(max > 10){
+          				max = 10;
+          			}
+          			%>
+          			<%for(int i = 0; i < max; i++){ %>
+          			    <li class="product--list-item">
         				<div class="item-img">
 	        				<button type="button">
 	        					<img src="./resources/Images/Home/ic_share2.png" alt="상세보기" />
 	        				</button>
-	       					<img class="product-image" src="./resources/Images/BoardProduct/straw-berry.jpg" alt="product image"/>
+	        				<%if(vo_list.get(i).getProduct_thum_1() != null){ %>
+	       					<img class="product-image" 
+	       					    src="display?path=<%=java.net.URLEncoder.encode(vo_list.get(i).getProduct_origin_path(), "UTF-8") %>&name=<%=java.net.URLEncoder.encode(vo_list.get(i).getProduct_origin_1(), "UTF-8") %>" alt="product image"/>
+	       					<%}else if(vo_list.get(i).getProduct_thum_2() != null){ %>
+	       					<img class="product-image" 
+	       					    src="display?path=<%=java.net.URLEncoder.encode(vo_list.get(i).getProduct_origin_path(), "UTF-8") %>&name=<%=java.net.URLEncoder.encode(vo_list.get(i).getProduct_origin_2(), "UTF-8") %>" alt="product image"/>
+	       					<%}else if(vo_list.get(i).getProduct_thum_3() != null){ %>
+	       					<img class="product-image" 
+	       					    src="display?path=<%=java.net.URLEncoder.encode(vo_list.get(i).getProduct_origin_path(), "UTF-8") %>&name=<%=java.net.URLEncoder.encode(vo_list.get(i).getProduct_origin_3(), "UTF-8") %>" alt="product image"/>
+	       					<%}else{ %>
+	       					<img class="product-image" 
+	       					    src="display?path=<%=java.net.URLEncoder.encode(vo_list.get(i).getProduct_origin_path(), "UTF-8") %>&name=<%=java.net.URLEncoder.encode(vo_list.get(i).getProduct_origin_4(), "UTF-8") %>" alt="product image"/>
+	       					<%} %>
      					</div>
 	       				<div class="item-desc">
 	       					<div class="item-desc--content">
 	       						<dl>
-	       							<dt>lorem ipsum  <span>lorem inpsum dolor sit amet</span></dt>
+	       							<dt><%=vo_list.get(i).getTitle() %>  <span>lorem inpsum dolor sit amet</span></dt>
 	       							<dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<dd>
 	       						</dl>
 	       					</div>
 	       					<div class="item-desc--option">
 	       						<dl class="stars">
 	       						 	<dt>
-	       						 		<img class="stars-rating" src="./resources/Images/Home/stars_5.png" alt="star rating" />
+	       						 		<span class="customer-review__table--star-rating">
+                                            <span style="width: <%=(int)(vo_list.get(i).getSatisfaction() * 20)%>%;"></span>
+                                        </span>
 	   						 		</dt>
 	       							 <dd class="order-quantity">
-	       						 		99
+	       						 		<%=vo_list.get(i).getQuantity() %>
 	       							 </dd>
 	       						</dl>
-	       						<button class="order-btn" type="button">주문</button>
+	       						<button class="order-btn" onclick="javascript:location.href='BoardProductView.bo?board_id=<%=vo_list.get(i).getBoard_id() %>'"
+	       						    type="button">주문</button>
 	       					</div>
 	       				</div>
           			</li>
-          			<li class="product--list-item">
-       					<div class="item-img">
-  							<button type="button">
-  								<img src="./resources/Images/Home/ic_share2.png" alt="상세보기" />
-  							</button>
- 							<img class="product-image" src="./resources/Images/BoardProduct/potato.jpg" alt="product image"/>
-						</div>
-						<div class="item-desc">
-							<div class="item-desc--content">
-								<dl>
-									<dt>lorem ipsum  <span>lorem inpsum dolor sit amet</span></dt>
-									<dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<dd>
-								</dl>
-							</div>
-							<div class="item-desc--option">
-								<dl class="stars">
-						 			<dt>
-						 				<img class="stars-rating" src="./resources/Images/Home/stars_5.png" alt="star rating" />
-	 								</dt>
-						 			<dd class="order-quantity">
-						 				99
-						 			</dd>
-						 		</dl>
-						 		<button class="order-btn" type="button">주문</button>
-							</div>
-						</div>
-          			</li>
-          			<li class="product--list-item">
-       					<div class="item-img">
-       						<button type="button">
-       							<img src="./resources/Images/Home/ic_share2.png" alt="상세보기" />
-       						</button>
-      						<img class="product-image" src="./resources/Images/BoardProduct/hanwoo.jpg" alt="product image"/>
-     					</div>
-     					<div class="item-desc">
-     						<div class="item-desc--content">
-     							<dl>
-     								<dt>lorem ipsum  <span>lorem inpsum dolor sit amet</span></dt>
-     								<dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<dd>
-     							</dl>
-     						</div>
-     						<div class="item-desc--option">
-     							<dl class="stars">
-     						 		<dt>
-     						 			<img class="stars-rating" src="./resources/Images/Home/stars_5.png" alt="star rating" />
- 						 			</dt>
-     						 		<dd class="order-quantity">
-     						 			99
-     						 		</dd>
-     						 	</dl>
-     						 	<button class="order-btn" type="button">주문</button>
-     						</div>
-     					</div>
-          			</li>
-          			<li class="product--list-item">
-        				<div class="item-img">
-	        				<button type="button">
-	        					<img src="./resources/Images/Home/ic_share2.png" alt="상세보기" />
-	        				</button>
-	       					<img class="product-image" src="./resources/Images/BoardProduct/straw-berry.jpg" alt="product image"/>
-     					</div>
-	       				<div class="item-desc">
-	       					<div class="item-desc--content">
-	       						<dl>
-	       							<dt>lorem ipsum  <span>lorem inpsum dolor sit amet</span></dt>
-	       							<dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<dd>
-	       						</dl>
-	       					</div>
-	       					<div class="item-desc--option">
-	       						<dl class="stars">
-	       						 	<dt>
-	       						 		<img class="stars-rating" src="./resources/Images/Home/stars_5.png" alt="star rating" />
-	   						 		</dt>
-	       							 <dd class="order-quantity">
-	       						 		99
-	       							 </dd>
-	       						</dl>
-	       						<button class="order-btn" type="button">주문</button>
-	       					</div>
-	       				</div>
-          			</li>
-          			<li class="product--list-item">
-        				<div class="item-img">
-	        				<button type="button">
-	        					<img src="./resources/Images/Home/ic_share2.png" alt="상세보기" />
-	        				</button>
-	       					<img class="product-image" src="./resources/Images/BoardProduct/straw-berry.jpg" alt="product image"/>
-     					</div>
-	       				<div class="item-desc">
-	       					<div class="item-desc--content">
-	       						<dl>
-	       							<dt>lorem ipsum  <span>lorem inpsum dolor sit amet</span></dt>
-	       							<dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<dd>
-	       						</dl>
-	       					</div>
-	       					<div class="item-desc--option">
-	       						<dl class="stars">
-	       						 	<dt>
-	       						 		<img class="stars-rating" src="./resources/Images/Home/stars_5.png" alt="star rating" />
-	   						 		</dt>
-	       							 <dd class="order-quantity">
-	       						 		99
-	       							 </dd>
-	       						</dl>
-	       						<button class="order-btn" type="button">주문</button>
-	       					</div>
-	       				</div>
-          			</li>
-          			<li class="product--list-item">
-        				<div class="item-img">
-	        				<button type="button">
-	        					<img src="./resources/Images/Home/ic_share2.png" alt="상세보기" />
-	        				</button>
-	       					<img class="product-image" src="./resources/Images/BoardProduct/straw-berry.jpg" alt="product image"/>
-     					</div>
-	       				<div class="item-desc">
-	       					<div class="item-desc--content">
-	       						<dl>
-	       							<dt>lorem ipsum  <span>lorem inpsum dolor sit amet</span></dt>
-	       							<dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<dd>
-	       						</dl>
-	       					</div>
-	       					<div class="item-desc--option">
-	       						<dl class="stars">
-	       						 	<dt>
-	       						 		<img class="stars-rating" src="./resources/Images/Home/stars_5.png" alt="star rating" />
-	   						 		</dt>
-	       							 <dd class="order-quantity">
-	       						 		99
-	       							 </dd>
-	       						</dl>
-	       						<button class="order-btn" type="button">주문</button>
-	       					</div>
-	       				</div>
-          			</li>
-          			<li class="product--list-item">
-        				<div class="item-img">
-	        				<button type="button">
-	        					<img src="./resources/Images/Home/ic_share2.png" alt="상세보기" />
-	        				</button>
-	       					<img class="product-image" src="./resources/Images/BoardProduct/straw-berry.jpg" alt="product image"/>
-     					</div>
-	       				<div class="item-desc">
-	       					<div class="item-desc--content">
-	       						<dl>
-	       							<dt>lorem ipsum  <span>lorem inpsum dolor sit amet</span></dt>
-	       							<dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<dd>
-	       						</dl>
-	       					</div>
-	       					<div class="item-desc--option">
-	       						<dl class="stars">
-	       						 	<dt>
-	       						 		<img class="stars-rating" src="./resources/Images/Home/stars_5.png" alt="star rating" />
-	   						 		</dt>
-	       							 <dd class="order-quantity">
-	       						 		99
-	       							 </dd>
-	       						</dl>
-	       						<button class="order-btn" type="button">주문</button>
-	       					</div>
-	       				</div>
-          			</li>
-          			<li class="product--list-item">
-        				<div class="item-img">
-	        				<button type="button">
-	        					<img src="./resources/Images/Home/ic_share2.png" alt="상세보기" />
-	        				</button>
-	       					<img class="product-image" src="./resources/Images/BoardProduct/straw-berry.jpg" alt="product image"/>
-     					</div>
-	       				<div class="item-desc">
-	       					<div class="item-desc--content">
-	       						<dl>
-	       							<dt>lorem ipsum  <span>lorem inpsum dolor sit amet</span></dt>
-	       							<dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<dd>
-	       						</dl>
-	       					</div>
-	       					<div class="item-desc--option">
-	       						<dl class="stars">
-	       						 	<dt>
-	       						 		<img class="stars-rating" src="./resources/Images/Home/stars_5.png" alt="star rating" />
-	   						 		</dt>
-	       							 <dd class="order-quantity">
-	       						 		99
-	       							 </dd>
-	       						</dl>
-	       						<button class="order-btn" type="button">주문</button>
-	       					</div>
-	       				</div>
-          			</li>
-          			<li class="product--list-item">
-        				<div class="item-img">
-	        				<button type="button">
-	        					<img src="./resources/Images/Home/ic_share2.png" alt="상세보기" />
-	        				</button>
-	       					<img class="product-image" src="./resources/Images/BoardProduct/straw-berry.jpg" alt="product image"/>
-     					</div>
-	       				<div class="item-desc">
-	       					<div class="item-desc--content">
-	       						<dl>
-	       							<dt>lorem ipsum  <span>lorem inpsum dolor sit amet</span></dt>
-	       							<dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<dd>
-	       						</dl>
-	       					</div>
-	       					<div class="item-desc--option">
-	       						<dl class="stars">
-	       						 	<dt>
-	       						 		<img class="stars-rating" src="./resources/Images/Home/stars_5.png" alt="star rating" />
-	   						 		</dt>
-	       							 <dd class="order-quantity">
-	       						 		99
-	       							 </dd>
-	       						</dl>
-	       						<button class="order-btn" type="button">주문</button>
-	       					</div>
-	       				</div>
-          			</li>
-          			<li class="product--list-item">
-        				<div class="item-img">
-	        				<button type="button">
-	        					<img src="./resources/Images/Home/ic_share2.png" alt="상세보기" />
-	        				</button>
-	       					<img class="product-image" src="./resources/Images/BoardProduct/straw-berry.jpg" alt="product image"/>
-     					</div>
-	       				<div class="item-desc">
-	       					<div class="item-desc--content">
-	       						<dl>
-	       							<dt>lorem ipsum  <span>lorem inpsum dolor sit amet</span></dt>
-	       							<dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<dd>
-	       						</dl>
-	       					</div>
-	       					<div class="item-desc--option">
-	       						<dl class="stars">
-	       						 	<dt>
-	       						 		<img class="stars-rating" src="./resources/Images/Home/stars_5.png" alt="star rating" />
-	   						 		</dt>
-	       							 <dd class="order-quantity">
-	       						 		99
-	       							 </dd>
-	       						</dl>
-	       						<button class="order-btn" type="button">주문</button>
-	       					</div>
-	       				</div>
-          			</li>
+          			<%} %>
+          	    <%}%>
 
           		</ul>
           	</div>

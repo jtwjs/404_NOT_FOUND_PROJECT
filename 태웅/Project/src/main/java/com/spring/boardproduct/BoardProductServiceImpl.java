@@ -139,14 +139,6 @@ public class BoardProductServiceImpl implements BoardProductService {
 	    return result;
     }
     
-    public ArrayList<BoardReviewVO> getBoardReviewList(String board_id) {
-    	
-    	BoardReviewMapper boardReviewMapper = sqlSession.getMapper(BoardReviewMapper.class);
-    	ArrayList<BoardReviewVO> result = boardReviewMapper.getBoardReviewList(board_id);
-	
-	    return result;
-    }
-    
     
     public int getReviewCommentNum(String review_id) {
     	
@@ -191,6 +183,60 @@ public class BoardProductServiceImpl implements BoardProductService {
 		ArrayList<BoardReviewVO> list = mapper.boardReviewListAllById(buyer_id, rowStart, rowEnd);
 		return list;
 	}
+
+	@Override
+	 public ArrayList<BoardProductVO> getBestBoardProductList(){
+   	 
+   	 BoardProductMapper boardProductMapper = sqlSession.getMapper(BoardProductMapper.class);
+   	 ArrayList<BoardProductVO> result = boardProductMapper.getBestBoardProductList();
+	
+	    return result;
+   	 
+    }
+
+	@Override
+	 public ArrayList<BoardProductVO> getSearchBoardProductList(String keyword, int minCategory_1, 
+	     		int maxCategory_1, int minCategory_2, int maxCategory_2, int minCategory_local, 
+	     		int maxCategory_local, int min_price, int max_price, 
+	     		int sort_list, int page_num, int page_amount){
+	    	 
+	    	 BoardProductMapper boardProductMapper = sqlSession.getMapper(BoardProductMapper.class);
+	    	 ArrayList<BoardProductVO> result 
+	    	     = boardProductMapper.getSearchBoardProductList(keyword, minCategory_1, maxCategory_1, 
+	    	    		 minCategory_2, maxCategory_2, minCategory_local, maxCategory_local, 
+	    	    		 min_price, max_price, sort_list, page_num, page_amount);
+	 	
+	 	    return result;
+	     }
+
+	@Override
+	 public ArrayList<BoardReviewVO> getBoardReviewList(String board_id, 
+	    		int page_num, int page_amount) {
+	    	
+	    	BoardReviewMapper boardReviewMapper = sqlSession.getMapper(BoardReviewMapper.class);
+	    	ArrayList<BoardReviewVO> result 
+	    	    = boardReviewMapper.getBoardReviewList(board_id, page_num, page_amount);
+		
+		    return result;
+	    }
+
+	@Override
+	public int updateSatisfaction(String board_id, double satisfaction) {
+     	
+   	 BoardProductMapper boardReviewMapper = sqlSession.getMapper(BoardProductMapper.class);
+	    int result = boardReviewMapper.updateSatisfaction(board_id, satisfaction);
+	
+	    return result;
+    }
+
+	@Override
+  public double getAvgSatisfaction(String board_id) {
+    	
+    	BoardReviewMapper boardReviewMapper = sqlSession.getMapper(BoardReviewMapper.class);
+	    double result = boardReviewMapper.getAvgSatisfaction(board_id);
+	
+	    return result;
+    }
 
 
     

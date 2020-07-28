@@ -2,10 +2,11 @@ package com.spring.boardproduct;
 
 import java.util.Date;
 
-public class BoardQnaVO {         // 상품문의게시판
+public class BoardQnaVO {       // 상품문의게시판
 
-    private int qna_id;         // Qna게시판 ID (기본키)
-    private int board_id;      // 게시판 ID (board_product테이블 외래키)
+    private int qna_num;        // Qna게시판 ID (기본키)
+    private int board_id;       // 게시판 ID (board_product테이블 외래키)
+    private int qna_status;     // 문의 종류
     private char anser_status;  // 답변여부
     private String buyer_id;    // 작성자
     private Date regiser_date;  // 등록일자
@@ -13,11 +14,11 @@ public class BoardQnaVO {         // 상품문의게시판
     private String content;     // 글내용
     private char secret_flag;   // 비밀글 여부
     
-	public int getQna_id() {
-		return qna_id;
+	public int getQna_num() {
+		return qna_num;
 	}
-	public void setQna_id(int qna_id) {
-		this.qna_id = qna_id;
+	public void setQna_num(int qna_num) {
+		this.qna_num = qna_num;
 	}
 	public int getBoard_id() {
 		return board_id;
@@ -61,4 +62,11 @@ public class BoardQnaVO {         // 상품문의게시판
 	public void setSecret_flag(char secret_flag) {
 		this.secret_flag = secret_flag;
 	}
+	public int getQna_status() {
+		return qna_status;
+	}
+	public void setQna_status(int qna_status) {
+		this.qna_status = qna_status;
+	}
 }
+
