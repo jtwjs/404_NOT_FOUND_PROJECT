@@ -70,14 +70,19 @@
 				   title,
 				   content,
 				   satisfaction,
+				   delivery_satisfaction,
 				   register_date,
 				   review_img_path,
 				   review_img_name,
 				   row_number() OVER (ORDER BY review_num DESC) AS rNUM
 		    FROM board_review
+		  
 		    ) rv
 	  WHERE rNum between ${rowStart} AND #{rowEnd} AND buyer_id = #{buyer_id}
 	  ORDER BY review_num DESC
 	</select>
+	
+
+	
 
 </mapper>

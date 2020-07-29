@@ -57,7 +57,7 @@
                         <h2 class="content-title">구매후기</h2>
                             
                             <div class="review_menu">
-                            	<a id="review_wrtie" href="BuyerMyPageReviewWrite.by">후기 작성</a>
+                            	<a id="review_wrtie" href="#" onclick="javascript:location.href='BuyerMyPageReviewWrite.by'">후기 작성</a>
                             	<a id="review_history" href="BuyerMyPageReview.by">후기 내역</a>
                             </div>
                             <div class="review-explain">

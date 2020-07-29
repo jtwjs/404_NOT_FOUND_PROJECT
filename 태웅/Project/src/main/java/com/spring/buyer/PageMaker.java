@@ -80,4 +80,16 @@ public class PageMaker {
 		
 		return uriComponents.toUriString();
 	}
+	
+	public String makeQuery(int page,String startDate, String endDate) {
+		UriComponents uriComponents = UriComponentsBuilder.newInstance()
+															.queryParam("startDate",startDate)
+															.queryParam("endDate",endDate)
+															.queryParam("page", page)
+															.queryParam("perPageNum", cri.getPerPageNum())
+															.build();
+		
+		return uriComponents.toUriString();
+	}
+	
 }

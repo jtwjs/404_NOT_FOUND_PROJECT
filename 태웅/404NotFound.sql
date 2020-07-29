@@ -270,7 +270,7 @@ create table board_product(                     -- �뙋留ㅺ쾶�떆�뙋
     constraint board_product_board_id_pk primary key(board_id)
 );
 select * from board_product;
-
+select * from member_seller;
 desc wish_list;
 
 create table wish_list(
@@ -293,6 +293,8 @@ create table product_cart(          -- �옣諛붽뎄�땲
     constraint product_cart_cart_id_pk primary key(cart_id)
 );
 
+
+select * from board_review where register_date between '2020-07-27' AND '2020-07-29';
 drop table board_review;
 create table board_review(              -- 상품후기 게시판
     review_id varchar2(32) not null,    -- 리뷰글 ID (기본키)
@@ -310,7 +312,7 @@ create table board_review(              -- 상품후기 게시판
     constraint board_review_review_id_pk primary key(review_id)
 );
 
-drop table board_review;
+select * from board_review;
 
 
 create or replace trigger TRG_board_review
@@ -322,6 +324,7 @@ values ('적립', '500', '상품후기 작성으로 인한 적립금 지급+',:n
 update member_buyer SET save_point = save_point + 500 WHERE buyer_id = :new.buyer_id;
 END;
 
+select* from board_review;
 drop table comment_review;
 create table comment_review(               -- 상품 리뷰 댓글
     review_cmt_id varchar2(32) not null,   -- 리뷰댓글 ID (기본키)
@@ -384,5 +387,40 @@ create table order_record(                   -- 주문기록
 
 select * from board_review;
 select * from board_product;
-select * from order_record where buyer_id = 'v_oyb';
+SELECT ROWNUM AS rNum, a.order_num,a.order_id,a.board_id,a.board_title,a.buyer_id,a.amount,a.price,a.status,a.order_date,
+        b.thumbnail_thum,b.thumbnail_thum_path
+		FROM (
+			SELECT 
+                    order_num,
+				    order_id,
+					board_id,
+					board_title,
+					buyer_id,
+					amount,
+					price,
+					status,
+					order_date
+			FROM order_record
+            WHERE (order_date between '2020-07-01' AND '2020-07-29') AND buyer_id = 'test01' 
+		    ORDER BY order_num DESC
+			) a,
+            board_product b
+		WHERE (a.order_num BETWEEN 1 AND 10) AND a.board_id = b.board_id(+)
+        order by rNum DESC;
 
+select * from order_record where buyer_id = 'test01';
+select MAX(ORDER_NUM) from order_record where buyer_id = 'test01';
+
+SELECT ROWNUM as rNum,
+                    order_num,
+				    order_id,
+					board_id,
+					board_title,
+					buyer_id,
+					amount,
+					price,
+					status,
+					order_date
+			FROM order_record
+            WHERE buyer_id = 'test01' 
+		    ORDER BY order_num DESC;

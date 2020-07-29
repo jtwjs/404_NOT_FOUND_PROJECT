@@ -83,6 +83,7 @@
 .content {
 	height: 100%;
 	text-align: left;
+	max-width: 399px;
 }
 
 .content img {
@@ -106,6 +107,7 @@
 .content .detail {
 	height: 55px;
 	padding-top: 5px;
+	overflow: auto;
 }
 
 .review-date {

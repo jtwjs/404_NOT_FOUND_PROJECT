@@ -58,7 +58,7 @@
 	</select>
 	
 	<select id="selectOrderListById" resultType="com.spring.order.OrderRecordVO">
-		SELECT a.order_num,a.order_id,a.board_id,a.board_title,a.buyer_id,a.amount,a.price,a.status,a.order_date,
+	<!-- 	SELECT a.order_num,a.order_id,a.board_id,a.board_title,a.buyer_id,a.amount,a.price,a.status,a.order_date,
         b.thumbnail_thum,b.thumbnail_thum_path
 		FROM (
 			SELECT order_num,
@@ -72,14 +72,38 @@
 					order_date,
 					row_number() OVER (ORDER BY order_num DESC)AS rNum
 			FROM order_record
+			 WHERE order_date between to_date(#{startDate}, 'yyyyMMdd') AND to_date(#{endDate}, 'yyyyMMdd') 
+		) a,
+			
+            board_product b
+		WHERE rNum between #{rowStart} AND #{rowEnd} AND buyer_id = #{buyer_id} AND a.board_id = b.board_id(+)
+		ORDER BY order_num DESC -->
+	SELECT a.order_num,a.order_id,a.board_id,a.board_title,a.buyer_id,a.amount,a.price,a.status,a.order_date,
+        b.thumbnail_thum,b.thumbnail_thum_path
+		FROM (
+			SELECT order_num,
+				    order_id,
+					board_id,
+					board_title,
+					buyer_id,
+					amount,
+					price,
+					status,
+					order_date,
+					row_number() OVER (ORDER BY order_num DESC)AS rNum
+			FROM order_record
+			
+		     WHERE order_date between '2020-07-01' AND '2020-07-29'
+		    
 			) a,
             board_product b
-		WHERE rNum between ${rowStart} AND ${rowEnd} AND buyer_id = #{buyer_id} AND a.board_id = b.board_id(+)
+		WHERE rNum between #{rowStart} AND #{rowEnd} AND buyer_id = #{buyer_id} AND a.board_id = b.board_id(+)
 		ORDER BY order_num DESC
 	</select>
 	
 	<select id="orderListCountById" resultType="int">
 		SELECT count(*) FROM order_record WHERE buyer_id=#{buyer_id}
+			AND (order_date between'2020-07-01' AND '2020-07-29')
 	</select>
 	
 	<select id="orderBeingDeliveredListById" resultType="com.spring.order.OrderRecordVO">

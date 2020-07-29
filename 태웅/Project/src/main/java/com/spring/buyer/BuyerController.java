@@ -129,7 +129,7 @@ public class BuyerController {
 
 	@RequestMapping(value = "/BuyerMyPageOrderList.by") 
 	public String buyerMyPageOrderList(Model model, @CurrentUser AccountVO account,
-			CriteriaVO cri)throws Exception {
+			CriteriaVO cri, String startDate, String endDate)throws Exception {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
 		
@@ -387,7 +387,7 @@ public class BuyerController {
 		
 		
 		for(int i=0; i<list.size(); i++ ) {
-		
+			
 			switch(Double.toString(list.get(i).getSatisfaction())){
 			case "5.0": list.get(i).setSatisfaction_img("./resources/Images/Home/stars_5.png");
 						break;
@@ -460,7 +460,18 @@ public class BuyerController {
 	
 	@RequestMapping(value = "/BuyerMyPageReviewWrite.by") 
 	public String buyerMyPageReviewWrite(Model model, @CurrentUser AccountVO account,
-			CriteriaVO cri) {
+			CriteriaVO cri, @RequestParam(value="startDate", required=false, defaultValue="19800101")String startDate,
+			@RequestParam(value="endDate", required=false, defaultValue ="")String endDate) {
+		System.out.println("startDate"+startDate);
+		System.out.println("endDate"+endDate);
+		
+		Date date = new Date();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+		if(endDate.equals("") || endDate == null) {
+			endDate = simpleDateFormat.format(date);
+		}
+		System.out.println("endDate"+endDate);
+		
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
 		try {
@@ -481,6 +492,15 @@ public class BuyerController {
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(orderService.listCount(account.getId()));
 		ArrayList<OrderRecordVO> list = orderService.selectOrderListById(account.getId(), rowStart, rowEnd);
+		
+		System.out.println(startDate);
+		System.out.println(endDate);
+		System.out.println("test1 Cont");
+		if(list.size() != 0) {
+		System.out.println(list.size());
+		}else {
+			System.out.println("사이즈 0");
+		}
 		
 		for(int i =0; i<list.size(); i++) {
 			if(productService.checkReview(list.get(i).getBoard_id(), account.getId(), list.get(i).getOrder_id()) == 0) {
@@ -528,7 +548,7 @@ public class BuyerController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 		model.addAttribute("order_id",order_id);
 		model.addAttribute("user",buyerAccount);
 		model.addAttribute("item",product);
@@ -553,7 +573,8 @@ public class BuyerController {
     	vo.setReview_img_path(product.getThumbnail_thum_path());
 		
     	
-    	
+    	System.out.println("상품점수"+vo.getSatisfaction());
+    	System.out.println("배송점수"+vo.getDelivery_satisfaction());
 		
 		productService.insertReview(vo);
 		return "redirect:BuyerMyPageReviewWrite.by";

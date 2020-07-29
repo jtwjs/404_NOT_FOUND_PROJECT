@@ -1,5 +1,6 @@
 package com.spring.order;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import org.apache.ibatis.session.SqlSession;
@@ -98,6 +99,14 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public ArrayList<OrderRecordVO> selectOrderListById(String buyer_id, int rowStart, int rowEnd) {
 		ArrayList<OrderRecordVO> list = mapper.selectOrderListById(buyer_id,rowStart,rowEnd);
+		
+		
+		
+		if(list.size() != 0) {
+		    System.out.println("test: " + list.get(0).getOrder_date());
+		}else {
+			System.out.println("통과3");
+		}
 		return list;
 	}
 
