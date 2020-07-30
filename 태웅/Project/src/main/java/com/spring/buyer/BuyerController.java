@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,6 +36,7 @@ import org.springframework.web.multipart.MultipartRequest;
 import com.spring.admin.AccountVO;
 import com.spring.boardproduct.BoardProductService;
 import com.spring.boardproduct.BoardProductVO;
+import com.spring.boardproduct.BoardReviewVO;
 import com.spring.config.Security.CurrentUser;
 import com.spring.config.Security.CustomDetailService;
 import com.spring.order.OrderRecordVO;
@@ -54,9 +56,54 @@ public class BuyerController {
 	
 	@Autowired
 	OrderService orderService;
+	
+	
 
 	@RequestMapping(value = "/BuyerMyPage.by")
 	public String buyerMyPage(Model model, @CurrentUser AccountVO account) {
+		int exp = 0;
+		int rest_exp = 0;
+		ArrayList<OrderRecordVO> list = orderService.orderListAllById(account.getId());
+		for(int i=0; i<list.size(); i++) {
+			exp += list.get(i).getAmount() * list.get(i).getPrice();
+		}
+		
+		exp /= 10;
+		System.out.println("exp1="+exp);
+		char grade;
+		if(exp < 2000) {
+			grade = '1';
+			rest_exp = 2001 - exp;
+		} else if (exp < 10001) {
+			grade = '2';
+			rest_exp = 10001 - exp;
+		} else if (exp < 100001) {
+			grade = '3';
+			rest_exp = 100001 - exp;
+		} else if (exp < 200001) {
+			grade = '4';
+			rest_exp = 200001 - exp;
+		} else if (exp < 500001) {
+			grade = '5';
+			rest_exp = 500001 - exp;
+		} else if (exp < 1000001) {
+			grade = '6';
+			rest_exp = 1000001 - exp;
+		} else if (exp < 2000001) {
+			grade = '7';
+			rest_exp = 2000001 - exp;
+		} else {
+			grade = '8';
+		}
+		String changeRest_exp = numberOfDigit(rest_exp);
+		changeRest_exp = reverseString(changeRest_exp);
+		
+		BuyerVO buyer = new BuyerVO();
+		buyer.setId(account.getId());
+		buyer.setGrade(grade);
+		buyerService.BuyerGradeSetting(buyer);
+		
+		
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
 		buyerAccount.setJoinDate(buyerAccount.getJoinDate().substring(0, 10));
@@ -72,34 +119,43 @@ public class BuyerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+		int reviewCount = productService.countReviewById(account.getId());
 		
+		model.addAttribute("reveiwCount",reviewCount);
+		model.addAttribute("rest_exp",changeRest_exp);
 		model.addAttribute("user", buyerAccount);
 		return "Buyer/mypage_main";
 	}
 
 	@RequestMapping(value = "/BuyerMyPageOrderList.by") 
 	public String buyerMyPageOrderList(Model model, @CurrentUser AccountVO account,
-			CriteriaVO cri)throws Exception {
+			CriteriaVO cri,@RequestParam(value="startDate", required=false, defaultValue="19800101")String startDate,
+			@RequestParam(value="endDate", required=false, defaultValue ="")String endDate)throws Exception {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
+		Date date = new Date();
+		date = new Date(date.getTime()+(1000*60*60*24*1));
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+		if(endDate.equals("") || endDate == null) {
+			endDate = simpleDateFormat.format(date);
+		}
+		System.out.println("endDate"+endDate);
 		
 		String buyer_id = account.getId();
 		int rowStart = cri.getRowStart();
 		int rowEnd = cri.getRowEnd();
-		ArrayList<OrderRecordVO> list = orderService.selectOrderListById(buyer_id, rowStart, rowEnd);
+		ArrayList<OrderRecordVO> list = orderService.selectOrderListById(buyer_id, rowStart, rowEnd,startDate, endDate);
 		
-		
-
 		for(int i=0; i<list.size(); i++) {
 			list.get(i).setOrder_date(list.get(i).getOrder_date().substring(0,10));
-				list.get(i).setThumbnail_thum(URLEncoder.encode(list.get(i).getThumbnail_thum(), "UTF-8"));
-				list.get(i).setThumbnail_thum_path(URLEncoder.encode(list.get(i).getThumbnail_thum_path(), "UTF-8"));
+			list.get(i).setThumbnail_thum(URLEncoder.encode(list.get(i).getThumbnail_thum(), "UTF-8"));
+			list.get(i).setThumbnail_thum_path(URLEncoder.encode(list.get(i).getThumbnail_thum_path(), "UTF-8"));
 			
 			}
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(orderService.listCount(buyer_id));
+		pageMaker.setTotalCount(orderService.listCount(buyer_id,startDate,endDate));
 		
 		try {
 			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
@@ -117,6 +173,8 @@ public class BuyerController {
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("orderList",list);
 		model.addAttribute("user", buyerAccount);
+		model.addAttribute("startDate",startDate);
+		model.addAttribute("endDate",endDate);
 		return "Buyer/mypage_orderList";
 	}
 
@@ -202,6 +260,19 @@ public class BuyerController {
 		int index1 = cookie.getValue().indexOf("/");
 		String str = cookie.getValue().substring(index1 + 1);
 		recentArray = str.split("/");
+		int maxCount = recentArray.length;
+		int left = 0;
+		int right = maxCount -1;
+		String temp = "";
+		for(int i=0; i<maxCount/2;i++) {
+			temp = recentArray[left];
+			recentArray[left] = recentArray[right];
+			recentArray[right] = temp;
+			
+			left++;
+			right--;
+		}
+		
 		if(recentArray.length < rowEnd) {
 			rowEnd = recentArray.length;
 		}
@@ -243,10 +314,13 @@ public class BuyerController {
 		return "Buyer/mypage_recentlyView";
 	}
 
-	@RequestMapping(value = "/BuyerMyPageRecentlyView_deleteCheck.by", method = RequestMethod.POST)
-	public String RecentView_deleteCheck(Model model, @CurrentUser AccountVO account,
+	@RequestMapping(value = "/BuyerMyPageRecentlyView_Check.by", method = RequestMethod.POST)
+	public String RecentView_Check(Model model, @CurrentUser AccountVO account,
 			@CookieValue(value = "AccountRecentlyProduct", required = false) Cookie cookie,
-			@RequestParam("ck_item")String[] items, HttpServletResponse response) {
+			@RequestParam("ck_item")String[] items, HttpServletResponse response,
+			@RequestParam("separation")String separation) {
+		
+		if(separation.equals("삭제")) {
 		String result ="";
 		int index = 0;
 		int index2 = 0;
@@ -295,11 +369,151 @@ public class BuyerController {
 		}
 		response.addCookie(cookie);
 		System.out.println("cookie:"+ cookie.getValue());
+		
+		}else {
+			for(int i =0; i<items.length; i++) {
+				System.out.println("["+i+"] : " +items[i]);
+				if(buyerService.getWishListOverlapCheck(items[i], account.getId())==0) {
+				WishListVO vo = new WishListVO();
+				vo.setBoard_id(items[i]);
+	        	vo.setBuyer_id(account.getId());
+	        	BoardProductVO product = productService.getBoardProductVO(items[i]);
+	        	vo.setTitle(product.getTitle());
+	        	vo.setPrice(product.getPrice());
+	        	vo.setThumbnail_thum(product.getThumbnail_thum());
+	        	vo.setThumbnail_thum_path(product.getThumbnail_thum_path());
+	        	
+	        	UUID uuid = UUID.randomUUID(); // 중복 방지를 위해 랜덤값 생성
+	        	long getl = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
+	        	
+	        	StringBuilder wish_id = new StringBuilder(
+	        			vo.getBuyer_id() + "-" + Long.toString(getl, 10));
+	        	
+	        	vo.setWish_id(wish_id.toString());
+				
+				buyerService.insertWishList(vo);
+				}
+			}
+			
+		}
+		
 		return "redirect:/BuyerMyPageRecentlyView.by";
 	}
 
 	@RequestMapping(value = "/BuyerMyPageReview.by") 
-	public String buyerMyPageReview(Model model, @CurrentUser AccountVO account) {
+	public String buyerMyPageReview(Model model, @CurrentUser AccountVO account,
+			CriteriaVO cri) {
+		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
+		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
+		int rowStart = cri.getRowStart();
+		int rowEnd = cri.getRowEnd();
+		ArrayList<BoardReviewVO> list = productService.boardReviewListAllById(account.getId(), rowStart, rowEnd);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(productService.countReviewById(account.getId()));
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		
+		try {
+			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+				buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		
+		for(int i=0; i<list.size(); i++ ) {
+			
+			switch(Double.toString(list.get(i).getSatisfaction())){
+			case "5.0": list.get(i).setSatisfaction_img("./resources/Images/Home/stars_5.png");
+						break;
+			case "4.5": list.get(i).setSatisfaction_img("./resources/Images/Home/stars_4-5.png");
+						break;
+			case "4.0": list.get(i).setSatisfaction_img("./resources/Images/Home/star_4.png");
+						break;
+			case "3.5": list.get(i).setSatisfaction_img("./resources/Images/Home/stars_3-5.png");
+						break;
+			case "3.0": list.get(i).setSatisfaction_img("./resources/Images/Home/star_3.png");
+						break;
+			case "2.5": list.get(i).setSatisfaction_img("./resources/Images/Home/stars_2-5.png");
+						break;
+			case "2.0": list.get(i).setSatisfaction_img("./resources/Images/Home/stars_2.png");
+						break;
+			case "1.5": list.get(i).setSatisfaction_img("./resources/Images/Home/star_1-5.png");
+						break;
+			case "1.0": list.get(i).setSatisfaction_img("./resources/Images/Home/star_1.png");
+						break;
+			default: list.get(i).setSatisfaction_img("./resources/Images/Home/star_0-5.png");
+						break;
+			}
+			
+			switch(Double.toString(list.get(i).getDelivery_satisfaction())){
+			case "5.0": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/stars_5.png");
+						break;
+			case "4.5": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/stars_4-5.png");
+						break;
+			case "4.0": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/star_4.png");
+						break;
+			case "3.5": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/stars_3-5.png");
+						break;
+			case "3.0": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/star_3.png");
+						break;
+			case "2.5": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/stars_2-5.png");
+						break;
+			case "2.0": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/stars_2.png");
+						break;
+			case "1.5": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/star_1-5.png");
+						break;
+			case "1.0": list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/star_1.png");
+						break;
+			default: list.get(i).setDelivery_satisfaction_img("./resources/Images/Home/star_0-5.png");
+						break;
+			}
+			
+			
+				try {
+					String reg_date = format.format(list.get(i).getRegister_date());
+					list.get(i).setFormat_reg_date(reg_date);
+					list.get(i).setReview_img_path(URLEncoder.encode(list.get(i).getReview_img_path(),"UTF-8"));
+					list.get(i).setReview_img_name(URLEncoder.encode(list.get(i).getReview_img_name(), "UTF-8"));
+					
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+		}
+		
+		
+
+		
+		
+		model.addAttribute("currentPage", cri.getPage());
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("reviewList", list);
+		model.addAttribute("user", buyerAccount);
+		
+		return "Buyer/mypage_review";
+	}
+	
+	@RequestMapping(value = "/BuyerMyPageReviewWrite.by") 
+	public String buyerMyPageReviewWrite(Model model, @CurrentUser AccountVO account,
+			CriteriaVO cri, @RequestParam(value="startDate", required=false, defaultValue="19800101")String startDate,
+			@RequestParam(value="endDate", required=false, defaultValue ="")String endDate) {
+		System.out.println("startDate"+startDate);
+		System.out.println("endDate"+endDate);
+		
+		Date date = new Date();
+		date = new Date(date.getTime()+(1000*60*60*24*1));
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+		if(endDate.equals("") || endDate == null) {
+			endDate = simpleDateFormat.format(date);
+		}
+		System.out.println("endDate"+endDate);
+		
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
 		try {
@@ -314,12 +528,103 @@ public class BuyerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
-		model.addAttribute("user", buyerAccount);
+		int rowStart = cri.getRowStart();
+		int rowEnd = cri.getRowEnd();
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(orderService.listCount(account.getId(), startDate, endDate));
+		ArrayList<OrderRecordVO> list = orderService.selectOrderListById(account.getId(), rowStart, rowEnd,startDate,endDate);
 		
-		return "Buyer/mypage_review";
+		System.out.println(startDate);
+		System.out.println(endDate);
+		System.out.println("test1 Cont");
+		if(list.size() != 0) {
+		System.out.println(list.size());
+		}else {
+			System.out.println("사이즈 0");
+		}
+		
+		for(int i =0; i<list.size(); i++) {
+			if(productService.checkReview(list.get(i).getBoard_id(), account.getId(), list.get(i).getOrder_id()) == 0) {
+				list.get(i).setReviewCheck(true);
+			} else {
+				list.get(i).setReviewCheck(false);
+			}
+			try {
+				list.get(i).setThumbnail_thum(URLEncoder.encode(list.get(i).getThumbnail_thum(), "UTF-8"));
+				list.get(i).setThumbnail_thum_path(URLEncoder.encode(list.get(i).getThumbnail_thum_path(), "UTF-8"));
+				list.get(i).setOrder_date(list.get(i).getOrder_date().substring(0,11));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		model.addAttribute("currentPage", cri.getPage());
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("orderList", list);
+		model.addAttribute("user", buyerAccount);
+		model.addAttribute("startDate",startDate);
+		model.addAttribute("endDate",endDate);
+		return "Buyer/mypage_review_write";
 	}
-
+	
+	@RequestMapping(value = "/BuyerMyPageReviewWriteForm.by")
+	public String buyerMyPageReviewWrtieForm(Model model, @CurrentUser AccountVO account,
+			@RequestParam("board_id")String board_id,@RequestParam("order_id")String order_id) {
+		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
+		try {
+			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+				buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			}else {
+				buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+				buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		BoardProductVO product = productService.getBoardProductVO(board_id);
+		try {
+			product.setThumbnail_thum_path(URLEncoder.encode(product.getThumbnail_thum_path(), "UTF-8"));
+			product.setThumbnail_thum(URLEncoder.encode(product.getThumbnail_thum(),"UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("order_id",order_id);
+		model.addAttribute("user",buyerAccount);
+		model.addAttribute("item",product);
+		return "Buyer/mypage_review_write_form";
+	}
+	
+	@RequestMapping(value = "/BuyerMyPageReviewWriteRegist", method = RequestMethod.POST)
+	public String buyerMyPageReviewWriteRegist(@CurrentUser AccountVO account,BoardReviewVO vo) {
+		
+		BoardProductVO product = productService.getBoardProductVO(vo.getBoard_id()); 
+		int review_num = productService.getReviewTotNum() + 1;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Date date = new Date();
+		String str = sdf.format(date);
+    	
+    	StringBuilder review_id = new StringBuilder(
+    			str + "-" + review_num);
+    	vo.setBuyer_id(account.getId());
+    	vo.setReview_num(review_num);
+    	vo.setReview_id(review_id.toString());
+    	vo.setReview_img_name(product.getThumbnail_thum());
+    	vo.setReview_img_path(product.getThumbnail_thum_path());
+		
+    	
+    	System.out.println("상품점수"+vo.getSatisfaction());
+    	System.out.println("배송점수"+vo.getDelivery_satisfaction());
+		
+		productService.insertReview(vo);
+		return "redirect:BuyerMyPageReviewWrite.by";
+	}
+	
+	
 	@RequestMapping(value = "/BuyerMyPageProductQna.by")
 	public String buyerMyPageProductQna(Model model, @CurrentUser AccountVO account) {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
@@ -371,6 +676,7 @@ public class BuyerController {
 		int rowStart = cri.getRowStart();
 		int rowEnd = cri.getRowEnd();
 		ArrayList<SavePointVO> pointList = buyerService.savePointListAll(id, status, rowStart, rowEnd);
+		
 		BuyerVO buyerAccount = buyerService.selectOneById(id);
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
 		PageMaker pageMaker = new PageMaker();
@@ -381,7 +687,8 @@ public class BuyerController {
 			int contentIndex = pointList.get(i).getContent().indexOf('+');
 			pointList.get(i).setContentTitle(pointList.get(i).getContent().substring(0, contentIndex));
 			pointList.get(i).setContentDetail(pointList.get(i).getContent().substring(contentIndex + 1));
-			pointList.get(i).setApplicationDate(pointList.get(0).getApplicationDate().substring(0, 11));
+			pointList.get(i).setApplicationDate(pointList.get(i).getApplicationDate().substring(0, 11));
+			
 		}
 		try {
 			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
@@ -421,9 +728,49 @@ public class BuyerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+		int price = 0;
+		int exp = 0;
+		int cumulative_amount = 0;
+		ArrayList<OrderRecordVO> list = orderService.orderListAllById(account.getId());
+		for(int i=0; i<list.size(); i++) {
+			price = list.get(i).getAmount() * list.get(i).getPrice();
+			exp += price;
+		}
+		cumulative_amount = exp; 
+		exp /= 10;
+		
+		String change_cumulative_amount = numberOfDigit(cumulative_amount);
+		String change_exp = numberOfDigit(exp);
+		
+		change_cumulative_amount = reverseString(change_cumulative_amount);
+		change_exp = reverseString(change_exp);
+		
+		
+		
+		buyerAccount.setCumulative_amount(change_cumulative_amount);
+		buyerAccount.setGrade_exp(change_exp);
 		model.addAttribute("user", buyerAccount);
 		return "Buyer/mypage_grade";
 	}
+	
+	public static String numberOfDigit(int amount) {
+		String str = Integer.toString(amount);
+		int count = 0;
+		String change_amount = "";
+		for(int i=str.length()-1; i>=0; i--) {
+			if(count%3 == 0 && count != 0) {
+				change_amount += ",";
+			}
+			change_amount += str.charAt(i);
+			count++;
+		}
+		
+		return change_amount;
+	}
+	
+  public static String reverseString(String s){
+        return (new StringBuffer(s)).reverse().toString();
+    }
 
 	@GetMapping(value = "/WishListCheck.by")
     @ResponseBody
@@ -684,192 +1031,229 @@ private boolean checkImageType(File file) {  // 파일 이미지 체크
 	}
 
 
-    @RequestMapping(value = "/BuyerMyPageDeliveryManager.by") // �봽濡쒗븘 - 諛곗넚吏� 愿�由�
-	public String buyerMyPageDeliveryManager(Model model, @CurrentUser AccountVO account) {
-    	
-    	BuyerVO BuyerAccount = buyerService.selectOneById(account.getId());
-    	BuyerAccount.setLoginDate(BuyerAccount.getLoginDate().substring(0,10));
-		ArrayList<deliveryVO> list = buyerService.deliveryListAll(account.getId());
-		
-		deliveryVO deliveryY = buyerService.getDefaultDeliveryList(account.getId());
-		
-		model.addAttribute("deliveryY", deliveryY);
-
-		  
-		model.addAttribute("list", list);
-		model.addAttribute("user",BuyerAccount);
-
-		return "Buyer/mypage_deliveryManager";
-	}
-
-
-	@RequestMapping(value = "/ListDeliveryWriteForm.by")
-	public String listdeliverywriteForm(Model model, @CurrentUser AccountVO account) {
-      	BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
-    	buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0,10));
-		
-    	model.addAttribute("user",buyerAccount);
-
-		return "Buyer/mypage_deliveryManager_write";
-	}
-
-	
-@RequestMapping(value = "/ListDeliveryWrite.by")
-	public String InsertListDeliveryList(deliveryVO delivery, @CurrentUser AccountVO account) {
-		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
-		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0,10));
-
-		String addrNum = delivery.getAddrNum();
-		String addrRoadName = delivery.getAddrRoadName();
-		String addrDetail = delivery.getAddrDetail();
-
-		String telCarrierNum = delivery.getTelCarrierNum();
-		String telAllocationNum = delivery.getTelAllocationNum();
-		String telDiscretionaryNum = delivery.getTelDiscretionaryNum();
-
-		System.out.println("delivery.getDefaultaddress() : " + delivery.getDefaultaddress());
-		System.out.println("delivery.getAddrNum() : " + delivery.getAddrNum());
-		System.out.println("delivery.getAddrRoadName() : " + delivery.getAddrRoadName());
-		System.out.println("delivery.getAddrDetail() : " + delivery.getAddrDetail());
-
-		System.out.println("delivery.getTelCarrierNum() : " + delivery.getTelCarrierNum());
-		System.out.println("delivery.getTelAllocationNum() : " + delivery.getTelAllocationNum());
-		System.out.println("delivery.getTelDiscretionaryNum() : " + delivery.getTelDiscretionaryNum());
-
-		delivery.setAddress(addrNum, addrRoadName, addrDetail);
-		delivery.setReceiverPhone(telCarrierNum, telAllocationNum, telDiscretionaryNum);
-		delivery.setId(account.getId());
-		
-		if (delivery.getDefaultaddress().equals("Y")) {
-			buyerService.UpdateListDeliverList(delivery);
-			BuyerVO buyer = new BuyerVO();
-			buyer.setId(delivery.getId());
-			buyer.setAddress(delivery.getAddrNum(), delivery.getAddrRoadName(), delivery.getAddrDetail());
-			buyerService.UpdateDefaultAddress(buyer);
-		}
-		int res = buyerService.InsertListDeliveryList(delivery);
-		
-
-
-		return "redirect:/BuyerMyPageDeliveryManager.by";
-	}
-
-	@RequestMapping(value = "/ListDeliveryDetail.by")
-	public String getListDeliveryDetail(@RequestParam(value = "num", required = true) int num, Model model, @CurrentUser AccountVO account) {
-		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
-		deliveryVO vo = buyerService.getListDeliveryDetail(num);
-		
-		model.addAttribute("vo", vo);
-		model.addAttribute("user",buyerAccount);
-		return "redirect:/BuyerMyPageDeliveryManager.by";
-	}
-
-	@RequestMapping(value = "/ListDeliveryModifyForm.by")
-	public String ListDeliveryModifyForm(@RequestParam(value = "num", required = true) int num,
-			Model model /* , @CurrentUser BuyerVO account */ ) {		
-		
-		/* BuyerVO buyerAccount = buyerService.selectOneById(account.getId()); */
-		  deliveryVO vo = buyerService.getListDeliveryDetail(num);
-		  
-		  int addr1 = vo.getAddress().indexOf("+"); 
-		  int addr2 = vo.getAddress().indexOf("/");
-		  
-		  model.addAttribute("num", vo.getNum());
-		  System.out.println("vo.getNum=" + vo.getNum());	
-		  
-		  model.addAttribute("id", vo.getId());
-		  System.out.println("vo.getId=" + vo.getId());	 
-
-		  model.addAttribute("deliveryName", vo.getDeliveryName());
-		  System.out.println("vo.getDeliveryName=" + vo.getDeliveryName());	  
-		  
-		  model.addAttribute("receiverName", vo.getReceiverName());
-		  System.out.println("vo.getReceiverName()=" + vo.getReceiverName());
-		  
-		  System.out.println("vo.getAddress()=" + vo.getAddress());
-		  model.addAttribute("addrNum", vo.getAddress().substring(0, addr1));	
-		  System.out.println("vo.getAddress().substring(0, addr1)=" + vo.getAddress().substring(0, addr1));
-		  
-		  model.addAttribute("addrRoadName", vo.getAddress().substring(addr1 + 1, addr2));
-		  System.out.println("vo.getAddress().substring(addr1 + 1, addr2)=" + vo.getAddress().substring(addr1 + 1, addr2));
-		  
-		  model.addAttribute("addrDetail", vo.getAddress().substring(addr2+ 1));
-		  System.out.println("vo.getAddress().substring(addr2+ 1)=" + vo.getAddress().substring(addr2+ 1));
-		  		  
-		  model.addAttribute("telCarrierNum", vo.getReceiverPhone().substring(0, 3));		  
-		  System.out.println("vo.getReceiverPhone().substring(0, 3)=" + vo.getReceiverPhone().substring(0, 3));
-		  model.addAttribute("telAllocationNum", vo.getReceiverPhone().substring(3, 7));		
-		  System.out.println("vo.getReceiverPhone().substring(3, 7)=" + vo.getReceiverPhone().substring(3, 7));
-		  model.addAttribute("telDiscretionaryNum", vo.getReceiverPhone().substring(7));
-		  System.out.println("vo.getReceiverPhone().substring(7)=" + vo.getReceiverPhone().substring(7));
-		  
-		  model.addAttribute("defaultaddress", vo.getDefaultaddress());
-		  System.out.println("vo.getDefaultaddress=" + vo.getDefaultaddress());
-		  
+	 @RequestMapping(value = "/BuyerMyPageDeliveryManager.by") // �봽濡쒗븘 - 諛곗넚吏� 愿�由�
+		public String buyerMyPageDeliveryManager(Model model, @CurrentUser AccountVO account) {
+	    	
+	    	BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
+	    	buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0,10));
+			ArrayList<deliveryVO> list = buyerService.deliveryListAll(account.getId());
 			
-			/*
-			 * model.addAttribute("name", account.getName());
-			 * model.addAttribute("loginDate", account.getLoginDate().substring(0, 10));
-			 */
-			 
+			deliveryVO deliveryY = buyerService.getDefaultDeliveryList(account.getId());
+			try {
+				if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+					buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+					buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+				}else {
+					buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+					buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+				}
+				
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			model.addAttribute("user", buyerAccount);
+			
+			model.addAttribute("deliveryY", deliveryY);
+			model.addAttribute("list", list);
+			model.addAttribute("user",buyerAccount);
+			
 
-		return "Buyer/mypage_deliveryManager_modify";
-
-	}
-
-	@RequestMapping(value = "/ListDeliveryModfy.by")
-	public String ListDeliveryModify(deliveryVO delivery) {
-		
-
-		String addrNum = delivery.getAddrNum();
-		String addrRoadName = delivery.getAddrRoadName();
-		String addrDetail = delivery.getAddrDetail();
-
-		String telCarrierNum = delivery.getTelCarrierNum();
-		String telAllocationNum = delivery.getTelAllocationNum();
-		String telDiscretionaryNum = delivery.getTelDiscretionaryNum();
-
-		System.out.println("delivery.getId() : " + delivery.getId());
-		System.out.println("delivery.getAddrNum() : " + delivery.getAddrNum());
-		System.out.println("delivery.getAddrRoadName() : " + delivery.getAddrRoadName());
-		System.out.println("delivery.getAddrDetail() : " + delivery.getAddrDetail());
-
-		System.out.println("delivery.getTelCarrierNum() : " + delivery.getTelCarrierNum());
-		System.out.println("delivery.getTelAllocationNum() : " + delivery.getTelAllocationNum());
-		System.out.println("delivery.getTelDiscretionaryNum() : " + delivery.getTelDiscretionaryNum());
-
-		delivery.setAddress(addrNum, addrRoadName, addrDetail);
-		delivery.setReceiverPhone(telCarrierNum, telAllocationNum, telDiscretionaryNum);
-		
-		if (delivery.getDefaultaddress().equals("Y"))
-			buyerService.UpdateListDeliverList(delivery);
-
-		buyerService.ListDeliveryModify(delivery);
-
-		return "redirect:/ListDeliveryDetail.by?num=" + delivery.getNum();
-
-	}	
-	
-	
-	@RequestMapping("/ListDeliveryDeleteDelete.by")
-	public String ListDeliveryDelete(@RequestParam(value = "num", required = true) int num, HttpSession session,
-			HttpServletResponse response) throws Exception {
-		
-
-		HashMap<String, String> hashmap = new HashMap<String, String>();
-		hashmap.put("num", Integer.toString(num));		
-		int res = buyerService.ListDeliveryDelete(hashmap);
-		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8");		
-		PrintWriter writer = response.getWriter();
-		
-		if (res == 1)  {
-			writer.write("<script>alert('삭제 성공!!');" + "location.href='./BuyerMyPageDeliveryManager.by';</script>");
-		} else {
-			writer.write("<script>alert('기본 주소지는 삭제할 수 없습니다.!!');" + "location.href='./BuyerMyPageDeliveryManager.by';</script>");
+			return "Buyer/mypage_deliveryManager";
 		}
+
+
+		@RequestMapping(value = "/ListDeliveryWriteForm.by")
+		public String listdeliverywriteForm(Model model, @CurrentUser AccountVO account) {
+	      	BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
+	    	buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0,10));
+			
+	    	model.addAttribute("user",buyerAccount);
+
+			return "Buyer/mypage_deliveryManager_write";
+		}
+
 		
-		return null;
+	@RequestMapping(value = "/ListDeliveryWrite.by")
+		public String InsertListDeliveryList(deliveryVO delivery, @CurrentUser AccountVO account,Model model) {
+			BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
+			buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0,10));
+
+			String addrNum = delivery.getAddrNum();
+			String addrRoadName = delivery.getAddrRoadName();
+			String addrDetail = delivery.getAddrDetail();
+
+			String telCarrierNum = delivery.getTelCarrierNum();
+			String telAllocationNum = delivery.getTelAllocationNum();
+			String telDiscretionaryNum = delivery.getTelDiscretionaryNum();
+
+			System.out.println("delivery.getDefaultaddress() : " + delivery.getDefaultaddress());
+			System.out.println("delivery.getAddrNum() : " + delivery.getAddrNum());
+			System.out.println("delivery.getAddrRoadName() : " + delivery.getAddrRoadName());
+			System.out.println("delivery.getAddrDetail() : " + delivery.getAddrDetail());
+
+			System.out.println("delivery.getTelCarrierNum() : " + delivery.getTelCarrierNum());
+			System.out.println("delivery.getTelAllocationNum() : " + delivery.getTelAllocationNum());
+			System.out.println("delivery.getTelDiscretionaryNum() : " + delivery.getTelDiscretionaryNum());
+
+			delivery.setAddress(addrNum, addrRoadName, addrDetail);
+			delivery.setReceiverPhone(telCarrierNum, telAllocationNum, telDiscretionaryNum);
+			delivery.setId(account.getId());
+			
+			if (delivery.getDefaultaddress().equals("Y")) {
+				buyerService.UpdateListDeliverList(delivery);
+				buyerService.UpdateDefaultAddress(account.getId(),delivery.getAddress());
+			}
+			int res = buyerService.InsertListDeliveryList(delivery);
+			try {
+				if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+					buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+					buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+				}else {
+					buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+					buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+				}
+				
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			model.addAttribute("user", buyerAccount);
+			
+
+
+			return "redirect:/BuyerMyPageDeliveryManager.by";
+		}
+
+		@RequestMapping(value = "/ListDeliveryDetail.by")
+		public String getListDeliveryDetail(@RequestParam(value = "num", required = true) String num,
+				Model model, @CurrentUser AccountVO account) {
+			
+			BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
+			
+			deliveryVO vo = buyerService.getListDeliveryDetail(account.getId(), num);
+			
+			model.addAttribute("vo", vo);
+			model.addAttribute("user",buyerAccount);
+			return "redirect:/BuyerMyPageDeliveryManager.by";
+		}
+
+		@RequestMapping(value = "/ListDeliveryModifyForm.by")
+		public String ListDeliveryModifyForm(@RequestParam(value = "num", required = true) String num,
+				Model model , @CurrentUser AccountVO account  ) {		
+			
+			/* BuyerVO buyerAccount = buyerService.selectOneById(account.getId()); */
+			  deliveryVO vo = buyerService.getListDeliveryDetail(account.getId(), num);
+			  
+			  int addr1 = vo.getAddress().indexOf("+"); 
+			  int addr2 = vo.getAddress().indexOf("/");
+			  
+			  model.addAttribute("num", vo.getNum());
+			  System.out.println("vo.getNum=" + vo.getNum());	
+			  
+			  model.addAttribute("id", vo.getId());
+			  System.out.println("vo.getId=" + vo.getId());	 
+
+			  model.addAttribute("deliveryName", vo.getDeliveryName());
+			  System.out.println("vo.getDeliveryName=" + vo.getDeliveryName());	  
+			  
+			  model.addAttribute("receiverName", vo.getReceiverName());
+			  System.out.println("vo.getReceiverName()=" + vo.getReceiverName());
+			  
+			  System.out.println("vo.getAddress()=" + vo.getAddress());
+			  model.addAttribute("addrNum", vo.getAddress().substring(0, addr1));	
+			  System.out.println("vo.getAddress().substring(0, addr1)=" + vo.getAddress().substring(0, addr1));
+			  
+			  model.addAttribute("addrRoadName", vo.getAddress().substring(addr1 + 1, addr2));
+			  System.out.println("vo.getAddress().substring(addr1 + 1, addr2)=" + vo.getAddress().substring(addr1 + 1, addr2));
+			  
+			  model.addAttribute("addrDetail", vo.getAddress().substring(addr2+ 1));
+			  System.out.println("vo.getAddress().substring(addr2+ 1)=" + vo.getAddress().substring(addr2+ 1));
+			  		  
+			  model.addAttribute("telCarrierNum", vo.getReceiverPhone().substring(0, 3));		  
+			  System.out.println("vo.getReceiverPhone().substring(0, 3)=" + vo.getReceiverPhone().substring(0, 3));
+			  model.addAttribute("telAllocationNum", vo.getReceiverPhone().substring(3, 7));		
+			  System.out.println("vo.getReceiverPhone().substring(3, 7)=" + vo.getReceiverPhone().substring(3, 7));
+			  model.addAttribute("telDiscretionaryNum", vo.getReceiverPhone().substring(7));
+			  System.out.println("vo.getReceiverPhone().substring(7)=" + vo.getReceiverPhone().substring(7));
+			  
+			  model.addAttribute("defaultaddress", vo.getDefaultaddress());
+			  System.out.println("vo.getDefaultaddress=" + vo.getDefaultaddress());
+			  
+				
+				/*
+				 * model.addAttribute("name", account.getName());
+				 * model.addAttribute("loginDate", account.getLoginDate().substring(0, 10));
+				 */
+				 
+
+			return "Buyer/mypage_deliveryManager_modify";
+
+		}
+
+		@RequestMapping(value = "/ListDeliveryModfy.by")
+		public String ListDeliveryModify(deliveryVO delivery, @CurrentUser AccountVO account, Model model) {
+			
+
+			String addrNum = delivery.getAddrNum();
+			String addrRoadName = delivery.getAddrRoadName();
+			String addrDetail = delivery.getAddrDetail();
+
+			String telCarrierNum = delivery.getTelCarrierNum();
+			String telAllocationNum = delivery.getTelAllocationNum();
+			String telDiscretionaryNum = delivery.getTelDiscretionaryNum();
+
+			System.out.println("delivery.getId() : " + delivery.getId());
+			System.out.println("delivery.getAddrNum() : " + delivery.getAddrNum());
+			System.out.println("delivery.getAddrRoadName() : " + delivery.getAddrRoadName());
+			System.out.println("delivery.getAddrDetail() : " + delivery.getAddrDetail());
+
+			System.out.println("delivery.getTelCarrierNum() : " + delivery.getTelCarrierNum());
+			System.out.println("delivery.getTelAllocationNum() : " + delivery.getTelAllocationNum());
+			System.out.println("delivery.getTelDiscretionaryNum() : " + delivery.getTelDiscretionaryNum());
+
+			delivery.setAddress(addrNum, addrRoadName, addrDetail);
+			delivery.setReceiverPhone(telCarrierNum, telAllocationNum, telDiscretionaryNum);
+			
+			if (delivery.getDefaultaddress().equals("Y")) {
+				buyerService.UpdateListDeliverList(delivery);
+				buyerService.UpdateDefaultAddress(account.getId(),delivery.getAddress());
+			}
+			buyerService.ListDeliveryModify(delivery);
+			BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
+			try {
+				if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+					buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+					buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+				}else {
+					buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+					buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+				}
+				
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			model.addAttribute("user", buyerAccount);
+
+			return "redirect:/ListDeliveryDetail.by?num=" + delivery.getNum();
+
+		}	
 		
-	}    
+		
+		@RequestMapping("/ListDeliveryDeleteDelete.by")
+		public String ListDeliveryDelete(@RequestParam(value = "num", required = true) String num, @CurrentUser AccountVO account
+				,HttpServletResponse response) throws Exception {
+
+			int res = buyerService.ListDeliveryDelete(account.getId(),num);
+			response.setCharacterEncoding("utf-8");
+			response.setContentType("text/html; charset=utf-8");		
+			PrintWriter writer = response.getWriter();
+			
+			if (res == 1)  {
+				writer.write("<script>alert('삭제 성공!!');" + "location.href='./BuyerMyPageDeliveryManager.by';</script>");
+			} else {
+				writer.write("<script>alert('기본 주소지는 삭제할 수 없습니다.!!');" + "location.href='./BuyerMyPageDeliveryManager.by';</script>");
+			}
+			
+			return null;
+			
+		}    
 }

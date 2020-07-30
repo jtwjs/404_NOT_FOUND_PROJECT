@@ -564,3 +564,21 @@ closeBtn.addEventListener('click', function(){
 });
 
 }
+
+
+// redirect
+function checkRedirect(indexCheck){
+	if(indexCheck != 1){
+		location.replace("Index.in");
+	}
+}
+
+// 상품 검색
+
+function boardProductSearch(){
+	var searchText = document.getElementById("search-input");
+	
+	if(searchText.value != ""){
+	    location.href= "BoardProductSearch.bo?keyword=" + searchText.value;
+	}
+}

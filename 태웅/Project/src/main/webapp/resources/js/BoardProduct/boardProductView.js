@@ -40,7 +40,7 @@ function checkScrolled(){
 
 	}
 	
-	if(st2 > $("#customer-review").offset().top-240 && st2 < $("#customer-qna").offset().top-120){
+	if(st2 > $("#customer-review").offset().top-240 && st2 < $("#customer-qna").offset().top-240){
 		$("#board__review--move").addClass("menu__display--check");
 		
 		if($("#board__content--move").is(".menu__display--check") === true) {
@@ -54,7 +54,7 @@ function checkScrolled(){
 		}
 		
 		
-	}else if(st2 > $("#customer-qna").offset().top-240 && st2 < $("#seller-etc").offset().top-120){
+	}else if(st2 > $("#customer-qna").offset().top-240 && st2 < $("#seller-etc").offset().top-240){
         $("#board__qna--move").addClass("menu__display--check");
 		
 		if($("#board__content--move").is(".menu__display--check") === true) {
@@ -519,8 +519,23 @@ function modal_ok(){
 	
 	switch(btn_check){
 	case "1":  // 비회원 구매
+		
 		var buyForm = document.getElementById("buyForm");
+		
+		var buyerIdFiled = document.createElement("input");
+		buyerIdFiled.setAttribute("type", "hidden");
+		buyerIdFiled.setAttribute("name", "buyer_id");
+		buyerIdFiled.setAttribute("value", getCookieValue("nonMember_buyer_id"));
+		buyForm.appendChild(buyerIdFiled);
+		
+		var quantityFiled = document.getElementById("quantity-text");
+		quantityFiled.setAttribute("type", "hidden");
+		quantityFiled.setAttribute("name", "quantity");
+		quantityFiled.setAttribute("value", quantityFiled.value);
+		buyForm.appendChild(quantityFiled);
+		
 		buyForm.submit();
+		
 		break;
 	case "2":  // 장바구니로
 		location.href = "CartView.or";
@@ -592,20 +607,22 @@ function modal_review_cancle(){
 	$('.star').parent().children('span').removeClass('on');
 }
 
+
+
 var starOnChildEQ = 0;
 
-var star = $('.star').click(function(){
+var star = $('#star-satisfaction > .star').click(function(){
 	
     $(this).parent().children('span').removeClass('on');
     $(this).addClass('on').prevAll('span').addClass('on');
-    starOnChildEQ = $('.star.on').length;
+    starOnChildEQ = $('#star-satisfaction > .star.on').length;
     
     return false;
 });
 
-var starHover = $('.star').hover(function(){
+var starHover = $('#star-satisfaction > .star').hover(function(){
 	
-	starOnChildEQ = $('.star.on').length;
+	starOnChildEQ = $('#star-satisfaction > .star.on').length;
 	
 	if(starOnChildEQ != 0){
 		$(this).parent().children('span').removeClass('on');
@@ -618,18 +635,57 @@ var starHover = $('.star').hover(function(){
 	$(this).parent().children('span').removeClass('hover');
 	
 	for(var i = 0; i < starOnChildEQ; i++){
-		$('.star:nth-child(' + (i+1) + ')').addClass('on');
+		$('#star-satisfaction > .star:nth-child(' + (i+1) + ')').addClass('on');
 	}
 });
+
+var deliveryStarOnChildEQ = 0;
+
+var deleveryStar = $('#star-delivery-satisfaction > .star').click(function(){
+	
+    $(this).parent().children('span').removeClass('on');
+    $(this).addClass('on').prevAll('span').addClass('on');
+    deliveryStarOnChildEQ = $('#star-delivery-satisfaction > .star.on').length;
+    
+    return false;
+});
+
+var deleveryStarHover = $('#star-delivery-satisfaction > .star').hover(function(){
+	
+	deliveryStarOnChildEQ = $('#star-delivery-satisfaction > .star.on').length;
+	
+	if(deliveryStarOnChildEQ != 0){
+		$(this).parent().children('span').removeClass('on');
+	}
+	
+	$(this).parent().children('span').removeClass('hover');
+    $(this).addClass('hover').prevAll('span').addClass('hover');
+    
+}, function(){
+	$(this).parent().children('span').removeClass('hover');
+	
+	for(var i = 0; i < deliveryStarOnChildEQ; i++){
+		$('#star-delivery-satisfaction > .star:nth-child(' + (i+1) + ')').addClass('on');
+	}
+});
+
+
 
 
 function review_regist(){
 	
 	var starCount = parseFloat($('#star-satisfaction').children('span.star.on').length * 0.5);
+	var deliveryStarCount 
+	    = parseFloat($('#star-delivery-satisfaction ').children('span.star.on').length * 0.5);
 	var reviewContent = document.getElementById("review-content--text").value;
 	
 	if(starCount == 0){
-		modal_warning("평점을 선택해주세요.");
+		modal_warning("구매만족도 평점을 선택해주세요.");
+		return false;
+	}
+	
+	if(deliveryStarCount == 0){
+		modal_warning("배송만족도 평점을 선택해주세요.");
 		return false;
 	}
 	
@@ -651,6 +707,12 @@ function review_regist(){
 	satisfactionFiled.setAttribute("name", "satisfaction");
 	satisfactionFiled.setAttribute("value", starCount);
 	reviewForm.appendChild(satisfactionFiled);
+	
+	var deliverySatisfactionFiled = document.createElement("input");
+	deliverySatisfactionFiled.setAttribute("type", "hidden");
+	deliverySatisfactionFiled.setAttribute("name", "delivery_satisfaction");
+	deliverySatisfactionFiled.setAttribute("value", deliveryStarCount);
+	reviewForm.appendChild(deliverySatisfactionFiled);
 	
 	var location = document.querySelector("#customer-review").offsetTop - 120;
 	
@@ -696,8 +758,7 @@ function modal_warning(str){
 }
 
 function reviewComments(flag, i, loc){
-	
-	
+
 	if(flag == 1){
 		var commentBox = document.getElementsByClassName("seller__review--comment")[Number(i)];
 		
@@ -789,4 +850,875 @@ function reviewCommentDelete(cancleNode, num, review_id, csrfToken){
 	    	
 	    }
 	});
+}
+
+function IsJsonString(str) {
+	
+    try {
+        var json = JSON.parse(str);
+        return (typeof json === 'object');
+    } catch (e) {
+        return false;
+    }
+}
+
+function reviewListPageMove(board_id, thisBtn, login_case, equalsSellerId, user_id){
+	
+	var csrfToken = document.getElementById('csrfFormId');
+	
+	$.ajax({
+	    type: 'GET',
+	    url: "ReviewSelectPage.bo",
+	    contentType: 'application/json; charset=UTF-8',
+	    data: "board_id=" + board_id + "&page_num=" + thisBtn.value,
+	    cache: false,
+	    success: function(data){
+	    	$('#review__table--now-page').removeAttr("disabled");
+	    	$('#review__table--now-page').attr(
+	    			"onClick", "reviewListPageMove('" + board_id + "', this, '" + login_case + 
+	    			"', '" + equalsSellerId + "')");
+	    	$('#review__table--now-page').attr("class", "review__table--page-move");
+	    	$('#review__table--now-page').removeAttr("id");
+	    	
+	    	thisBtn.classList.remove('review__table--page-move');
+	    	thisBtn.id = "review__table--now-page";
+	    	thisBtn.setAttribute("disabled", "disabled");
+	    	$("#review__table--now-page").attr('onclick', '').unbind('click');
+
+	    	var pageText = document.querySelector("#review__page--set > input[type='text']");
+	    	pageText.value = thisBtn.value;
+	    	
+	    	var obj;
+	    	if(IsJsonString(data) == true){
+	    		obj = JSON.parse(data);
+	    	}
+	    	
+	    	var tbody = document.querySelector('#customer-review__table > table > tbody');
+	    	var len = tbody.rows.length;
+	    	
+	    	
+	    	for(var i = 0; i < len; i++){
+	    		tbody.deleteRow(0);
+	    	}
+	    	
+	    	var reviewObj;
+	    	var recommendObj;
+	    	var recommendArr = new Array();
+	    	
+	    	if(IsJsonString(obj.review) == true){
+	    		reviewObj = JSON.parse(obj.review);
+	    		
+	    	}
+	    	
+	    	if(IsJsonString(obj.recommend) == true){
+	    		recommendObj = JSON.parse(obj.recommend);
+	    		
+	    		for(var i = 0; i < recommendObj.length; i++){
+	    			if(IsJsonString(recommendObj[i].recommend) == true){
+	    				recommendArr[i] = JSON.parse(recommendObj[i].recommend);
+//	    				if(recommendArr[i][0] != null){
+//	    					alert(recommendArr[i][0].content);
+//	    				}
+	    				
+	    			}
+	    		}
+	    	}
+	    	
+	    	var loc = -1;
+	    	var saveLoc = -1;
+	    	
+	    	for(var i = 0; i < reviewObj.length; i++){
+	    		var flag = 2;
+	    		
+	    		if(recommendArr[i].length != 0){
+	    			loc = saveLoc;
+	    			loc++;
+	    			saveLoc = loc;
+	    		}else{
+	    			loc = 1;
+	    		}
+	    		
+	    		if(login_case == 2){
+		    		
+		    		if(equalsSellerId == "true"){
+		    			flag = 1;
+		    		}
+		    		
+		    	}
+	    		
+	    		var row = tbody.insertRow(tbody.rows.length);
+	    		if((login_case == 2 && equalsSellerId == "true") 
+	    				|| recommendArr[i].length != 0){
+	    			
+	    			row.style.cursor = "pointer";
+	    			$(row).attr(
+	    					"onclick", "reviewComments('"+ flag + "', '" + i + "', '" + loc + "')");
+	    			
+	    		}
+	    		
+	    		var cell1 = row.insertCell(0);
+	    		
+	    		cell1.className = "customer-review__table--photo";
+	    		cell1.insertAdjacentHTML("beforeend", 
+	    				"<img src='display?path=" + encodeURI(reviewObj[i].review_img_path) + 
+	    				"&name=" + encodeURI(reviewObj[i].review_img_name) + "'/>");
+	    		
+	    		var cell2 = row.insertCell(1);
+	    		
+	    		cell2.className = "customer-review__table--recommend";
+	    		
+	    		if(reviewObj[i].satisfaction < 1.0){
+	    			cell2.insertAdjacentHTML("beforeend", 
+	    			    "<div class='recommend-1'>비추천</div>");
+	    		}else if(reviewObj[i].satisfaction < 2.0){
+	    			cell2.insertAdjacentHTML("beforeend", 
+    			        "<div class='recommend-2'>추천 안함</div>");
+	    		}else if(reviewObj[i].satisfaction < 3.0){
+	    			cell2.insertAdjacentHTML("beforeend", 
+    			        "<div class='recommend-3'>보통</div>");
+	    		}else if(reviewObj[i].satisfaction < 4.0){
+	    			cell2.insertAdjacentHTML("beforeend", 
+    			        "<div class='recommend-4'>추천</div>");
+	    		}else{
+	    			cell2.insertAdjacentHTML("beforeend", 
+    			        "<div class='recommend-5'>적극추천</div>");
+	    		}
+	    		
+	    		
+	    		if(reviewObj[i].delivery_satisfaction < 2.0){
+	    			cell2.insertAdjacentHTML("beforeend", 
+	    			    "<div class='delivery-1'>배송느림</div>");
+	    		}else if(reviewObj[i].delivery_satisfaction < 3.5){
+	    			cell2.insertAdjacentHTML("beforeend", 
+    			        "<div class='delivery-2'>배송보통</div>");
+	    		}else{
+	    			cell2.insertAdjacentHTML("beforeend", 
+			            "<div class='delivery-3'>배송빠름</div>");
+	    		}
+	    		
+	    		var cell3 = row.insertCell(2);
+	    		
+	    		cell3.className = "customer-review__table--content";
+	    		
+                cell3.insertAdjacentHTML("beforeend", 
+	                "<p class='review__content--title'>" + reviewObj[i].title + "</p>" + 
+                    "<span class='review__content'>" + reviewObj[i].content + "</span>");
+                
+                var cell4 = row.insertCell(3);
+	    		
+	    		cell4.className = "customer-review__table--info";
+	    		
+	    		var getReviewId = reviewObj[i].buyer_id.substring(0,3);
+	    		
+                for(var j = 0; j < reviewObj[i].buyer_id.length - 3; j++){
+                	getReviewId += "*";
+                }
+	    		
+                cell4.insertAdjacentHTML("beforeend", 
+	                "<dl>" + 
+                    "    <dt>작성자: </dt>" + 
+                    "    <dd>" + getReviewId + "</dd>" + 
+                    "    <dt>등록일: </dt>" + 
+                    "    <dd>" + reviewObj[i].register_date + "</dd>" + 
+                    "</dl>" + 
+                    "<div class='customer-review__table--star-rating'>" + 
+                    "    <span style='width: " + (reviewObj[i].delivery_satisfaction * 20) + "%;'></span>" + 
+                    "</div>");
+                
+                if(equalsSellerId == "true"){
+                	
+                	var recommendRow = tbody.insertRow(tbody.rows.length);
+                	
+                	recommendRow.className = "seller__review--comment";
+                	
+                	var recommendCell = recommendRow.insertCell(0);
+                	
+                	recommendCell.colSpan = "4";
+                	
+                	if(recommendArr[i].length != 0){
+
+                		recommendCell.insertAdjacentHTML("beforeend", 
+         			       "<div class='seller__review--comment-list'>");
+                		
+                		for(var j = 0; j < recommendArr[i].length; j++){
+                			
+                			recommendCell.insertAdjacentHTML("beforeend", 
+          			           "<div class='seller__review--comment-read'>" + 
+                               "    <div class='review-comment--seller'>판매자</div>" + 
+                               "    <div class='review-comment--content'>" + recommendArr[i][j].content + "</div>" + 
+                               "    <div class='review-comment--date'>" + recommendArr[i][j].register_date + 
+                               "        <input type='button' class='review__comment--delete-btn' " +  
+                               "            value='x' onclick=\"reviewCommentDelete(this, '" + 
+                               recommendArr[i][j].review_cmt_num + "', '" + recommendArr[i][j].review_id + "', '" + 
+                               csrfToken.value + "');\" />" + 
+                               		"</div>" + 
+                               "</div>");
+                		}
+                		
+                		
+                		recommendCell.insertAdjacentHTML("beforeend", 
+                			"</div>");
+                		
+                	}else{
+                		recommendCell.insertAdjacentHTML("beforeend", 
+            			   "<div class='seller__review--comment-list'></div>");
+                	}
+                	
+                	
+                	recommendCell.insertAdjacentHTML("beforeend", 
+                			"<div class='seller__review--comment-box'>" + 
+                            "    <textarea name='content' maxlength='200' class='seller__review--comment-content'" + 
+                            "        placeholder='200자 이하로 댓글을 작성해주세요.'></textarea>" + 
+                            "    <input type='button' value='등록'" + 
+                            "        onclick=\"reviewCommentSubmit(this, '"+ user_id + "', '" + 
+                            reviewObj[i].review_id + "', '" + csrfToken.value + "', '" + i + "');\" />" + 
+                            "</div>");
+                	
+                	
+                }else{
+                	
+                	
+                	if(recommendArr[i].length != 0){
+                		
+                		var recommendRow = tbody.insertRow(tbody.rows.length);
+                    	
+                    	recommendRow.className = "review-comment";
+                    	
+                    	var recommendCell = recommendRow.insertCell(0);
+                    	
+                    	recommendCell.colSpan = "4";
+                    	
+                    	for(var j = 0; j < recommendArr[i].length; j++){
+                    		
+                    		recommendCell.insertAdjacentHTML("beforeend", 
+                    				"<div>" + 
+	                                "    <div class='review-comment--seller'>판매자</div>" + 
+	                                "    <div class='review-comment--content'>" + recommendArr[i][j].content + "</div>" + 
+	                                "    <div class='review-comment--date'>"+ recommendArr[i][j].register_date + "</div>" + 
+	                                "</div>");
+	                                		
+                    		
+                    	}
+                		
+                	}
+                	
+                }
+                
+                
+
+	    	}  // for end
+	    	
+	    	
+
+	    },
+	    error: function(){
+	    	
+	    }
+	});
+	
+	
+	
+}
+
+function reviewPageList(btn){
+	
+	if(btn.value == "이전"){
+		
+	}else if(btn.value == "다음"){
+		
+	}
+}
+
+var saveReviewPage = 1;
+
+function reviewTextPage(thisTxt, max){
+	
+	
+	
+	if(thisTxt.value != ""){
+		if (!(new RegExp(/^[0-9]+$/)).test(thisTxt.value)) {
+			thisTxt.value = saveReviewPage;
+		}
+		
+		if(thisTxt.value >= Number(max)){
+			thisTxt.value = Number(max);
+		}else if(thisTxt.value == 0){
+			thisTxt.value = 1;
+		}
+		
+		saveReviewPage = thisTxt.value;
+    }
+	
+	
+}
+
+function revewTextPage(thisTxt){
+//	thisTxt.value로 이동
+}
+
+
+
+function modal_qna_show(){
+	var modal = document.getElementById("modal__qna");
+	var modal_content = document.getElementById("modal__qna--content");
+	
+	modal.style.display = "block"; // 모달창 display none에서 block으로 변경함으로써 띄워줌
+	
+	//var scrollTop = document.documentElement.scrollTop; 
+
+	// 현재 스크롤한 위치 + (모니터 높이 /2) = 현재 화면의 중앙지점 - 컨텐츠 창 높이
+	//modal_content.style.top = String(Number(scrollTop) + (Number(screen.height) / 2) - (Number(modal_content.clientHeight))) + "px";
+    // 모달창 중앙 위치 (이용자 화면 길이 - 모달창 크기) / 2 가 모달창 left시작위치
+	//modal_content.style.left = String((screen.width - modal_content.clientWidth) / 2) +"px";
+}
+
+function modal_qna_cancle(){
+	var modal_client = document.getElementById("modal__qna");
+	modal_client.style.display = "none";
+}
+
+function modal_qna_write(){
+	modal_qna_show();
+}
+
+function qna_regist(){
+	
+	var title = document.getElementById("qna__write--content-title");
+	var content = document.getElementById("qna-content--text");
+	var secretCheck = document.getElementById("secret__check");
+	var qnaForm = document.getElementById("qnaForm");
+	
+	if(title.value == ""){
+		modal_warning("제목을 입력해주세요");
+		return false;
+	}
+	
+	
+	if(content.value == ""){
+		modal_warning("문의내용을 입력해주세요");
+		return false;
+	}
+	
+	var checkVal = 2;
+	
+	if(secretCheck.checked == true){
+		checkVal = 1;
+	}
+	
+	var secretFlag = document.createElement("input");
+	secretFlag.setAttribute("type", "hidden");
+	secretFlag.setAttribute("name", "secret_flag");
+	secretFlag.setAttribute("value", checkVal);
+	qnaForm.appendChild(secretFlag);
+	
+    var location = document.querySelector("#customer-qna").offsetTop - 120;
+	
+	var locationFiled = document.createElement("input");
+	locationFiled.setAttribute("type", "hidden");
+	locationFiled.setAttribute("name", "location");
+	locationFiled.setAttribute("value", location);
+	qnaForm.appendChild(locationFiled);
+	
+	
+	return true;
+}
+
+function qnaDisplayOpen(thisTr, i){
+	
+    var contentDisplay 
+        = document.getElementsByClassName("customer-qna__table--content-answer")[Number(i)];
+    
+    if(contentDisplay.style.display == "table-row"){
+    	thisTr.style.borderBottom = "1px solid #ced7e2";
+    	contentDisplay.style.display = "none";
+	}else{
+		thisTr.style.borderBottom = "0px";
+		contentDisplay.style.display = "table-row";
+	}
+}
+
+function qnaRecommendSubmit(i, qna_num){
+
+	
+	var recommend = document.getElementsByClassName("qna__recommend--content")[Number(i)].value;
+	var csrfToken = document.getElementById("csrfFormId").value;
+	var board_id = document.getElementById("board_id").value;
+	var seller_id = document.getElementById("seller_id").value;
+	
+	$.ajax({
+	    type: 'GET',
+	    url: "QnaRecommendRegist.bo",
+	    contentType: 'application/html; charset=UTF-8',
+	    data: "board_id=" + board_id + "&seller_id=" + seller_id + 
+	          "&qna_num=" + qna_num + "&recommend=" + recommend,
+	    cache: false,
+	    beforeSend : function(xhr) {
+	    	 xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+	    },
+	    success: function(data){
+	    	
+	    	var cell1 = document.getElementsByClassName("customer-qna__table--content-Q")[Number(i)];
+	    	var cell2 = document.getElementsByClassName("customer-qna__table--td-answer")[Number(i)];
+	    	var recommendInputBox = document.getElementsByClassName("recommend-submit-box")[Number(i)];
+	    	
+            var recommendBox = document.getElementById("customer-qna__table--recommend-" + i);
+	    	
+	    	if(document.getElementById("customer-qna__table--recommend-" + i)){
+	    		var recommendText = document.getElementsByClassName("qna__content--recommend")[Number(i)];
+	    		recommendText.textContent = recommend;
+	    		var dateText = document.getElementsByClassName("qna__recommend-date--format")[Number(i)];
+	    		dateText.textContent = data;
+	    	}else{
+	    		cell1.parentNode.insertAdjacentHTML("afterend", 
+		    			"<div id='customer-qna__table--recommend-" + i + "'>" + 
+	                    "    <span class='customer-qna__table--content-A'>A</span>" +
+	                    "    <span class='qna__content--recommend'>" + recommend + "</span>" +
+	                    "</div>" + 
+	                    "<div>" + 
+	    	            "    <span>답변 등록일: &nbsp;&nbsp;&nbsp;</span>" + 
+	    	            "    <span class='qna__recommend-date--format'>" + data + "</span>" + 
+	    	            "    <input type='button' value='수정하기' class='qna__recommend--modify-btn'" + 
+	    	            "        onclick=\"recommendModify('" + i +"');\" />" +
+	    	            "</div>");
+	    	}
+	    	
+	    	cell2.style.color = "cornflowerblue";
+	    	cell2.textContent = "답변완료";
+	    	recommend.value = "";
+	    	recommendInputBox.style.display = "none";
+
+	    	
+	    },
+	    error: function(){
+	    	
+	    }
+	});
+	
+}
+
+function recommendModify(i){
+	var recommendBox = document.getElementsByClassName("recommend-submit-box")[Number(i)];
+	
+	if(recommendBox.style.display == "none"){
+		recommendBox.style.display = "block";
+	}else{
+		recommendBox.style.display = "none";
+	}
+}
+
+function qnaListPageMove(page_num){
+	
+    var csrfToken = document.getElementById('csrfFormId');
+    var board_id = document.getElementById('board_id').value;
+    var user_id = document.getElementById('user_id').value;
+    var qna_status = document.getElementById("qna__drop-box--qna").value;
+    var answer_status = document.getElementById("qna__drop-box--answer").value;
+    var page_amount = 10;  // 10으로 고정
+	var keyword = document.getElementById("customer-qna__search--text-save").value;
+	
+    if(keyword == undefined){
+    	keyword = "";
+    }
+    
+	$.ajax({
+	    type: 'GET',
+	    url: "QnaSelectPage.bo",
+	    contentType: 'application/json; charset=UTF-8',
+	    data: "board_id=" + board_id + "&qna_status=" + qna_status + 
+	        "&answer_status=" + answer_status + "&page_num=" + page_num + 
+	        "&page_amount=" + page_amount + "&keyword=" + keyword,
+	    cache: false,
+	    success: function(data){
+
+	    	var pageText = document.querySelector("#qna__page--set > input[type='text']");
+	    	pageText.value = page_num;
+	    	
+	    	var tbody = document.querySelector('.customer-qna__table > table > tbody');
+	    	var len = tbody.rows.length;
+	    	
+	    	
+	    	for(var i = 0; i < len; i++){
+	    		tbody.deleteRow(0);
+	    	}
+	    	
+	    	var reviewObj;
+	    	
+	    	if(IsJsonString(data) == true){
+	    		obj = JSON.parse(data);
+	    	}
+	    	
+	    	
+	    	if(obj.length != 0){
+	    		
+	    		for(var i = 0; i < obj.length; i++){
+		    		
+		    		var row1 = tbody.insertRow(tbody.rows.length);
+		    		
+		    		row1.className = "customer-qna__table--tr";
+		    		$(row1).attr(
+		    				"onclick", "qnaDisplayOpen(this, '" + i + "');");
+		    		
+		    		var cell1 = row1.insertCell(0);
+		    		
+		    		cell1.insertAdjacentHTML("beforeend", 
+		    				obj[i].qna_num);
+		    		
+		    		var cell2 = row1.insertCell(1);
+		    		
+		    		cell2.insertAdjacentHTML("beforeend", 
+		    				obj[i].qna_status);
+		    		
+		    		var cell3 = row1.insertCell(2);
+		    		
+		    		cell3.className = "customer-qna__table--td-answer";
+		    		
+		    		if(obj[i].answer_status == 1){
+		    			cell3.style.color = "cornflowerblue";
+		    			
+		    			cell3.insertAdjacentHTML("beforeend", 
+				                "답변완료");
+		    			
+		    		}else{
+		    			cell3.style.color = "cadetblue";
+		    			
+		    			cell3.insertAdjacentHTML("beforeend", 
+		    					"답변대기중");
+		    		}
+		            
+		            var cell4 = row1.insertCell(3);
+		    		
+		    		cell4.className = "customer-qna__table--title-td";
+		    		
+		    		if(user_id == obj[i].seller_id || 
+		    				user_id == obj[i].buyer_id ||
+		    				obj[i].secret_flag != 1){
+		    			
+		    			cell4.insertAdjacentHTML("beforeend", 
+					        obj[i].title);
+		    			
+		    		}else{
+		    			cell4.insertAdjacentHTML("beforeend", 
+					        "비밀글입니다.");
+	    		    }
+		    		
+                    var cell5 = row1.insertCell(4);
+		    		
+		    		cell5.className = "customer-qna__table--user-td";
+		    		
+		    		var getQnaId = obj[i].buyer_id.substring(0,3);
+		    		
+		            for(var j = 0; j < obj[i].buyer_id.length - 3; j++){
+		            	getQnaId += "*";
+		            }
+		    		
+		            cell5.insertAdjacentHTML("beforeend", 
+		            		getQnaId);
+		            
+		            
+		            var cell6 = row1.insertCell(5);
+		            
+		            cell6.insertAdjacentHTML("beforeend", 
+		            		obj[i].register_date);
+		            
+		            
+		            var row2 = tbody.insertRow(tbody.rows.length);
+		    		
+		    		row2.className = "customer-qna__table--content-answer";
+		    		
+		    		var cell7 = row2.insertCell(0);
+		    		
+		    		cell7.colSpan = "6";
+		    		
+		    		if(user_id == obj[i].seller_id || 
+		    				user_id == obj[i].buyer_id ||
+		    				obj[i].secret_flag != 1){
+		    			
+		    			cell7.insertAdjacentHTML("beforeend", 
+		    					"<div>" + 
+		    					"    <span class='customer-qna__table--content-Q'>Q</span>" + 
+		    					obj[i].content + 
+		    					"</div>");
+		    			
+		    			if(obj[i].answer_status == 1){
+		    				
+		    				
+		    				if(user_id == obj[i].seller_id){
+		    					
+		    					cell7.insertAdjacentHTML("beforeend", 
+		    							"<div id='customer-qna__table--recommend-" + i + "'>" + 
+			    						"    <span class='customer-qna__table--content-A'>A</span>" + 
+			    						"    <span class='qna__content--recommend'>" + obj[i].recommend + "</span>" + 
+			    						"</div>" + 
+			    						"<div>" + 
+			    						"    <span>답변 등록일: &nbsp;&nbsp;&nbsp;</span>" + 
+			    						"    <span class='qna__recommend-date--format'>" + 
+			    						obj[i].recommend_date + "</span>" + 
+		    							"<input type='button' value='수정하기' class='qna__recommend--modify-btn'" + 
+		    							"    onclick=\"recommendModify('" + i + "');\" />" +
+		    							"</div>");
+		    					
+		    				}else{
+		    					
+		    					cell7.insertAdjacentHTML("beforeend", 
+			    						"<div id='customer-qna__table--recommend-" + i + "'>" + 
+			    						"    <span class='customer-qna__table--content-A'>A</span>" + 
+			    						"    <span class='qna__content--recommend'>" + obj[i].recommend + "</span>" + 
+			    						"</div>" + 
+			    						"<div>" + 
+			    						"    <span>답변 등록일: &nbsp;&nbsp;&nbsp;</span>" + 
+			    						"    <span class='qna__recommend-date--format'>" + 
+			    						obj[i].recommend_date + "</span>" + 
+			    						"</div>");
+		    				}
+		    				
+		    				
+		    			}
+		    			
+		    			if(user_id == obj[i].seller_id && obj[i].answer_status != 1){
+		    				cell7.insertAdjacentHTML("beforeend", 
+		    						"<div class='recommend-submit-box' style='display: block;'>" + 
+			    					"<textarea maxlength='500' class='qna__recommend--content'></textarea>" + 
+			    					"    <input type='button' value='답변등록' class='qna__recommend--btn'" + 
+			    					"        onclick=\"qnaRecommendSubmit('" + i + "', '" + obj[i].qna_num + "');\" />" + 
+			    			        "</div>");
+		    			}else{
+		    				cell7.insertAdjacentHTML("beforeend", 
+    						    "<div class='recommend-submit-box' style='display: none;'>" + 
+			    					"<textarea maxlength='500' class='qna__recommend--content'></textarea>" + 
+			    					"    <input type='button' value='답변등록' class='qna__recommend--btn'" + 
+			    					"        onclick=\"qnaRecommendSubmit('" + i + "', '" + obj[i].qna_num + "');\" />" + 
+			    			        "</div>");
+		    			}
+		    			
+		    		}else{
+		    			
+		    			cell7.insertAdjacentHTML("beforeend", 
+		    					"<div>비밀글입니다.</div>");
+		    			
+		    		}
+		            
+		            
+		    	}
+	    			
+	    		
+	    	}else{
+	    		
+	    	    var row = tbody.insertRow(tbody.rows.length);
+		    		
+		        row.className = "customer-qna__table--content-answer";
+		    		
+		    	var cell = row.insertCell(0);
+		    		
+		    	cell.colSpan = "6";
+		    	cell.className = "customer-qna__table--none-content";
+		    	
+		    	cell.insertAdjacentHTML("beforeend", 
+		    	    "등록된 문의글이 없습니다.");
+	    		
+	    	}
+	    	
+	    	
+	    	searchCount(board_id, qna_status, answer_status, keyword);
+
+	    },
+	    error: function(){
+	    	
+	    }
+	});
+	
+}
+
+function searchCount(board_id, qna_status, answer_status, keyword){
+	
+	
+	$.ajax({
+	    type: 'GET',
+	    url: "QnaSelectCount.bo",
+	    contentType: 'application/html; charset=UTF-8',
+	    data: "board_id=" + board_id + "&qna_status=" + qna_status + 
+	        "&answer_status=" + answer_status + "&keyword=" + keyword,
+	    cache: false,
+	    success: function(data){
+
+	    	var searchResultCount = document.querySelector("#qna__search--result > strong");
+	    	var pageSet = document.querySelector("#qna__page--set > span");
+	    	var pageText = document.querySelector("#qna__page--set > input[type='text']");
+	    	
+	    	searchResultCount.textContent = data;
+	    	pageSet.textContent 
+	    	    = " / " + String(parseInt(Math.ceil(parseFloat(data) / 10.0))) + " Page";
+	    	pageText.value = 1;
+	    	
+	    },
+	    error: function(){
+	    	
+	    }
+	});
+}
+
+function pageBtnMove(thisBtn){
+	
+	$('#qna__table--now-page').removeAttr("disabled");
+	$('#qna__table--now-page').attr(
+			"onClick", "qnaListPageMove(this, '"+ user_id + "')");
+	$('#qna__table--now-page').attr("class", "review__table--page-move");
+	$('#qna__table--now-page').removeAttr("id");
+	
+	thisBtn.classList.remove('qna__table--page-move');
+	thisBtn.id = "qna__table--now-page";
+	thisBtn.setAttribute("disabled", "disabled");
+	$("#qna__table--now-page").attr('onclick', '').unbind('click');
+	
+	qnaListPageMove(thisBtn.value);
+}
+
+function rePaging(pageNum, pageList){
+	
+	// 페이지 메이킹
+	var page_num = pageNum;
+	var page_amount = 10;  // 보여줄 리스트 갯수 10 고정
+	var total = Number(document.querySelector("#qna__search--result > strong").textContent);
+	// 이미 계산되어 적용된 내용
+	
+	var endPage = parseInt(Math.ceil(page_num / 10.0)) * 10;
+	var startPage = endPage - 9;
+	
+	var calcEnd = parseInt(Math.ceil((total * 1.0) / page_amount));
+	
+	if(endPage > calcEnd) {
+		endPage = calcEnd;
+	}
+	
+	var prev = startPage > 1;
+	var next = endPage < calcEnd;
+	// ==================================================================================
+	
+	var pageBtnNode = "";
+	
+	if(pageList == "review"){
+		
+	}else if(pageList == "qna"){
+		pageBtnNode = document.getElementById("qna__page--btn");
+	}
+
+	
+	while (pageBtnNode.hasChildNodes()) { 
+		pageBtnNode.removeChild(pageBtnNode.firstChild); 
+	}
+	
+	
+	if(prev == true){
+		pageBtnNode.insertAdjacentHTML("beforeend", 
+		    "<input type='button' value='이전' class='page__abled--prev-btn'" +
+		    "    onclick='rePaging(" + (Number(page_num) - 10) + ", 'qna');' />");
+	}else{
+		pageBtnNode.insertAdjacentHTML("beforeend", 
+			"<input type='button' value='이전' disabled class='page__disabled--prev-btn'/>");
+	}
+	
+	for(var i = startPage; i < endPage+1; i++){
+		
+		if(i == page_num){
+			pageBtnNode.insertAdjacentHTML("beforeend", 
+		        "<input type='button' value='" + i +"' disabled id='qna__table--now-page' />");
+		}else{
+			pageBtnNode.insertAdjacentHTML("beforeend", 
+			    "<input type='button' value='"+ i + "' class='qna__table--page-move' />");
+		}
+		
+	}
+	
+	if(next == true){
+		pageBtnNode.insertAdjacentHTML("beforeend", 
+				"<input type='button' value='다음' disabled class='page__abled--prev-btn' " + 
+				"    onclick='rePaging(" + (Number(page_num) + 10) + ", 'qna');' />");
+	}else{
+		pageBtnNode.insertAdjacentHTML("beforeend", 
+				"<input type='button' value='다음' disabled class='page__disabled--prev-btn'/>");
+	}
+	
+	
+}
+
+var saveQnaVal = 1;
+
+function qnaTextPage(thisText, max){
+	
+	if(thisText.value != ""){
+		if (!(new RegExp(/^[0-9]+$/)).test(thisText.value)) {
+			thisText.value = saveQnaVal;
+		}
+		
+		if(thisText.value > Number(max)){
+			thisText.value = Number(max);
+		}else if(thisText.value < 1){
+			thisText.value = 1;
+		}
+		
+		saveQnaVal = thisText.value;
+    }
+}
+
+function qnaTextPageMove(thisPage){
+	
+	if(thisPage.value == "" || thisPage.value < 1){
+		thisPage.value = 1;
+	}else{
+		qnaListPageMove(thisPage.value);
+		rePaging(thisPage.value, "qna");
+	}
+	
+}
+
+function searchQnaList(page_num){
+	var keyword = document.getElementById("customer-qna__search--text").value;
+	var saveText = document.getElementById("customer-qna__search--text-save");
+	
+	saveText.value = keyword;
+	
+	
+	qnaListPageMove(page_num);
+}
+
+function qnaDropBox(thisBtn){
+	
+	var dropbox = thisBtn.parentNode.getElementsByTagName("ul")[0];
+	
+	
+	if(dropbox.style.display == "none"){
+		dropbox.style.display = "block";
+		thisBtn.style.color = "dodgerblue";
+	}else{
+		dropbox.style.display = "none";
+		thisBtn.style.color = "#000";
+	}
+}
+
+$(document).mouseup(function(e){
+	if(!$(".customer-qna__table--drop-box").is(e.target) && 
+			$('.customer-qna__table--drop-box').has(e.target).length ===0){
+		$(".customer-qna__table--drop-box").hide();
+		$(".customer-qna__table--search").css("color", "#000");
+	}
+});
+
+function qnaDropBoxSearch(thisBtn, val){
+	
+	var liTag = thisBtn.parentNode.getElementsByTagName("li");
+	
+	for(var i = 0; i < liTag.length; i++){
+		if(liTag[i].style.color == "dodgerblue"){
+			liTag[i].style.color = "#000";
+			break;
+		}
+	}
+	
+	thisBtn.style.color = "dodgerblue";
+	
+	var inputTag = thisBtn.parentNode.parentNode.getElementsByTagName("input")[0];
+
+	inputTag.value = val;
+
+	qnaListPageMove(1);
+	
 }

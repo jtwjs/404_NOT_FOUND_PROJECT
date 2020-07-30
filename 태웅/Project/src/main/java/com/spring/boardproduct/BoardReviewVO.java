@@ -30,7 +30,11 @@ public class BoardReviewVO {         // 상품후기 게시판
     private String title;            // 판매글 제목
     private String content;          // 글내용
     private double satisfaction;     // 구매만족도(별점)
-    private Date register_date;      // 작성일
+    private String satisfaction_img; // 별점 이미지  
+    private double delivery_satisfaction;     // 구매만족도(별점)
+    private String delivery_satisfaction_img; // 별점 이미지
+    private Date register_date;
+    private String format_reg_date;         // 작성일
     private String review_img_path;  // 작성 후기글 이미지 경로
     private String review_img_name;  // 작성 후기글 이미지 이름
     
@@ -82,6 +86,26 @@ public class BoardReviewVO {         // 상품후기 게시판
 	public void setSatisfaction(double satisfaction) {
 		this.satisfaction = satisfaction;
 	}
+	public String getSatisfaction_img() {
+		return satisfaction_img;
+	}
+	public void setSatisfaction_img(String satisfaction_img) {
+		this.satisfaction_img = satisfaction_img;
+	}
+	
+	
+	public double getDelivery_satisfaction() {
+		return delivery_satisfaction;
+	}
+	public void setDelivery_satisfaction(double delivery_satisfaction) {
+		this.delivery_satisfaction = delivery_satisfaction;
+	}
+	public String getDelivery_satisfaction_img() {
+		return delivery_satisfaction_img;
+	}
+	public void setDelivery_satisfaction_img(String delivery_satisfaction_img) {
+		this.delivery_satisfaction_img = delivery_satisfaction_img;
+	}
 	public Date getRegister_date() {
 		return register_date;
 	}
@@ -100,6 +124,14 @@ public class BoardReviewVO {         // 상품후기 게시판
 	public void setReview_img_name(String review_img_name) {
 		this.review_img_name = review_img_name;
 	}
+	public String getFormat_reg_date() {
+		return format_reg_date;
+	}
+	public void setFormat_reg_date(String format_reg_date) {
+		this.format_reg_date = format_reg_date;
+	}
+	
+	
     
 	
     

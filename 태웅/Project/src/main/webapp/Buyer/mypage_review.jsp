@@ -1,12 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Calendar" %>
-<%
-    SimpleDateFormat format_time = new SimpleDateFormat("yyyy-MM-dd");
-    String today = format_time.format(Calendar.getInstance().getTime());
-%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +16,7 @@
     <!-- header, css end -->
     <link href="<c:url value='/resources/css/Common/sub_main.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Buyer/mypage_template.css'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/Buyer/mypage_productQna.css'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Buyer/mypage_review.css?after'/>" rel="stylesheet" />
     <title>구매후기</title>
 </head>
 <body>
@@ -57,74 +55,70 @@
                 
                     <section id="myPage">
                         <h2 class="content-title">구매후기</h2>
-                        
-                            <article id="content__product-list--search">
-                                <div id="content__product-list--search-box">
-                                    <form id="product-list__search-box--form" method="get"
-                                        action="" onsubmit="">
-                                        <div id="product-list__search-box--line-1">
-                                            <input type="text" placeholder="게시글 번호, 제목" />
-                                            <input type="submit" value="조회하기" />
-                                        </div>
-                                        <div id="product-list__search-box--line-2">
-                                            <div id="search-box__date--calendar">
-                                                <span>기간별 조회</span>
-                                                <input type="date" max="<%=today %>" /> 
-                                                ~ <input type="date" max="<%=today %>" />
-                                            </div>
-                                            <div id="search-box__date--select">
-                                                <ul>
-                                                    <li class="select-border"><a href="#">
-                                                        <strong>1</strong> 일</a>
-                                                    </li>
-                                                    <li class="select-border"><a href="#">
-                                                        <strong>3</strong> 일</a>
-                                                    </li>
-                                                    <li class="select-border"><a href="#">
-                                                        <strong>1</strong> 주일</a>
-                                                    </li>
-                                                    <li class="select-border"><a href="#">
-                                                        <strong>1</strong> 개월</a>
-                                                    </li>
-                                                    <li class="select-border"><a href="#">
-                                                        <strong>3</strong> 개월</a>
-                                                    </li>
-                                                    <li><a href="">
-                                                        <b>전체</b></a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </article>
                             
-                            <article id="transaction__detail">
-
-                                <table class="transaction__detail--table">
+                            <div class="review_menu">
+                            	<a id="review_wrtie" href="#" onclick="javascript:location.href='BuyerMyPageReviewWrite.by'">후기 작성</a>
+                            	<a id="review_history" href="BuyerMyPageReview.by">후기 내역</a>
+                            </div>
+                            <div class="review-explain">
+                            	<p class="explain">- 후기 작성시 500원의 적립금이 지급됩니다. </p>
+                            	<p class="explain">- 후기작성은 구매확정일로부터 90일까지 가능합니다. </p>
+                            </div>
+                            <article id="review_history">
+                                <table id="review_history--table">
                                     <thead>
-                                        <tr>
-                                            <th class="qna-number">번호</th>                
-                                            <th class="qna-title">제목</th>                
-                                            <th class="qna-date">등록일</th>                
-                                            <th class="qna-hit">조회수</th>                
-                                            <th class="qna-secret">비밀글</th>                
+                                        <tr>                
+                                            <th scope="col" class="product-info">상품정보</th>
+                                            <th scope="col" class="review-content">내용</th>                
+                                            <th scope="col" class="review-date">작성일</th>                
+                                             
                                         </tr>   
                                     </thead>
                                     <tbody>
+                                   	<c:if test="${fn:length(reviewList) == 0}">
                                         <tr>
-                                            <td class="non-post" colspan="5">
+                                            <td class="non-list" colspan="5">
                                                등록한 후기가 없습니다.
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
+                                   
+                                   </c:if>
+                                   <c:forEach var="list" items="${reviewList}" varStatus="status" >
+                                   	<tr>
+                                   		<td class="product-title"><img src="display?path=${list.review_img_path}&name=${list.review_img_name}"/><p>${list.title}</p></td>
+                                   		<td class="content">
+                                   			<dl class="satisfaction">
+                                   				<dt>상품만족도</dt> 
+                                   				<dd><img src="${list.satisfaction_img}" alt="구매만족도별점"/></dd>
+                                   				<dt>배송만족도</dt>
+                                   				<dd><img src="${list.delivery_satisfaction_img}" alt="배송별점"/></dd>
+                               				</dl>
+                               				<p class="detail">${list.content}</p></td>
+                                   		<td>${list.format_reg_date}</td>
+                                   	</tr>
+                                   	</c:forEach>
                                     </tbody>
                                 </table>
+                                <div class="n-paging">
+                     		<ul>
+                     			<c:if test="${pageMaker.prev}">
+                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(pageMaker.startPage - 1)}" class="prev">이전</a></li>
+                     			</c:if>
+                     			
+                     			<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+                     				<c:if test="${currentPage eq idx}">
+                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(idx)}" class="page active">${idx}</a></li>
+                     				</c:if>
+                     				<c:if test="${currentPage ne idx}">
+                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(idx)}" class="page">${idx}</a></li>
+                     				</c:if>
+                     			</c:forEach>
+                     			
+                     			<c:if test="${pageMaker.next && pageMaker.endPage> 0}">
+                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(pageMaker.endPage + 1)}" class="next">다음</a></li>
+                     			</c:if>
+                     		</ul>
+                     	</div>
                             </article>
 
                     </section>

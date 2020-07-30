@@ -39,13 +39,19 @@
               </sec:authorize>
 		</sec:authorize>
         <sec:authorize access = "isAuthenticated()">      
+     	   	  <sec:authorize access="hasRole('ROLE_ADMIN')">
+              <li><a href="#" onclick="javascript:location.href='BoardManagement.ad'">게시물관리</a></li>
+              </sec:authorize>
+              <sec:authorize access="hasRole('ROLE_BUYER')">
               <li><a href="#" id="order_delivery">주문배송</a></li>
-              <li><a href="#" onclick="javascript:location.href='OrderResearch.or'">주문배송페이지</a></li> 
+              </sec:authorize>
         </sec:authorize>
         <sec:authorize access = "isAnonymous()">
         	  <li><a href="#" onclick="javascript:location.href='non-OrderResearch.or'">주문배송</a></li>
         </sec:authorize>      
-              <li><a href="#" onclick="javascript:location.href='CartView.or'">장바구니</a></li>
+       	<sec:authorize access="hasRole('ROLE_BUYER')">
+       		  <li><a href="#" onclick="javascript:location.href='CartView.or'">장바구니</a></li>
+        </sec:authorize>
               <li><a href="#" onclick="javascript:location.href='BoardNotice.sc'">고객센터</a></li>
             </ul>
           </div>
@@ -197,16 +203,16 @@
               <input
                 type="text"
                 class="search-input"
+                id="search-input"
                 placeholder="지역 특산품"
               />
-              <button type="submit" class="search-btn">
+              <button type="button" class="search-btn" onclick="boardProductSearch();">
                 <img
                   src="./resources/Images/module/header/search-icon.png"
                   alt="search icon"
                 />
               </button>
             </div>
-          </div>
         </nav>
       </div>
     </header>

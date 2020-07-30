@@ -114,7 +114,7 @@
                      				<td class="sp-status save">${point.status}</td>
                      				<td class="sp-point save">${point.point} </td>
                      				<td class="sp-content left">${point.contentTitle}<span class="enter content-detail"><a href="#a">${point.contentDetail}</a></span></td>
-                     				<td class="sp-orderNum"><a href="#a">${point.orderNum}</a></td>
+                     				<td class="sp-orderNum"><a href="OrderResearch.or?order_id=${point.orderId}">${point.orderId}</a></td>
                      				<td class="sp-appDate">${point.applicationDate}</td>
                      			</tr>
                      				</c:when>
@@ -123,7 +123,7 @@
                      				<td class="sp-status use">${point.status}</td>
                      				<td class="sp-point use">${point.point} </td>
                      				<td class="sp-content left">${point.contentTitle}<span class="enter content-detail">${point.contentDetail}</span></td>
-                     				<td class="sp-orderNum">${point.orderNum}</td>
+                     				<td class="sp-orderNum"><a href="OrderResearch.or?order_id=${point.orderId}">${point.orderId}</a></td>
                      				<td class="sp-appDate">${point.applicationDate}</td>
                      			</tr>
                      				</c:otherwise>

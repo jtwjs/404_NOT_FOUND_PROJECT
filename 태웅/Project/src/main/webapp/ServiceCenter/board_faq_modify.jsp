@@ -54,7 +54,6 @@
 							<ul>
 								<li><a href="#" onclick="location.href='BoardNotice.sc'">공지사항</a></li>
 								<li><a href="#" class="selected-menu" onclick="location.href='BoardFaq.sc'">자주묻는질문</a></li>
-								<li><a href="#" onclick="location.href='BoardQna.sc'">고객문의</a></li>
 							</ul>
 						</aside>
 
@@ -64,10 +63,6 @@
 							<form action="FaqBoardModify.sc" method="post" >
 								<input type="hidden" class="form-control" name="num" value="<%=bfl.getNum() %>">
 								<table class="table table-striped">
-									<tr>
-										<td>작성자</td>
-										<td><input type="hidden" class="form-control" name="writer" value="관리자"></td>
-									</tr>
 									<tr>
 										<td>제목</td>
 										<td><input name="title" class="form-control" size="50" maxlength="100" value="<%=bfl.getTitle()%>"></td>

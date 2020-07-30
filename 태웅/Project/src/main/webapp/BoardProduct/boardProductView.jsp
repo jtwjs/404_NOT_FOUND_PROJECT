@@ -5,6 +5,8 @@
 <%@ page import="com.spring.boardproduct.BoardProductVO" %>
 <%@ page import="com.spring.boardproduct.BoardReviewVO" %>
 <%@ page import="com.spring.boardproduct.CommentReviewVO" %>
+<%@ page import="com.spring.boardproduct.BoardQnaVO" %>
+<%@ page import="com.spring.util.PageMaker" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.UUID" %>
@@ -31,15 +33,32 @@
     }
    
     int reviewNum = 0;
-    double reviewNumCalc = 0.0;
+    double reviewNumCalc = vo.getSatisfaction();
+    double deliveryReviewNumCalc = 0.0;
     if((int)request.getAttribute("reviewNum") != 0){
     	reviewNum = (int)request.getAttribute("reviewNum");
     	
-    	for(int i = 0; i < reviewNum; i++){
-    		reviewNumCalc += review_list.get(i).getSatisfaction();
-    	}
+    	if(review_list.size() != 0 || review_list.size() != reviewNum){
+    	    for(int i = 0; i < review_list.size(); i++){
+    		    //reviewNumCalc += review_list.get(i).getSatisfaction();
+    		    deliveryReviewNumCalc += review_list.get(i).getDelivery_satisfaction();
+    	    }
     	
-    	reviewNumCalc /= reviewNum;
+    	    //reviewNumCalc /= reviewNum;
+    	    deliveryReviewNumCalc /= reviewNum;
+        }else{
+        	System.out.println("review_list 사이즈 에러");
+        }
+    }
+    
+    ArrayList<BoardQnaVO> qna_list = null;
+    if((ArrayList<BoardQnaVO>)request.getAttribute("qna_list") != null){
+    	qna_list = (ArrayList<BoardQnaVO>)request.getAttribute("qna_list");
+    }
+    
+    int countQna = 0;
+    if((int)request.getAttribute("countQna") != 0){
+    	countQna = (int)request.getAttribute("countQna");
     }
   
 %>
@@ -199,7 +218,7 @@
                                 <ul>
                                     <li class="dataBox__title">고객평가</li>
                                     <li class="dataBox__content">
-                                        <span><%=reviewNum %> 건 <%=reviewNumCalc%> / 5</span>
+                                        <span><%=reviewNum %> 건 <%=String.format("%.2f", reviewNumCalc)%> / 5</span>
                                         <div id="review-calc__star-rating--box">
                                             <div id="review-calc__star-rating">
                                                 <span style="width: <%=(int)(reviewNumCalc*20)%>%;"></span>
@@ -257,7 +276,7 @@
                             <input type="hidden" value="" id="btn__check--val" />
                             
                             <form id="buyForm" method="post" action="OrderSheet.or">
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" id="csrfFormId" />
                                 <input type="hidden" value="<%=vo.getBoard_id() %>" name="board_id" id="board_id" />
                             </form>
                             <form id="wishForm" method="post" action="">
@@ -325,6 +344,13 @@
 	                        font-size: 15px;
 	                        font-family: inherit;
 	                        content: '<%=reviewNum%>';
+                        }
+                        
+                        #view__menu-bar--fixed > #board__qna--move:after {
+	                        margin-left: 5px;
+	                        font-size: 15px;
+	                        font-family: inherit;
+	                        content: '<%=countQna%>';
                         }
                     </style>
 
@@ -413,19 +439,33 @@
                     <div class="customer-review" id="customer-review">
                         <h4 class="seller-head">상품 후기 <span style="color: cornflowerblue;"><%=reviewNum %></span></h4>
                         
+                        <div id="customer-review__info">
+                            <strong style="font-size: 17px;">상품만족도 </strong>
+                            
+                            <span class="customer-review__table--star-rating">
+                                <span style="width: <%=reviewNumCalc * 20%>%;"></span>
+                            </span>
+                        
+                            &nbsp;&nbsp;<strong style="font-size: 17px;">배송만족도 </strong>
+                            
+                            <span class="customer-review__table--star-rating">
+                                <span style="width: <%=deliveryReviewNumCalc * 20%>%;"></span>
+                            </span>
+                            
                         <sec:authorize access="isAuthenticated() and hasRole('BUYER')">
                             <div id="customer-review__write">
                                 <input type="button" id="customer-review__write--btn" value="리뷰작성"
                                     onclick="modal_review_write('<%=vo.getBoard_id() %>', '<%=user_id %>');" />
                             </div>
                         </sec:authorize>
+                        </div>
                         
                         <div id="modal__review">
                             <div id="modal__review--content">
                                 <div id="review__write--title">
-                                    <h4>상품평 남기기</h4>
+                                    <h2>상품평 남기기</h2>
                                     <a href="javascript:;" id="modal__reivew--close" onclick="modal_review_cancle();">X</a>
-                                    
+                                    <div id="review__write--satisfaction-title">구매만족도</div>
                                     <div id="review__write--satisfaction">
                                         
                                         <div id="star-satisfaction">
@@ -449,6 +489,33 @@
 
                                         </div>
                                     </div>
+                                    
+                                    <div id="review__write--delivery-satisfaction-title">배송만족도</div>
+                                    <div id="review__write--delivery-satisfaction">
+                                        
+                                        <div id="star-delivery-satisfaction">
+                                            
+                                            <span class="star star-left" onclick=""></span>
+                                            <span class="star star-right" onclick=""></span>
+                                            
+                                            <span class="star star-left" onclick=""></span>
+                                            <span class="star star-right" onclick=""></span>
+                                            
+                                            <span class="star star-left" onclick=""></span>
+                                            <span class="star star-right" onclick=""></span>
+                                            
+                                            <span class="star star-left" onclick=""></span>
+                                            <span class="star star-right" onclick=""></span>
+                                            
+                                            <span class="star star-left" onclick=""></span>
+                                            <span class="star star-right" onclick=""></span>
+                                            
+
+
+                                        </div>
+                                    </div>
+                                    
+                                    
                                 </div>
                                 
                                 
@@ -483,9 +550,9 @@
                                     	int loc = -1;
                                     	int saveLoc = -1;
                                     	
-                                    for(int i = 0; i < reviewNum; i++){ 
+                                    for(int i = 0; i < review_list.size(); i++){ // 리뷰 갯수만큼 for문 돌림 (최대 5개)
                                     	int flag = 2;
-                                    	if(reviewComment.get(i).length != 0){
+                                    	if(reviewComment.get(i).length != 0){  // 리뷰에 달려 있는 댓글이 있는지 체크
                                     		loc = saveLoc;
                                     		loc++;
                                     		saveLoc = loc;
@@ -507,8 +574,9 @@
                                             <img src="display?path=<%=java.net.URLEncoder.encode(review_list.get(i).getReview_img_path(), "UTF-8") %>&name=<%=java.net.URLEncoder.encode(review_list.get(i).getReview_img_name(), "UTF-8") %>" />
                                         </td>
                                         <td class="customer-review__table--recommend">
+                                        
                                             <%if(review_list.get(i).getSatisfaction() <= 1.0){ %>
-                                            <div class="recommend-1">적극비추천</div>
+                                            <div class="recommend-1">비추천</div>
                                             <%}else if(review_list.get(i).getSatisfaction() <= 2.0){ %>
                                             <div class="recommend-2">추천 안함</div>
                                             <%}else if(review_list.get(i).getSatisfaction() <= 3.0){ %>
@@ -518,6 +586,15 @@
                                             <%}else { %>
                                             <div class="recommend-5">적극추천</div>
                                             <%} %>
+                                            
+                                            <%if(review_list.get(i).getDelivery_satisfaction() <= 2.0){ %>
+                                            <div class="delivery-1">배송느림</div>
+                                            <%}else if(review_list.get(i).getDelivery_satisfaction() <= 3.5){ %>
+                                            <div class="delivery-2">배송보통</div>
+                                            <%}else { %>
+                                            <div class="delivery-3">배송빠름</div>
+                                            <%}%>
+                                            
                                         </td>
                                         <td class="customer-review__table--content">
                                             <p class="review__content--title"><%=review_list.get(i).getTitle() %></p>
@@ -542,7 +619,7 @@
                                                 <dt>등록일: </dt>
                                                 <dd><%=getReviewDate %></dd>
                                             </dl>
-                                            <div id="customer-review__table--star-rating">
+                                            <div class="customer-review__table--star-rating">
                                                 <span style="width: <%=(int)(review_list.get(i).getSatisfaction() * 20)%>%;"></span>
                                             </div>
                                         </td>
@@ -617,6 +694,53 @@
                                 </tbody>
                             </table>
                         </div>
+                        
+                        <div id="customer-review__table--page">
+                        <% // 페이지메이커 생성, 현재 페이지 1페이지, 보여줄 댓글 개수 5개, 총갯수 고정
+                           // 이후는 비동기로 처리
+                        PageMaker reviewPage = new PageMaker(1, 5, reviewNum);
+                        
+                        boolean equalsSellerId = false;
+                        if(user_id.equals(vo.getSeller_id())){
+                        	equalsSellerId = true;
+                        }
+                        %>
+                            
+                            <div id="review__page--btn">
+                            <%if(reviewPage.isPrev()){ %>    
+                                <input type="button" value="이전" disabled class="page__abled--prev-btn" 
+                                    onclick="reviewPageList(this);" />
+                            <%}else{ %>
+                                <input type="button" value="이전" disabled class="page__disabled--prev-btn"/>
+                            <%}
+                            for(int i = reviewPage.getStartPage(); i < reviewPage.getEndPage()+1; i++){
+                            	
+                                if(i == reviewPage.getPage_num()){%>
+                                <input type="button" value="<%=i%>" disabled id="review__table--now-page" />
+                                
+                                <%}else{ %>
+                                <input type="button" value="<%=i%>" class="review__table--page-move" 
+                                    onclick="reviewListPageMove('<%=vo.getBoard_id()%>', this, '<%=login_case %>', '<%=equalsSellerId %>', '<%=user_id %>');" />
+                                <%} 
+                                
+                            }%>
+                            
+                            <%if(reviewPage.isNext()){ %>
+                                <input type="button" value="다음" disabled class="page__abled--prev-btn" 
+                                    onclick="reviewPageList(this);" />
+                            <%}else{ %>
+                                <input type="button" value="다음" disabled class="page__disabled--prev-btn"/>
+                            <%} %>
+                            
+                            </div>
+                            
+                            <div id="review__page--set">
+                                <input type="text" value="1" onchange="reviewTextPageMove(this);" 
+                                    oninput="reviewTextPage(this, '<%=(int)(Math.ceil((double)reviewNum / 5.0)) %>');" />
+                                <span> / <%=(int)(Math.ceil((double)reviewNum / 5.0)) %> Page</span>
+                            </div>
+                            
+                        </div>
 
                     </div>
 
@@ -624,33 +748,273 @@
 
                     <!-- 상품 문의 -->
                     <div class="customer-qna" id="customer-qna">
-                        <h4 class="seller-head">
-                            상품 문의
-                        </h4>
+                        <h4 class="seller-head">상품 문의 <span style="color: cornflowerblue;"><%=countQna %></span></h4>
+                        
+                        <div id="modal__qna">
+                            <div id="modal__qna--content">
+                                <div id="qna__write--title">
+                                    <h2>상품 문의</h2>
+                                    <a href="javascript:;" id="modal__qna--close" onclick="modal_qna_cancle();">X</a>
+                                </div>
+                                
+                                <form id="qnaForm" method="post" action="BoardQnaRegist.bo" 
+                                    onsubmit="return qna_regist();">
+                                <input type="hidden" name="seller_id" id="seller_id" 
+                                    value="<%=vo.getSeller_id() %>" />
+                                
+                                <div id="qna__write--info">
+                                    <span>문의종류 </span>
+                                    <select id="qna__write--info-select" name="qna_status">
+                                        <option value=1>상품</option>
+                                        <option value=2>배송</option>
+                                        <option value=3>취소</option>
+                                        <option value=4>반품/취소</option>
+                                        <option value=5>교환</option>
+                                        <option value=6>기타</option>
+                                    </select>
+                                    <input type="checkbox" id="secret__check"/> 비밀글
+                                </div>
+                                
+                                
+                                
+                                <div id="qna__write--content">
+                                    <span>제목 </span> 
+                                    <input type="text" id="qna__write--content-title" 
+                                        maxlength="200" name="title" />
+                                    <textarea id="qna-content--text" maxlength="500" name="content" 
+                                        placeholder="문의사항을 500자 이내로 입력해주세요."></textarea>
+                                    <input type="submit" value="작성완료" id="qna-submit-btn" />
+                                    <input type="button" onclick="modal_qna_cancle();" value="취소" id="qna-cancle-btn"/>
+                                </div>            
+                                
+                                
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                    <input type="hidden" value="<%=vo.getBoard_id() %>" name="board_id"/>
+                                    <input type="hidden" value="<%=user_id %>" name="user_id" id="user_id" />
+                                    <input type="hidden" value="<%=user_id %>" name="buyer_id" id="buyer_id" />
+                                </form>
+                               
+                            </div>
+                        </div>
+                        
+                        <div id="customer-qna__info">
+                            <div id="customer-qna__search">
+                                <select id="customer-qna__search--select">
+                                    <option>제목</option>
+                                </select>
+                                <input type="text" id="customer-qna__search--text" />
+                                <input type="button" id="customer-qna__search--btn" value="검색" 
+                                    onclick="searchQnaList(1);" />
+                                <input type="hidden" value="" id="customer-qna__search--text-save" />
+                                <span id="qna__search--result">검색된 결과 <strong><%=countQna %></strong> 건</span>
+                            </div>
+                            
+                        <sec:authorize access="isAuthenticated() and hasRole('BUYER')">
+                        
+                            <div id="customer-qna__write">
+                                <input type="button" id="customer-qna__write--btn" value="문의작성"
+                                    onclick="modal_qna_write();" />
+                            </div>
+                        </sec:authorize>
+                        </div>
+                        
                         <div class="customer-qna__table">
                             <table>
                                 <thead>
                                     <tr>
-                                        <td class="customer-review__table--num" align="center">번호</td>
-                                        <td class="customer-review__table--title" align="center">후기</td>
-                                        <td class="customer-review__table--date" align="center">작성일</td>
-                                        <td class="customer-review__table--hit" align="center">조회</td>
+                                        <th class="customer-qna__table--num">번호</th>
+                                        <th class="customer-qna__table--divide">
+                                            <span class="customer-qna__table--search" 
+                                                onclick="qnaDropBox(this);">문의종류</span>
+                                            <ul class="customer-qna__table--drop-box"
+                                                style="display: none;">
+                                                <li onclick="qnaDropBoxSearch(this, 10);"
+                                                    style="color: dodgerblue;">전체</li>
+                                                <li onclick="qnaDropBoxSearch(this, 1);">상품</li>
+                                                <li onclick="qnaDropBoxSearch(this, 2);">배송</li>
+                                                <li onclick="qnaDropBoxSearch(this, 3);">취소</li>
+                                                <li onclick="qnaDropBoxSearch(this, 4);">반품/취소</li>
+                                                <li onclick="qnaDropBoxSearch(this, 5);">교환</li>
+                                                <li onclick="qnaDropBoxSearch(this, 6);">기타</li>
+                                            </ul>
+                                            <input type="hidden" value="10" id="qna__drop-box--qna" />
+                                        </th>
+                                        <th class="customer-qna__table--status">
+                                            <span class="customer-qna__table--search" 
+                                                onclick="qnaDropBox(this);">답변상태</span>
+                                            <ul class="customer-qna__table--drop-box" 
+                                                style="display: none;">
+                                                <li onclick="qnaDropBoxSearch(this, 10);"
+                                                    style="color: dodgerblue;">전체<li>
+                                                <li onclick="qnaDropBoxSearch(this, 2);">답변대기중<li>
+                                                <li onclick="qnaDropBoxSearch(this, 1);">답변완료</li>
+                                            </ul>
+                                            <input type="hidden" value="10" id="qna__drop-box--answer" />
+                                        </th>
+                                        <th class="customer-qna__table--title">제목</th>
+                                        <th class="customer-qna__table--user">문의자</th>
+                                        <th class="customer-qna__table--date">등록일</th>
                                     </tr>
                                 </thead>
+                                <%
+                                        
+                                        
+                                        %>
                                 <tbody>
-                                    <tr>
-                                        <td colspan="4" class="customer-qna__table--none-content" align="center">등록된 게시글이 없습니다</td>
+                                    <%if(qna_list.size() != 0){ 
+                                    for(int i = 0; i < qna_list.size(); i++){
+                                        
+                                        StringBuilder getQnaId 
+                                            = new StringBuilder(qna_list.get(i).getBuyer_id().substring(0,3));
+                                    
+                                        for(int j = 0; j < qna_list.get(i).getBuyer_id().length() - 3; j++){
+                                    	    getQnaId.append("*");
+                                        }
+                                    
+                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            		    String getQnaDate = sdf.format(qna_list.get(i).getRegister_date()); 
+                            		    
+                            		    String qna_status = null;
+                            		    
+                            		    switch(qna_list.get(i).getQna_status()){
+                            		    case 1:
+                            		    	qna_status = "상품";
+                            		    	break;
+                            		    case 2:
+                            		    	qna_status = "배송";
+                            		    	break;
+                            		    case 3:
+                            		    	qna_status = "취소";
+                            		    	break;
+                            		    case 4:
+                            		    	qna_status = "반품/취소";
+                            		    	break;
+                            		    case 5:
+                            		    	qna_status = "교환";
+                            		    	break;
+                            		    case 6:
+                            		    	qna_status = "기타";
+                            		    	break;
+                            		    }
+                            		    
+                                    %>
+                                    <tr class="customer-qna__table--tr" onclick="qnaDisplayOpen(this, '<%=i%>');">
+                                        <td><%=qna_list.get(i).getQna_num()%></td>
+                                        <td><%=qna_status %></td>
+                                        <%if(qna_list.get(i).getAnswer_status() == 1){ %>
+                                        <td class="customer-qna__table--td-answer" style="color: cornflowerblue;">답변완료</td>
+                                        <%}else{ %>
+                                        <td class="customer-qna__table--td-answer" style="color: cadetblue;">답변대기중</td>
+                                        <%} %>
+                                        <%if(user_id.equals(vo.getSeller_id()) || 
+                                        		user_id.equals(qna_list.get(i).getBuyer_id())|| 
+                                        		qna_list.get(i).getSecret_flag() != 1){ %>
+                                        <td class="customer-qna__table--title-td"><%=qna_list.get(i).getTitle() %></td>
+                                        <%}else{ %>
+                                        <td class="customer-qna__table--title-td">비밀글입니다.</td>
+                                        <%} %>
+                                        <td class="customer-qna__table--user-td"><%=getQnaId.toString() %></td>
+                                        <td><%=getQnaDate %></td>
                                     </tr>
+                                    <tr class="customer-qna__table--content-answer">
+                                        <td colspan="6">
+                                        <%if(user_id.equals(vo.getSeller_id()) || 
+                                        		user_id.equals(qna_list.get(i).getBuyer_id())|| 
+                                        		qna_list.get(i).getSecret_flag() != 1){ %>
+                                            <div>
+                                                <span class="customer-qna__table--content-Q">Q</span>
+                                                <%=qna_list.get(i).getContent() %>
+                                            </div>
+                                            <%if(qna_list.get(i).getAnswer_status() == 1){ %>
+                                            <div id="customer-qna__table--recommend-<%=i%>">
+                                                <span class="customer-qna__table--content-A">A</span>
+                                                <span class="qna__content--recommend"><%=qna_list.get(i).getRecommend() %></span>
+                                            </div>
+                                            <div>
+                                            <%SimpleDateFormat qnaRecommendDateFormat = new SimpleDateFormat("yyyy-MM-dd a hh:mm:ss");
+                                            String qnaRecommendDate = qnaRecommendDateFormat.format(qna_list.get(i).getRecommend_date());
+                                            qnaRecommendDate.replace("AM", "오전");
+                                            qnaRecommendDate.replace("PM", "오후"); %>
+                                                <span>답변 등록일: &nbsp;&nbsp;&nbsp;</span>
+                                                <span class="qna__recommend-date--format"><%=qnaRecommendDate %></span>
+                                                <%if(user_id.equals(vo.getSeller_id())){ %>
+                                                <input type="button" value="수정하기" class="qna__recommend--modify-btn" 
+                                                    onclick="recommendModify('<%=i%>');" />
+                                                <%} %>
+                                            </div>
+                                            <%} %>
+                                            
+                                            <%if(user_id.equals(vo.getSeller_id()) && qna_list.get(i).getAnswer_status() != 1){%>
+                                            <div class="recommend-submit-box" style="display: block;"> 
+                                            <%}else{ %>
+                                            <div class="recommend-submit-box" style="display: none;">
+                                            <%} %>
+                                            <textarea maxlength="500" class="qna__recommend--content"></textarea>
+                                                <input type="button" value="답변등록" class="qna__recommend--btn" 
+                                                    onclick="qnaRecommendSubmit('<%=i%>', '<%=qna_list.get(i).getQna_num()%>');" />
+                                            </div>
+                                        <%}else{ %>
+                                            <div>비밀글입니다.</div>
+                                        
+                                        <%} %>
+                                            
+                                            
+                                        </td>
+                                    </tr>
+                                    <%}
+                                    }else{ %>
                                     
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td colspan="6" class="customer-qna__table--none-content">등록된 문의글이 없습니다.</td>
                                     </tr>
+                                    <%} %>
+                                
                                     
                                 </tbody>
                             </table>
+                        </div>
+                        
+                        <div id="customer-qna__table--page">
+                        <% // 페이지메이커 생성, 현재 페이지 1페이지, 보여줄 댓글 개수 5개, 총갯수 고정
+                           // 이후는 비동기로 처리
+                        PageMaker qnaPage = new PageMaker(1, 10	, countQna);
+                        
+                       
+                        %>
+                            
+                            <div id="qna__page--btn">
+                            <%if(qnaPage.isPrev()){ %>    
+                                <input type="button" value="이전" class="page__abled--prev-btn" 
+                                    onclick="rePaging(1, 'qna');" />
+                            <%}else{ %>
+                                <input type="button" value="이전" disabled class="page__disabled--prev-btn"/>
+                            <%}
+                            for(int i = qnaPage.getStartPage(); i < qnaPage.getEndPage()+1; i++){
+                            	
+                                if(i == qnaPage.getPage_num()){%>
+                                <input type="button" value="<%=i%>" id="qna__table--now-page" />
+                                
+                                <%}else{ %>
+                                <input type="button" value="<%=i%>" class="qna__table--page-move" />
+                                <%} 
+                                
+                            }%>
+                            
+                            <%if(qnaPage.isNext()){ %>
+                                <input type="button" value="다음" class="page__abled--prev-btn" 
+                                    onclick="rePaging(11, 'qna');" />
+                            <%}else{ %>
+                                <input type="button" value="다음" disabled class="page__disabled--prev-btn"/>
+                            <%} %>
+                            
+                            </div>
+                            
+                            <div id="qna__page--set">
+                                <input type="text" value="1" onchange="qnaTextPageMove(this);" 
+                                    oninput="qnaTextPage(this, '<%=(int)(Math.ceil((double)countQna / 10.0)) %>');" />
+                                <span> / <%=(int)(Math.ceil((double)countQna / 10.0)) %> Page</span>
+                            </div>
+                            
                         </div>
 
                     </div>

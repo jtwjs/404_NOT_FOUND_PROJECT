@@ -89,7 +89,7 @@
 						<section id="myPage">
 							<h2 class="content-title">찜목록</h2>
 
-							<article id="content__sort">
+							<article id="content__sort" class="pageViewOption">
 								<div id="content__sort-box">
 									<div align="right">
 										<a href="#" id="sort-list--1" 
@@ -101,7 +101,7 @@
                                         <a href="#" id="sort-list--4" 
                                             onclick="pageViewOption('<%=originalURL %>', 4, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">가격순 (높은 가격)</a>&nbsp;&nbsp;|&nbsp;&nbsp;
                                         <a href="#" id="sort-list--5" 
-                                            onclick="pageViewOption('<%=originalURL %>', 5, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">가격순 (낮은 가격)</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                            onclick="pageViewOption('<%=originalURL %>', 5, '<%=pageMaker.getPage_num()%>', '<%=pageMaker.getPage_amount()%>');">가격순 (낮은 가격)</a>
 									</div>
 								</div>
 							</article>
@@ -121,10 +121,10 @@
 											if(wishList.size() == 0) {
 									    %>
 										<tr>
-											<td colspan="4">
-												<br />
+											<td colspan="4" class="non-post">
+											
 												등록된 상품이 없습니다.
-												<br />
+												
 											</td>
 										</tr>
 										<%} %>
@@ -148,7 +148,7 @@
 	                                        
 	                                    <%} %>
 		                                
-		                                <tr align=center height=20>
+		                                <tr id="paging" align=center height=20>
 											<td colspan=5 style="font-family: Tahoma; font-size: 10pt;">
 												<%if(pageMaker.isPrev()){ %>
 					                                <input type="button" value="◀" onclick="pageViewOption('<%=originalURL %>', '<%=sort_list %>', '<%=pageMaker.getPage_num()-1%>', '<%=pageMaker.getPage_amount()%>')" />

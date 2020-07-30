@@ -58,7 +58,6 @@
 								<li><a href="#" onclick="location.href='BoardNotice.sc'">공지사항</a></li>
 								<li><a href="#" class="selected-menu"
 									onclick="location.href='BoardFaq.sc'">자주묻는질문</a></li>
-								<li><a href="#" onclick="location.href='BoardQna.sc'">고객문의</a></li>
 							</ul>
 						</aside>
 
@@ -67,11 +66,6 @@
 							<h5 class="text-center">게시글 쓰기</h5>
 							<form action="FaqBoardWrite.sc" method="post" enctype="multipart/form-data" onsubmit="">
 								<table class="table table-striped">
-									<tr>
-										<td>작성자</td>
-										<td><input type="hidden" class="form-control"
-											name="writer" value=""></td>
-									</tr>
 									<tr>
 										<td>제목</td>
 										<td><input type="text" class="form-control" name="title"></td>

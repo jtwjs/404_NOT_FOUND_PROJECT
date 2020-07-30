@@ -7,7 +7,211 @@
 <!-- root-context에서 아래와 같이 typeAliasesPackage를 설정하면 패키지 경로 생략 가능. -->
 <mapper namespace="com.spring.mapper.BoardQnaMapper">
 
+    <resultMap type="com.spring.boardproduct.BoardQnaVO" id="BoardQnaMap">
+        <result property="qna_num" column="qna_num" />
+        <result property="board_id" column="board_id" />
+        <result property="seller_id" column="seller_id" />
+        <result property="buyer_id" column="buyer_id" />
+        <result property="qna_status" column="qna_status" />
+        <result property="answer_status" column="answer_status" />
+        <result property="register_date" column="register_date" />
+        <result property="title" column="title" />
+        <result property="content" column="content" />
+        <result property="recommend" column="recommend" />
+        <result property="recommend_date" column="recommend_date" />
+        <result property="secret_flag" column="secret_flag" />
+    </resultMap>
+
 	<!-- id는 Mapper.java(여기선 MemberMapper.java)에 동일하게 사용해야된다. -->  
 	
+	<select id="getQnaNum" parameterType="String" resultType="int">
+	    SELECT NVL(MAX(qna_num), 0) FROM board_qna WHERE board_id = #{board_id}
+	</select>
+	
+	<insert id="insertQna" parameterType="com.spring.boardproduct.BoardQnaVO">
+	    INSERT INTO board_qna VALUES (#{qna_num}, #{board_id}, #{seller_id}, #{buyer_id}, 
+	        #{qna_status}, #{answer_status}, SYSDATE, #{title}, #{content}, 
+	        #{recommend, jdbcType=VARCHAR}, #{recommend_date, jdbcType=VARCHAR}, #{secret_flag})
+	</insert>
+	
+	<select id="getBoardQnaList" resultMap="BoardQnaMap">
+	    <choose>
+	        <when test="answer_status == 1 or answer_status == 2">
+	            <choose>
+	                <when test="qna_status gte 1 and qna_status lte 6">
+	                    <choose>
+	                        <when test='keyword == null or keyword == ""'>
+	                            SELECT * FROM (
+	                                SELECT ROWNUM AS RNUM, B.* FROM (
+	                                    SELECT * FROM board_qna 
+	                                    WHERE answer_status = #{answer_status} 
+	                                    AND qna_status = #{qna_status} 
+	                                    ORDER BY qna_num DESC) B)
+	                            WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) 
+	                            AND (#{page_num} * #{page_amount})
+	                        </when>
+	                        <otherwise>
+	                            SELECT * FROM (
+	                                SELECT ROWNUM AS RNUM, B.* FROM (
+	                                    SELECT * FROM board_qna 
+	                                    WHERE answer_status = #{answer_status} 
+	                                    AND title LIKE '%'||#{keyword}||'%' 
+	                                    AND qna_status = #{qna_status} 
+	                                    ORDER BY qna_num DESC) B)
+	                            WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) 
+	                            AND (#{page_num} * #{page_amount})
+	                        </otherwise>
+	                    </choose>
+	                </when>
+	                <otherwise>
+	                    <choose>
+	                        <when test='keyword == null or keyword == ""'>
+	                            SELECT * FROM (
+	                                SELECT ROWNUM AS RNUM, B.* FROM (
+	                                    SELECT * FROM board_qna 
+	                                    WHERE answer_status = #{answer_status} 
+	                                    ORDER BY qna_num DESC) B)
+	                            WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) 
+	                            AND (#{page_num} * #{page_amount})
+	                        </when>
+	                        <otherwise>
+	                            SELECT * FROM (
+	                                SELECT ROWNUM AS RNUM, B.* FROM (
+	                                    SELECT * FROM board_qna 
+	                                    WHERE answer_status = #{answer_status} 
+	                                    AND title LIKE '%'||#{keyword}||'%' 
+	                                    ORDER BY qna_num DESC) B)
+	                            WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) 
+	                            AND (#{page_num} * #{page_amount})
+	                        </otherwise>
+	                    </choose>
+	                </otherwise>
+	            </choose>
+	        </when>
+	        <otherwise>
+	            <choose>
+	                <when test="qna_status gte 1 and qna_status lte 6">
+	                    <choose>
+	                        <when test='keyword == null or keyword == ""'>
+	                            SELECT * FROM (
+	                                SELECT ROWNUM AS RNUM, B.* FROM (
+	                                    SELECT * FROM board_qna 
+	                                    WHERE qna_status = #{qna_status} 
+	                                    ORDER BY qna_num DESC) B)
+	                            WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) 
+	                            AND (#{page_num} * #{page_amount})
+	                        </when>
+	                        <otherwise>
+	                            SELECT * FROM (
+	                                SELECT ROWNUM AS RNUM, B.* FROM (
+	                                    SELECT * FROM board_qna 
+	                                    WHERE title LIKE '%'||#{keyword}||'%' 
+	                                    AND qna_status = #{qna_status} 
+	                                    ORDER BY qna_num DESC) B)
+	                            WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) 
+	                            AND (#{page_num} * #{page_amount})
+	                        </otherwise>
+	                    </choose>
+	                </when>
+	                <otherwise>
+	                    <choose>
+	                        <when test='keyword == null or keyword == ""'>
+	                            SELECT * FROM (
+	                                SELECT ROWNUM AS RNUM, B.* FROM (
+	                                    SELECT * FROM board_qna 
+	                                    ORDER BY qna_num DESC) B)
+	                            WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) 
+	                            AND (#{page_num} * #{page_amount})
+	                        </when>
+	                        <otherwise>
+	                            SELECT * FROM (
+	                                SELECT ROWNUM AS RNUM, B.* FROM (
+	                                    SELECT * FROM board_qna 
+	                                    WHERE title LIKE '%'||#{keyword}||'%' 
+	                                    ORDER BY qna_num DESC) B)
+	                            WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) 
+	                            AND (#{page_num} * #{page_amount})
+	                        </otherwise>
+	                    </choose>
+	                </otherwise>
+	            </choose>
+	        </otherwise>
+	    </choose>
+	</select>
+	
+   <select id="getBoardQnaListCount" resultType="int">
+    <choose>
+        <when test='answer_status gte 1 and answer_status lte 2'>
+            <choose>
+                <when test="qna_status gte 1 and qna_status lte 6">
+                    <choose>
+                        <when test='keyword != null and keyword != ""'>
+                            SELECT NVL(COUNT(*), 0) FROM board_qna 
+                                WHERE answer_status = #{answer_status} 
+                                AND title LIKE '%'||#{keyword}||'%' 
+                                AND qna_status = #{qna_status}
+                        </when>
+                        <otherwise>
+                            SELECT NVL(COUNT(*), 0) FROM board_qna 
+                                WHERE answer_status = #{answer_status} 
+                                AND qna_status = #{qna_status}
+                        </otherwise>
+                    </choose>
+                </when>
+                <otherwise>
+                    <choose>
+                        <when test='keyword != null and keyword != ""'>
+                            SELECT NVL(COUNT(*), 0) FROM board_qna 
+                                WHERE answer_status = #{answer_status}
+                                AND title LIKE '%'||#{keyword}||'%'
+                        </when>
+                        <otherwise>
+                            SELECT NVL(COUNT(*), 0) FROM board_qna 
+                                WHERE answer_status = #{answer_status}
+                        </otherwise>
+                    </choose>
+                </otherwise>
+            </choose>
+        </when>
+        <otherwise>
+            <choose>
+                <when test='qna_status gte 1 and qna_status lte 6'>
+                    <choose>
+                        <when test='keyword != null and keyword != ""'>
+                            SELECT NVL(COUNT(*), 0) FROM board_qna 
+                                WHERE title LIKE '%'||#{keyword}||'%' 
+                                AND qna_status = #{qna_status}
+                        </when>
+                        <otherwise>
+                            SELECT NVL(COUNT(*), 0) FROM board_qna 
+                                WHERE qna_status = #{qna_status}
+                        </otherwise>
+                    </choose>
+                </when>
+                <otherwise>
+                    <choose>
+                        <when test='keyword != null and keyword != ""'>
+                            SELECT NVL(COUNT(*), 0) FROM board_qna 
+                                WHERE title LIKE '%'||#{keyword}||'%'
+                        </when>
+                        <otherwise>
+                            SELECT NVL(COUNT(*), 0) FROM board_qna
+                        </otherwise>
+                    </choose>
+                </otherwise>
+            </choose>
+        </otherwise>
+    </choose>
+</select>
+	
+	<select id="getCountQna" parameterType="String" resultType="int">
+	    SELECT COUNT(*) FROM board_qna WHERE board_id = #{board_id}
+	</select>
+	
+	<update id="insertQnaRecommend">
+	    UPDATE board_qna 
+	        SET answer_status = 1, recommend = #{recommend}, recommend_date = SYSDATE 
+	        WHERE board_id = #{board_id} AND qna_num = #{qna_num} AND seller_id = #{seller_id}
+	</update>
 
 </mapper>

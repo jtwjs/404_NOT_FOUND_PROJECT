@@ -1,4 +1,5 @@
 /*모든 계정 테이블*/
+select * from member_seller;
 CREATE Table all_account(
 account_id varchar2(16) not null,
 account_pw varchar2(100) not null,
@@ -6,9 +7,13 @@ account_type varchar2(10) not null,
 constraint all_account_pk primary key(account_id)
 );
 select * from list_delivery;
+delete from	list_delivery where num= 1 and default_address='N';
+select * from list_delivery;
+select * from member_buyer where buyer_id = 'test111';
 
 
-select * from member_buyer;
+
+
 create table admin(                 -- 愿�由ъ옄 �뀒�씠釉�
     admin_id varchar2(16) not null, -- 愿�由ъ옄 ID (湲곕낯�궎)
     password varchar2(100) not null, -- 鍮꾨�踰덊샇
@@ -69,19 +74,26 @@ CREATE SEQUENCE buyer_num_seq
 --     select buyer_num_seq.currval from dual;   
 
 /*적립금 테이블*/     
+select*from save_point;
+
 create table save_point (
- sp_status varchar2(4) not null,
+ sp_status varchar2(4) not null, --적립, 사용
  sp_point number not null,
  sp_content varchar2(100) not null,
  --주문결제 적립 +[상품명], 상품후기 작성으로 인한 적립금 지급, 적립금 결제 + [상품명]
- sp_orderNum number not null,
+ order_id varchar2(32) not null,
  sp_application_date date default sysdate not null,
  buyer_id varchar2(16) not null,
  point_num number not null,
 constraint save_point_fk foreign key(buyer_id)
-        references member_buyer(buyer_id) on delete cascade
+        references member_buyer(buyer_id) on delete cascade,
+constraint save_point_pk primary key(point_num)
 );
 
+
+select * from save_point;
+
+select * from save_point;
 /*point_num Sequence*/
 CREATE SEQUENCE point_num_seq
     INCREMENT BY 1
@@ -104,6 +116,25 @@ insert into all_account (account_ID, account_pw, account_type)
 values (:new.buyer_id, :new.password, :new.member_type);
 END;
 
+select * from save_point;
+
+
+create or replace trigger TRG_buyer_savePoint --구매자 적립금 update 
+AFTER INSERT ON save_point
+for each row
+DECLARE 
+    status varchar2(4) := :new.sp_status;
+BEGIN 
+IF status = '적립' THEN
+    UPDATE member_buyer SET save_point = save_point+:new.sp_point
+    WHERE buyer_id = :new.buyer_id;
+ELSE 
+    UPDATE member_buyer SET save_point = save_point-:new.sp_point
+    WHERE buyer_id = :new.buyer_id;
+END IF;
+END;
+
+
 create table list_delivery(                 -- 개인저장 배송지 목록
     num number default(1),                    -- 배송지 번호 
     buyer_id varchar2(16) not null,         -- 구매자 ID(member_buyer테이블 외래키)
@@ -116,8 +147,9 @@ create table list_delivery(                 -- 개인저장 배송지 목록
     references member_buyer(buyer_id) on delete cascade
 );
 select* from list_delivery;
+commit;
 
-
+select* from member_seller;
 CREATE SEQUENCE delivery_num_seq
     INCREMENT BY 1
     START WITH 1
@@ -152,6 +184,7 @@ manager_email varchar2(33) not null,  -- �떞�떦�옄 �씠硫붿씪
 manager_name varchar2(16) not null,   -- �떞�떦�옄 �씠由�
 mail_order_report_num varchar2(20) not null,  -- �넻�떊�뙋留ㅼ떊怨좊쾲�샇
 mail_order_report_img varchar2(200) not null,
+mail_order_report_img_path varchar2(100) not null,
 bank_name varchar2(20) not null,
 bank_account varchar2(20) not null,   -- �젙�궛��湲덉엯湲덇퀎醫�
 seller_reg_num number not null,       -- �뙋留ㅼ옄 �벑濡앸쾲�샇
@@ -165,6 +198,8 @@ profile_img_path varchar2(100),
 last_loginDate date default sysdate,
 constraint member_seller_seller_id_pk primary key(seller_id)
 );
+
+select * from board_product;
 select  *from member_seller;
 CREATE SEQUENCE seller_num_seq
     INCREMENT BY 1
@@ -243,6 +278,8 @@ create table board_product(                     -- �뙋留ㅺ쾶�떆�뙋
     constraint board_product_board_id_pk primary key(board_id)
 );
 select * from board_product;
+select * from all_acount;
+desc wish_list;
 
 create table wish_list(
     wish_id varchar2(32) not null,         -- 위시리스트 ID값 (기본키, 랜덤생성)
@@ -254,7 +291,7 @@ create table wish_list(
     thumbnail_thum_path varchar2(100),          -- 썸네일 썸네일 경로
     constraint wish_list_wish_id_pk primary key(wish_id)
 );
-
+select * from member_buyer where buyer_id='test000';
 
 create table product_cart(          -- �옣諛붽뎄�땲
     cart_id varchar2(32) not null,  -- �옣諛붽뎄�땲ID (湲곕낯�궎, �옖�뜡肄붾뱶 �깮�꽦)
@@ -265,10 +302,7 @@ create table product_cart(          -- �옣諛붽뎄�땲
 );
 
 
- 
- 
-
-
+select * from board_review where register_date between '2020-07-27' AND '2020-07-29';
 drop table board_review;
 create table board_review(              -- 상품후기 게시판
     review_id varchar2(32) not null,    -- 리뷰글 ID (기본키)
@@ -279,12 +313,26 @@ create table board_review(              -- 상품후기 게시판
     title varchar2(100) not null,       -- 판매글 제목
     content varchar2(200) not null,     -- 글내용
     satisfaction number(2,1) not null,  -- 구매만족도(별점)
+    delivery_satisfaction number(2,1) not null,  -- 배달 속도
     register_date date not null,        -- 작성일
     review_img_path varchar2(50),       -- 작성 후기글 이미지 경로
     review_img_name varchar2(100),       -- 작성 후기글 이미지 이름
     constraint board_review_review_id_pk primary key(review_id)
 );
 
+select * from board_review;
+
+
+create or replace trigger TRG_board_review
+AFTER INSERT ON board_review
+for each row
+BEGIN
+insert into save_point (SP_STATUS, SP_POINT, SP_CONTENT, order_id, SP_APPLICATION_DATE, BUYER_ID, POINT_NUM)
+values ('적립', '500', '상품후기 작성으로 인한 적립금 지급+',:new.order_id,sysdate,:new.buyer_id,point_num_seq.nextval);
+update member_buyer SET save_point = save_point + 500 WHERE buyer_id = :new.buyer_id;
+END;
+
+select* from board_review;
 drop table comment_review;
 create table comment_review(               -- 상품 리뷰 댓글
     review_cmt_id varchar2(32) not null,   -- 리뷰댓글 ID (기본키)
@@ -297,6 +345,7 @@ create table comment_review(               -- 상품 리뷰 댓글
     constraint comment_review_id_fk foreign key(review_id)
         references board_review(review_id) on delete cascade
 );
+
 
 drop table order_record;
 create table order_record(                   -- 주문기록
@@ -329,10 +378,54 @@ create table order_record(                   -- 주문기록
     constraint order_record_order_num_pk primary key(order_num)
 );
 
-select * from board_review;
 
-select * from board_product;
-select * from order_record where buyer_id ='test01' order by order_num desc;
+/*상품문의*/
+drop table board_qna;
+create table board_qna(                -- 상품 문의 게시판
+    qna_num number not null,           -- Qna게시판 ID (기본키)
+    board_id varchar2(32) not null,    -- 게시판 ID (board_product테이블 외래키)
+    seller_id varchar2(32) not null,   -- 판매자 ID
+    buyer_id varchar2(32) not null,    -- 작성자
+    qna_status number not null,        -- 문의종류
+    answer_status number not null,     -- 답변여부
+    register_date date not null,       -- 등록일자
+    title varchar2(200) not null,      -- 글제목
+    content varchar2(500) not null,    -- 글내용
+    recommend varchar2(500),           -- 답변
+    recommend_date date,               -- 답변일
+    secret_flag number not null,       -- 비밀글 여부
+    constraint board_qna_qna_num_pk primary key(qna_num)
+);
+ 
 
+
+----------------------------------------------------------------------
+
+select * from order_record where seller_id = 'qstar9537';
+
+select * from wish_list where buyer_id = 'test000';
+SELECT ROWNUM AS rNum, a.order_num,a.order_id,a.board_id,a.board_title,a.buyer_id,a.amount,a.price,a.status,a.order_date,
+        b.thumbnail_thum,b.thumbnail_thum_path
+		FROM (
+			SELECT 
+                    order_num,
+				    order_id,
+					board_id,
+					board_title,
+					buyer_id,
+					amount,
+					price,
+					status,
+					order_date
+			FROM order_record
+            WHERE (order_date between '2020-07-01' AND sysdate) AND buyer_id = 'test000' 
+		    ORDER BY order_num DESC
+			) a,
+            board_product b
+		WHERE  a.board_id = b.board_id(+)
+        order by rNum DESC;
+
+select * from order_record where buyer_id = 'test01';
+select MAX(ORDER_NUM) from order_record where buyer_id = 'test01';
 
 select * from order_record;

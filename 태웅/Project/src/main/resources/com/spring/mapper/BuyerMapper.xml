@@ -42,7 +42,7 @@
 		<result column = "sp_status" property = "status" />
 		<result column = "sp_point" property = "point" />
 		<result column = "sp_content" property = "content" />
-		<result column = "sp_orderNum" property = "orderNum" />
+		<result column = "order_id" property = "orderId" />
 		<result column = "sp_application_date" property = "applicationDate" />
 		<result column = "buyer_id" property = "id" />
 	</resultMap>
@@ -81,14 +81,14 @@
 	</select>
 	
 	<select id = "savePointListAll" resultMap = "savePointResultMap" >
-		SELECT point_num,sp_status,sp_point,sp_content,sp_orderNum,
+		SELECT point_num,sp_status,sp_point,sp_content,order_id,
 				sp_application_date,buyer_id
 		 FROM(
 		 	SELECT point_num,
 		 		   sp_status,
 		 		   sp_point,
 		 		   sp_content,
-		 		   sp_orderNum,
+		 		   order_id,
 		 		   sp_application_date,
 		 		   buyer_id,
 		 		   row_number() OVER (ORDER BY point_num DESC) AS rNum
@@ -101,8 +101,6 @@
 			</if>
 		   ) sp
 		WHERE rNum between #{rowStart} AND #{rowEnd} AND buyer_id = #{id}
-		 			
-		
 		ORDER BY point_num DESC
 	</select>
 	
@@ -117,6 +115,24 @@
 		</if>
 		
 	</select>
+	
+	<insert id="InsertSavePoint" parameterType = "com.spring.buyer.SavePointVO" >
+		<selectKey keyProperty="num" order="BEFORE" resultType="int">
+			SELECT point_num_seq.nextval FROM dual
+		</selectKey>
+		<if test="sp_status == '적립' and savingDetails == '주문결제'">
+		INSERT INTO save_point VALUES(#{sp_status},#{point},#{board_title},#{orderId},
+										sysdate, #{id},#{num}) 
+		</if>
+		<if test="sp_status == '적립' and savingDetails == '상품후기'">
+		INSERT INTO save_point VALUES(#{sp_status},#{point},'상품후기 작성으로 인한 적립금 지급+',#{orderId},
+										sysdate, #{id},#{num}) 
+		</if>
+		<if test="sp_status == '사용' and savingDetails == '적립금결제'">
+		INSERT INTO save_point VALUES(#{sp_status},#{point},'적립금결제+ ',#{orderId},
+										sysdate, #{id},#{num}) 
+		</if>
+	</insert>
 	
 	
 	
@@ -138,7 +154,7 @@
 		update list_delivery  set default_address='N' where buyer_id = #{id}
 	</update>
 	
-	<update id="UpdateDefaultAddress" parameterType="com.spring.buyer.BuyerVO">
+	<update id="UpdateDefaultAddress" parameterType="String">
 		update member_buyer SET address=#{address} WHERE buyer_id = #{id}
 	</update>
 
@@ -150,18 +166,18 @@
 		INSERT INTO list_delivery VALUES (#{num}, #{id}, #{deliveryName}, #{address}, #{defaultaddress}, #{receiverName}, #{receiverPhone})
 	</insert>
 
-	<select id="getListDeliveryDetail" parameterType="int" resultMap="deliveryResultMap">
-		SELECT * FROM list_delivery where num = #{num}
+	<select id="getListDeliveryDetail" parameterType="String" resultMap="deliveryResultMap">
+		SELECT * FROM list_delivery where num = #{num} and buyer_id = #{id}
 	</select>
 	
 	<update id="ListDeliveryModify" parameterType="com.spring.buyer.deliveryVO">
 		UPDATE list_delivery SET delivery_name=#{deliveryName},address=#{address},default_address=#{defaultaddress},receiver_name=#{receiverName},receiver_phone=#{receiverPhone}
-		where num = #{num} 
+		where num = #{num} and buyer_id = #{id}
 	</update>
 
 
-	<delete id="ListDeliveryDelete" parameterType="int">
-		delete from	list_delivery where num=#{num} and default_address='N'
+	<delete id="ListDeliveryDelete" parameterType="String">
+		delete from	list_delivery where num=#{num} and buyer_id = #{id} and default_address='N'
 	</delete>
 
 	<select id="isListDelivery" parameterType="HashMap"	resultType="int">
@@ -174,15 +190,12 @@
 	</select>
 	
 	
-	
 	<!-- 구매자 리스트 -->
 	<select id="getBuyerListCount" resultType="int">
-		select count(*) from
-		member_buyer where del_flag = 'N'
+		select count(*) from member_buyer where del_flag = 'N'
 	</select>
 
-	<select id="SelectAllMemberBuyerList" parameterType="HashMap"
-		resultMap="buyerResultMap">
+	<select id="SelectAllMemberBuyerList" parameterType="HashMap" resultMap="buyerResultMap">
 		  <![CDATA[
 			  select buyer_id,password,name,tel,email,address,buyer_num,grade,member_type,del_flag,join_date,
 	        	           wthdr_date,save_point,profile_img,profile_img_path,last_loginDate
@@ -221,6 +234,10 @@
 		UPDATE member_buyer SET del_flag=#{delFlag} WHERE buyer_id = #{id}
 	</update>
 	
+	<update id ="BuyerGradeSetting" parameterType = "com.spring.buyer.BuyerVO">
+		UPDATE member_buyer SET grade = #{grade}
+		WHERE buyer_id = #{id}
+	</update> 
 	
 	
 </mapper>

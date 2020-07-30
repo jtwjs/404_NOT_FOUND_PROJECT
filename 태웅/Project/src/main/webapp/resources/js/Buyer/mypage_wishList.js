@@ -13,13 +13,14 @@ function setStyle(amount, sort_list){
 	
 	var viewOption = document.getElementById("qty_view");
 
+	
 	for(var i = 0 ; i < viewOption.length; i++){
         if(viewOption.options[i].value == amount){
         	viewOption.options[i].selected = true;
         	break;
         }
-    }
-	
+
+								}
 	var nowPage = document.getElementById("now-page");
 	nowPage.style.color = "#0bbf0b";
 }

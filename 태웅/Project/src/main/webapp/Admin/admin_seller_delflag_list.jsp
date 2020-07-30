@@ -85,6 +85,17 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 												</thead>
 												<tbody>
 													<%
+														if (SellerDelflaglist.size() == 0) {
+													%>
+													<tr>
+														<td colspan="7"><br />
+														<br /> 비활성화된 회원이 없습니다. <br /><br />
+														<br /></td>
+													</tr>
+													<%
+														}
+													%>
+													<%
 														int num = listcount - ((nowpage - 1) * 10);
 													for (int i = 0; i < SellerDelflaglist.size(); i++) {
 														SellerVO SelDel = (SellerVO) SellerDelflaglist.get(i);
@@ -159,8 +170,7 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 	</main>
 
 
-	<script type="text/javascript"
-		src="<c:url value='/resources/js/Admin/admin_menu.js?after'/>"></script>
+
 	<!-- footer,js -->
 	<jsp:include page="../footer.jsp" flush="false" />
 	<script type="text/javascript"

@@ -1,5 +1,6 @@
 package com.spring.order;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import org.apache.ibatis.session.SqlSession;
@@ -96,15 +97,35 @@ public class OrderServiceImpl implements OrderService {
 
 
 	@Override
-	public ArrayList<OrderRecordVO> selectOrderListById(String buyer_id, int rowStart, int rowEnd) {
-		ArrayList<OrderRecordVO> list = mapper.selectOrderListById(buyer_id,rowStart,rowEnd);
+	public ArrayList<OrderRecordVO> selectOrderListById(String buyer_id, int rowStart, int rowEnd,String startDate, String endDate) {
+		ArrayList<OrderRecordVO> list = mapper.selectOrderListById(buyer_id,rowStart,rowEnd,startDate,endDate);
+		
+		
+		
+		if(list.size() != 0) {
+		    System.out.println("test: " + list.get(0).getOrder_date());
+		}else {
+			System.out.println("통과3");
+		}
 		return list;
 	}
 
 	@Override
-	public int listCount(String buyer_id) {
-		int count = mapper.orderListCountById(buyer_id);
+	public int listCount(String buyer_id,String startDate, String endDate) {
+		int count = mapper.orderListCountById(buyer_id,startDate,endDate);
 		return count;
+	}
+
+	@Override
+	public ArrayList<OrderRecordVO> orderBeingDeliveredListById(String buyer_id) {
+		ArrayList<OrderRecordVO> list = mapper.orderBeingDeliveredListById(buyer_id);
+		return list;
+	}
+
+	@Override
+	public ArrayList<OrderRecordVO> orderListAllById(String buyer_id) {
+		ArrayList<OrderRecordVO> list = mapper.orderListAllById(buyer_id);
+		return list;
 	}
     
     

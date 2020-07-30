@@ -68,7 +68,7 @@
 											<table class="setting_form">
 												<tr class="buyerlist_Tr">
 													<td class="TH--profileImg">구매자 프로필 사진</td>
-													<td class="TH--profileImg1"><img src="display?path=${buyerlist.profileImgPath}&name=${buyerlist.profileImg}" alt="profile" style="width: auto; height: 200px;"/></td>
+													<td class="TH--profileImg1"><img src="display?path=${buyerlist.profileImgPath}&name=${buyerlist.profileImg}" alt="profile" style="width: auto; height: 100px;"/></td>
 												</tr>
 												<tr class="buyerlist_Tr">
 													<td class="TH--id">아이디</td>
@@ -163,8 +163,7 @@
 
 
 	<!-- footer,js -->
-	<script type="text/javascript"
-		src="<c:url value='/resources/js/Admin/admin_menu.js?after'/>"></script>
+
 	<script type="text/javascript"
 		src="<c:url value='/resources/js/Admin/admin_buyerlist_modify.js?after'/>"></script>
 	<jsp:include page="../footer.jsp" flush="false" />

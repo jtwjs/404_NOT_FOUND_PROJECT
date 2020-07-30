@@ -21,72 +21,12 @@
   display: block;
 }
 
-/* side-profile */
-
 #side {
-  margin-right: 50px;
+  margin-right: 100px;
 }
-
-
-/* side-menu */
 
 #side__menu {
   box-shadow: 2px 4px 4px 1px rgba(0, 0, 0, 0.22);
-  overflow: hidden;
-}
-#side__menu dt {
-  position: relative;
-  height: 50px;
-  padding: 0 20px;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 3;
-  background-color: #fff;
-  cursor: pointer;
-  transition: all 350ms ease-in-out;
-}
-
-#menu-accountManagement::after {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  width: 20px;
-  height: 20px;
-  background-image: url(../../Images/Buyer/down_arrow_g.png);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  content: "";
-  transition: all 350ms ease-in-out;
-}
-
-#menu-accountManagement.selected-menu::after {
-  background-image: url(../../Images/Buyer/down_arrow_w.png);
-}
-
-#menu-accountManagement:hover {
-  color: #fff;
-  background-color: #34c759;
-}
-
-#menu-accountManagement:hover::after {
-  background-image: url(../../Images/Buyer/down_arrow_w.png);
-}
-
-#menu-accountManagement--item {
-  display: flex;
-  flex-direction: column;
-  height: 0;
-  border-bottom: 1px solid rgba(34, 34, 34, 0.1);
-  transition: all 350ms ease-in-out;
-}
-
-#side__menu dd > a {
-  position: relative;
-  padding: 8px 20px 8px;
-  font-size: 14px;
-  text-indent: 15px;
-  background-color: #f6f6f6;
 }
 
 #side__menu dd > a:hover::before {
@@ -102,25 +42,36 @@
   content: "";
 }
 
-#side__menu > ul > li > ul a {
-  display: block;
-  padding: 0 10px;
-  width: 100%;
+#menu-accountManagement--item > a {
+  position: relative;
+  padding: 8px 20px 8px;
+  font-size: 14px;
+  text-indent: 15px;
   background-color: #f6f6f6;
 }
 
-/* content */
-#myPage {
-  width: 900px;
-  border: 1px solid rgba(34, 34, 34, 0.1);
-  border-top: 2px solid #34c759;
-  padding: 15px 30px 40px;
-  box-shadow: 0 8px 8px -4px rgba(0, 0, 0, 0.22);
+#menu-accountManagement--item > h6 {
+	
+	margin : 15px 0 15px 15px;
+
 }
 
-.content-title {
-  font-size: 20px;
-  height: 40px;
-  margin-bottom: 20px;
+#menu-accountManagement{
+  position: relative;
+  height: 45px;
+  padding: 10px 20px;
+  font-size: 18px;	
+  color: #fff;
+  background-color: #34c759;
 }
+
+
+
+#menu-accountManagement--item
+{  	
+  display: flex;
+  flex-direction: column;
+  height: 0;
+}
+
 

@@ -79,7 +79,7 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 
 						<article id="center-list">
 							<h2 id="center-list__title">자주묻는질문</h2>
-							<td align=right><font size=2>글 개수 : ${listcount }</font></td>
+							<font size=2>글 개수 : ${listcount }</font>
 							<table id="center-list__table">
 								<thead>
 									<tr>
@@ -90,6 +90,17 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 									</tr>
 								</thead>
 								<tbody>
+									<%
+											if(faqboardlist.size() == 0) {
+									    %>
+										<tr>
+											<td align="center" colspan="4">
+												<br /><br />
+												등록된 게시물이 없습니다.
+												<br /><br /><br />
+											</td>
+										</tr>
+										<%} %>
 									<%
 										int num = listcount - ((nowpage - 1) * 10);
 									for (int i = 0; i < faqboardlist.size(); i++) {
@@ -132,7 +143,7 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 
 
 									<tr align=center height=20>
-										<td colspan=4 style="font-family: Tahoma; font-size: 10pt;">
+										<td class="page" colspan=4 style="font-family: Tahoma; font-size: 10pt;">
 											<%
 												if (nowpage<=1) {
 											%> [이전]&nbsp; <%

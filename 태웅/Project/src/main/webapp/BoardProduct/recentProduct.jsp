@@ -18,7 +18,7 @@
    			 	
    			</li>
 		</c:if>
-		<c:forEach items="${non_list}" var="list"  varStatus="status">
+		<c:forEach items="${non_list}" var="list" varStatus="status">
 			<li class="product-list_item">
 				<a class="product-imgWrap" href="BoardProductView.bo?board_id=${list.board_id}">
 				<img class="product-img" src="display?path=${list.thumbnail_thum_path}&name=${list.thumbnail_thum}" alt="상품 섬네일 사진">

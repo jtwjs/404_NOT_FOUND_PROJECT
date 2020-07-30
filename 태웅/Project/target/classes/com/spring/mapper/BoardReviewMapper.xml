@@ -38,12 +38,83 @@
 	
 	<insert id="insertReview" parameterType="com.spring.boardproduct.BoardReviewVO">
 	    INSERT INTO board_review VALUES (#{review_id}, #{review_num}, #{board_id}, #{buyer_id}, 
-	        #{order_id}, #{title}, #{content}, #{satisfaction}, SYSDATE, #{review_img_path}, 
-	        #{review_img_name})
+	        #{order_id}, #{title}, #{content}, #{satisfaction}, #{delivery_satisfaction}, 
+	        SYSDATE, #{review_img_path}, #{review_img_name})
 	</insert>
 	
-	<select id="getBoardReviewList" parameterType="String" resultMap="BoardReviewMap">
-	    SELECT * FROM board_review WHERE board_id = #{board_id} ORDER BY review_num DESC
+	
+	<select id="getBoardReviewList" resultMap="BoardReviewMap">
+	    SELECT * FROM( 
+	        SELECT ROWNUM AS RNUM, B.* FROM (
+            SELECT * FROM board_review WHERE board_id = #{board_id} ORDER BY review_num DESC) B) 
+            WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) 
+                AND (#{page_num} * #{page_amount})
 	</select>
+	
+	<select id="getAvgSatisfaction" parameterType="String" resultType="Double">
+	    SELECT AVG(satisfaction) FROM board_review WHERE board_id = #{board_id}
+	</select>
+	
+	<select id="countReviewById" resultType="int">
+		SELECT count(*) FROM board_review WHERE buyer_id = #{buyer_id}
+	</select>
+	
+	<select id="boardReviewListAllById" resultMap = "BoardReviewMap">
+		SELECT * 
+		FROM(
+			SELECT review_num,
+				   review_id,
+				   board_id,
+				   buyer_id,
+				   order_id,
+				   title,
+				   content,
+				   satisfaction,
+				   delivery_satisfaction,
+				   register_date,
+				   review_img_path,
+				   review_img_name,
+				   row_number() OVER (ORDER BY review_num DESC) AS rNUM
+		    FROM board_review
+		  
+		    ) rv
+	  WHERE rNum between ${rowStart} AND #{rowEnd} AND buyer_id = #{buyer_id}
+	  ORDER BY review_num DESC
+	</select>
+	
+	<!-- 관리자 댓글 관리 페이지 -->
+
+	<select id="getAdminBoardReviewCount" resultType="int">
+		select count(*) from board_review
+	</select>
+
+
+	<select id="SelectAdminBoardReviewAllList" parameterType="HashMap" resultMap="BoardReviewMap">
+		<![CDATA[
+		select review_id,review_num,board_id,buyer_id,order_id,
+						title,content,satisfaction,register_date,review_img_path,review_img_name
+	        	from (select rownum rnum,review_id,review_num,board_id,buyer_id,order_id,
+							title,content,satisfaction,register_date,review_img_path,review_img_name
+            		from (select * from board_review)) 
+	    where rnum>=#{startrow} and rnum<=#{endrow}
+     	]]>
+	</select>
+
+	<!-- 댓글 삭제 -->
+
+	<delete id="AdminBoardReviewDelete" parameterType="int">
+		delete from
+		board_review where review_num=#{review_num}
+	</delete>
+
+	<select id="isAdminBoardReviewList" parameterType="HashMap"
+		resultType="int">
+		select count(*) from board_review where
+		review_num=#{review_num}
+	</select>
+	
+	
+
+	
 
 </mapper>

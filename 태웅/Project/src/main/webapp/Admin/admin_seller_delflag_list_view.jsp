@@ -58,18 +58,21 @@
 									<h4 class="content-title--site">비활성 판매자 회원 정보</h4>
 									<form name="update__form--sellerdelflaglist"
 										id="update__form--sellerdelflaglist"
-										action="AdminUpdateSellerdelflagList.ad" method="post">
+										action="AdminUpdateSellerdelflagList.ad" method="post"
+										encType="multipart/form-data">
 										<input type="hidden" name="${_csrf.parameterName}"
 											value="${_csrf.token}" />
 										<div class="contnt_sellerdelflaglist">
 											<div class="Sellerdelflag_S">
-												<span class="Sellerdelflag_S1"> ${sellerDelflaglist.shopName} 판매자님의
-													회원정보입니다.</span>
+												<span class="Sellerdelflag_S1">
+													${sellerDelflaglist.shopName} 판매자님의 회원정보입니다.</span>
 											</div>
 											<table class="setting_form">
 												<tr class="Sellerdelflaglist_Tr">
 													<td class="TH--profileImg">판매자 프로필 사진</td>
-													<td class="TH--profileImg1"><img src="display?path=${sellerDelflaglist.profileImgPath}&name=${sellerDelflaglist.profileImg}" alt="profile" style="width: auto; height: 200px;"/></td>
+													<td class="TH--profileImg1"><img
+														src="display?path=${sellerDelflaglist.profileImgPath}&name=${sellerDelflaglist.profileImg}"
+														alt="profile" style="width: auto; height: 100px;" /></td>
 												</tr>
 												<tr class="Sellerdelflaglist_Tr">
 													<th class="TH--id">판매자 아이디</th>
@@ -86,16 +89,26 @@
 												<tr class="Sellerdelflaglist_Tr">
 													<th class="TH--orderReportNum">통신판매신고번호</th>
 													<td class="TH--orderReportNum1"><input type="text"
-														class="sellerdelflag_list_orderReportNum" name="orderReportNum"
+														class="sellerdelflag_list_orderReportNum"
+														name="orderReportNum"
 														value="${sellerDelflaglist.orderReportNum }" /></td>
 												</tr>
-												<tr class="Sellerdelflaglist_Tr">
+
+
+												<tr>
 													<th class="TH--orderReportImg">통신판매신고증</th>
-													<td class="TH--orderReportImg1">${sellerDelflaglist.orderReportImg }<label
-														for="reportCard" class="reportCard-btn">통신판매신고증<span
-															class="enter">첨부하기</span></label> <input type="file"
-														id="reportCard" class="hide" accept=".gif, .jpg, .png"
-														name="orderReportImg" required></td>
+													<td class="TH--orderReportImg1"><img
+														src="display?path=${sellerDelflaglist.orderReportImgPath}&name=${sellerDelflaglist.orderReportImg}"
+														alt="orderReportImg" style="width: 100px; height: 100px;" />
+														<span> *이미지를 누르면 크게 볼 수 있습니다.</span>
+												</tr>
+												<tr class="Sellerdelflaglist_Tr">
+													<th class="TH--orderReportImg"></th>
+													<td><label for="reportCard" class="reportCard-btn">통신판매신고증<span
+														class="enter">첨부하기</span></label>
+													<input type="file" id="reportCard" class="hide"
+														accept=".gif, .jpg, .png" name="orderReportImg" required>
+													</td>
 													<p id="mailOrd_check" class="check hide"></p>
 												</tr>
 												<tr class="Sellerdelflaglist_Tr">
@@ -149,7 +162,8 @@
 												<tr class="Sellerdelflaglist_Tr">
 													<td class="TH-bank_account ">정산대금 계좌번호</td>
 													<td class="TH-bank_account1"><input type="hidden"
-														class="sellerdelflag_list_bankAccountNum" name="bankAccountNum"
+														class="sellerdelflag_list_bankAccountNum"
+														name="bankAccountNum"
 														value="${sellerDelflaglist.bankAccountNum}">${sellerDelflaglist.bankAccountNum}</td>
 												</tr>
 												<tr class="sellerlist_Tr">
@@ -179,7 +193,8 @@
 												<tr class="Sellerdelflaglist_Tr">
 													<td class="TH-loginDate">마지막접속</td>
 													<td class="TH-loginDate1"><input type="hidden"
-														class="sellerdelflag_list_loginDate" name="jologinDateinDate"
+														class="sellerdelflag_list_loginDate"
+														name="jologinDateinDate"
 														value="${sellerDelflaglist.loginDate}">${sellerDelflaglist.loginDate}</td>
 												</tr>
 												<tr class="Sellerdelflaglist_Tr">
@@ -192,9 +207,10 @@
 													<td class="TH-delFlag">비활성설정</td>
 													<td class="TH-delFlag2" id="chck_A"><input
 														type="radio" id="delFlag" class="SellerdelFlag_checkbox_B"
-														name="delFlag" value="Y" checked="checked"/> 비활성 <input type="radio"
-														id="delFlag" class="SellerdelFlag_checkbox_B1" name="delFlag"
-														value="N"  /> 활성</td>
+														name="delFlag" value="Y" checked="checked" /> 비활성 <input
+														type="radio" id="delFlag"
+														class="SellerdelFlag_checkbox_B1" name="delFlag" value="N" />
+														활성</td>
 												</tr>
 											</table>
 											<div class="Sellerdelflaglist_btn">
@@ -215,8 +231,7 @@
 	</main>
 
 	<!-- footer,js -->
-	<script type="text/javascript"
-		src="<c:url value='/resources/js/Admin/admin_menu.js?after'/>"></script>
+
 	<script type="text/javascript"
 		src="<c:url value='/resources/js/Admin/post_search.js'/>"></script>
 	<script type="text/javascript"

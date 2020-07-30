@@ -84,6 +84,17 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 											</thead>
 											<tbody>
 												<%
+														if (sellerlist.size() == 0) {
+													%>
+													<tr>
+														<td colspan="7"><br />
+														<br /> 등록된 회원이 없습니다. <br /><br />
+														<br /></td>
+													</tr>
+													<%
+														}
+													%>
+												<%
 													int num = listcount - ((nowpage - 1) * 10);
 												for (int i = 0; i < sellerlist.size(); i++) {
 													SellerVO sel = (SellerVO) sellerlist.get(i);
@@ -156,8 +167,7 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 	</main>
 
 
-	<script type="text/javascript"
-		src="<c:url value='/resources/js/Admin/admin_menu.js?after'/>"></script>
+
 		
 	<!-- footer,js -->
 	<jsp:include page="../footer.jsp" flush="false" />

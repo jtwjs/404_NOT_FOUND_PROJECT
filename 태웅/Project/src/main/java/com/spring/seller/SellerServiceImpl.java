@@ -67,6 +67,7 @@ public class SellerServiceImpl implements SellerService {
 		return product;
 	}
 	
+
 	@Override
 	public int getOrderRecordOneByIdListCount(String seller_id) {
 		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
@@ -80,8 +81,6 @@ public class SellerServiceImpl implements SellerService {
 	
 	@Override
 	public List<OrderRecordVO> getOrderRecordOneByIdList(String seller_id, int startrow, int endrow) {
-		
-		System.out.println("impl111");
 		
 		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
 		
@@ -97,6 +96,5 @@ public class SellerServiceImpl implements SellerService {
 		
 		return vo_list;
 	}	
-
 	
 }

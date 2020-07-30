@@ -8,6 +8,7 @@ import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -58,15 +59,7 @@ public class OrderController {
     	return "Order/order_nonMember";
     }
     
-//    @RequestMapping(value = "/OrderCheck.or")  // 주문내역
-//    public String orderCheck(@RequestParam(value ="order_id")String order_id, Model model) {
-//    	
-//    	
-//    	model.addAttribute("order",order);
-//    	
-//    	
-//    	return "Order/order_check";
-//    }
+
     
     @GetMapping(value = "/AddCart.or")  // 장바구니
     @ResponseBody
@@ -326,21 +319,13 @@ public class OrderController {
     
     
     @PostMapping(value = "/OrderComplete.or")  // 주문완료
-    public String orderComplete(String[] board_id, String[] board_title, String[] seller_id, 
-    		int[] amount, int[] price, int[] delivery_price, int tot_price, String status, 
+    public String orderComplete(String[] board_id, String[] board_title, String[] seller_id,
+    		int[] save_point, int[] amount, int[] price, int[] delivery_price, int tot_price, String status, 
     		String buyer_name, String buyer_phone, String buyer_email, String order_postalCode, 
     		String order_address, String order_name, String order_phone, String order_demand, 
     		String order_delivery, String order_payment, String order_account, String buyer_id,
-    		int reserveUse,@RequestParam(value ="payment-method")String pay_method, String member_flag
+    		int reserveUse,int expected_sp,@RequestParam(value ="payment-method")String pay_method, String member_flag
     		,Model model) {
-    	
-    	for(int i=0; i<board_id.length; i++) {
-    		System.out.println(i+"-"+board_id[i]);
-    	}
-    	for(int i=0; i<amount.length;i++) {
-    		System.out.println(i+"-"+amount[i]);
-    	}
-    	
     	System.out.println("1");
     	
     	OrderRecordVO vo = new OrderRecordVO();
@@ -394,7 +379,12 @@ public class OrderController {
 		// ====================================================================
 		
 		for(int i = 0; i < board_id.length; i++) {
-	    	
+			if(vo.getNon_member_flag()=='N') {
+				buyerService.InsertSavePoint(buyer_id,"적립", "주문결제", save_point[i],"주문결제 적립 +"+board_title[i], vo.getOrder_id());
+	    		if(reserveUse != 0 ) {
+				buyerService.InsertSavePoint(buyer_id,"사용","적립금결제",reserveUse, board_title[i], vo.getOrder_id());
+	    		}
+			}
 			vo.setBoard_id(board_id[i]);
 			vo.setBoard_title(board_title[i]);
 			vo.setSeller_id(seller_id[i]);
@@ -422,7 +412,6 @@ public class OrderController {
 			System.out.println(vo.getOrder_invoicenum());
 			System.out.println(vo.getOrder_name());
 			System.out.println(vo.getOrder_num());
-			
 			System.out.println(vo.getOrder_payment());
 			System.out.println(vo.getOrder_phone());
 			System.out.println(vo.getOrder_postalCode());
@@ -435,11 +424,7 @@ public class OrderController {
 			
 			System.out.println("========================================");
 			System.out.println();
-			
-			
-			
 			orderService.insertOrderRecord(vo); // 배열 수 만큼 테이블에 저장
-			
 		}
 		
 		System.out.println("test");
@@ -469,6 +454,26 @@ public class OrderController {
     	return savePoint;
     	
     }
+    
+    @RequestMapping(value = "/orderBeingDelivered.or", method = RequestMethod.POST,
+    		produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public HashMap<String,Object> orderBeingDelivered(@CurrentUser AccountVO account) {
+    	String buyer_id = account.getId();
+    	ArrayList<OrderRecordVO> list = orderService.orderBeingDeliveredListById(buyer_id);
+    	HashMap<String,Object> map = new HashMap<String,Object>();
+    	String order_id = "";
+    	
+    	if(list.size() != 0) {
+    		order_id = list.get(0).getOrder_id();
+    		map.put("result",order_id);
+    	}else {
+    		map.put("result","empty");
+    	}
+    	
+    	return map;
+    }
+    
     
     @RequestMapping(value = "/OrderResearch.or")
     public String OrderResearch(@CurrentUser AccountVO account,@RequestParam("order_id")String order_id, Model model) {

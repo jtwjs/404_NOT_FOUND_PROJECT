@@ -54,7 +54,7 @@
                         <h2 class="content-title">최근 본 상품</h2>
                             <article id="content__view">
                                 <div id="content__view--box">
-                                    <div><span>최대 50개까지 조회 가능합니다.</span></div>
+                                    <div><span class="explain">- 최대 50개까지 조회 가능합니다.</span></div>
                                     
                                     <div>
                                         <input type="button" value="삭제" id="view-delete"/>
@@ -64,7 +64,7 @@
                             </article>
                             
                             <article id="transaction__detail">
-							<form action='<c:url value='/BuyerMyPageRecentlyView_deleteCheck.by' />' method="POST" id="recentView_form">
+							<form action='<c:url value='/BuyerMyPageRecentlyView_Check.by' />' method="POST" id="recentView_form">
                         	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                 <table class="transaction__detail--table">
                                     <thead>
@@ -91,12 +91,21 @@
                                         <c:forEach var="list" items="${list}" varStatus="status">
                                         <tr>
                                         	<th class="product-check"><input type="checkbox" name="ck_item" value="${list.board_id}"/></th>
-                                        	<td class="product-name"><img class="product-img" src="display?path=${list.thumbnail_thum_path}&name=${list.thumbnail_thum}"  alt="상품 썸네일 이미지" />${list.title}</td>
+                                        	<td class="product-name">
+                                        		<a href="BoardProductView.bo?board_id=${list.board_id}">
+                                        			<img class="product-img" src="display?path=${list.thumbnail_thum_path}&name=${list.thumbnail_thum}"  alt="상품 썸네일 이미지" />
+                                       				<dl class="item-info">
+                                       					<dt>원산지: ${list.product_country} / 상품명: ${list.product_name}</dt>
+                                       					<dd>${list.title}</dd>
+                                       				</dl>	
+                                   				</a>
+                               				</td>
                                         	<td>${list.price}원</td>
                                         </tr>
                                         </c:forEach>
                                     </tbody>
                                 </table>
+                                <input type= "hidden" id="separation" name="separation" />
                                </form>
                                <div class="n-paging">
                                	<ul>
