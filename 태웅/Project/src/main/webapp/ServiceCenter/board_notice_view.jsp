@@ -25,7 +25,7 @@
 <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>"
 	rel="stylesheet" />
 <link
-	href="<c:url value='/resources/css/ServiceCenter/serviceCenter_board.css'/>"
+	href="<c:url value='/resources/css/ServiceCenter/serviceCenter_board_notice.css'/>"
 	rel="stylesheet" />
 <title>공지사항</title>
 </head>
@@ -74,7 +74,7 @@
 									<tr>
 										<td>글내용</td>
 												<td><textarea style=resize:none;border:0;overflow-y:hidden;background-color:#ffffff; 
-												rows="32%" cols="50" name="content" class="form-control" disabled><%=boardnotice.getContent()%></textarea></td>
+												rows="17%" cols="50" name="content" class="form-control" disabled><%=boardnotice.getContent()%></textarea></td>
 												<td></td>											
 									
 									</tr>

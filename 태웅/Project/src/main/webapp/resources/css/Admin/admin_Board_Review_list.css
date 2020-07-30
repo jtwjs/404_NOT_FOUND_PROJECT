@@ -1,0 +1,83 @@
+.contnt__boardreviewlist {
+	display: flex;
+	flex-direction: column;
+	margin-top: 20px;
+	width: 900px;
+}
+
+/* .site_content1 {
+	padding: 0 0 15px 0;
+}
+ */
+.content-title--site {
+	margin-top: 10px;
+	padding-bottom: 15px;
+}
+
+.boardreview_B {
+	
+	padding : 0 0 15px 0;
+}
+
+.setting_form {
+	width: 100%;
+}
+
+.setting_form {
+	text-align: center;
+	color: #000000;
+}
+
+.TH--BR--num {
+	width: 20px;
+}
+.TH--BR-reviewimgname {
+	width: 100px;
+}
+.TH--BR-buyerid {
+	width: 100px;
+}
+.TH--BR-title {
+	width: 100px;
+}
+.TH--BR-content {
+	width: 430px;
+}
+.TH--BR-registerdate {
+	width: 100px;
+}
+.TH--BR-del {
+	width: 50px;
+}
+
+.boardreviewlist--cont {
+	
+	height: 45px;
+	text-align: center;
+	border-top : 1px solid #008040; 
+	border-bottom :1px solid #008040; 
+	color: #232323;
+	text-align: center;
+	
+}
+
+.TH--BR--num1, .TH--BR-reviewimgname1, .TH--BR-buyerid1,
+ .TH--BR-title1, .TH--BR-content1, .TH--BR-register_date1 {
+	padding: 15px 0 15px 0;
+}
+
+.deleteBtn {
+	width: 80px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: #52a56ec9;
+    text-align: center; 
+    color: #ffffff;
+}
+
+
+#TH--BR-content1{
+	
+	width:430px; 
+	height:80px; 
+}

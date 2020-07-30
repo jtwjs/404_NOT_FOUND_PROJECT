@@ -154,21 +154,21 @@ public class BuyerServiceImpl implements BuyerService {
 	
 
 	@Override
-	public deliveryVO getListDeliveryDetail(int num) {
+	public deliveryVO getListDeliveryDetail(String id, String num) {
 
 		BuyerMapper buyerMapper = sqlSession.getMapper(BuyerMapper.class);
-		deliveryVO delivery = buyerMapper.getListDeliveryDetail(num);
+		deliveryVO delivery = buyerMapper.getListDeliveryDetail(id, num);
 		
 		return delivery;
 	}
 
 	
 	@Override
-	public deliveryVO ListDeliveryModifyForm(int num) {
+	public deliveryVO ListDeliveryModifyForm(String id, String num) {
 
 		BuyerMapper buyerMapper = sqlSession.getMapper(BuyerMapper.class);
 		System.out.println(num);
-		deliveryVO delivery = buyerMapper.getListDeliveryDetail(num);
+		deliveryVO delivery = buyerMapper.getListDeliveryDetail(id, num);
 		
 		return delivery;
 	}
@@ -186,15 +186,10 @@ public class BuyerServiceImpl implements BuyerService {
 
 
 	@Override
-	public int ListDeliveryDelete(HashMap<String, String> hashmap) {
+	public int ListDeliveryDelete(String id, String num) {
 		BuyerMapper buyerMapper = sqlSession.getMapper(BuyerMapper.class);
-		int res = buyerMapper.isListDelivery(hashmap);
-		int num = Integer.parseInt(hashmap.get("num"));
-		if(res == 1) {
-			
-			res = buyerMapper.ListDeliveryDelete(num);
-		}
-		return res;
+		int result = buyerMapper.ListDeliveryDelete(id, num);
+		return result;
 	}
 
 	@Override
@@ -208,8 +203,8 @@ public class BuyerServiceImpl implements BuyerService {
 
 
 	@Override
-	public void UpdateDefaultAddress(BuyerVO buyer) {
-		mapper.UpdateDefaultAddress(buyer);
+	public void UpdateDefaultAddress(String id, String address) {
+		mapper.UpdateDefaultAddress(id,address);
 		
 	}
 

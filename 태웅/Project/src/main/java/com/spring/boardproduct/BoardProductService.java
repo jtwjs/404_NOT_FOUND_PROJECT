@@ -42,6 +42,15 @@ public interface BoardProductService {
     public int countReviewById(String buyer_id);
 	public ArrayList<BoardReviewVO> boardReviewListAllById(String buyer_id,int rowStart,int rowEnd);
 	
-	
+    
+    // ---------------------------------------------------------------------------
+    public int insertQna(BoardQnaVO vo);
+    public int getQnaNum(String board_id);
+    public ArrayList<BoardQnaVO> getBoardQnaList(String board_id, int qna_status, 
+    		int answer_status, int page_num, int page_amount, String keyword);
+    public int getBoardQnaListCount(String board_id, int qna_status, 
+    		int answer_status, String keyword);
+    public int getCountQna(String board_id);
+    public int insertQnaRecommend(String board_id, String seller_id, int qna_num, String recommend);
     
 }

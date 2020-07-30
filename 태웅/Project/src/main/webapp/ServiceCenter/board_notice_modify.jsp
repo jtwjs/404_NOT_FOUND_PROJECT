@@ -23,7 +23,7 @@
 <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>"
 	rel="stylesheet" />
 <link
-	href="<c:url value='/resources/css/ServiceCenter/serviceCenter_board.css'/>"
+	href="<c:url value='/resources/css/ServiceCenter/serviceCenter_board_notice.css'/>"
 	rel="stylesheet" />
 <title>공지사항</title>
 </head>

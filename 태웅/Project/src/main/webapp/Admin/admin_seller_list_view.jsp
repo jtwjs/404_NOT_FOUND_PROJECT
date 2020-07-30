@@ -55,12 +55,14 @@
 						<section id="myPage">
 							<div class="contnt__sellerlist">
 								<div class="site_content">
-									<h4 class="content-title--site">판매자 회원 정보</h4>
-									<form name="update__form--sellerlist" id="update__form--sellerlist"
-										action="AdminUpdateSellerList.ad" method="post">
+									<h4 class="content-title--site">판매자 회원 정보</h4>									
+									<form name="update__form--sellerlist"
+										id="update__form--sellerlist"
+										action="AdminUpdateSellerList.ad" method="post"
+										encType="multipart/form-data">
 										<input type="hidden" name="${_csrf.parameterName}"
 											value="${_csrf.token}" />
-										<div class="contnt_buyerlist">
+										<div class="contnt_sellerlist">
 											<div class="seller_S">
 												<span class="seller_S1"> ${sellerlist.shopName} 판매자님의
 													회원정보입니다.</span>
@@ -69,7 +71,9 @@
 											<table class="setting_form">
 												<tr class="sellerlist_Tr">
 													<td class="TH--profileImg">판매자 프로필 사진</td>
-													<td class="TH--profileImg1"><img src="display?path=${sellerlist.profileImgPath}&name=${sellerlist.profileImg}" alt="profile" style="width: auto; height: 200px;"/></td>
+													<td class="TH--profileImg1"><img
+														src="display?path=${sellerlist.profileImgPath}&name=${sellerlist.profileImg}"
+														alt="profile" style="width: auto; height: 100px;" /></td>
 												</tr>
 												<tr class="sellerlist_Tr">
 													<th class="TH--id">판매자 아이디</th>
@@ -88,13 +92,18 @@
 														class="seller_list_orderReportNum" name="orderReportNum"
 														value="${sellerlist.orderReportNum }" /></td>
 												</tr>
-												<tr class="sellerlist_Tr">
+												<tr>
 													<th class="TH--orderReportImg">통신판매신고증</th>
-													<td class="TH--orderReportImg1">${sellerlist.orderReportImg }<label
-														for="reportCard" class="reportCard-btn">통신판매신고증<span
-															class="enter">첨부하기</span></label> <input type="file"
-														id="reportCard" class="hide" accept=".gif, .jpg, .png"
-														name="orderReportImg" required></td>
+													<td class="TH--orderReportImg1"><img
+														src="display?path=${sellerlist.orderReportImgPath}&name=${sellerlist.orderReportImg}"
+														alt="orderReportImg" style="width: 100px; height: 100px;" />
+														<span> *이미지를 누르면 크게 볼 수 있습니다.</span> 
+												</tr>
+												<tr class="sellerlist_Tr">		
+												    <th class="TH--orderReportImg"></th>
+											 		<td><label for="reportCard"	class="reportCard-btn">통신판매신고증<span class="enter">첨부하기</span></label>
+														<input type="file" id="reportCard" class="hide"
+														accept=".gif, .jpg, .png" name="orderReportImg" required></td>
 													<p id="mailOrd_check" class="check hide"></p>
 												</tr>
 												<tr class="sellerlist_Tr">
@@ -190,9 +199,9 @@
 													<td class="TH-delFlag">비활성설정</td>
 													<td class="TH-delFlag2" id="chck_A"><input
 														type="radio" id="delFlag" class="delFlag_checkbox"
-														name="delFlag" value="Y" /> 비활성 <input
-														type="radio" id="delFlag" class="delFlag_checkbox"
-														name="delFlag" value="N" checked="checked" /> 활성</td>
+														name="delFlag" value="Y" /> 비활성 <input type="radio"
+														id="delFlag" class="delFlag_checkbox" name="delFlag"
+														value="N" checked="checked" /> 활성</td>
 												</tr>
 											</table>
 											<div class="sellerlist_btn">
@@ -213,8 +222,7 @@
 	</main>
 
 	<!-- footer,js -->
-	<script type="text/javascript"
-		src="<c:url value='/resources/js/Admin/admin_menu.js?after'/>"></script>
+
 	<script type="text/javascript"
 		src="<c:url value='/resources/js/Admin/post_search.js'/>"></script>
 	<script type="text/javascript"

@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Calendar" %>
 <%@ page import="java.util.*"%>
@@ -132,11 +133,14 @@ System.out.println("hi3");
                                     <tbody>                                 
 	                                    <%
 											int num = listcount - ((nowpage - 1) * 10);
-	                                    
+	                                    System.out.println("123123123:"+orderRecordList.size());
 		                                    for(int i = 0; i < orderRecordList.size(); i++) {
+		                           
 												OrderRecordVO orl = (OrderRecordVO) orderRecordList.get(i);
+							
+										
 										%>										
-                                        <tr class="orderList">
+                                        <tr class="orderList" onclick="javascript:location.href='BoardProductView.bo?board_id=<%=orl.getBoard_id()%>'">
                                             <td><%=orl.getOrder_num() %></td>
                                             <td><%=orl.getBoard_title() %></td>
                                             <td><%=((orl.getAmount()) * (orl.getPrice())) %></td>
@@ -158,7 +162,8 @@ System.out.println("hi3");
                                             	%>
                                             </td>
                                             <td>
-                                            	<fmt:formatDate pattern="yyyy-MM-dd" value="<%=orl.getOrder_date() %>" />
+                                           
+                                             	<span><%=orl.getOrder_date() %></span>
                                             </td>
                                         </tr>
                                         
@@ -168,7 +173,7 @@ System.out.println("hi3");
 										%>
 										
 										<tr align=center height=20>
-											<td colspan=5 style="font-family: Tahoma; font-size: 10pt;">
+											<td class="page" colspan=5 style="font-family: Tahoma; font-size: 10pt;">
 												<%
 													if (nowpage<=1) {
 												%> [이전]&nbsp; <%

@@ -58,26 +58,6 @@
 	</select>
 	
 	<select id="selectOrderListById" resultType="com.spring.order.OrderRecordVO">
-	<!-- 	SELECT a.order_num,a.order_id,a.board_id,a.board_title,a.buyer_id,a.amount,a.price,a.status,a.order_date,
-        b.thumbnail_thum,b.thumbnail_thum_path
-		FROM (
-			SELECT order_num,
-				    order_id,
-					board_id,
-					board_title,
-					buyer_id,
-					amount,
-					price,
-					status,
-					order_date,
-					row_number() OVER (ORDER BY order_num DESC)AS rNum
-			FROM order_record
-			 WHERE order_date between to_date(#{startDate}, 'yyyyMMdd') AND to_date(#{endDate}, 'yyyyMMdd') 
-		) a,
-			
-            board_product b
-		WHERE rNum between #{rowStart} AND #{rowEnd} AND buyer_id = #{buyer_id} AND a.board_id = b.board_id(+)
-		ORDER BY order_num DESC -->
 	SELECT a.order_num,a.order_id,a.board_id,a.board_title,a.buyer_id,a.amount,a.price,a.status,a.order_date,
         b.thumbnail_thum,b.thumbnail_thum_path
 		FROM (
@@ -92,9 +72,9 @@
 					order_date,
 					row_number() OVER (ORDER BY order_num DESC)AS rNum
 			FROM order_record
-			
-		     WHERE order_date between '2020-07-01' AND '2020-07-29'
-		    
+			<![CDATA[
+		     WHERE order_date >=to_date( #{startDate}, 'YYYY-MM-DD') AND order_date <= to_date(#{endDate}, 'YYYY-MM-DD')+1 
+		    ]]>
 			) a,
             board_product b
 		WHERE rNum between #{rowStart} AND #{rowEnd} AND buyer_id = #{buyer_id} AND a.board_id = b.board_id(+)
@@ -102,8 +82,11 @@
 	</select>
 	
 	<select id="orderListCountById" resultType="int">
-		SELECT count(*) FROM order_record WHERE buyer_id=#{buyer_id}
-			AND (order_date between'2020-07-01' AND '2020-07-29')
+		SELECT count(*) FROM order_record
+		<![CDATA[  
+		WHERE buyer_id=#{buyer_id}
+		AND order_date >=to_date(#{startDate}, 'YYYY-MM-DD') AND order_date <= to_date(#{endDate}, 'YYYY-MM-DD')+1
+			 ]]>
 	</select>
 	
 	<select id="orderBeingDeliveredListById" resultType="com.spring.order.OrderRecordVO">
@@ -115,6 +98,23 @@
 	<select id="orderListAllById" resultType="com.spring.order.OrderRecordVO" >
 		SELECT * FROM order_record
 		WHERE buyer_id = #{buyer_id}
+	</select>
+	
+	<select id="getOrderRecordOneByIdListCount" resultType="int" parameterType="String">
+		select count(*) from order_record WHERE seller_id = #{seller_id}
+	</select>
+	
+	<select id="getOrderRecordOneByIdList" parameterType="HashMap" resultType="com.spring.order.OrderRecordVO">
+		<![CDATA[
+			select order_num, order_id, board_id, board_title, seller_id, buyer_id, amount, price, delivery_price, use_point, tot_price,
+					status, buyer_name, buyer_phone, buyer_email, order_postalCode, order_address, order_name, order_phone, order_demand,
+					order_delivery, order_invoicenum, order_payment, order_account, order_date, non_member_flag
+	        	from (select rownum rnum, order_num, order_id, board_id, board_title, seller_id, buyer_id, amount, price, delivery_price, use_point, tot_price,
+						status, buyer_name, buyer_phone, buyer_email, order_postalCode, order_address, order_name, order_phone, order_demand,
+						order_delivery, order_invoicenum, order_payment, order_account, order_date, non_member_flag
+            		from (select * from order_record where seller_id = #{seller_id} order by order_date desc)) 
+	        where rnum>=#{startrow} and rnum<=#{endrow}
+     	]]>
 	</select>
 	
 

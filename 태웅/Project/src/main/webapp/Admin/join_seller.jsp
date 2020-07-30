@@ -43,7 +43,7 @@
 	</section>
     <main id="main">
       <article id="join_seller">
-        <form id="join_form" name="join__form" action="JoinSeller.se" method="post">
+        <form id="join_form" name="join__form" action="JoinSeller.se" method="post" encType="multipart/form-data">
           <div class="join_seller--agreement">
             <h2>약관동의</h2>
             <div class="agreement--content">

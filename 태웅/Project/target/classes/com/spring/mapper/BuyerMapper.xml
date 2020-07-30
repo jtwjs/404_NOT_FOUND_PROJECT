@@ -135,16 +135,12 @@
 	</insert>
 	
 	
+	
 	<update id = "UpdateBuyerAccount" parameterType = "com.spring.buyer.BuyerVO"  >
 		UPDATE member_buyer SET email=#{email}, tel=#{tel}, profile_img=#{profileImg}, profile_img_path=#{profileImgPath}
 		 WHERE buyer_id = #{id}
 	</update>
 	
-	<update id ="BuyerGradeSetting" parameterType = "com.spring.buyer.BuyerVO">
-		UPDATE member_buyer SET grade = #{grade}
-		WHERE buyer_id = #{id}
-	</update> 
-		
 	<select id = "BuyerConfirmPassword" resultMap = "buyerResultMap" >
 		SELECT * FROM member_buyer where buyer_id = #{id} and password = #{password}
 	</select>
@@ -158,7 +154,7 @@
 		update list_delivery  set default_address='N' where buyer_id = #{id}
 	</update>
 	
-	<update id="UpdateDefaultAddress" parameterType="com.spring.buyer.BuyerVO">
+	<update id="UpdateDefaultAddress" parameterType="String">
 		update member_buyer SET address=#{address} WHERE buyer_id = #{id}
 	</update>
 
@@ -170,18 +166,18 @@
 		INSERT INTO list_delivery VALUES (#{num}, #{id}, #{deliveryName}, #{address}, #{defaultaddress}, #{receiverName}, #{receiverPhone})
 	</insert>
 
-	<select id="getListDeliveryDetail" parameterType="int" resultMap="deliveryResultMap">
-		SELECT * FROM list_delivery where num = #{num}
+	<select id="getListDeliveryDetail" parameterType="String" resultMap="deliveryResultMap">
+		SELECT * FROM list_delivery where num = #{num} and buyer_id = #{id}
 	</select>
 	
 	<update id="ListDeliveryModify" parameterType="com.spring.buyer.deliveryVO">
 		UPDATE list_delivery SET delivery_name=#{deliveryName},address=#{address},default_address=#{defaultaddress},receiver_name=#{receiverName},receiver_phone=#{receiverPhone}
-		where num = #{num} 
+		where num = #{num} and buyer_id = #{id}
 	</update>
 
 
-	<delete id="ListDeliveryDelete" parameterType="int">
-		delete from	list_delivery where num=#{num} and default_address='N'
+	<delete id="ListDeliveryDelete" parameterType="String">
+		delete from	list_delivery where num=#{num} and buyer_id = #{id} and default_address='N'
 	</delete>
 
 	<select id="isListDelivery" parameterType="HashMap"	resultType="int">
@@ -194,15 +190,12 @@
 	</select>
 	
 	
-	
 	<!-- 구매자 리스트 -->
 	<select id="getBuyerListCount" resultType="int">
-		select count(*) from
-		member_buyer where del_flag = 'N'
+		select count(*) from member_buyer where del_flag = 'N'
 	</select>
 
-	<select id="SelectAllMemberBuyerList" parameterType="HashMap"
-		resultMap="buyerResultMap">
+	<select id="SelectAllMemberBuyerList" parameterType="HashMap" resultMap="buyerResultMap">
 		  <![CDATA[
 			  select buyer_id,password,name,tel,email,address,buyer_num,grade,member_type,del_flag,join_date,
 	        	           wthdr_date,save_point,profile_img,profile_img_path,last_loginDate
@@ -241,6 +234,10 @@
 		UPDATE member_buyer SET del_flag=#{delFlag} WHERE buyer_id = #{id}
 	</update>
 	
+	<update id ="BuyerGradeSetting" parameterType = "com.spring.buyer.BuyerVO">
+		UPDATE member_buyer SET grade = #{grade}
+		WHERE buyer_id = #{id}
+	</update> 
 	
 	
 </mapper>

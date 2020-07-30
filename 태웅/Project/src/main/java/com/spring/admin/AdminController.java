@@ -1,10 +1,19 @@
 package com.spring.admin;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,8 +24,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.boardproduct.BoardProductVO;
+import com.spring.boardproduct.BoardReviewVO;
 import com.spring.buyer.BuyerService;
 import com.spring.buyer.BuyerVO;
 import com.spring.config.Security.CurrentUser;
@@ -120,6 +133,14 @@ public class AdminController {
 		return result;
 
 	}
+	
+	
+	
+	
+	
+
+	
+//============================= 하나 기석 작업 =====================================================	
 
 	@RequestMapping(value = "/AccountManagement.ad")
 	public String AccountManagement(Model model, @CurrentUser AccountVO account) {
@@ -130,12 +151,9 @@ public class AdminController {
 		int buyerAccountCount = service.getBuyerListCount();
 		int buyerDelFlagAccountCount = service.getDelflagListCount();
 		int serllerAccoutCount = service.getSellerListCount();
-
-//============================== 기석 작업 ========================================================================================
 		int sellerDelFlagAccountCount = service.getSellerDelflagListCount();
 
 		model.addAttribute("sellerDelFlagAccountCount", sellerDelFlagAccountCount);
-//============================== 기석 작업 ======================================================================================== 	
 		model.addAttribute("allAccountCount", allAccountCount);
 		model.addAttribute("buyerAccountCount", buyerAccountCount);
 		model.addAttribute("buyerDelFlagAccountCount", buyerDelFlagAccountCount);
@@ -270,18 +288,6 @@ public class AdminController {
 		return "redirect:/AdminBuyerDelflagList.ad";
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-// =========================== 기석 작업 ==============================================================
 
 	// 판매자 리스트
 	@RequestMapping(value = "/AdminSellerList.ad") // �봽濡쒗븘 - 諛곗넚吏� 愿�由� public
@@ -325,15 +331,8 @@ public class AdminController {
 	@RequestMapping(value = "/AdminSellerListView.ad")
 	public String SelectSellerListview(Model model, @CurrentUser AccountVO account, SellerVO seller) throws Exception {
 
-		/* System.out.println("buyervo : " + buyervo); */
-
 		System.out.println("imp77777777");
 		SellerVO sellerlist = sellerService.selectOneById(seller.getId());
-		/*
-		 * //프로필 이미지 추가부분 if(sellerlist.getProfileImg() == null ||
-		 * sellerlist.getProfileImg() == "") {
-		 * sellerlist.setProfileImg("profile-basic.png"); }
-		 */
 
 		int addr1 = sellerlist.getAddress().indexOf("+");
 		int addr2 = sellerlist.getAddress().indexOf("/");
@@ -356,14 +355,40 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/AdminUpdateSellerList.ad")
-	public String AdminUpdateSellerList(SellerVO seller) {
+	public String AdminUpdateSellerList(String id, String password, String shopName, String represent, String addrNum,
+			String addrRoadName, String addrDetail, String orderReportNum, String name, String telCarrierNum,
+			String telAllocationNum, String telDiscretionaryNum, String emailId, String emailAddr, String bankName,
+			String bankAccountNum, char delFlag,
+			@RequestPart(value = "orderReportImg", required = false) MultipartFile mail_order_report_img) {
 
-		System.out.println("imp8888");
+		SellerVO seller = new SellerVO();
+		seller.setId(id);
+		seller.setPassword(password);
+		seller.setShopName(shopName);
+		seller.setRepresent(represent);
+		seller.setAddress(addrNum, addrRoadName, addrDetail);
+		seller.setOrderReportNum(orderReportNum);
+		seller.setName(name);
+		seller.setTel(telCarrierNum, telAllocationNum, telDiscretionaryNum);
+		seller.setEmail(emailId, emailAddr);
+		seller.setBankAccountNum(bankAccountNum);
+		seller.setBankName(bankName);
+		seller.setDelFlag(delFlag);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String str = sdf.format(date);
 
-		String addrNum = seller.getAddrNum();
-		String addrRoadName = seller.getAddrRoadName();
-		String addrDetail = seller.getAddrDetail();
+		String uploadFolder_mail_order_report_img = "C:\\Project156\\upload/mail_order_report_img"; // 원본 업로드 경로
 
+		seller.setOrderReportImg(imgSave(mail_order_report_img, uploadFolder_mail_order_report_img));
+
+		StringBuilder img_path = new StringBuilder("/img/mail_order_report_img/" + str.replace("-", "/") + "/");
+
+		seller.setOrderReportImgPath(img_path.toString());
+
+		seller.setTel(telCarrierNum, telAllocationNum, telDiscretionaryNum);
+		seller.setEmail(emailId, emailAddr);
 		seller.setAddress(addrNum, addrRoadName, addrDetail);
 
 		service.AdminUpdateSellerList(seller);
@@ -411,7 +436,8 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/AdminSellerdelflagListView.ad")
-	public String SelectSellerdelflagListview(Model model, @CurrentUser AccountVO account, SellerVO seller) throws Exception {
+	public String SelectSellerdelflagListview(Model model, @CurrentUser AccountVO account, SellerVO seller)
+			throws Exception {
 
 		SellerVO sellerDelflaglist = sellerService.selectOneById(seller.getId());
 
@@ -435,16 +461,271 @@ public class AdminController {
 
 		return "Admin/admin_seller_delflag_list_view";
 	}
-
+	
 	@RequestMapping(value = "/AdminUpdateSellerdelflagList.ad")
-	public String AdminUpdateSellerDelflagList(SellerVO seller) {
+	public String AdminUpdateSellerDelflagList(String id, String password, String shopName, String represent, String addrNum,
+			String addrRoadName, String addrDetail, String orderReportNum, String name, String telCarrierNum,
+			String telAllocationNum, String telDiscretionaryNum, String emailId, String emailAddr, String bankName,
+			String bankAccountNum, char delFlag,
+			@RequestPart(value = "orderReportImg", required = false) MultipartFile mail_order_report_img) {
 
-		System.out.println("imp9999");
+		SellerVO seller = new SellerVO();
+		seller.setId(id);
+		seller.setPassword(password);
+		seller.setShopName(shopName);
+		seller.setRepresent(represent);
+		seller.setAddress(addrNum, addrRoadName, addrDetail);
+		seller.setOrderReportNum(orderReportNum);
+		seller.setName(name);
+		seller.setTel(telCarrierNum, telAllocationNum, telDiscretionaryNum);
+		seller.setEmail(emailId, emailAddr);
+		seller.setBankAccountNum(bankAccountNum);
+		seller.setBankName(bankName);
+		seller.setDelFlag(delFlag);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String str = sdf.format(date);
+
+		String uploadFolder_mail_order_report_img = "C:\\Project156\\upload/mail_order_report_img"; // 원본 업로드 경로
+
+		seller.setOrderReportImg(imgSave(mail_order_report_img, uploadFolder_mail_order_report_img));
+
+		StringBuilder img_path = new StringBuilder("/img/mail_order_report_img/" + str.replace("-", "/") + "/");
+
+		seller.setOrderReportImgPath(img_path.toString());
+
+		seller.setTel(telCarrierNum, telAllocationNum, telDiscretionaryNum);
+		seller.setEmail(emailId, emailAddr);
+		seller.setAddress(addrNum, addrRoadName, addrDetail);
 
 		service.AdminUpdateSellerDelflagList(seller);
 
 		return "redirect:/AdminSellerDelflagList.ad";
 
+	}
+
+	@RequestMapping(value = "/BoardManagement.ad")
+	public String BoardManagement(Model model, @CurrentUser AccountVO account) {
+
+		AdminVO adminAccount = service.selectOneById(account.getId());
+
+		int productBoardCount = service.getAdminBoardProductCount();
+		int reviewCount = service.getAdminBoardReviewCount();
+
+		model.addAttribute("productBoardCount", productBoardCount);
+		model.addAttribute("reviewCount", reviewCount);
+
+		model.addAttribute("user", adminAccount);
+
+		return "Admin/admin_boardManagement_main";
+	}
+
+	// 관리자 게시판 페이지
+
+	@RequestMapping(value = "/AdminBoardProductList.ad")
+	public String AdminSelectAllBoardProductList(Model model, @CurrentUser AccountVO account,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+
+		int limit = 10;
+
+		int listcount = service.getAdminBoardProductCount();
+
+		int startrow = (page - 1) * 10 + 1;
+		int endrow = startrow + limit - 1;
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		hashmap.put("startrow", startrow);
+		hashmap.put("endrow", endrow);
+		List<BoardProductVO> AdminBoardlist = service.SelectAdminBoardAllList(hashmap);
+
+		int maxpage = (int) ((double) listcount / limit + 0.95);
+		int startpage = (((int) ((double) page / 10 + 0.9)) - 1) * 10 + 1;
+		int endpage = maxpage;
+
+		if (endpage > startpage + 10 - 1)
+			endpage = startpage + 10 - 1;
+
+		System.out.println("AdminBoardlist" + AdminBoardlist);
+
+		model.addAttribute("page", page);
+		model.addAttribute("listcount", listcount);
+		model.addAttribute("AdminBoardlist", AdminBoardlist);
+		model.addAttribute("maxpage", maxpage);
+		model.addAttribute("startpage", startpage);
+		model.addAttribute("endpage", endpage);
+
+		return "Admin/admin_productList";
+
+	}
+
+	// 삭제 기능
+
+	@RequestMapping("/AdminBoardProductListDelete.ad")
+	public String AdminBoardProductListDeliveryDelete(@RequestParam(value = "board_num", required = true) int board_num,
+			HttpSession session, HttpServletResponse response) throws Exception {
+
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("board_num", Integer.toString(board_num));
+		int res = service.AdminBoardProductDelete(hashmap);
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		if (res == 1) {
+			writer.write("<script>alert('삭제 성공!!');" + "location.href='./AdminBoardProductList.ad';</script>");
+		} else {
+			writer.write("<script>alert('삭제 실패!!');" + "location.href='./AdminBoardProductList.ad';</script>");
+		}
+
+		return null;
+
+	}
+
+	// 관리자 댓글 관리 페이지
+	@RequestMapping(value = "/AdminBoardReviewList.ad")
+	public String AdminSelectAllBoardReviewList(Model model, @CurrentUser AccountVO account,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+
+		int limit = 10;
+
+		int listcount = service.getAdminBoardReviewCount();
+
+		int startrow = (page - 1) * 10 + 1;
+		int endrow = startrow + limit - 1;
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		hashmap.put("startrow", startrow);
+		hashmap.put("endrow", endrow);
+		List<BoardReviewVO> AdminBoardReviewlist = service.SelectAdminBoardReviewAllList(hashmap);
+
+		int maxpage = (int) ((double) listcount / limit + 0.95);
+		int startpage = (((int) ((double) page / 10 + 0.9)) - 1) * 10 + 1;
+		int endpage = maxpage;
+
+		if (endpage > startpage + 10 - 1)
+			endpage = startpage + 10 - 1;
+
+		System.out.println("AdminBoardReviewlist" + AdminBoardReviewlist);
+
+		model.addAttribute("page", page);
+		model.addAttribute("listcount", listcount);
+		model.addAttribute("AdminBoardReviewlist", AdminBoardReviewlist);
+		model.addAttribute("maxpage", maxpage);
+		model.addAttribute("startpage", startpage);
+		model.addAttribute("endpage", endpage);
+
+		return "Admin/admin_Board_Review_list";
+
+	}
+
+	// 관리자 댓글 삭제 기능
+
+	@RequestMapping("/AdminBoardReviewListDelete.ad")
+	public String AdminBoardReviewListDeliveryDelete(
+			@RequestParam(value = "review_num", required = true) int review_num, HttpSession session,
+			HttpServletResponse response) throws Exception {
+
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("review_num", Integer.toString(review_num));
+		int res = service.AdminBoardReviewDelete(hashmap);
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		if (res == 1) {
+			writer.write("<script>alert('삭제 성공!!');" + "location.href='./AdminBoardReviewList.ad';</script>");
+		} else {
+			writer.write("<script>alert('삭제 실패!!');" + "location.href='./AdminBoardReviewList.ad';</script>");
+		}
+
+		return null;
+
+	}
+
+	// 모든회원
+	@RequestMapping(value = "/AdminAllAccountList.ad") // �봽濡쒗븘 - 諛곗넚吏� 愿�由� public
+	public String SelectAllAccountList(Model model, @CurrentUser AccountVO account,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+
+		int limit = 10;
+
+		int listcount = service.getAllAccountCount();
+
+		int startrow = (page - 1) * 10 + 1;
+		int endrow = startrow + limit - 1;
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		hashmap.put("startrow", startrow);
+		hashmap.put("endrow", endrow);
+		List<AccountVO> allAccountList = service.getAllAccountList(hashmap);
+		
+		// 총 페이지 수
+		int maxpage = (int) ((double) listcount / limit + 0.95); // 0.95를 더해서 올림 처리
+		// 현재 페이지에 보여줄 시작 페이지 수(1, 11, 21 등...)
+		int startpage = (((int) ((double) page / 10 + 0.9)) - 1) * 10 + 1;
+		// 현재 페이지에 보여줄 마지막 페이지 수(10, 20, 30 등...)
+		int endpage = maxpage;
+
+		if (endpage > startpage + 10 - 1)
+			endpage = startpage + 10 - 1;
+
+		System.out.println("allAccountList" + allAccountList);
+
+		model.addAttribute("page", page);
+		model.addAttribute("listcount", listcount);
+		model.addAttribute("allAccountList", allAccountList);
+		model.addAttribute("maxpage", maxpage);
+		model.addAttribute("startpage", startpage);
+		model.addAttribute("endpage", endpage);
+
+		return "Admin/admin_allAccount_list";
+	}
+	
+	private String imgSave(MultipartFile imgFile, String uploadFolder) {
+		// 저장할 이미지 파일, 저장할 폴더경로
+		// 반드시 원본파일을 만들고 난 뒤 사용해야 함
+
+		System.out.println("imgFile : " + imgFile);
+
+		File uploadPath = getFolder(uploadFolder); // 오늘 날짜로 경로폴더 만들기
+		UUID uuid = UUID.randomUUID(); // 파일이름 중복방지를 위하여 랜덤으로 임의의 값 생성
+		StringBuilder file_name = new StringBuilder(uuid.toString() + "_" + imgFile.getOriginalFilename()); // 파일 이름 만들기
+		File createFile = new File(uploadPath, file_name.toString()); // 저장파일 생성
+
+		try {
+
+			if (checkImageType(createFile)) { // 업로드된 파일이 이미지파일인지 체크
+				imgFile.transferTo(createFile); // 파일 저장
+			}
+
+		} catch (Exception e) {
+
+		}
+
+		return file_name.toString();
+	}
+
+	private File getFolder(String uploadFolder) { // 현재 날짜로 폴더경로 생성
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String str = sdf.format(date);
+		File uploadPath = new File(uploadFolder, str.replace("-", File.separator));
+
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+
+		return uploadPath;
+	}
+	
+	private boolean checkImageType(File file) { // 파일 이미지 체크
+
+		try {
+			String contentType = Files.probeContentType(file.toPath());
+
+			return contentType.startsWith("image");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return false;
 	}
 
 }

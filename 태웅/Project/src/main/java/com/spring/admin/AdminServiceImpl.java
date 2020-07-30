@@ -1,5 +1,6 @@
 package com.spring.admin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -7,8 +8,12 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.boardproduct.BoardProductVO;
+import com.spring.boardproduct.BoardReviewVO;
 import com.spring.buyer.BuyerVO;
 import com.spring.mapper.AdminMapper;
+import com.spring.mapper.BoardProductMapper;
+import com.spring.mapper.BoardReviewMapper;
 import com.spring.mapper.BuyerMapper;
 import com.spring.mapper.SellerMapper;
 import com.spring.seller.SellerVO;
@@ -42,6 +47,19 @@ public class AdminServiceImpl implements AdminService {
 		AdminVO adminAccount = mapper.selectOneById(id);
 		return adminAccount;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//====================== 하나 기석 작업 ==========================================================		
+	
 
 	@Override
 	public int getAllAccountCount() {
@@ -104,15 +122,6 @@ public class AdminServiceImpl implements AdminService {
 
 		return isUpdateDelflagList;
 	}
-	
-	
-	
-	
-	
-	
-	
-
-	// ================= 기석 작업 ===================================================
 
 	// 판매자 회원 목록 페이지
 	@Override
@@ -170,5 +179,76 @@ public class AdminServiceImpl implements AdminService {
 
 		return isUpdateSellerDelflagList;
 
+	}
+
+	// 판매자 게시판 관리 페이지
+
+	@Override
+	public int getAdminBoardProductCount() {
+
+		BoardProductMapper boardproductMapper = sqlSession.getMapper(BoardProductMapper.class);
+
+		int res = boardproductMapper.getAdminBoardProductCount();
+
+		return res;
+
+	}
+
+	@Override
+	public List<BoardProductVO> SelectAdminBoardAllList(HashMap<String, Object> hashmap) {
+		BoardProductMapper boardproductMapper = sqlSession.getMapper(BoardProductMapper.class);
+
+		List<BoardProductVO> AdminBoardlist = boardproductMapper.SelectAdminBoardAllList(hashmap);
+
+		return AdminBoardlist;
+
+	}
+
+	@Override
+	public int AdminBoardProductDelete(HashMap<String, String> hashmap) {
+		BoardProductMapper boardproductMapper = sqlSession.getMapper(BoardProductMapper.class);
+
+		int res = boardproductMapper.isAdminBoardList(hashmap);
+		int board_num = Integer.parseInt(hashmap.get("board_num"));
+		if (res == 1) {
+
+			res = boardproductMapper.AdminBoardProductDelete(board_num);
+		}
+		return res;
+	}
+
+	@Override
+	public int getAdminBoardReviewCount() {
+		BoardReviewMapper boardreviewMapper = sqlSession.getMapper(BoardReviewMapper.class);
+
+		int res = boardreviewMapper.getAdminBoardReviewCount();
+
+		return res;
+	}
+
+	@Override
+	public List<BoardReviewVO> SelectAdminBoardReviewAllList(HashMap<String, Object> hashmap) {
+		BoardReviewMapper boardreviewMapper = sqlSession.getMapper(BoardReviewMapper.class);
+		List<BoardReviewVO> BoardReviewlist = boardreviewMapper.SelectAdminBoardReviewAllList(hashmap);
+		return BoardReviewlist;
+	}
+
+	@Override
+	public int AdminBoardReviewDelete(HashMap<String, String> hashmap) {
+		BoardReviewMapper boardreviewMapper = sqlSession.getMapper(BoardReviewMapper.class);
+
+		int res = boardreviewMapper.isAdminBoardReviewList(hashmap);
+		int review_num = Integer.parseInt(hashmap.get("review_num"));
+		if (res == 1) {
+
+			res = boardreviewMapper.AdminBoardReviewDelete(review_num);
+		}
+		return res;
+	}
+
+	@Override
+	public List<AccountVO> getAllAccountList(HashMap<String, Object> hashmap) {
+		List<AccountVO> list = mapper.getAllAccountList(hashmap);
+		return list;
 	}
 }

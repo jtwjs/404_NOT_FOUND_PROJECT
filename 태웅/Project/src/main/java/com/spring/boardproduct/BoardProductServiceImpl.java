@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.mapper.BoardProductMapper;
+import com.spring.mapper.BoardQnaMapper;
 import com.spring.mapper.BoardReviewMapper;
 import com.spring.mapper.CommentReviewMapper;
 
@@ -238,7 +239,58 @@ public class BoardProductServiceImpl implements BoardProductService {
 	    return result;
     }
 
-
-    
+	  public int insertQna(BoardQnaVO vo) {
+	    	
+	    	BoardQnaMapper boardQnaMapper = sqlSession.getMapper(BoardQnaMapper.class);
+	    	int result = boardQnaMapper.insertQna(vo);
+		
+		    return result;
+	    }
+	    
+	    public int getQnaNum(String board_id) {
+	    	
+	    	BoardQnaMapper boardQnaMapper = sqlSession.getMapper(BoardQnaMapper.class);
+	    	int result = boardQnaMapper.getQnaNum(board_id);
+		
+		    return result;
+	    }
+	    
+	    public ArrayList<BoardQnaVO> getBoardQnaList(String board_id, int qna_status, 
+	    		int answer_status, int page_num, int page_amount, String keyword){
+	    	
+	    	BoardQnaMapper boardQnaMapper = sqlSession.getMapper(BoardQnaMapper.class);
+	    	ArrayList<BoardQnaVO> result = boardQnaMapper.getBoardQnaList(
+	    			board_id, qna_status, answer_status, page_num, page_amount, keyword);
+		
+	    	
+		    return result;
+	    }
+	    
+	    public int getBoardQnaListCount(String board_id, int qna_status, 
+	    		int answer_status, String keyword){
+	    	
+	    	BoardQnaMapper boardQnaMapper = sqlSession.getMapper(BoardQnaMapper.class);
+	    	int result = boardQnaMapper.getBoardQnaListCount(
+	    			board_id, qna_status, answer_status, keyword);
+	    	
+		    return result;
+	    }
+	    
+	    public int getCountQna(String board_id) {
+	    	
+	    	BoardQnaMapper boardQnaMapper = sqlSession.getMapper(BoardQnaMapper.class);
+	    	int result = boardQnaMapper.getCountQna(board_id);
+		
+		    return result;
+	    }
+	    
+	    public int insertQnaRecommend(String board_id, String seller_id, int qna_num, String recommend) {
+	    	
+	    	BoardQnaMapper boardQnaMapper = sqlSession.getMapper(BoardQnaMapper.class);
+	    	int result = boardQnaMapper.insertQnaRecommend(board_id, seller_id, qna_num, recommend);
+		
+		    return result;
+	    }
+	    
     
 }

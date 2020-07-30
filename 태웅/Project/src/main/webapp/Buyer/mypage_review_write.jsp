@@ -154,7 +154,7 @@
     
 
     <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_menu.js'/>"></script>
-    <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_review_write.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/Buyer/date_search.js'/>"></script>
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js'/>" ></script>    

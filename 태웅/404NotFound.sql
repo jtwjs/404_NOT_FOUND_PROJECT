@@ -1,4 +1,5 @@
 /*모든 계정 테이블*/
+select * from member_seller;
 CREATE Table all_account(
 account_id varchar2(16) not null,
 account_pw varchar2(100) not null,
@@ -6,9 +7,13 @@ account_type varchar2(10) not null,
 constraint all_account_pk primary key(account_id)
 );
 select * from list_delivery;
+delete from	list_delivery where num= 1 and default_address='N';
+select * from list_delivery;
+select * from member_buyer where buyer_id = 'test111';
 
 
-select * from member_buyer;
+
+
 create table admin(                 -- 愿�由ъ옄 �뀒�씠釉�
     admin_id varchar2(16) not null, -- 愿�由ъ옄 ID (湲곕낯�궎)
     password varchar2(100) not null, -- 鍮꾨�踰덊샇
@@ -179,6 +184,7 @@ manager_email varchar2(33) not null,  -- �떞�떦�옄 �씠硫붿씪
 manager_name varchar2(16) not null,   -- �떞�떦�옄 �씠由�
 mail_order_report_num varchar2(20) not null,  -- �넻�떊�뙋留ㅼ떊怨좊쾲�샇
 mail_order_report_img varchar2(200) not null,
+mail_order_report_img_path varchar2(100) not null,
 bank_name varchar2(20) not null,
 bank_account varchar2(20) not null,   -- �젙�궛��湲덉엯湲덇퀎醫�
 seller_reg_num number not null,       -- �뙋留ㅼ옄 �벑濡앸쾲�샇
@@ -192,6 +198,8 @@ profile_img_path varchar2(100),
 last_loginDate date default sysdate,
 constraint member_seller_seller_id_pk primary key(seller_id)
 );
+
+select * from board_product;
 select  *from member_seller;
 CREATE SEQUENCE seller_num_seq
     INCREMENT BY 1
@@ -270,7 +278,7 @@ create table board_product(                     -- �뙋留ㅺ쾶�떆�뙋
     constraint board_product_board_id_pk primary key(board_id)
 );
 select * from board_product;
-select * from member_seller;
+select * from all_acount;
 desc wish_list;
 
 create table wish_list(
@@ -283,7 +291,7 @@ create table wish_list(
     thumbnail_thum_path varchar2(100),          -- 썸네일 썸네일 경로
     constraint wish_list_wish_id_pk primary key(wish_id)
 );
-
+select * from member_buyer where buyer_id='test000';
 
 create table product_cart(          -- �옣諛붽뎄�땲
     cart_id varchar2(32) not null,  -- �옣諛붽뎄�땲ID (湲곕낯�궎, �옖�뜡肄붾뱶 �깮�꽦)
@@ -338,20 +346,6 @@ create table comment_review(               -- 상품 리뷰 댓글
         references board_review(review_id) on delete cascade
 );
 
-drop table board_qna;
-create table board_qna(              -- 상품 문의 게시판
-    qna_num number not null,          -- Qna게시판 ID (기본키)
-    board_id number not null,        -- 게시판 ID (board_product테이블 외래키)
-    qna_status number not null,      -- 문의종류
-    anser_status char(1) not null,   -- 답변여부
-    buyer_id varchar2(16) not null,  -- 작성자
-    regiser_date date not null,      -- 등록일자
-    title varchar2(50) not null,     -- 글제목
-    content varchar2(200) not null,  -- 글내용
-    secret_flag char(1) not null,    -- 비밀글 여부
-    constraint board_qna_qna_num_pk primary key(qna_num)
-);
-
 
 drop table order_record;
 create table order_record(                   -- 주문기록
@@ -385,8 +379,31 @@ create table order_record(                   -- 주문기록
 );
 
 
-select * from board_review;
-select * from board_product;
+/*상품문의*/
+drop table board_qna;
+create table board_qna(                -- 상품 문의 게시판
+    qna_num number not null,           -- Qna게시판 ID (기본키)
+    board_id varchar2(32) not null,    -- 게시판 ID (board_product테이블 외래키)
+    seller_id varchar2(32) not null,   -- 판매자 ID
+    buyer_id varchar2(32) not null,    -- 작성자
+    qna_status number not null,        -- 문의종류
+    answer_status number not null,     -- 답변여부
+    register_date date not null,       -- 등록일자
+    title varchar2(200) not null,      -- 글제목
+    content varchar2(500) not null,    -- 글내용
+    recommend varchar2(500),           -- 답변
+    recommend_date date,               -- 답변일
+    secret_flag number not null,       -- 비밀글 여부
+    constraint board_qna_qna_num_pk primary key(qna_num)
+);
+ 
+
+
+----------------------------------------------------------------------
+
+select * from order_record where seller_id = 'qstar9537';
+
+select * from wish_list where buyer_id = 'test000';
 SELECT ROWNUM AS rNum, a.order_num,a.order_id,a.board_id,a.board_title,a.buyer_id,a.amount,a.price,a.status,a.order_date,
         b.thumbnail_thum,b.thumbnail_thum_path
 		FROM (
@@ -401,26 +418,14 @@ SELECT ROWNUM AS rNum, a.order_num,a.order_id,a.board_id,a.board_title,a.buyer_i
 					status,
 					order_date
 			FROM order_record
-            WHERE (order_date between '2020-07-01' AND '2020-07-29') AND buyer_id = 'test01' 
+            WHERE (order_date between '2020-07-01' AND sysdate) AND buyer_id = 'test000' 
 		    ORDER BY order_num DESC
 			) a,
             board_product b
-		WHERE (a.order_num BETWEEN 1 AND 10) AND a.board_id = b.board_id(+)
+		WHERE  a.board_id = b.board_id(+)
         order by rNum DESC;
 
 select * from order_record where buyer_id = 'test01';
 select MAX(ORDER_NUM) from order_record where buyer_id = 'test01';
 
-SELECT ROWNUM as rNum,
-                    order_num,
-				    order_id,
-					board_id,
-					board_title,
-					buyer_id,
-					amount,
-					price,
-					status,
-					order_date
-			FROM order_record
-            WHERE buyer_id = 'test01' 
-		    ORDER BY order_num DESC;
+select * from order_record;

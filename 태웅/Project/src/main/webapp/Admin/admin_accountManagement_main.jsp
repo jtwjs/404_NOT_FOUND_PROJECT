@@ -145,13 +145,25 @@
 								</div>	
 								
 								<div class="allAccount__info">
-									<div>
+									<div onclick="javascript:location.href='AdminAllAccountList.ad'">
 										<h2 class="info--title">모든 회원</h2>
 										<ul class="info">
 											<li><span class="account_count">총 회원 수</span></li>
 											<li class="account-counting">
-												<h2 id="account">${allAccountCount}</h2>
-											</li>										
+												<h2 id="account">
+													<c:choose>
+														<c:when test="${allAccountCount eq 0}" >
+															0
+														</c:when>
+														<c:otherwise>
+															${allAccountCount }
+														</c:otherwise>
+													</c:choose>													
+												</h2>
+											</li>	
+											<li>
+												<a class="account_info-connect" href="AdminAllAccountList.ad">회원 현황 보기</a>
+											</li>									
 										</ul>
 									</div>
 								</div>							

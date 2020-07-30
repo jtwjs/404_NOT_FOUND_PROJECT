@@ -114,10 +114,13 @@
 	width: 15%;
 }
 
+#review_history--table tr {
+	border-bottom: 1px solid #f5f5f5;
+	
+}
 
 #review_history--table td {
 	height: 100px;
-	border-bottom: 1px solid #f5f5f5;
 	padding: 10px;
 }
 

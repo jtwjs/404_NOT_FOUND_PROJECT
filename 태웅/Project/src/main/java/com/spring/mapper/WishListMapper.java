@@ -20,4 +20,5 @@ public interface WishListMapper {
 	public int selectWishListCountOneById(String buyer_id);
 	public int deleteWishList(String wish_id);
 	public int isWishListWriter(HashMap<String, String> hashmap);
+
 }

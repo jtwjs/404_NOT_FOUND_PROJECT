@@ -15,4 +15,5 @@ public interface SellerService {
 	BoardProductVO BoardSelectOneByBoardId(String board_id);
 	public int getOrderRecordOneByIdListCount(String seller_id);
 	public List<OrderRecordVO> getOrderRecordOneByIdList(String seller_id, int startrow, int endrow);
+
 }

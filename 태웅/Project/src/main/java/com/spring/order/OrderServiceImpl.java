@@ -97,8 +97,8 @@ public class OrderServiceImpl implements OrderService {
 
 
 	@Override
-	public ArrayList<OrderRecordVO> selectOrderListById(String buyer_id, int rowStart, int rowEnd) {
-		ArrayList<OrderRecordVO> list = mapper.selectOrderListById(buyer_id,rowStart,rowEnd);
+	public ArrayList<OrderRecordVO> selectOrderListById(String buyer_id, int rowStart, int rowEnd,String startDate, String endDate) {
+		ArrayList<OrderRecordVO> list = mapper.selectOrderListById(buyer_id,rowStart,rowEnd,startDate,endDate);
 		
 		
 		
@@ -111,8 +111,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public int listCount(String buyer_id) {
-		int count = mapper.orderListCountById(buyer_id);
+	public int listCount(String buyer_id,String startDate, String endDate) {
+		int count = mapper.orderListCountById(buyer_id,startDate,endDate);
 		return count;
 	}
 

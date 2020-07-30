@@ -21,6 +21,7 @@ public class SellerVO {
 	private String name;
 	private String orderReportNum;
 	private String orderReportImg;
+	private String orderReportImgPath;
 	private String bankName;
 	private String bankAccountNum;
 	private String profileImg;
@@ -141,6 +142,12 @@ public class SellerVO {
 	public void setOrderReportImg(String orderReportImg) {
 		this.orderReportImg = orderReportImg;
 	}
+	public String getOrderReportImgPath() {
+		return orderReportImgPath;
+	}
+	public void setOrderReportImgPath(String orderReportImgPath) {
+		this.orderReportImgPath = orderReportImgPath;
+	}
 	public String getBankName() {
 		return bankName;
 	}
@@ -210,6 +217,7 @@ public class SellerVO {
 	public void setLoginDate(String loginDate) {
 		this.loginDate = loginDate;
 	}
+
 	
 	
               

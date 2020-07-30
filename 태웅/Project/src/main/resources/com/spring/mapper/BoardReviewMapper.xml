@@ -82,6 +82,38 @@
 	  ORDER BY review_num DESC
 	</select>
 	
+	<!-- 관리자 댓글 관리 페이지 -->
+
+	<select id="getAdminBoardReviewCount" resultType="int">
+		select count(*) from board_review
+	</select>
+
+
+	<select id="SelectAdminBoardReviewAllList" parameterType="HashMap" resultMap="BoardReviewMap">
+		<![CDATA[
+		select review_id,review_num,board_id,buyer_id,order_id,
+						title,content,satisfaction,register_date,review_img_path,review_img_name
+	        	from (select rownum rnum,review_id,review_num,board_id,buyer_id,order_id,
+							title,content,satisfaction,register_date,review_img_path,review_img_name
+            		from (select * from board_review)) 
+	    where rnum>=#{startrow} and rnum<=#{endrow}
+     	]]>
+	</select>
+
+	<!-- 댓글 삭제 -->
+
+	<delete id="AdminBoardReviewDelete" parameterType="int">
+		delete from
+		board_review where review_num=#{review_num}
+	</delete>
+
+	<select id="isAdminBoardReviewList" parameterType="HashMap"
+		resultType="int">
+		select count(*) from board_review where
+		review_num=#{review_num}
+	</select>
+	
+	
 
 	
 

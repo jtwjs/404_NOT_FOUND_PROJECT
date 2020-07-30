@@ -21,8 +21,10 @@ public interface OrderRecordMapper {
     		@Param("board_id")String board_id, @Param("buyer_id")String buyer_id);
     public ArrayList<OrderRecordVO> selectOrderByOrderId(String order_id);
     public ArrayList<OrderRecordVO> selectOrderListById(@Param("buyer_id")String buyer_id,
-    		@Param("rowStart")int rowStart, @Param("rowEnd")int rowEnd);
-    public int orderListCountById(@Param("buyer_id")String buyer_id);
+    		@Param("rowStart")int rowStart, @Param("rowEnd")int rowEnd, @Param("startDate")String startDate, 
+    		@Param("endDate")String endDate);
+    public int orderListCountById(@Param("buyer_id")String buyer_id,@Param("startDate")String startDate, @Param("endDate")String endDate);
     public ArrayList<OrderRecordVO> orderBeingDeliveredListById(String buyer_id);
     public ArrayList<OrderRecordVO> orderListAllById(String buyer_id);
+    
 }

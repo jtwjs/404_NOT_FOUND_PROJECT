@@ -75,17 +75,28 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 											</div>
 											<table class="setting_form">
 												<thead>
-													<tr class="delflag--cont">
+													<tr class="buyerdelflag--cont">
 														<th class="TH--NO">NO.</th>
 														<th class="TH--id">아이디</th>
 														<th class="TH--name">이름</th>
-														<th class="TH-tel">연락처</th>
-														<th class="TH-joindate">가입일</th>
-														<th class="TH-logindate">마지막 접속</th>
-														<th class="TH-delflag">활성상태</th>
+														<th class="TH--tel">연락처</th>
+														<th class="TH--joindate">가입일</th>
+														<th class="TH--logindate">마지막 접속</th>
+														<th class="TH--delflag">활성상태</th>
 													</tr>
 												</thead>
 												<tbody>
+													<%
+														if (Delflaglist.size() == 0) {
+													%>
+													<tr>
+														<td colspan="7"><br />
+														<br /> 비활성화된 회원이 없습니다. <br /><br />
+														<br /></td>
+													</tr>
+													<%
+														}
+													%>
 													<%
 														int num = listcount - ((nowpage - 1) * 10);
 													for (int i = 0; i < Delflaglist.size(); i++) {
@@ -97,10 +108,10 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 															onclick="javascript:location.href='AdminBuyerDelflagListView.ad?id=<%=Del.getId()%>'"><%=Del.getId()%></td>
 														<td class="TH--name1"
 															onclick="javascript:location.href='AdminBuyerDelflagListView.ad?id=<%=Del.getId()%>'"><%=Del.getName()%></td>
-														<td class="TH-tel1"><%=Del.getTel()%></td>
-														<td class="TH-joindate1"><%=Del.getJoinDate()%></td>
-														<td class="TH-logindate1"><%=Del.getLoginDate()%></td>
-														<td class="TH-del_flag1">
+														<td class="TH--tel1"><%=Del.getTel()%></td>
+														<td class="TH--joindate1"><%=Del.getJoinDate()%></td>
+														<td class="TH--logindate1"><%=Del.getLoginDate()%></td>
+														<td class="TH--del_flag1">
 															<% 
 																if(Del.getDelFlag() == ('N')) {
 															%>
@@ -162,8 +173,6 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 	</main>
 
 
-	<script type="text/javascript"
-		src="<c:url value='/resources/js/Admin/admin_menu.js?after'/>"></script>
 	<!-- footer,js -->
 	<jsp:include page="../footer.jsp" flush="false" />
 	<script type="text/javascript"

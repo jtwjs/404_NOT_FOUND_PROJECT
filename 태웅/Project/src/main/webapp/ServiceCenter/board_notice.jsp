@@ -34,7 +34,7 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>"
 	rel="stylesheet" />
 <link
-	href="<c:url value='/resources/css/ServiceCenter/serviceCenter_board.css'/>"
+	href="<c:url value='/resources/css/ServiceCenter/serviceCenter_board_notice.css'/>"
 	rel="stylesheet" />
 <title>공지사항</title>
 </head>
@@ -71,7 +71,7 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 						</aside>
 						<article id="center-list">
 							<h2 id="center-list__title">공지사항</h2>
-							<td align="right"><font size=2>글 개수 : ${listcount }</font></td>
+							<font size=2>글 개수 : ${listcount }</font>
 							<table id="center-list__table">
 								<thead>
 									<tr>
@@ -83,6 +83,17 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 								</thead>
 								<tbody>
 									<%
+											if(noticelist.size() == 0) {
+									    %>
+										<tr>
+											<td colspan="4">
+												<br /><br />
+												등록된 게시물이 없습니다.
+												<br /><br /><br />
+											</td>
+										</tr>
+										<%} %>
+									<%
 										int num = listcount - ((nowpage - 1) * 10);
 									for (int i = 0; i < noticelist.size(); i++) {
 										BoardNoticeVO bn = (BoardNoticeVO) noticelist.get(i);
@@ -90,7 +101,7 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 									<tr>
 										<td align="center"><%=num%></td>
 
-										<td align="light"><a href="./boardnoticedetail.sc?num=<%=bn.getNum()%>"><%=bn.getTitle() %></a></td>										
+										<td align="left"><a href="./boardnoticedetail.sc?num=<%=bn.getNum()%>"><%=bn.getTitle() %></a></td>										
 										<td align="center"><%=bn.getRegister_date() %></td>
 								        <td align="center"><%=bn.getHit() %></td>								       
 									</tr>
@@ -108,7 +119,7 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 
 
 									<tr align=center height=20>
-										<td  align=center colspan=7 style="font-family: Tahoma; font-size: 10pt;">
+										<td class="page" align=center colspan=7 style="font-family: Tahoma; font-size: 10pt;">
 											<%
 												if (nowpage<=1) {
 											%> [이전]&nbsp; <%

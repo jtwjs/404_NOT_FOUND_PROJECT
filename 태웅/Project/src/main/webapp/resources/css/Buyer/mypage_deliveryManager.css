@@ -133,11 +133,11 @@
 }
 
 .listdelivery_success, .listdelivery_modify {
-	background-color: #c0c0c0;
+	background-color: #408080;
 }
 
 .listdelivery_warning {
-	background-color: #408080;
+	background-color: #c0c0c0;
 }
 
 .listdelivery_main {

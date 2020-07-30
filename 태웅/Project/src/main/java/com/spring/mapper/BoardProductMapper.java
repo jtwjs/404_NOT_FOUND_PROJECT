@@ -1,6 +1,8 @@
 package com.spring.mapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -35,4 +37,14 @@ public interface BoardProductMapper {
     		@Param("maxCategory_local")int maxCategory_local, @Param("min_price")int min_price, 
     		@Param("max_price")int max_price, @Param("sort_list")int sort_list, 
     		@Param("page_num")int page_num, @Param("page_amount")int page_amount);
+    //관리자 게시판 관리 페이지     
+    public int getAdminBoardProductCount();
+    public List<BoardProductVO> SelectAdminBoardAllList(HashMap<String, Object> hashmap);
+    
+    //삭제기능
+    public int AdminBoardProductDelete(int board_num); 	
+    public int isAdminBoardList(HashMap<String, String> hashmap);
+    
+    
+    
 }

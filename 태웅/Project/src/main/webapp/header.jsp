@@ -39,12 +39,19 @@
               </sec:authorize>
 		</sec:authorize>
         <sec:authorize access = "isAuthenticated()">      
+     	   	  <sec:authorize access="hasRole('ROLE_ADMIN')">
+              <li><a href="#" onclick="javascript:location.href='BoardManagement.ad'">게시물관리</a></li>
+              </sec:authorize>
+              <sec:authorize access="hasRole('ROLE_BUYER')">
               <li><a href="#" id="order_delivery">주문배송</a></li>
+              </sec:authorize>
         </sec:authorize>
         <sec:authorize access = "isAnonymous()">
         	  <li><a href="#" onclick="javascript:location.href='non-OrderResearch.or'">주문배송</a></li>
         </sec:authorize>      
-              <li><a href="#" onclick="javascript:location.href='CartView.or'">장바구니</a></li>
+       	<sec:authorize access="hasRole('ROLE_BUYER')">
+       		  <li><a href="#" onclick="javascript:location.href='CartView.or'">장바구니</a></li>
+        </sec:authorize>
               <li><a href="#" onclick="javascript:location.href='BoardNotice.sc'">고객센터</a></li>
             </ul>
           </div>

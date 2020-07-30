@@ -29,12 +29,29 @@
 	  	SELECT count(*) FROM all_account WHERE account_id = #{id}
 	  </select>
 	  
+	  
+	  
+	  
+	  
+	  
+	  
+<!-- ======================= 하나 기석 작업  ======================================================== -->
+	  
 	  <select id = "selectAccountById" resultMap = "accountResultMap">
 	  	SELECT * FROM all_account WHERE account_id = #{id}
 	  </select>
 	  	  
 	  <select id="getAllAccountCount" resultType="int">
 	  	select count(*) from all_account
+	  </select>
+	  
+	  <select id="getAllAccountList" parameterType="HashMap" resultMap = "accountResultMap">
+	  	<![CDATA[
+	  		select account_id, account_pw, account_type
+	  			from (select rownum rnum, account_id, account_pw, account_type
+	  				from (select * from all_account order by rownum desc))
+	  		where rnum>=#{startrow} and rnum<=#{endrow}
+	  	]]> 
 	  </select>
 	  
 	 
