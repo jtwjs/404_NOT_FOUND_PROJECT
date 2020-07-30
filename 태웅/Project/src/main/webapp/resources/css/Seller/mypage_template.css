@@ -179,6 +179,29 @@ dd {
   content: "";
 }
 
+
+#item1.selected::before,
+#item2.selected::before,
+#item3.selected::before,
+#item4.selected::before,
+#item5.selected::before,
+#item6.selected::before,
+#item7.selected::before,
+#item8.selected::before,
+#item9.selected::before,
+#item10.selected::before{
+	position: absolute;
+  top: 5px;
+  left: 9px;
+  width: 25px;
+  height: 25px;
+  background-image: url(../../Images/Seller/arrow_right_24px_rounded.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  content: "";
+}
+
 #side__menu > ul > li > ul a {
   display: block;
   padding: 0 10px;

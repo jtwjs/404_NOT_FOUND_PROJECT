@@ -1193,7 +1193,6 @@ function qna_regist(){
 		return false;
 	}
 	
-	
 	if(content.value == ""){
 		modal_warning("문의내용을 입력해주세요");
 		return false;
@@ -1517,8 +1516,6 @@ function qnaListPageMove(page_num){
 	    		
 	    	}
 	    	
-	    	
-	    	searchCount(board_id, qna_status, answer_status, keyword);
 
 	    },
 	    error: function(){
@@ -1548,7 +1545,7 @@ function searchCount(board_id, qna_status, answer_status, keyword){
 	    	pageSet.textContent 
 	    	    = " / " + String(parseInt(Math.ceil(parseFloat(data) / 10.0))) + " Page";
 	    	pageText.value = 1;
-	    	
+	    	qnaRePaging(1);
 	    },
 	    error: function(){
 	    	
@@ -1560,7 +1557,7 @@ function pageBtnMove(thisBtn){
 	
 	$('#qna__table--now-page').removeAttr("disabled");
 	$('#qna__table--now-page').attr(
-			"onClick", "qnaListPageMove(this, '"+ user_id + "')");
+			"onClick", "pageBtnMove(this)");
 	$('#qna__table--now-page').attr("class", "review__table--page-move");
 	$('#qna__table--now-page').removeAttr("id");
 	
@@ -1572,14 +1569,13 @@ function pageBtnMove(thisBtn){
 	qnaListPageMove(thisBtn.value);
 }
 
-function rePaging(pageNum, pageList){
+function qnaRePaging(pageNum){
 	
 	// 페이지 메이킹
 	var page_num = pageNum;
 	var page_amount = 10;  // 보여줄 리스트 갯수 10 고정
 	var total = Number(document.querySelector("#qna__search--result > strong").textContent);
 	// 이미 계산되어 적용된 내용
-	
 	var endPage = parseInt(Math.ceil(page_num / 10.0)) * 10;
 	var startPage = endPage - 9;
 	
@@ -1593,13 +1589,8 @@ function rePaging(pageNum, pageList){
 	var next = endPage < calcEnd;
 	// ==================================================================================
 	
-	var pageBtnNode = "";
+	var pageBtnNode = document.getElementById("qna__page--btn");
 	
-	if(pageList == "review"){
-		
-	}else if(pageList == "qna"){
-		pageBtnNode = document.getElementById("qna__page--btn");
-	}
 
 	
 	while (pageBtnNode.hasChildNodes()) { 
@@ -1610,7 +1601,7 @@ function rePaging(pageNum, pageList){
 	if(prev == true){
 		pageBtnNode.insertAdjacentHTML("beforeend", 
 		    "<input type='button' value='이전' class='page__abled--prev-btn'" +
-		    "    onclick='rePaging(" + (Number(page_num) - 10) + ", 'qna');' />");
+		    "    onclick='qnaRePaging(" + (Number(page_num) - 10) + ");' />");
 	}else{
 		pageBtnNode.insertAdjacentHTML("beforeend", 
 			"<input type='button' value='이전' disabled class='page__disabled--prev-btn'/>");
@@ -1623,7 +1614,8 @@ function rePaging(pageNum, pageList){
 		        "<input type='button' value='" + i +"' disabled id='qna__table--now-page' />");
 		}else{
 			pageBtnNode.insertAdjacentHTML("beforeend", 
-			    "<input type='button' value='"+ i + "' class='qna__table--page-move' />");
+			    "<input type='button' value='"+ i + "' class='qna__table--page-move' " +
+			    "    onclick='pageBtnMove(this)' />");
 		}
 		
 	}
@@ -1631,7 +1623,7 @@ function rePaging(pageNum, pageList){
 	if(next == true){
 		pageBtnNode.insertAdjacentHTML("beforeend", 
 				"<input type='button' value='다음' disabled class='page__abled--prev-btn' " + 
-				"    onclick='rePaging(" + (Number(page_num) + 10) + ", 'qna');' />");
+				"    onclick='qnaRePaging(" + (Number(page_num) + 10) + ");' />");
 	}else{
 		pageBtnNode.insertAdjacentHTML("beforeend", 
 				"<input type='button' value='다음' disabled class='page__disabled--prev-btn'/>");
@@ -1651,7 +1643,7 @@ function qnaTextPage(thisText, max){
 		
 		if(thisText.value > Number(max)){
 			thisText.value = Number(max);
-		}else if(thisText.value < 1){
+		}else if(thisText.value < Number(1)){
 			thisText.value = 1;
 		}
 		
@@ -1661,11 +1653,11 @@ function qnaTextPage(thisText, max){
 
 function qnaTextPageMove(thisPage){
 	
-	if(thisPage.value == "" || thisPage.value < 1){
+	if(thisPage.value == "" || Number(thisPage.value) < Number(1)){
 		thisPage.value = 1;
 	}else{
 		qnaListPageMove(thisPage.value);
-		rePaging(thisPage.value, "qna");
+		qnaRePaging(thisPage.value);
 	}
 	
 }
@@ -1718,7 +1710,12 @@ function qnaDropBoxSearch(thisBtn, val){
 	var inputTag = thisBtn.parentNode.parentNode.getElementsByTagName("input")[0];
 
 	inputTag.value = val;
-
-	qnaListPageMove(1);
 	
+    var board_id = document.getElementById('board_id').value;
+    var qna_status = document.getElementById("qna__drop-box--qna").value;
+    var answer_status = document.getElementById("qna__drop-box--answer").value;
+	var keyword = document.getElementById("customer-qna__search--text-save").value;
+	
+	qnaListPageMove(1);
+	searchCount(board_id, qna_status, answer_status, keyword);
 }

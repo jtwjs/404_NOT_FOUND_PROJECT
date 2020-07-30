@@ -63,6 +63,8 @@ create table member_buyer(          -- 援щℓ�옄 �뀒�씠釉�
 );
 
 
+
+
 select * from member_buyer;
 /*buyer_num Sequence*/
 CREATE SEQUENCE buyer_num_seq
@@ -396,8 +398,8 @@ create table board_qna(                -- 상품 문의 게시판
     secret_flag number not null,       -- 비밀글 여부
     constraint board_qna_qna_num_pk primary key(qna_num)
 );
- 
-
+ select * from board_qna;
+select * from member_buyer;
 
 ----------------------------------------------------------------------
 

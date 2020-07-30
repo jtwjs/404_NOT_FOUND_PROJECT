@@ -985,7 +985,7 @@
                             <div id="qna__page--btn">
                             <%if(qnaPage.isPrev()){ %>    
                                 <input type="button" value="이전" class="page__abled--prev-btn" 
-                                    onclick="rePaging(1, 'qna');" />
+                                    onclick="qnaRePaging(1);" />
                             <%}else{ %>
                                 <input type="button" value="이전" disabled class="page__disabled--prev-btn"/>
                             <%}
@@ -995,14 +995,15 @@
                                 <input type="button" value="<%=i%>" id="qna__table--now-page" />
                                 
                                 <%}else{ %>
-                                <input type="button" value="<%=i%>" class="qna__table--page-move" />
+                                <input type="button" value="<%=i%>" class="qna__table--page-move" 
+                                    onclick="pageBtnMove(this);"/>
                                 <%} 
                                 
                             }%>
                             
                             <%if(qnaPage.isNext()){ %>
                                 <input type="button" value="다음" class="page__abled--prev-btn" 
-                                    onclick="rePaging(11, 'qna');" />
+                                    onclick="qnaRePaging(11);" />
                             <%}else{ %>
                                 <input type="button" value="다음" disabled class="page__disabled--prev-btn"/>
                             <%} %>

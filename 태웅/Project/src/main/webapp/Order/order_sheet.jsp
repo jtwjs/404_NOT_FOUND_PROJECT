@@ -27,7 +27,17 @@ for (int i = 0; i < vo_list.size(); i++) {
 	totDeliveryPrice += vo_list.get(i).getDelivery_price();
 }
 totPrice = totProductPrice + totDeliveryPrice;
+
+String buyer_id = null;
+if((String)request.getAttribute("buyer_id") != null){
+	buyer_id = (String)request.getAttribute("buyer_id");
+	System.out.println("test : " + buyer_id);
+}else{
+	System.out.println("test : ");
+}
+
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,9 +97,8 @@ totPrice = totProductPrice + totDeliveryPrice;
 
 <!-- onsubmit="return orderSheetCheck();" -->
 				<!-- 주문상품 목록 --> <!-- action="OrderComplete.or" -->
-				<form id="orerSheetForm" method="post" action="OrderComplete.or"
-					>
-					<input type="hidden" name="buyer_id" value="${buyer_id}"/>
+				<form id="orerSheetForm" method="post" action="OrderComplete.or">
+					<input type="hidden" name="buyer_id" value="${buyer_id}" id="buyer_id"/>
 					
 					<div class="col-xs-12" id="order__list--check">
 						<div class="order__title">
@@ -231,7 +240,9 @@ totPrice = totProductPrice + totDeliveryPrice;
 											<input type="text" id="sample4_postcode" name="addrNum"
 												maxlength="5" />
 										</sec:authorize>
+										
 										<input type="hidden" value="${user.addrNum}" id="userAddrNum" name="order_postalCode"/>
+										
 										<input type="button" value="우편번호 검색"
 											class="order__delivery--search-btn" id="zip-code-btn"
 											onclick="sample4_execDaumPostcode()" />
@@ -278,9 +289,8 @@ totPrice = totProductPrice + totDeliveryPrice;
 										<span class="order__info--check">*</span> <span>받는 분</span>
 									</div>
 									<div class="order__delivery--info-body">
-										<input type="text" id="recipient__text--name"
-											name="order_name" maxlength="16" /> <input type="checkbox"
-											onclick="data_check();" class="data-checkBox" /> 주문자 정보와 동일
+										<input type="text" id="recipient__text--name" name="order_name" maxlength="16" /> 
+										<input type="checkbox" onclick="data_check();" class="data-checkBox" /> 주문자 정보와 동일
 									</div>
 								</div>
 
@@ -351,11 +361,12 @@ totPrice = totProductPrice + totDeliveryPrice;
 									<div class="order__delivery--info-body">
                            				비회원인 경우에는 적립혜택이 없습니다
                            			</div>
+                           			<input type="text" id="expected_sp" name="expected_sp" value ="0" readonly />
                            			<input type="hidden" value="Y" name="member_flag">
                          			</sec:authorize>
 									<sec:authorize access="isAuthenticated()">
 									<div class="expected_reserve">
-										<input type="text" id="expected_sp" name="expected_sp" readonly />
+										<input type="text" id="expected_sp" name="expected_sp" value ="0" readonly />
 									</div>
 									<input type="hidden" value="N" name="member_flag">
 									</sec:authorize>

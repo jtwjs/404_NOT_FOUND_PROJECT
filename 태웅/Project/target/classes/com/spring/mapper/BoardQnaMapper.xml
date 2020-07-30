@@ -46,6 +46,7 @@
 	                                    SELECT * FROM board_qna 
 	                                    WHERE answer_status = #{answer_status} 
 	                                    AND qna_status = #{qna_status} 
+	                                    AND board_id = #{board_id} 
 	                                    ORDER BY qna_num DESC) B)
 	                            WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) 
 	                            AND (#{page_num} * #{page_amount})
@@ -57,6 +58,7 @@
 	                                    WHERE answer_status = #{answer_status} 
 	                                    AND title LIKE '%'||#{keyword}||'%' 
 	                                    AND qna_status = #{qna_status} 
+	                                    AND board_id = #{board_id} 
 	                                    ORDER BY qna_num DESC) B)
 	                            WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) 
 	                            AND (#{page_num} * #{page_amount})
@@ -70,6 +72,7 @@
 	                                SELECT ROWNUM AS RNUM, B.* FROM (
 	                                    SELECT * FROM board_qna 
 	                                    WHERE answer_status = #{answer_status} 
+	                                    AND board_id = #{board_id} 
 	                                    ORDER BY qna_num DESC) B)
 	                            WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) 
 	                            AND (#{page_num} * #{page_amount})
@@ -80,6 +83,7 @@
 	                                    SELECT * FROM board_qna 
 	                                    WHERE answer_status = #{answer_status} 
 	                                    AND title LIKE '%'||#{keyword}||'%' 
+	                                    AND board_id = #{board_id} 
 	                                    ORDER BY qna_num DESC) B)
 	                            WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) 
 	                            AND (#{page_num} * #{page_amount})
@@ -97,6 +101,7 @@
 	                                SELECT ROWNUM AS RNUM, B.* FROM (
 	                                    SELECT * FROM board_qna 
 	                                    WHERE qna_status = #{qna_status} 
+	                                    AND board_id = #{board_id} 
 	                                    ORDER BY qna_num DESC) B)
 	                            WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) 
 	                            AND (#{page_num} * #{page_amount})
@@ -107,6 +112,7 @@
 	                                    SELECT * FROM board_qna 
 	                                    WHERE title LIKE '%'||#{keyword}||'%' 
 	                                    AND qna_status = #{qna_status} 
+	                                    AND board_id = #{board_id} 
 	                                    ORDER BY qna_num DESC) B)
 	                            WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) 
 	                            AND (#{page_num} * #{page_amount})
@@ -119,6 +125,7 @@
 	                            SELECT * FROM (
 	                                SELECT ROWNUM AS RNUM, B.* FROM (
 	                                    SELECT * FROM board_qna 
+	                                    WHERE board_id = #{board_id} 
 	                                    ORDER BY qna_num DESC) B)
 	                            WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) 
 	                            AND (#{page_num} * #{page_amount})
@@ -128,6 +135,7 @@
 	                                SELECT ROWNUM AS RNUM, B.* FROM (
 	                                    SELECT * FROM board_qna 
 	                                    WHERE title LIKE '%'||#{keyword}||'%' 
+	                                    AND board_id = #{board_id} 
 	                                    ORDER BY qna_num DESC) B)
 	                            WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) 
 	                            AND (#{page_num} * #{page_amount})
@@ -149,12 +157,14 @@
                             SELECT NVL(COUNT(*), 0) FROM board_qna 
                                 WHERE answer_status = #{answer_status} 
                                 AND title LIKE '%'||#{keyword}||'%' 
-                                AND qna_status = #{qna_status}
+                                AND qna_status = #{qna_status} 
+                                AND board_id = #{board_id}
                         </when>
                         <otherwise>
                             SELECT NVL(COUNT(*), 0) FROM board_qna 
                                 WHERE answer_status = #{answer_status} 
-                                AND qna_status = #{qna_status}
+                                AND qna_status = #{qna_status} 
+                                AND board_id = #{board_id}
                         </otherwise>
                     </choose>
                 </when>
@@ -163,11 +173,13 @@
                         <when test='keyword != null and keyword != ""'>
                             SELECT NVL(COUNT(*), 0) FROM board_qna 
                                 WHERE answer_status = #{answer_status}
-                                AND title LIKE '%'||#{keyword}||'%'
+                                AND title LIKE '%'||#{keyword}||'%' 
+                                AND board_id = #{board_id}
                         </when>
                         <otherwise>
                             SELECT NVL(COUNT(*), 0) FROM board_qna 
-                                WHERE answer_status = #{answer_status}
+                                WHERE answer_status = #{answer_status} 
+                                AND board_id = #{board_id}
                         </otherwise>
                     </choose>
                 </otherwise>
@@ -180,11 +192,13 @@
                         <when test='keyword != null and keyword != ""'>
                             SELECT NVL(COUNT(*), 0) FROM board_qna 
                                 WHERE title LIKE '%'||#{keyword}||'%' 
-                                AND qna_status = #{qna_status}
+                                AND qna_status = #{qna_status} 
+                                AND board_id = #{board_id}
                         </when>
                         <otherwise>
                             SELECT NVL(COUNT(*), 0) FROM board_qna 
-                                WHERE qna_status = #{qna_status}
+                                WHERE qna_status = #{qna_status} 
+                                AND board_id = #{board_id}
                         </otherwise>
                     </choose>
                 </when>
@@ -192,10 +206,12 @@
                     <choose>
                         <when test='keyword != null and keyword != ""'>
                             SELECT NVL(COUNT(*), 0) FROM board_qna 
-                                WHERE title LIKE '%'||#{keyword}||'%'
+                                WHERE title LIKE '%'||#{keyword}||'%' 
+                                AND board_id = #{board_id}
                         </when>
                         <otherwise>
-                            SELECT NVL(COUNT(*), 0) FROM board_qna
+                            SELECT NVL(COUNT(*), 0) FROM board_qna 
+                            WHERE board_id = #{board_id}
                         </otherwise>
                     </choose>
                 </otherwise>

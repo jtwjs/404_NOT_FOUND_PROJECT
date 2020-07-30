@@ -274,14 +274,21 @@ public class OrderController {
     
     @PostMapping(value = "/OrderSheet.or")  // 주문서  
     public String orderSheet(Model model, String[] board_id, int[] quantity, String buyer_id) {
-    	
+    	System.out.println("buyer_idㅡㅡ"+buyer_id);
     	for(int i=0; i<board_id.length; i++) {
     		System.out.println(i+"-"+board_id[i]);
     	}
     	for(int i=0; i<quantity.length;i++) {
     		System.out.println(i+"-"+quantity[i]);
     	}
-    	if(buyer_id != null) {
+    	
+    	String str = "";
+    	
+    	if(buyer_id.length() > 10) {
+    		str = buyer_id.substring(0,9);
+    	}
+    	
+    	if(!str.equals("nonMember")) {
     	System.out.println(buyer_id);
     	BuyerVO buyerAccount = buyerService.selectOneById(buyer_id);
     	int index1 = buyerAccount.getAddress().indexOf("+");
@@ -300,8 +307,9 @@ public class OrderController {
 			e.printStackTrace();
 		}
     	}
+    	
     	model.addAttribute("user",buyerAccount);
-    	model.addAttribute("buyer_id", buyer_id);
+    	
     	}
     	ArrayList<BoardProductVO> vo_list = new ArrayList<BoardProductVO>();
     	ArrayList<Integer> quantity_list = new ArrayList<Integer>();
@@ -311,6 +319,8 @@ public class OrderController {
     		vo_list.add(boardProductService.getBoardProductVO(board_id[i]));
     	}
     	
+    	
+    	model.addAttribute("buyer_id", buyer_id);
     	model.addAttribute("vo_list" , vo_list);
     	model.addAttribute("quantity_list" , quantity_list);
     	return "Order/order_sheet";
@@ -321,14 +331,15 @@ public class OrderController {
     @PostMapping(value = "/OrderComplete.or")  // 주문완료
     public String orderComplete(String[] board_id, String[] board_title, String[] seller_id,
     		int[] save_point, int[] amount, int[] price, int[] delivery_price, int tot_price, String status, 
-    		String buyer_name, String buyer_phone, String buyer_email, String order_postalCode, 
+    		String buyer_name, String buyer_phone, String buyer_email, String addrNum, 
     		String order_address, String order_name, String order_phone, String order_demand, 
     		String order_delivery, String order_payment, String order_account, String buyer_id,
     		int reserveUse,int expected_sp,@RequestParam(value ="payment-method")String pay_method, String member_flag
     		,Model model) {
-    	System.out.println("1");
-    	
+    	System.out.println("expected"+expected_sp);
+    	System.out.println("buyer_id"+buyer_id);
     	OrderRecordVO vo = new OrderRecordVO();
+    	
     	
     	// 리스트 수 (배열)과 관계 없이 변하지 않는 값 저장
     	// 결제일은 데이터베이스에서 sysdate로 처리, 주문번호는 데이터베이스에서 selectKey 처리
@@ -339,7 +350,7 @@ public class OrderController {
 		vo.setBuyer_name(buyer_name);
 		vo.setBuyer_phone(buyer_phone);
 		vo.setBuyer_email(buyer_email);
-		vo.setOrder_postalCode(order_postalCode);
+		vo.setOrder_postalCode(addrNum);
 		vo.setOrder_address(order_address);
 		vo.setOrder_name(order_name);
 		vo.setOrder_phone(order_phone);
