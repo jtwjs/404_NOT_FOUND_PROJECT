@@ -124,6 +124,8 @@
   background-image: url(../../Images/Buyer/down_arrow_w.png);
 }
 
+
+
 #menu-profile--item,
 #menu-myShopping--item,
 #menu-qna--item {
@@ -148,6 +150,27 @@
 
 #side__menu dd > a:hover::before {
   position: absolute;
+  top: 5px;
+  left: 9px;
+  width: 25px;
+  height: 25px;
+  background-image: url(../../Images/Buyer/arrow_right_24px_rounded.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  content: "";
+}
+
+#item1.selected::before,
+#item2.selected::before,
+#item3.selected::before,
+#item4.selected::before,
+#item5.selected::before,
+#item6.selected::before,
+#item7.selected::before,
+#item8.selected::before,
+#item9.selected::before {
+	position: absolute;
   top: 5px;
   left: 9px;
   width: 25px;

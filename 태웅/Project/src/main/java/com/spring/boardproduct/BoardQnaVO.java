@@ -22,12 +22,13 @@ create table board_qna(                -- 상품 문의 게시판
  */
 
 public class BoardQnaVO {         // 상품문의게시판
-
+	private String qna_id;
     private int qna_num;          // Qna게시판 ID (기본키)
     private String board_id;      // 게시판 ID (board_product테이블 외래키)
     private String seller_id;     // 판매자 ID
     private String buyer_id;      // 작성자
     private int qna_status;       // 문의 종류
+    private String str_qna_status;
     private int answer_status;    // 답변여부
     private Date register_date;   // 등록일자
     private String title;         // 글제목
@@ -35,7 +36,20 @@ public class BoardQnaVO {         // 상품문의게시판
     private String recommend;     // 답변
     private Date recommend_date;  // 답변일
     private int secret_flag;      // 비밀글 여부
+    private String process_status;
+    private String thumbnail_thum;
+    private String thumbnail_thum_path;
+    private String product_country;
+    private String product_name;
+    private String board_title;
     
+    
+	public String getQna_id() {
+		return qna_id;
+	}
+	public void setQna_id(String qna_id) {
+		this.qna_id = qna_id;
+	}
 	public int getQna_num() {
 		return qna_num;
 	}
@@ -65,6 +79,14 @@ public class BoardQnaVO {         // 상품문의게시판
 	}
 	public void setQna_status(int qna_status) {
 		this.qna_status = qna_status;
+	}
+	
+	
+	public String getStr_qna_status() {
+		return str_qna_status;
+	}
+	public void setStr_qna_status(String str_qna_status) {
+		this.str_qna_status = str_qna_status;
 	}
 	public int getAnswer_status() {
 		return answer_status;
@@ -108,7 +130,44 @@ public class BoardQnaVO {         // 상품문의게시판
 	public void setSecret_flag(int secret_flag) {
 		this.secret_flag = secret_flag;
 	}
+	public String getProcess_status() {
+		return process_status;
+	}
+	public void setProcess_status(String process_status) {
+		this.process_status = process_status;
+	}
+	public String getThumbnail_thum() {
+		return thumbnail_thum;
+	}
+	public void setThumbnail_thum(String thumbnail_thum) {
+		this.thumbnail_thum = thumbnail_thum;
+	}
+	public String getThumbnail_thum_path() {
+		return thumbnail_thum_path;
+	}
+	public void setThumbnail_thum_path(String thumbnail_thum_path) {
+		this.thumbnail_thum_path = thumbnail_thum_path;
+	}
+	public String getProduct_country() {
+		return product_country;
+	}
+	public void setProduct_country(String product_country) {
+		this.product_country = product_country;
+	}
+	public String getProduct_name() {
+		return product_name;
+	}
+	public void setProduct_name(String prodcut_name) {
+		this.product_name = prodcut_name;
+	}
+	public String getBoard_title() {
+		return board_title;
+	}
+	public void setBoard_title(String board_title) {
+		this.board_title = board_title;
+	}
     
+	
     
 	
 }

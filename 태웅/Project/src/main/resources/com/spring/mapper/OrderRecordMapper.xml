@@ -97,7 +97,7 @@
 	
 	<select id="orderListAllById" resultType="com.spring.order.OrderRecordVO" >
 		SELECT * FROM order_record
-		WHERE buyer_id = #{buyer_id}
+		WHERE buyer_id = #{buyer_id} ORDER BY order_num
 	</select>
 	
 	<select id="getOrderRecordOneByIdListCount" resultType="int" parameterType="String">
@@ -116,6 +116,7 @@
 	        where rnum>=#{startrow} and rnum<=#{endrow}
      	]]>
 	</select>
+	
 	
 
 		

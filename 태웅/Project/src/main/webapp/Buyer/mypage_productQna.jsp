@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Calendar" %>
 <%
@@ -87,29 +89,93 @@
                                 <table class="transaction__detail--table">
                                     <thead>
                                         <tr>
-                                            <th class="qna-number">번호</th>                
-                                            <th class="qna-title">제목</th>                
-                                            <th class="qna-date">등록일</th>                
-                                            <th class="qna-hit">조회수</th>                
-                                            <th class="qna-secret">비밀글</th>                
+                                            <th class="qna-item_info">상품정보</th>                
+                                            <th class="qna-content">내용</th>                
+                                            <th class="qna-type">문의유형</th>                
+                                            <th class="qna-regDate">작성일</th>                
+                                            <th class="qna-status">처리상태</th>                
                                         </tr>   
                                     </thead>
                                     <tbody>
+                                    <c:if test="${fn:length(qnaList) == 0}">
                                         <tr>
                                             <td class="non-post" colspan="5">
                                                등록한 문의내용이 없습니다.
                                             </td>
                                         </tr>
+                                        
                                         <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                         </tr>
+                                     </c:if>
+                                     <c:forEach var="list" items="${qnaList}" varStatus="status" >
+                                     <tr class="qna">
+                                     	<td class="item_info" onclick="location.href='BoardProductView.bo?board_id=${list.board_id}'">
+                                     		<img src="display?path=${list.thumbnail_thum_path}&name=${list.thumbnail_thum}" alt="상품 이미지" >
+                                     		
+                                     		<p>${list.board_title}</p>
+                                   		</td>
+                                     	<td class="qna_info" onclick="active(this, '${status.index}');">${list.title }</td>
+                                     	<td>${list.str_qna_status }</td>
+                                     	<td>
+                                   			<fmt:formatDate value="${list.register_date}" pattern="yyyy.MM.dd"/>
+                                   		</td>
+                                   		<c:if test="${list.process_status eq '답변예정' }" >
+                                   		<td class="expected">${list.process_status}</td>
+                                   		</c:if>
+                                   		<c:if test="${list.process_status eq '답변완료' }">
+                                   		<td class="complete">${list.process_status}</td>
+                                   		</c:if>
+                                     </tr>
+                                     <tr class="qna_desc">
+                                     	<td></td>
+                                     	<td>${list.content}</td>
+                                     	<td></td>
+                                     	<td></td>
+                                     	<td></td>
+                                     </tr>
+                                     <c:if test="${list.answer_status eq 1 }">
+                                     <tr class="qna_answer index-${status.index}">
+                                     	<td class="seller">판매자(${list.seller_id})</td>
+                                     	<td>${list.recommend}</td>
+                                     	<td></td>
+                                     	<td>
+                                     	<fmt:formatDate value="${list.recommend_date}" pattern="yyyy.MM.dd"/>
+                                     	</td>
+                                     	<td></td>
+                                     </tr>
+                                     </c:if>
+                                     <c:if test="${list.answer_status eq 0 }">
+                                     <tr class="qna_answer">
+                                     </tr>
+                                     </c:if>
+                                     </c:forEach>
                                     </tbody>
                                 </table>
                             </article>
-
+ 							<div class="n-paging">
+	                     		<ul>
+	                     			<c:if test="${pageMaker.prev}">
+	                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(pageMaker.startPage - 1,startDate,endDate)}" class="prev">이전</a></li>
+	                     			</c:if>
+	                     			
+	                     			<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+	                     				<c:if test="${currentPage eq idx}">
+	                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(idx,startDate,endDate)}" class="page active">${idx}</a></li>
+	                     				</c:if>
+	                     				<c:if test="${currentPage ne idx}">
+	                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(idx,startDate,endDate)}" class="page">${idx}</a></li>
+	                     				</c:if>
+	                     			</c:forEach>
+	                     			
+	                     			<c:if test="${pageMaker.next && pageMaker.endPage> 0}">
+	                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(pageMaker.endPage + 1,startDate,endDate)}" class="next">다음</a></li>
+	                     			</c:if>
+	                     		</ul>
+                     		</div>
                     </section>
 	            </section>
 	        </div>	
@@ -117,6 +183,7 @@
     </div>	    
     </main>
     
+    <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_productQna.js'/>"></script>
 	<script type="text/javascript" src="<c:url value='/resources/js/Buyer/date_search.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_menu.js'/>"></script>
     <!-- footer,js -->

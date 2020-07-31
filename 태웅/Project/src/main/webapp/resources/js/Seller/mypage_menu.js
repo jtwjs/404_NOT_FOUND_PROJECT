@@ -1,3 +1,10 @@
+var str = document.location.href;
+var index = str.indexOf('.se');
+var href = str.substring(0,index+3);
+
+
+
+
 var profile = document.getElementById('menu-profile');
 var profileItem = document.getElementById('menu-profile--item');
 profile.addEventListener('click',function(){
@@ -116,6 +123,7 @@ quotations.addEventListener('click',function(){
         profile.style.backgroundColor = null;
         profile.style.color =  null;
         profileItem.style.height = '0px';
+        
         product.style.backgroundColor = null;
         product.style.color =  null;
         productItem.style.height = '0px';
@@ -167,3 +175,70 @@ qna.addEventListener('click',function(){
     }
     qna.classList.toggle('selected-menu');
 });
+
+
+if(href == 'http://localhost:8080/project/UpdateSellerAccountForm.se') {
+	 profile.style.backgroundColor = '#34C759';
+     profile.style.color = '#fff';
+     profileItem.style.height = '70px';
+     document.getElementById('item1').classList.add('selected');
+}
+if(href == 'http://localhost:8080/project/UpdateSellerPasswordFrom.se') {
+	profile.style.backgroundColor = '#34C759';
+    profile.style.color = '#fff';
+    profileItem.style.height = '70px';
+    document.getElementById('item2').classList.add('selected');
+}
+
+if(href == 'http://localhost:8080/project/SellerProductRegister.se'){
+	  product.style.backgroundColor = '#34C759';
+      product.style.color = '#fff';
+      productItem.style.height = '70px';
+    document.getElementById('item3').classList.add('selected');	
+}
+if(href == 'http://localhost:8080/project/SellerProductList.se'){
+	  product.style.backgroundColor = '#34C759';
+      product.style.color = '#fff';
+      productItem.style.height = '70px';
+    document.getElementById('item4').classList.add('selected');	
+}
+
+if(href == 'http://localhost:8080/project/SellerOrderStatus.se' ){
+	transaction.style.backgroundColor = '#34C759';
+    transaction.style.color = '#fff';
+    transactionItem.style.height = '105px';
+    document.getElementById('item5').classList.add('selected');
+}
+if(href == 'http://localhost:8080/project/SellerTransactionList.se'){
+	transaction.style.backgroundColor = '#34C759';
+    transaction.style.color = '#fff';
+    transactionItem.style.height = '105px';
+    document.getElementById('item6').classList.add('selected');
+}
+if(href == 'http://localhost:8080/project/SellerCalculateManager.se') {
+	transaction.style.backgroundColor = '#34C759';
+    transaction.style.color = '#fff';
+    transactionItem.style.height = '105px';
+    document.getElementById('item7').classList.add('selected');
+}
+
+if(href == 'http://localhost:8080/project/SellerMarketPriceInfo.se') {
+	 quotations.style.backgroundColor = '#34C759';
+     quotations.style.color = '#fff';
+     quotationsItem.style.height = '35px';
+    document.getElementById('item8').classList.add('selected');
+}
+
+if(href == 'http://localhost:8080/project/SellerProductQNA.se' ){
+	qna.style.backgroundColor = '#34C759';
+    qna.style.color = '#fff';
+    qnaItem.style.height = '70px';
+    document.getElementById('item9').classList.add('selected');
+}
+if(href == 'http://localhost:8080/project/SellerProductReview.se' ){
+	qna.style.backgroundColor = '#34C759';
+    qna.style.color = '#fff';
+    qnaItem.style.height = '70px';
+    document.getElementById('item10').classList.add('selected');
+}
+

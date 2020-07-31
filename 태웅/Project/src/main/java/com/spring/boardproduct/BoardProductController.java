@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -388,7 +389,10 @@ public class BoardProductController {
     	
     	int countQna = boardProductService.getCountQna(board_id);
     	
-    	
+    	ArrayList<BoardProductVO> seller_best_list 
+	    = boardProductService.getSellerBestList(vo.getSeller_id(), board_id);
+    	model.addAttribute("seller_best_list", seller_best_list);
+	
     	System.out.println("쿠키값: "+cookie.getValue());
     	model.addAttribute("vo", vo);     
     	model.addAttribute("non_list",non_recentList);
@@ -468,6 +472,10 @@ public class BoardProductController {
     	// 현재페이지, 보여줄 리스트갯수, 키워드
 	
 	    int countQna = boardProductService.getCountQna(board_id);
+	    
+	    ArrayList<BoardProductVO> seller_best_list 
+	    = boardProductService.getSellerBestList(vo.getSeller_id(), board_id);
+	    model.addAttribute("seller_best_list", seller_best_list);
     	
     	System.out.println("쿠키값2: "+cookie.getValue());
     	model.addAttribute("vo", vo);     
@@ -1027,8 +1035,14 @@ public class BoardProductController {
 		
 		BoardQnaVO vo = new BoardQnaVO();
 		
-		int qna_num = boardProductService.getQnaNum(board_id);
+		UUID uuid = UUID.randomUUID(); // 중복 방지를 위해 랜덤값 생성
+    	long getl = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
+    	
+    	StringBuilder wish_id = new StringBuilder(
+    			vo.getBuyer_id() + "-" + Long.toString(getl, 10));
 		
+		int qna_num = boardProductService.getQnaNum(board_id);
+		vo.setQna_id(wish_id.toString());
 		vo.setQna_num(qna_num + 1);
 		vo.setBoard_id(board_id);
 		vo.setSeller_id(seller_id);

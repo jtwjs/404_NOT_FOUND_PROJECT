@@ -87,18 +87,6 @@
 
 }
 
-/* .register-date::before {
-  display: inline-block;
-  position: relative;
-  top: -1px;
-  width: 1px;
-  height: 12px;
-  margin: 0 5px;
-  vertical-align: middle;
-  background: rgba(54, 54, 54, 0.5);
-  content: "";
-} */
-
 .mypage__subInfo {
   display: flex;
   width: 40%;
@@ -273,7 +261,8 @@
 }
 
 .order__history--table > thead {
-  background-color: #34c759;
+      border-top: 1px solid #509b59;
+    border-bottom: 1px solid #509b59;
 }
 
 .order__history--table th,
@@ -294,8 +283,8 @@
 .order-amount,
 .order-date {
   font-weight: 500;
-  font-size: 20px;
-  color: #fff;
+  font-size: 16px;
+  color: #333;
 }
 
 .transaction__detail--table > tbody {

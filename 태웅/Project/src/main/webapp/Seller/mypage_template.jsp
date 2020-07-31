@@ -23,30 +23,30 @@
 		<dl>
 			<dt id="menu-profile">프로필</dt>
 			<dd id="menu-profile--item">
-				<a href="#" onclick="location.href='UpdateSellerAccountForm.se'">회원정보 수정</a>
-				<a href="#" onclick="location.href='UpdateSellerPasswordFrom.se'">비밀번호 변경</a>
+				<a href="#" id="item1" onclick="location.href='UpdateSellerAccountForm.se'" >회원정보 수정</a>
+				<a href="#" id="item2" onclick="location.href='UpdateSellerPasswordFrom.se'" >비밀번호 변경</a>
 			</dd>
 			<dt id="menu-product">상품내역</dt>
 			<dd id="menu-product--item">
-				<a href="#" onclick="location.href='SellerProductRegister.se'">상품등록</a>
-				<a href="#" onclick="location.href='SellerProductList.se'">상품내역</a>
+				<a href="#"  id="item3" onclick="location.href='SellerProductRegister.se'">상품등록</a>
+				<a href="#" id="item4" onclick="location.href='SellerProductList.se'" >상품내역</a>
 			</dd>
 			<dt id="menu-transaction">거래내역</dt>
 			<dd id="menu-transaction--item">
-				<a href="#" onclick="location.href='SellerOrderStatus.se'">주문관리</a>
-				<a href="#" onclick="location.href='SellerTransactionList.se'">거래목록</a>
-				<a href="#" onclick="location.href='SellerCalculateManager.se'">정산관리</a>
+				<a href="#" id="item5" onclick="location.href='SellerOrderStatus.se'" >주문관리</a>
+				<a href="#" id="item6" onclick="location.href='SellerTransactionList.se'" >거래목록</a>
+				<a href="#" id="item7" onclick="location.href='SellerCalculateManager.se'" >정산관리</a>
 			</dd>
 
 			<dt id="menu-quotations">시세정보</dt>
 			<dd id="menu-quotations--item">
-				<a href="#" onclick="location.href='SellerMarketPriceInfo.se'">시세정보확인하기</a>
+				<a href="#" id="item8" onclick="location.href='SellerMarketPriceInfo.se'" >시세정보확인하기</a>
 			</dd>
 
 			<dt id="menu-qna">Q&A</dt>
 			<dd id="menu-qna--item">
-				<a href="#" onclick="location.href='SellerProductQNA.se'">상품문의</a> <a
-					href="#" onclick="location.href='SellerProductReview.se'">상품후기</a>
+				<a href="#" id="item9" onclick="location.href='SellerProductQNA.se'" >상품문의</a>
+				 <a href="#" id="item10" onclick="location.href='SellerProductReview.se'">상품후기</a>
 			</dd>
 
 		</dl>

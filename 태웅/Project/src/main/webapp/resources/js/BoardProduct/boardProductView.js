@@ -558,6 +558,30 @@ function modal_cancle(){
 }
 
 
+function sellerBestListMove(move){
+	var box = document.getElementById("seller__best-list--search-inner-box");
+	
+	var val = Number(box.style.left.replace(/[^-\d\.]/g, ''));
+	var location;
+	
+	
+	if(val == ""){
+		val = Number(0);
+	}
+	
+	if(move == "right" && val > Number(-894)){
+		val -= Number(149);
+		location = String(val) + "px";
+	}else if(move == "left" && val < Number(0)){
+		val += Number(149);
+		location = String(val) + "px";
+	}
+	
+	
+	box.style.left = location;
+	
+}
+
 
 var order_id = "test";
 
@@ -1193,7 +1217,6 @@ function qna_regist(){
 		return false;
 	}
 	
-	
 	if(content.value == ""){
 		modal_warning("문의내용을 입력해주세요");
 		return false;
@@ -1240,7 +1263,7 @@ function qnaDisplayOpen(thisTr, i){
 function qnaRecommendSubmit(i, qna_num){
 
 	
-	var recommend = document.getElementsByClassName("qna__recommend--content")[Number(i)].value;
+	var recommend = document.getElementsByClassName("qna__recommend--content")[Number(i)];
 	var csrfToken = document.getElementById("csrfFormId").value;
 	var board_id = document.getElementById("board_id").value;
 	var seller_id = document.getElementById("seller_id").value;
@@ -1250,7 +1273,7 @@ function qnaRecommendSubmit(i, qna_num){
 	    url: "QnaRecommendRegist.bo",
 	    contentType: 'application/html; charset=UTF-8',
 	    data: "board_id=" + board_id + "&seller_id=" + seller_id + 
-	          "&qna_num=" + qna_num + "&recommend=" + recommend,
+	          "&qna_num=" + qna_num + "&recommend=" + recommend.value,
 	    cache: false,
 	    beforeSend : function(xhr) {
 	    	 xhr.setRequestHeader('X-CSRF-Token', csrfToken);
@@ -1264,15 +1287,15 @@ function qnaRecommendSubmit(i, qna_num){
             var recommendBox = document.getElementById("customer-qna__table--recommend-" + i);
 	    	
 	    	if(document.getElementById("customer-qna__table--recommend-" + i)){
-	    		var recommendText = document.getElementsByClassName("qna__content--recommend")[Number(i)];
-	    		recommendText.textContent = recommend;
-	    		var dateText = document.getElementsByClassName("qna__recommend-date--format")[Number(i)];
+	    		var recommendText = recommendBox.getElementsByClassName("qna__content--recommend")[0];
+	    		recommendText.textContent = recommend.value;
+	    		var dateText = recommendBox.parentNode.getElementsByClassName("qna__recommend-date--format")[0];
 	    		dateText.textContent = data;
 	    	}else{
 	    		cell1.parentNode.insertAdjacentHTML("afterend", 
 		    			"<div id='customer-qna__table--recommend-" + i + "'>" + 
 	                    "    <span class='customer-qna__table--content-A'>A</span>" +
-	                    "    <span class='qna__content--recommend'>" + recommend + "</span>" +
+	                    "    <span class='qna__content--recommend'>" + recommend.value + "</span>" +
 	                    "</div>" + 
 	                    "<div>" + 
 	    	            "    <span>답변 등록일: &nbsp;&nbsp;&nbsp;</span>" + 
@@ -1517,8 +1540,6 @@ function qnaListPageMove(page_num){
 	    		
 	    	}
 	    	
-	    	
-	    	searchCount(board_id, qna_status, answer_status, keyword);
 
 	    },
 	    error: function(){
@@ -1548,7 +1569,7 @@ function searchCount(board_id, qna_status, answer_status, keyword){
 	    	pageSet.textContent 
 	    	    = " / " + String(parseInt(Math.ceil(parseFloat(data) / 10.0))) + " Page";
 	    	pageText.value = 1;
-	    	
+	    	qnaRePaging(1);
 	    },
 	    error: function(){
 	    	
@@ -1560,7 +1581,7 @@ function pageBtnMove(thisBtn){
 	
 	$('#qna__table--now-page').removeAttr("disabled");
 	$('#qna__table--now-page').attr(
-			"onClick", "qnaListPageMove(this, '"+ user_id + "')");
+			"onClick", "pageBtnMove(this)");
 	$('#qna__table--now-page').attr("class", "review__table--page-move");
 	$('#qna__table--now-page').removeAttr("id");
 	
@@ -1572,14 +1593,13 @@ function pageBtnMove(thisBtn){
 	qnaListPageMove(thisBtn.value);
 }
 
-function rePaging(pageNum, pageList){
+function qnaRePaging(pageNum){
 	
 	// 페이지 메이킹
 	var page_num = pageNum;
 	var page_amount = 10;  // 보여줄 리스트 갯수 10 고정
 	var total = Number(document.querySelector("#qna__search--result > strong").textContent);
 	// 이미 계산되어 적용된 내용
-	
 	var endPage = parseInt(Math.ceil(page_num / 10.0)) * 10;
 	var startPage = endPage - 9;
 	
@@ -1593,13 +1613,8 @@ function rePaging(pageNum, pageList){
 	var next = endPage < calcEnd;
 	// ==================================================================================
 	
-	var pageBtnNode = "";
+	var pageBtnNode = document.getElementById("qna__page--btn");
 	
-	if(pageList == "review"){
-		
-	}else if(pageList == "qna"){
-		pageBtnNode = document.getElementById("qna__page--btn");
-	}
 
 	
 	while (pageBtnNode.hasChildNodes()) { 
@@ -1610,7 +1625,7 @@ function rePaging(pageNum, pageList){
 	if(prev == true){
 		pageBtnNode.insertAdjacentHTML("beforeend", 
 		    "<input type='button' value='이전' class='page__abled--prev-btn'" +
-		    "    onclick='rePaging(" + (Number(page_num) - 10) + ", 'qna');' />");
+		    "    onclick='qnaRePaging(" + (Number(page_num) - 10) + ");' />");
 	}else{
 		pageBtnNode.insertAdjacentHTML("beforeend", 
 			"<input type='button' value='이전' disabled class='page__disabled--prev-btn'/>");
@@ -1623,7 +1638,8 @@ function rePaging(pageNum, pageList){
 		        "<input type='button' value='" + i +"' disabled id='qna__table--now-page' />");
 		}else{
 			pageBtnNode.insertAdjacentHTML("beforeend", 
-			    "<input type='button' value='"+ i + "' class='qna__table--page-move' />");
+			    "<input type='button' value='"+ i + "' class='qna__table--page-move' " +
+			    "    onclick='pageBtnMove(this)' />");
 		}
 		
 	}
@@ -1631,7 +1647,7 @@ function rePaging(pageNum, pageList){
 	if(next == true){
 		pageBtnNode.insertAdjacentHTML("beforeend", 
 				"<input type='button' value='다음' disabled class='page__abled--prev-btn' " + 
-				"    onclick='rePaging(" + (Number(page_num) + 10) + ", 'qna');' />");
+				"    onclick='qnaRePaging(" + (Number(page_num) + 10) + ");' />");
 	}else{
 		pageBtnNode.insertAdjacentHTML("beforeend", 
 				"<input type='button' value='다음' disabled class='page__disabled--prev-btn'/>");
@@ -1651,7 +1667,7 @@ function qnaTextPage(thisText, max){
 		
 		if(thisText.value > Number(max)){
 			thisText.value = Number(max);
-		}else if(thisText.value < 1){
+		}else if(thisText.value < Number(1)){
 			thisText.value = 1;
 		}
 		
@@ -1661,11 +1677,11 @@ function qnaTextPage(thisText, max){
 
 function qnaTextPageMove(thisPage){
 	
-	if(thisPage.value == "" || thisPage.value < 1){
+	if(thisPage.value == "" || Number(thisPage.value) < Number(1)){
 		thisPage.value = 1;
 	}else{
 		qnaListPageMove(thisPage.value);
-		rePaging(thisPage.value, "qna");
+		qnaRePaging(thisPage.value);
 	}
 	
 }
@@ -1718,7 +1734,12 @@ function qnaDropBoxSearch(thisBtn, val){
 	var inputTag = thisBtn.parentNode.parentNode.getElementsByTagName("input")[0];
 
 	inputTag.value = val;
-
-	qnaListPageMove(1);
 	
+    var board_id = document.getElementById('board_id').value;
+    var qna_status = document.getElementById("qna__drop-box--qna").value;
+    var answer_status = document.getElementById("qna__drop-box--answer").value;
+	var keyword = document.getElementById("customer-qna__search--text-save").value;
+	
+	qnaListPageMove(1);
+	searchCount(board_id, qna_status, answer_status, keyword);
 }

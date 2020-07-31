@@ -213,6 +213,7 @@
 	<select id="getBoardListSize_local" parameterType="int" resultType="int">
 	    SELECT COUNT(*) FROM board_product WHERE category_local = #{category_local}
 	</select>
+	
 	<update id="boardReadCountPlus" parameterType="String">
 	    UPDATE board_product SET read_count = read_count + 1 WHERE board_id = #{board_id}
 	</update>
@@ -301,47 +302,16 @@
 	        </otherwise>
 	    </choose>
 	</select>
-	<!-- 관리자 게시글 관리 페이지 -->
-		
-	<select id="getAdminBoardProductCount" resultType="int">		   
-	    select count(*) from board_product	    
+	
+	<select id="getSellerBestList" resultMap="BoardProductMap">
+	    <![CDATA[
+	    SELECT * FROM (
+            SELECT ROWNUM AS RNUM, B.* FROM (
+                SELECT * FROM board_product 
+                    WHERE seller_id = #{seller_id} AND board_id != #{board_id} 
+                    ORDER BY satisfaction DESC) B) 
+            WHERE RNUM <= 10
+        ]]>
 	</select>
-	
-	
-	<select id="SelectAdminBoardAllList" parameterType="HashMap" resultMap="BoardProductMap">
-		<![CDATA[
-			     select board_id,seller_id,board_num,title,price,delivery_price,quantity,satisfaction,
-						content,register_date,category_1,category_2,category_local,sales_producer,product_name,
-						product_weight,product_size,product_country,date_manufacture,best_before_date,transgenic,
-						storage_method,consumer_consulation,thumbnail_origin,thumbnail_thum,product_origin_1,product_thum_1,
-						product_origin_2,product_thum_2,product_origin_3,product_thum_3,product_origin_4,product_thum_4,
-						content_origin,thumbnail_origin_path,thumbnail_thum_path,product_origin_path,product_thum_path,
-						content_origin_path,sale_status,hit,read_count
-	        	from (select rownum rnum,board_id,seller_id,board_num,title,price,delivery_price,quantity,satisfaction,
-							content,register_date,category_1,category_2,category_local,sales_producer,product_name,
-							product_weight,product_size,product_country,date_manufacture,best_before_date,transgenic,
-							storage_method,consumer_consulation,thumbnail_origin,thumbnail_thum,product_origin_1,product_thum_1,
-							product_origin_2,product_thum_2,product_origin_3,product_thum_3,product_origin_4,product_thum_4,
-							content_origin,thumbnail_origin_path,thumbnail_thum_path,product_origin_path,product_thum_path,
-							content_origin_path,sale_status,hit,read_count
-            		from (select * from board_product order by rownum desc)) 
-	        where rnum>=#{startrow} and rnum<=#{endrow}
-     	]]>
-	</select>
-	
-	
-	<!-- 관리자 게시글 삭제 기능 -->
-	
-	<delete id="AdminBoardProductDelete" parameterType="int">
-		delete from	board_product where board_num=#{board_num}
-	</delete>
-
-	<select id="isAdminBoardList" parameterType="HashMap"	resultType="int">
-		select count(*) from board_product where board_num=#{board_num}
-	</select>
-	
-	
-	
-	
 
 </mapper>

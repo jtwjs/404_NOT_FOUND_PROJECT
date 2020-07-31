@@ -32,6 +32,6 @@ public interface BuyerService {
     public int UpdateListDeliverList(deliveryVO delivery);    
     public deliveryVO getDefaultDeliveryList(String id);  
     public void UpdateDefaultAddress(String address,String id);
-    
+  
     
 }

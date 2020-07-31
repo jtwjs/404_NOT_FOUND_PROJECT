@@ -42,7 +42,7 @@ public interface BoardProductService {
     public int countReviewById(String buyer_id);
 	public ArrayList<BoardReviewVO> boardReviewListAllById(String buyer_id,int rowStart,int rowEnd);
 	
-    
+    public ArrayList<BoardProductVO> getSellerBestList(String seller_id, String board_id);
     // ---------------------------------------------------------------------------
     public int insertQna(BoardQnaVO vo);
     public int getQnaNum(String board_id);
@@ -53,4 +53,6 @@ public interface BoardProductService {
     public int getCountQna(String board_id);
     public int insertQnaRecommend(String board_id, String seller_id, int qna_num, String recommend);
     
+    public ArrayList<BoardQnaVO> qnaListAllById(String id, int rowStart, int rowEnd,String startDate,String endDate);
+    public int qnaCountById(String id,String startDate,String endDate);
 }

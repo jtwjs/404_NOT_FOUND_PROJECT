@@ -1,5 +1,3 @@
-
-
 function data_check(){
 	var data_checkBox = document.getElementsByClassName("data-checkBox");
 	
@@ -99,6 +97,8 @@ var exceptedSp = document.getElementById('expected_sp');
 var totalSp = document.getElementById('total_sp').value;
 if(exceptedSp != null){
 exceptedSp.value = totalSp;
+} else {
+	exceptedSp.value = 0;
 }
 
 
@@ -300,6 +300,7 @@ function uncheck_all(){
 		
 		var totalPaymentAmount = document.getElementById('totalPaymentAmount').value;
 		
+		
 		if(privacyCheck.checked == false) {
 			alert('[개인정보 제3자 제공 동의(필수)] 반드시 입력하셔야 하는 항목입니다.');
 			return false;
@@ -340,6 +341,7 @@ function uncheck_all(){
 			});
 		}else {
 	
+			
 			form.submit();
 			
 		}

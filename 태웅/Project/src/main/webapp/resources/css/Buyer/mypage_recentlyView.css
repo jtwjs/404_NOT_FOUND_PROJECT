@@ -1,3 +1,7 @@
+#myPage {
+	position: relative;
+}
+
 #content__view--box {
 	display: flex;
     justify-content: space-between;
@@ -27,7 +31,7 @@
 
 #transaction__detail {
 	margin: 20px 0;
-	padding: 0;
+	padding-bottom: 20px;
 }
 
 .transaction__detail--table {
@@ -103,6 +107,9 @@
 /*페이징버튼*/
 
 .n-paging {
+	position: absolute;
+	bottom: 30px;
+	left: 430px;
 	display: flex;
 	justify-content: center;
 	padding-top: 20px;

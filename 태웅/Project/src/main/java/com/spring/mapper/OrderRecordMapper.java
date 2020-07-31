@@ -26,5 +26,5 @@ public interface OrderRecordMapper {
     public int orderListCountById(@Param("buyer_id")String buyer_id,@Param("startDate")String startDate, @Param("endDate")String endDate);
     public ArrayList<OrderRecordVO> orderBeingDeliveredListById(String buyer_id);
     public ArrayList<OrderRecordVO> orderListAllById(String buyer_id);
-    
+  
 }

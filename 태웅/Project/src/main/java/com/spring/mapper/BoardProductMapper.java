@@ -37,6 +37,7 @@ public interface BoardProductMapper {
     		@Param("maxCategory_local")int maxCategory_local, @Param("min_price")int min_price, 
     		@Param("max_price")int max_price, @Param("sort_list")int sort_list, 
     		@Param("page_num")int page_num, @Param("page_amount")int page_amount);
+    public ArrayList<BoardProductVO> getSellerBestList(@Param("seller_id")String seller_id, @Param("board_id")String board_id);
     //관리자 게시판 관리 페이지     
     public int getAdminBoardProductCount();
     public List<BoardProductVO> SelectAdminBoardAllList(HashMap<String, Object> hashmap);

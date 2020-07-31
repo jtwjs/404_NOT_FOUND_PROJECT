@@ -1,3 +1,7 @@
+#myPage{
+	position: relative;
+}
+
 /*날짜조회*/
 .search-date {
 	display: flex;
@@ -105,36 +109,33 @@
 .transaction__detail--table th,
 .transaction__detail--table td {
   padding: 10px;
-}
-
-
-.qna-title {
-	width: 30%;
-}
-
-.qna-desc {
-	width: 55%;
-}
-.qna-date {
-	width: 15%;
-}
-
-
-
-
-.qna-number,
-.qna-title,
-.qna-date,
-.qna-hit,
-.qna-secret {
-  font-weight: 500;
   font-size: 16px;
-  color: #333
 }
 
-.transaction__detail--table > tbody {
-  font-size: 1.2rem;
+.qna-item_info {
+	width: 35%;
 }
+
+.qna-content {
+	width: 35%;
+	text-align: left;
+	text-indent: 90px;
+}
+
+.qna-type {
+	width: 10%
+}
+
+.qna-regDate {
+	width: 10%;
+}
+
+.qna-status {
+	width: 10%;
+}
+
+
+
 
 .non-post {
   height: 200px;
@@ -142,9 +143,80 @@
 }
 
 
+.item_info {
+	display: flex;
+}
+
+.item_info img {
+	display: block;
+	width: 80px;
+	height: 80px;
+	cursor: pointer;
+}
+
+.item_info p {
+	display: flex;
+	align-items: center;
+	padding: 5px 10px;
+	font-weight: 600;
+	font-size: 16px;
+	cursor: pointer;
+	
+}
+
+.item_info p:hover {
+	text-decoration: underline;
+}
+
+
+.qna_info {
+	text-align: left;
+	cursor: pointer;
+}
+
+.qna_info:hover {
+    text-decoration: underline;
+}
+
+.expected {
+	color: #EB5757;
+}
+
+.complete {
+	color: #2F80ED;
+}
+
+
+.qna_desc {
+	display: none;
+	border-bottom: 1px solid #e2e2e2;
+	text-align: left;
+	background-color: #f7f7f7;
+}
+
+
+.qna_answer {
+	display: none;
+	text-align: left;
+    background-color: #f7f7f7;
+}
+
+.qna_answer.active {
+	display: block;
+}
+
+
+.seller {
+	text-align: center;
+}
+
+
 /*페이징버튼*/
 
 .n-paging {
+	position: absolute;
+	bottom: 30px;
+	left: 430px;
 	display: flex;
 	justify-content: center;
 	padding-top: 20px;
@@ -185,3 +257,5 @@
     color: #dadada;
     vertical-align: top;	
 }
+
+

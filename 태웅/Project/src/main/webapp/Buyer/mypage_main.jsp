@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.spring.order.OrderRecordVO" %>
 <%@ page import="com.spring.boardproduct.BoardQnaVO" %>
@@ -100,10 +101,10 @@
                                     </div>
                                     <div class="inquery--content">
                                         <ul class="inquery--list">
-                                            <li class="inquery--list-item"><p>0<span class="enter">입금대기중</span></p></li> 
-                                            <li class="inquery--list-item"><p>0<span class="enter">배송준비중</span></p></li> 
-                                            <li class="inquery--list-item"><p>0<span class="enter">배송중</span></p></li> 
-                                            <li class="inquery--list-item complete"><p>0<span class="enter">배송완료</span></p></li> 
+                                            <li class="inquery--list-item"><p>${countList[0]}<span class="enter">입금대기중</span></p></li> 
+                                            <li class="inquery--list-item"><p>${countList[1]}<span class="enter">배송준비중</span></p></li> 
+                                            <li class="inquery--list-item"><p>${countList[2]}<span class="enter">배송중</span></p></li> 
+                                            <li class="inquery--list-item complete"><p>${countList[3]}<span class="enter">배송완료</span></p></li> 
                                         </ul>
                                     </div>
                                 </div>
@@ -113,10 +114,10 @@
                                         <a class="view-all" href="BuyerMyPageOrderList.by" title="전체보기">전체</a>
                                     </div>
                                     <ul class="inquery--list">
-                                        <li class="inquery--list-item"><p>0<span class="enter">교환신청</span></p></li> 
-                                        <li class="inquery--list-item complete"><p>0<span class="enter">교환완료</span></p></li> 
-                                        <li class="inquery--list-item"><p>0<span class="enter">반품신청</span></p></li> 
-                                        <li class="inquery--list-item complete"><p>0<span class="enter">반품완료</span></p></li> 
+                                        <li class="inquery--list-item"><p>${countList[4]}<span class="enter">교환신청</span></p></li> 
+                                        <li class="inquery--list-item complete"><p>${countList[5]}<span class="enter">교환완료</span></p></li> 
+                                        <li class="inquery--list-item"><p>${countList[6]}<span class="enter">반품신청</span></p></li> 
+                                        <li class="inquery--list-item complete"><p>${countList[7]}<span class="enter">반품완료</span></p></li> 
                                     </ul>
                                 </div>
                             </article>
@@ -143,6 +144,7 @@
                                         </tr>   
                                     </thead>
                                     <tbody>
+                                    <c:if test="${fn:length(orderList) ==0 }" >
                                         <tr>
                                             <td class="non-post" colspan="4">
                                                 주문내역이 없습니다.
@@ -152,8 +154,28 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>
                                         </tr>
+                                      </c:if>
+                                      <c:if test="${fn:length(orderList) > 5}">
+	                                      <c:forEach var="list" items="${orderList}"  end="5" varStatus="status">
+                                      		<tr>
+                                      			<td>${list.order_id}</td>
+                                      			<td>${list.board_title }</td>
+                                      			<td>${list.price}원</td>
+                                      			<td>${fn:substring(list.order_date,0,11)}</td>
+                                      		</tr>
+	                                      </c:forEach>                                      
+                                      </c:if>
+                                      <c:if test="${fn:length(orderList) < 5 }">
+                                      	  <c:forEach var="list" items="${orderList}"  varStatus="status">
+                                      		<tr>
+                                      			<td>${list.order_id}</td>
+                                      			<td>${list.board_title }</td>
+                                      			<td>${list.price}원</td>
+                                      			<td>${fn:substring(list.order_date,0,11)}</td>
+                                      		</tr>
+	                                      </c:forEach>
+                                      </c:if>
                                     </tbody>
                                 </table>
                             </article>

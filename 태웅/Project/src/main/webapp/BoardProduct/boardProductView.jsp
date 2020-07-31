@@ -60,6 +60,11 @@
     if((int)request.getAttribute("countQna") != 0){
     	countQna = (int)request.getAttribute("countQna");
     }
+    
+    ArrayList<BoardProductVO> seller_best_list = null;
+    if((ArrayList<BoardProductVO>)request.getAttribute("seller_best_list") != null){
+    	seller_best_list = (ArrayList<BoardProductVO>)request.getAttribute("seller_best_list");
+    }
   
 %>
 
@@ -306,6 +311,42 @@
                                     </button>
                                 </div>
                             </div>
+                            
+                            <%if(seller_best_list.size() != 0){ %>
+                            <div id="seller__best-list--search-box">
+                                <div id="seller__best-list--subject">판매자의 다른 인기상품</div>
+                                <ul id="seller__best-list--search-inner-box">
+                                    <%for(int i = 0; i < seller_best_list.size(); i++){ %>
+                                    <sec:authorize access="isAnonymous()">
+                                    <li class="seller__best--item" 
+                                        onclick="javascript:location.href='BoardProductView.bo?board_id=<%=seller_best_list.get(i).getBoard_id()%>'">
+                                        <img src="display?path=<%=java.net.URLEncoder.encode(seller_best_list.get(i).getThumbnail_thum_path(), "UTF-8") %>&name=<%=java.net.URLEncoder.encode(seller_best_list.get(i).getThumbnail_thum(), "UTF-8") %>">
+                                        <p><%=seller_best_list.get(i).getTitle() %></p>
+                                        <strong><%=seller_best_list.get(i).getPrice() %> 원</strong>
+                                    </li>
+	       						    </sec:authorize>
+	       						    <sec:authorize access="isAuthenticated()">
+	       						    <li class="seller__best--item" 
+                                        onclick="javascript:location.href='BoardProductView2.bo?board_id=<%=seller_best_list.get(i).getBoard_id()%>'">
+                                        <img src="display?path=<%=java.net.URLEncoder.encode(seller_best_list.get(i).getThumbnail_thum_path(), "UTF-8") %>&name=<%=java.net.URLEncoder.encode(seller_best_list.get(i).getThumbnail_thum(), "UTF-8") %>">
+                                        <p><%=seller_best_list.get(i).getTitle() %></p>
+                                        <strong><%=seller_best_list.get(i).getPrice() %> 원</strong>
+                                    </li>
+	       						    </sec:authorize>
+                                    <%}%>
+                                    
+                                </ul>
+                                
+                                <%if(seller_best_list.size() > 4){ %>
+                                <span id="seller__best-list--navi">
+                                    <input type="button" id="seller__best-list--navi-left" 
+                                        onclick="sellerBestListMove('left');" />
+                                    <input type="button" id="seller__best-list--navi-right" 
+                                        onclick="sellerBestListMove('right');" />
+                                </span>
+                                <%} %>
+                            </div>
+                            <%}%>
                             
                             <div id="modal-client">
                                 <div id="modal-content">
@@ -985,7 +1026,7 @@
                             <div id="qna__page--btn">
                             <%if(qnaPage.isPrev()){ %>    
                                 <input type="button" value="이전" class="page__abled--prev-btn" 
-                                    onclick="rePaging(1, 'qna');" />
+                                    onclick="qnaRePaging(1);" />
                             <%}else{ %>
                                 <input type="button" value="이전" disabled class="page__disabled--prev-btn"/>
                             <%}
@@ -995,14 +1036,15 @@
                                 <input type="button" value="<%=i%>" id="qna__table--now-page" />
                                 
                                 <%}else{ %>
-                                <input type="button" value="<%=i%>" class="qna__table--page-move" />
+                                <input type="button" value="<%=i%>" class="qna__table--page-move" 
+                                    onclick="pageBtnMove(this);"/>
                                 <%} 
                                 
                             }%>
                             
                             <%if(qnaPage.isNext()){ %>
                                 <input type="button" value="다음" class="page__abled--prev-btn" 
-                                    onclick="rePaging(11, 'qna');" />
+                                    onclick="qnaRePaging(11);" />
                             <%}else{ %>
                                 <input type="button" value="다음" disabled class="page__disabled--prev-btn"/>
                             <%} %>

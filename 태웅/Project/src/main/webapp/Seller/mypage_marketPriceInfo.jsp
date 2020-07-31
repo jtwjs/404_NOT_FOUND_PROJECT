@@ -58,7 +58,7 @@
                         <h2 class="content-title">시세정보</h2>
                         
                         <form id="content__search-box--form" method="get" 
-                            action="SellerMarketPriceInfoDate.se" onsubmit="return searchCheck();">
+                            action="SellerMarketPriceInfoSearch.se" onsubmit="return searchCheck();">
                             
                             <div id="content__search-box">
                             
