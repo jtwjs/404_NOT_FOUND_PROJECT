@@ -20,6 +20,9 @@ public class BoardProductServiceImpl implements BoardProductService {
     @Autowired
     private BoardReviewMapper mapper;
     
+    @Autowired
+    private BoardQnaMapper qnaMapper;
+    
     public int getBoardNum() {
 		
         BoardProductMapper boardProductMapper = sqlSession.getMapper(BoardProductMapper.class);
@@ -291,6 +294,27 @@ public class BoardProductServiceImpl implements BoardProductService {
 		
 		    return result;
 	    }
+
+		@Override
+		public ArrayList<BoardQnaVO> qnaListAllById(String id, int rowStart, int rowEnd,String startDate,String endDate) {
+			ArrayList<BoardQnaVO> list = qnaMapper.qnaListAllById(id, rowStart, rowEnd,startDate, endDate);
+			return list;
+		}
+
+		@Override
+		public int qnaCountById(String id,String startDate, String endDate) {
+			int count = qnaMapper.qnaCountById(id,startDate,endDate);
+			return count;
+		}
+		
+		@Override
+	   public ArrayList<BoardProductVO> getSellerBestList(String seller_id, String board_id){
+		    	 
+    	 BoardProductMapper boardProductMapper = sqlSession.getMapper(BoardProductMapper.class);
+    	 ArrayList<BoardProductVO> result 
+    	     = boardProductMapper.getSellerBestList(seller_id, board_id);
+ 	    return result;
+     }
 	    
     
 }

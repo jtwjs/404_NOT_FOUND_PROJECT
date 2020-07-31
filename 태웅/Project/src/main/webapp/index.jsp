@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ page import="com.spring.boardproduct.BoardProductVO" %>
 <%@ page import="java.util.ArrayList" %>
 <%
@@ -141,8 +142,14 @@
 	       						 		<%=vo_list.get(i).getQuantity() %>
 	       							 </dd>
 	       						</dl>
+	       						<sec:authorize access="isAnonymous()">
 	       						<button class="order-btn" onclick="javascript:location.href='BoardProductView.bo?board_id=<%=vo_list.get(i).getBoard_id() %>'"
 	       						    type="button">주문</button>
+	       						</sec:authorize>
+	       						<sec:authorize access="isAuthenticated()">
+	       						<button class="order-btn" onclick="javascript:location.href='BoardProductView2.bo?board_id=<%=vo_list.get(i).getBoard_id() %>'"
+	       						    type="button">주문</button>
+	       						</sec:authorize>
 	       					</div>
 	       				</div>
           			</li>

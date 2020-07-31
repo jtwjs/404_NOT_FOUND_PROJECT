@@ -148,29 +148,26 @@
 	                                        
 	                                    <%} %>
 		                                
-		                                <tr id="paging" align=center height=20>
-											<td colspan=5 style="font-family: Tahoma; font-size: 10pt;">
-												<%if(pageMaker.isPrev()){ %>
-					                                <input type="button" value="◀" onclick="pageViewOption('<%=originalURL %>', '<%=sort_list %>', '<%=pageMaker.getPage_num()-1%>', '<%=pageMaker.getPage_amount()%>')" />
-					                            <%} %>
-					                                
-					                            <%for(int a=pageMaker.getStartPage();a<=pageMaker.getEndPage();a++){
-					                                  if(a==pageMaker.getPage_num()){%>
-					                                    <input type="button" value="<%=a %>" id="now-page" readonly/>
-					                                <%}else{ %>
-					                                    <input type="button" value="<%=a %>"onclick="pageViewOption('<%=originalURL %>', '<%=sort_list %>', '<%=a%>', '<%=pageMaker.getPage_amount()%>')" />
-					                                <%}
-					                            } %>
-					                                
-					                            <%if(pageMaker.isNext()){ %>
-					                                <input type="button" value="▶" onclick="pageViewOption('<%=originalURL %>', '<%=sort_list %>', '<%=pageMaker.getPage_num()+1%>', '<%=pageMaker.getPage_amount()%>')" />
-					                            <%} %>
-											</td>
-										</tr>		
 									</tbody>
 								</table>
 							</article>
-
+							<div class="paging">
+								<%if(pageMaker.isPrev()){ %>
+	                                <input type="button" value="◀" onclick="pageViewOption('<%=originalURL %>', '<%=sort_list %>', '<%=pageMaker.getPage_num()-1%>', '<%=pageMaker.getPage_amount()%>')" />
+	                            <%} %>
+	                                
+	                            <%for(int a=pageMaker.getStartPage();a<=pageMaker.getEndPage();a++){
+	                                  if(a==pageMaker.getPage_num()){%>
+	                                    <input type="button" value="<%=a %>" id="now-page" readonly/>
+	                                <%}else{ %>
+	                                    <input type="button" value="<%=a %>"onclick="pageViewOption('<%=originalURL %>', '<%=sort_list %>', '<%=a%>', '<%=pageMaker.getPage_amount()%>')" />
+	                                <%}
+	                            } %>
+	                                
+	                            <%if(pageMaker.isNext()){ %>
+	                                <input type="button" value="▶" onclick="pageViewOption('<%=originalURL %>', '<%=sort_list %>', '<%=pageMaker.getPage_num()+1%>', '<%=pageMaker.getPage_amount()%>')" />
+	                            <%} %>
+				    		</div>
 						</section>
 					</section>
 				</div>

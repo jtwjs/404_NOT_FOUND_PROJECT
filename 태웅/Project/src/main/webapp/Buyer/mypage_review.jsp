@@ -85,7 +85,12 @@
                                    </c:if>
                                    <c:forEach var="list" items="${reviewList}" varStatus="status" >
                                    	<tr>
-                                   		<td class="product-title"><img src="display?path=${list.review_img_path}&name=${list.review_img_name}"/><p>${list.title}</p></td>
+                                   		<td class="product-title">
+                                   			<div class="title-detail">
+	                                   			<img src="display?path=${list.review_img_path}&name=${list.review_img_name}"/>
+	                                   			<p>${list.title}</p>
+                                   			</div>
+                               			</td>
                                    		<td class="content">
                                    			<dl class="satisfaction">
                                    				<dt>상품만족도</dt> 
@@ -99,8 +104,9 @@
                                    	</c:forEach>
                                     </tbody>
                                 </table>
-                                <div class="n-paging">
-                     		<ul>
+                            </article>
+                            <div class="n-paging">
+                     			<ul>
                      			<c:if test="${pageMaker.prev}">
                      				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(pageMaker.startPage - 1)}" class="prev">이전</a></li>
                      			</c:if>
@@ -117,9 +123,8 @@
                      			<c:if test="${pageMaker.next && pageMaker.endPage> 0}">
                      				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(pageMaker.endPage + 1)}" class="next">다음</a></li>
                      			</c:if>
-                     		</ul>
-                     	</div>
-                            </article>
+                     		  </ul>
+                    		</div>
 
                     </section>
 	            </section>

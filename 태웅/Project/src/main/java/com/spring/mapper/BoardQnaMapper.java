@@ -21,4 +21,8 @@ public interface BoardQnaMapper {
 	public int insertQnaRecommend(@Param("board_id")String board_id, 
 			@Param("seller_id")String seller_id, @Param("qna_num")int qna_num, 
 			@Param("recommend")String recommend);
+	public ArrayList<BoardQnaVO> qnaListAllById(@Param("id")String id,@Param("rowStart")int rowStart,
+			@Param("rowEnd")int rowEnd,@Param("startDate")String startDate,@Param("endDate")String endDate);
+	public int qnaCountById(@Param("id")String id,@Param("startDate")String startDate,@Param("endDate")String endDate);
 }
+	

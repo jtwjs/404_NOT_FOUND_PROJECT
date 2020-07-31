@@ -224,6 +224,9 @@ public class BuyerServiceImpl implements BuyerService {
 		mapper.BuyerGradeSetting(buyer);
 		
 	}
-	
+
+
+
+
 }
 	

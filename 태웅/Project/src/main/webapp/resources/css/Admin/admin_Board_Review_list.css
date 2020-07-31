@@ -35,16 +35,16 @@
 	width: 100px;
 }
 .TH--BR-buyerid {
-	width: 100px;
+	width: 110px;
 }
 .TH--BR-title {
-	width: 100px;
+	width: 110px;
 }
 .TH--BR-content {
-	width: 430px;
+	width: 400px;
 }
 .TH--BR-registerdate {
-	width: 100px;
+	width: 110px;
 }
 .TH--BR-del {
 	width: 50px;
@@ -61,9 +61,13 @@
 	
 }
 
-.TH--BR--num1, .TH--BR-reviewimgname1, .TH--BR-buyerid1,
- .TH--BR-title1, .TH--BR-content1, .TH--BR-register_date1 {
-	padding: 15px 0 15px 0;
+.TH--BR--num1, 
+.TH--BR-reviewimgname1, 
+.TH--BR-buyerid1,
+.TH--BR-title1,
+.TH--BR-content1,
+.TH--BR-register_date1 {
+	padding: 15px 5px;
 }
 
 .deleteBtn {
@@ -77,7 +81,9 @@
 
 
 #TH--BR-content1{
-	
-	width:430px; 
-	height:80px; 
+	display: flex;
+	align-items: center;
+	height:80px;
+	padding: 0 10px;
+    word-break: break-word;
 }

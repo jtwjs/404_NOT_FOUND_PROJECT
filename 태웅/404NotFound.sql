@@ -380,10 +380,11 @@ create table order_record(                   -- 주문기록
     constraint order_record_order_num_pk primary key(order_num)
 );
 
-
+select* from board_qna;
 /*상품문의*/
 drop table board_qna;
 create table board_qna(                -- 상품 문의 게시판
+    qna_id varchar2(50) not null,            -- Qna게시판 ID (기본키)
     qna_num number not null,           -- Qna게시판 ID (기본키)
     board_id varchar2(32) not null,    -- 게시판 ID (board_product테이블 외래키)
     seller_id varchar2(32) not null,   -- 판매자 ID
@@ -396,10 +397,13 @@ create table board_qna(                -- 상품 문의 게시판
     recommend varchar2(500),           -- 답변
     recommend_date date,               -- 답변일
     secret_flag number not null,       -- 비밀글 여부
-    constraint board_qna_qna_num_pk primary key(qna_num)
+    constraint board_qna_qna_id_pk primary key(qna_id)
 );
+
+
  select * from board_qna;
 select * from member_buyer;
+select * from admin;
 
 ----------------------------------------------------------------------
 

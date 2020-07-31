@@ -127,7 +127,8 @@ public class OrderServiceImpl implements OrderService {
 		ArrayList<OrderRecordVO> list = mapper.orderListAllById(buyer_id);
 		return list;
 	}
-    
+
+
     
     
 }

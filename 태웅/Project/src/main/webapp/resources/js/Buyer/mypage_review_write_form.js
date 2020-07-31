@@ -865,6 +865,8 @@ var form = document.getElementById('review_form'),
 			alert("별점을 선택해주세요.")
 		} else if( change_goods_text.length < 20) {
 			alert("20자 이상(공백, 특수문자, 단순문자 제외) 작성 시 후기 등록이 가능합니다.")
+		} else if( change_goods_text.length >200 ) {
+			alert("200자 이하(공백, 특수문자, 단순문자 제외) 작성 시 후기 등록이 가능합니다.")
 		} else {
 			alert("정상적으로 등록되었습니다.");
 			form.submit();

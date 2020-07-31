@@ -1,3 +1,8 @@
+#myPage {
+	position: relative;
+}
+
+
 #sort-select {
 	width: 200px;
 	padding: .5em;
@@ -16,7 +21,7 @@
 
 #transaction__detail {
 	margin: 20px 0;
-	padding: 0;
+	padding-bottom: 20px;
 }
 
 .transaction__detail--table {
@@ -87,8 +92,10 @@ transaction__detail--table {
     text-align: center;
 }
 
-#paging td {
-	border-bottom: none;
+.paging {
+	position: absolute;
+	bottom: 30px;
+	left: 430px;
 }
 
 .pageViewOption {

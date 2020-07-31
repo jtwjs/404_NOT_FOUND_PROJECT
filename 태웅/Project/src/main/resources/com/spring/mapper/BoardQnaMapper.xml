@@ -8,6 +8,7 @@
 <mapper namespace="com.spring.mapper.BoardQnaMapper">
 
     <resultMap type="com.spring.boardproduct.BoardQnaVO" id="BoardQnaMap">
+    	<result property="qna_id" column="qna_id" />
         <result property="qna_num" column="qna_num" />
         <result property="board_id" column="board_id" />
         <result property="seller_id" column="seller_id" />
@@ -29,7 +30,7 @@
 	</select>
 	
 	<insert id="insertQna" parameterType="com.spring.boardproduct.BoardQnaVO">
-	    INSERT INTO board_qna VALUES (#{qna_num}, #{board_id}, #{seller_id}, #{buyer_id}, 
+	    INSERT INTO board_qna VALUES ( #{qna_id} ,#{qna_num}, #{board_id}, #{seller_id}, #{buyer_id}, 
 	        #{qna_status}, #{answer_status}, SYSDATE, #{title}, #{content}, 
 	        #{recommend, jdbcType=VARCHAR}, #{recommend_date, jdbcType=VARCHAR}, #{secret_flag})
 	</insert>
@@ -229,5 +230,43 @@
 	        SET answer_status = 1, recommend = #{recommend}, recommend_date = SYSDATE 
 	        WHERE board_id = #{board_id} AND qna_num = #{qna_num} AND seller_id = #{seller_id}
 	</update>
+	
+	<select id = "qnaListAllById" resultMap = "BoardQnaMap" >
+		SELECT a.qna_id,a.qna_num,a.board_id,a.seller_id,a.buyer_id,
+				a.qna_status,a.answer_status,a.register_date,a.title,a.content,a.recommend,a.recommend_date,
+				a.secret_flag, b.thumbnail_thum, b.thumbnail_thum_path,b.product_country, b.product_name, b.title AS board_title
+		 FROM(
+		 	SELECT qna_id,
+		 		   qna_num,
+		 		   board_id,
+		 		   seller_id,
+		 		   buyer_id,
+		 		   qna_status,
+		 		   answer_status,
+		 		   register_date,
+		 		   title,
+		 		   content,
+		 		   recommend,
+		 		   recommend_date,
+		 		   secret_flag,
+		 		   row_number() OVER (ORDER BY recommend_date) AS rNum
+		   FROM board_qna
+		   <![CDATA[
+		     WHERE register_date >=to_date( #{startDate}, 'YYYY-MM-DD') AND register_date <= to_date(#{endDate}, 'YYYY-MM-DD')+1 
+		    ]]>
+		   ) a,
+		   board_product b
+		WHERE rNum between #{rowStart} AND #{rowEnd} AND buyer_id = #{id} AND a.board_id = b.board_id(+)
+		ORDER BY recommend_date ASC
+	</select>
+	
+	<select id ="qnaCountById" resultType="int">
+		SELECT count(*) FROM board_qna WHERE buyer_id =#{id}
+		<![CDATA[
+		     AND register_date >=to_date( #{startDate}, 'YYYY-MM-DD') AND register_date <= to_date(#{endDate}, 'YYYY-MM-DD')+1 
+		    ]]>
+	</select>
+	
+	
 
 </mapper>

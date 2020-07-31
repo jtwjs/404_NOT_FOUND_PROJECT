@@ -30,14 +30,13 @@
 	      	 	<a href="#" id="item4" onclick="location.href='BuyerMyPageOrderList.by'">주문내역</a>
 				<a href="#" id="item5" onclick="location.href='BuyerMyPageWishList.by'">찜목록</a>
 				<a href="#" id="item6" onclick="location.href='BuyerMyPageRecentlyView.by'">최근 본 상품</a>
-				<a href="#" id="item7" onclick="location.href='BuyerMyPageReview.by'">구매후기</a>
 	    	</dd>
 			<dt id="menu-qna">
 			    Q&A
 			</dt>
 	    	<dd id="menu-qna--item">
+	    		<a href="#" id="item7" onclick="location.href='BuyerMyPageReview.by'">구매후기</a>
 	        	<a href="#" id="item8" onclick="location.href='BuyerMyPageProductQna.by'">상품문의</a>
-				<a href="#" id="item9" onclick="location.href='BuyerMyPageServiceQna.by'">1:1문의</a>
             </dd>
 		</dl>								           				
   	</article>

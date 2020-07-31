@@ -36,6 +36,7 @@ import org.springframework.web.multipart.MultipartRequest;
 import com.spring.admin.AccountVO;
 import com.spring.boardproduct.BoardProductService;
 import com.spring.boardproduct.BoardProductVO;
+import com.spring.boardproduct.BoardQnaVO;
 import com.spring.boardproduct.BoardReviewVO;
 import com.spring.config.Security.CurrentUser;
 import com.spring.config.Security.CustomDetailService;
@@ -121,6 +122,28 @@ public class BuyerController {
 		}
 		int reviewCount = productService.countReviewById(account.getId());
 		
+		int[] cntArray = {0,0,0,0,0,0,0,0};
+		
+		ArrayList<OrderRecordVO> orderList = orderService.orderListAllById(account.getId());
+		for(int i=0; i<orderList.size(); i++) {
+			switch(orderList.get(i).getStatus()) {
+			case "입금대기중" : cntArray[0]++; break;
+			case "상품준비중" : cntArray[1]++; break;
+			case "배송준비중" : cntArray[1]++; break;
+			case "배송중" : cntArray[2]++; break;
+			case "배송완료" : cntArray[3]++; break;
+			case "교환신청" : cntArray[4]++; break;
+			case "교환완료" : cntArray[5]++; break;
+			case "반품신청" : cntArray[6]++; break;
+			case "반품완료" : cntArray[7]++; break;
+			}
+		}
+		
+		ArrayList<OrderRecordVO> recentlyRecord = orderService.orderBeingDeliveredListById(account.getId());
+		
+		
+		model.addAttribute("orderList",recentlyRecord);
+		model.addAttribute("countList",cntArray);
 		model.addAttribute("reveiwCount",reviewCount);
 		model.addAttribute("rest_exp",changeRest_exp);
 		model.addAttribute("user", buyerAccount);
@@ -626,8 +649,17 @@ public class BuyerController {
 	
 	
 	@RequestMapping(value = "/BuyerMyPageProductQna.by")
-	public String buyerMyPageProductQna(Model model, @CurrentUser AccountVO account) {
+	public String buyerMyPageProductQna(Model model, @CurrentUser AccountVO account, CriteriaVO cri,
+			 @RequestParam(value="startDate", required=false, defaultValue="19800101")String startDate,
+				@RequestParam(value="endDate", required=false, defaultValue ="")String endDate) {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
+		Date date = new Date();
+		date = new Date(date.getTime()+(1000*60*60*24*1));
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+		if(endDate.equals("") || endDate == null) {
+			endDate = simpleDateFormat.format(date);
+		}
+		System.out.println("endDate"+endDate);
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
 		try {
 			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
@@ -641,31 +673,51 @@ public class BuyerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
+		
+		int rowStart = cri.getRowStart();
+		int rowEnd = cri.getRowEnd();
+		ArrayList<BoardQnaVO> list = productService.qnaListAllById(account.getId(), rowStart, rowEnd,startDate,endDate);
+		for(int i=0; i<list.size(); i++) {
+			if(list.get(i).getRecommend() == null) {
+				list.get(i).setProcess_status("답변예정");
+			}else {
+				list.get(i).setProcess_status("답변완료");
+			}
+			try {
+				list.get(i).setThumbnail_thum(URLEncoder.encode(list.get(i).getThumbnail_thum(), "UTF-8"));
+				list.get(i).setThumbnail_thum_path(URLEncoder.encode(list.get(i).getThumbnail_thum_path(), "UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			switch(list.get(i).getQna_status()) {
+			case 1: list.get(i).setStr_qna_status("상품");break;
+			case 2: list.get(i).setStr_qna_status("배송"); break;
+			case 3: list.get(i).setStr_qna_status("취소"); break;
+			case 4: list.get(i).setStr_qna_status("반품/취소"); break;
+			case 5: list.get(i).setStr_qna_status("교환"); break;
+			case 6: list.get(i).setStr_qna_status("기타"); break;
+			}
+			
+		}
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(productService.qnaCountById(account.getId(),startDate,endDate));
+		
+		
+		System.out.println("path:"+ list.get(0).getThumbnail_thum_path());
+		System.out.println("img:"+ list.get(0).getThumbnail_thum());
+		System.out.println("country"+ list.get(0).getProduct_country());
+		System.out.println("name"+ list.get(0).getProduct_name());
+		System.out.println("board_title"+list.get(0).getBoard_title());
+		
+		model.addAttribute("currentPage", cri.getPage());
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("qnaList", list);
 		model.addAttribute("user", buyerAccount);
 		return "Buyer/mypage_productQna";
 	}
 
-	@RequestMapping(value = "/BuyerMyPageServiceQna.by")
-	public String buyerMyPageServiceQna(Model model, @CurrentUser AccountVO account) {
-		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
-		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
-		try {
-			if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
-				buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
-				buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
-			}else {
-				buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
-				buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
-			}
-			
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-
-		model.addAttribute("user", buyerAccount);
-		return "Buyer/mypage_serviceQna";
-	}
+	
 
 	// +게시판 목록 조회
 	@RequestMapping(value = "/BuyerMyPageSavePoint.by") // 적립금
@@ -675,6 +727,7 @@ public class BuyerController {
 		String id = account.getId();
 		int rowStart = cri.getRowStart();
 		int rowEnd = cri.getRowEnd();
+		
 		ArrayList<SavePointVO> pointList = buyerService.savePointListAll(id, status, rowStart, rowEnd);
 		
 		BuyerVO buyerAccount = buyerService.selectOneById(id);

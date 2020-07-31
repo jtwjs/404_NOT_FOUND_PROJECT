@@ -34,14 +34,14 @@ profile.addEventListener("click", function () {
 var myShopping = document.getElementById("menu-myShopping");
 var myShoppingItem = document.getElementById("menu-myShopping--item");
 myShopping.addEventListener("click", function () {
-  if (myShoppingItem.style.height == "140px") {
+  if (myShoppingItem.style.height == "105px") {
     myShopping.style.backgroundColor = null;
     myShopping.style.color = null;
     myShoppingItem.style.height = "0px";
   } else {
     myShopping.style.backgroundColor = "#34C759";
     myShopping.style.color = "#fff";
-    myShoppingItem.style.height = "140px";
+    myShoppingItem.style.height = "105px";
 
     profile.style.backgroundColor = null;
     profile.style.color = null;
@@ -106,38 +106,31 @@ if(href == 'http://localhost:8080/project/BuyerMyPageDeliveryManager.by') {
 if(href == 'http://localhost:8080/project/BuyerMyPageOrderList.by') {
 	myShopping.style.backgroundColor = "#34C759";
     myShopping.style.color = "#fff";
-    myShoppingItem.style.height = "140px";
+    myShoppingItem.style.height = "105px";
     document.getElementById('item4').classList.add('selected');
 }
 if(href == 'http://localhost:8080/project/BuyerMyPageWishList.by') {
 	myShopping.style.backgroundColor = "#34C759";
     myShopping.style.color = "#fff";
-    myShoppingItem.style.height = "140px";
+    myShoppingItem.style.height = "105px";
     document.getElementById('item5').classList.add('selected');
 }
 if(href == 'http://localhost:8080/project/BuyerMyPageRecentlyView.by'){
 	myShopping.style.backgroundColor = "#34C759";
     myShopping.style.color = "#fff";
-    myShoppingItem.style.height = "140px";
+    myShoppingItem.style.height = "105px";
     document.getElementById('item6').classList.add('selected');
 }
+
 if(href == 'http://localhost:8080/project/BuyerMyPageReview.by') {
-	myShopping.style.backgroundColor = "#34C759";
-    myShopping.style.color = "#fff";
-    myShoppingItem.style.height = "140px";
+   qna.style.backgroundColor = "#34C759";
+    qna.style.color = "#fff";
+    qnaItem.style.height = "70px";
     document.getElementById('item7').classList.add('selected');
 }
-
-
 if(href == 'http://localhost:8080/project/BuyerMyPageProductQna.by') {
     qna.style.backgroundColor = "#34C759";
     qna.style.color = "#fff";
     qnaItem.style.height = "70px";
     document.getElementById('item8').classList.add('selected');
-}
-if(href == 'http://localhost:8080/project/BuyerMyPageServiceQna.by'){
-	qna.style.backgroundColor = "#34C759";
-    qna.style.color = "#fff";
-    qnaItem.style.height = "70px";
-    document.getElementById('item9').classList.add('selected');
 }

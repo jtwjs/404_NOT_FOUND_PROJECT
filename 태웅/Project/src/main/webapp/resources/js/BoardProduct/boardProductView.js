@@ -558,6 +558,30 @@ function modal_cancle(){
 }
 
 
+function sellerBestListMove(move){
+	var box = document.getElementById("seller__best-list--search-inner-box");
+	
+	var val = Number(box.style.left.replace(/[^-\d\.]/g, ''));
+	var location;
+	
+	
+	if(val == ""){
+		val = Number(0);
+	}
+	
+	if(move == "right" && val > Number(-894)){
+		val -= Number(149);
+		location = String(val) + "px";
+	}else if(move == "left" && val < Number(0)){
+		val += Number(149);
+		location = String(val) + "px";
+	}
+	
+	
+	box.style.left = location;
+	
+}
+
 
 var order_id = "test";
 
@@ -1239,7 +1263,7 @@ function qnaDisplayOpen(thisTr, i){
 function qnaRecommendSubmit(i, qna_num){
 
 	
-	var recommend = document.getElementsByClassName("qna__recommend--content")[Number(i)].value;
+	var recommend = document.getElementsByClassName("qna__recommend--content")[Number(i)];
 	var csrfToken = document.getElementById("csrfFormId").value;
 	var board_id = document.getElementById("board_id").value;
 	var seller_id = document.getElementById("seller_id").value;
@@ -1249,7 +1273,7 @@ function qnaRecommendSubmit(i, qna_num){
 	    url: "QnaRecommendRegist.bo",
 	    contentType: 'application/html; charset=UTF-8',
 	    data: "board_id=" + board_id + "&seller_id=" + seller_id + 
-	          "&qna_num=" + qna_num + "&recommend=" + recommend,
+	          "&qna_num=" + qna_num + "&recommend=" + recommend.value,
 	    cache: false,
 	    beforeSend : function(xhr) {
 	    	 xhr.setRequestHeader('X-CSRF-Token', csrfToken);
@@ -1263,15 +1287,15 @@ function qnaRecommendSubmit(i, qna_num){
             var recommendBox = document.getElementById("customer-qna__table--recommend-" + i);
 	    	
 	    	if(document.getElementById("customer-qna__table--recommend-" + i)){
-	    		var recommendText = document.getElementsByClassName("qna__content--recommend")[Number(i)];
-	    		recommendText.textContent = recommend;
-	    		var dateText = document.getElementsByClassName("qna__recommend-date--format")[Number(i)];
+	    		var recommendText = recommendBox.getElementsByClassName("qna__content--recommend")[0];
+	    		recommendText.textContent = recommend.value;
+	    		var dateText = recommendBox.parentNode.getElementsByClassName("qna__recommend-date--format")[0];
 	    		dateText.textContent = data;
 	    	}else{
 	    		cell1.parentNode.insertAdjacentHTML("afterend", 
 		    			"<div id='customer-qna__table--recommend-" + i + "'>" + 
 	                    "    <span class='customer-qna__table--content-A'>A</span>" +
-	                    "    <span class='qna__content--recommend'>" + recommend + "</span>" +
+	                    "    <span class='qna__content--recommend'>" + recommend.value + "</span>" +
 	                    "</div>" + 
 	                    "<div>" + 
 	    	            "    <span>답변 등록일: &nbsp;&nbsp;&nbsp;</span>" + 

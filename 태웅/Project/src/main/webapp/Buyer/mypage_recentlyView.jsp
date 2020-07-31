@@ -107,7 +107,8 @@
                                 </table>
                                 <input type= "hidden" id="separation" name="separation" />
                                </form>
-                               <div class="n-paging">
+                            </article>
+                            <div class="n-paging">
                                	<ul>
                                	<c:if test="${pageMaker.prev}">
                      				<li><a href="BuyerMyPageSavePoint.by${pageMaker.makeQuery(pageMaker.startPage - 1)}" class="prev">이전</a></li>
@@ -127,7 +128,6 @@
                      			</c:if>
                                	</ul>
                                </div>
-                            </article>
                     </section>
 	            </section>
 	        </div>	
