@@ -63,6 +63,8 @@ public class BoardProductVO {              // 판매게시판
     private int delivery_price;            // 배송비
     private int quantity;                  // 재고량
     private double satisfaction;           // 평가점수
+    private double product_satisfaction;
+    private double delivery_satisfaction;
     private String content;                // 게시판 내용
     private Date register_date;            // 게시글 등록일
     private int category_1;                // 1차 카테고리 (분류)
@@ -133,6 +135,20 @@ public class BoardProductVO {              // 판매게시판
 	}
 	public void setSatisfaction(double satisfaction) {
 		this.satisfaction = satisfaction;
+	}
+	
+	
+	public double getProduct_satisfaction() {
+		return product_satisfaction;
+	}
+	public void setProduct_satisfaction(double product_satisfaction) {
+		this.product_satisfaction = product_satisfaction;
+	}
+	public double getDelivery_satisfaction() {
+		return delivery_satisfaction;
+	}
+	public void setDelivery_satisfaction(double delivery_satisfaction) {
+		this.delivery_satisfaction = delivery_satisfaction;
 	}
 	public String getContent() {
 		return content;

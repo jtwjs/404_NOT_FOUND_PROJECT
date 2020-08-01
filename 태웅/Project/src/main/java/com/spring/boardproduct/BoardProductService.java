@@ -51,8 +51,11 @@ public interface BoardProductService {
     public int getBoardQnaListCount(String board_id, int qna_status, 
     		int answer_status, String keyword);
     public int getCountQna(String board_id);
+    public int getCountQnaAnswer(String board_id);
     public int insertQnaRecommend(String board_id, String seller_id, int qna_num, String recommend);
     
     public ArrayList<BoardQnaVO> qnaListAllById(String id, int rowStart, int rowEnd,String startDate,String endDate);
     public int qnaCountById(String id,String startDate,String endDate);
+    
+    public ArrayList<BoardProductVO> selectProductListBySellerId(String seller_id);
 }

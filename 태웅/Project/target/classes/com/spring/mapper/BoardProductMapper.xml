@@ -313,5 +313,10 @@
             WHERE RNUM <= 10
         ]]>
 	</select>
+	
+	<select id="selectProductListBySellerId" resultType="com.spring.boardproduct.BoardProductVO">
+		SELECT a.*, b.satisfaction AS product_satisfaction, b.delivery_satisfaction AS delivery_satisfaction FROM board_product a, board_review b 
+		WHERE seller_id = #{seller_id} AND a.board_id = b.board_id(+)
+	</select>
 
 </mapper>

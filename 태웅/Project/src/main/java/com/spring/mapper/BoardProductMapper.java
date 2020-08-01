@@ -47,5 +47,6 @@ public interface BoardProductMapper {
     public int isAdminBoardList(HashMap<String, String> hashmap);
     
     
+	public ArrayList<BoardProductVO> selectProductListBySellerId(String seller_id);
     
 }

@@ -2,85 +2,100 @@
 <!DOCTYPE mapper
 	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- namespace="com.spring.mapper.BoardMapper는 
-	 BoardMapper인퍼페이스(BoardMapper.class)의 이름을 사용한다. -->
+<!-- namespace="com.spring.mapper.BoardMapper는 BoardMapper인퍼페이스(BoardMapper.class)의 
+	이름을 사용한다. -->
 <!-- root-context에서 아래와 같이 typeAliasesPackage를 설정하면 패키지 경로 생략 가능. -->
 <mapper namespace="com.spring.mapper.OrderRecordMapper">
 
-    <resultMap type="com.spring.order.OrderRecordVO" id="OrderRecordMap">
-        <result property="order_num" column="order_num" />
-        <result property="order_id" column="order_id" />
-        <result property="board_id" column="board_id" />
-        <result property="board_title" column="board_title" />
-        <result property="seller_id" column="seller_id" />
-        <result property="buyer_id" column="buyer_id" />
-        <result property="amount" column="amount" />
-        <result property="price" column="price" />
-        <result property="delivery_price" column="delivery_price" />
-        <result property="use_point" column="use_point" />
-        <result property="tot_price" column="tot_price" />
-        <result property="status" column="status" />
-        <result property="buyer_name" column="buyer_name" />
-        <result property="buyer_phone" column="buyer_phone" />
-        <result property="buyer_email" column="buyer_email" />
-        <result property="order_postalCode" column="order_postalCode" />
-        <result property="order_address" column="order_address" />
-        <result property="order_name" column="order_name" />
-        <result property="order_phone" column="order_phone" />
-        <result property="order_demand" column="order_demand" />
-        <result property="order_delivery" column="order_delivery" />
-        <result property="order_invoicenum" column="order_invoicenum" />
-        <result property="order_payment" column="order_payment" />
-        <result property="order_account" column="order_account" />
-        <result property="order_date" column="order_date" />
-        <result property="non_member_flag" column="non_member_flag" />
-    </resultMap>
-	<!-- id는 Mapper.java(여기선 MemberMapper.java)에 동일하게 사용해야된다. -->  
-	
-	<insert id="insertOrderRecord" parameterType="com.spring.order.OrderRecordVO">
-	    <selectKey resultType="int" keyProperty="order_num" order="BEFORE">
-            SELECT NVL(MAX(order_num),0)+1 FROM order_record
-        </selectKey>
-            INSERT INTO order_record VALUES (#{order_num}, #{order_id}, #{board_id}, #{board_title}, 
-            #{seller_id}, #{buyer_id}, #{amount}, #{price}, #{delivery_price}, #{use_point}, #{tot_price}, 
-            #{status}, #{buyer_name}, #{buyer_phone}, #{buyer_email}, #{order_postalCode}, #{order_address}, 
-            #{order_name}, #{order_phone}, #{order_demand, jdbcType=VARCHAR}, #{order_delivery}, 
-            #{order_invoicenum}, #{order_payment}, #{order_account}, SYSDATE, #{non_member_flag})
+	<resultMap type="com.spring.order.OrderRecordVO"
+		id="OrderRecordMap">
+		<result property="order_num" column="order_num" />
+		<result property="order_id" column="order_id" />
+		<result property="board_id" column="board_id" />
+		<result property="board_title" column="board_title" />
+		<result property="seller_id" column="seller_id" />
+		<result property="buyer_id" column="buyer_id" />
+		<result property="amount" column="amount" />
+		<result property="price" column="price" />
+		<result property="delivery_price" column="delivery_price" />
+		<result property="use_point" column="use_point" />
+		<result property="tot_price" column="tot_price" />
+		<result property="status" column="status" />
+		<result property="buyer_name" column="buyer_name" />
+		<result property="buyer_phone" column="buyer_phone" />
+		<result property="buyer_email" column="buyer_email" />
+		<result property="order_postalCode" column="order_postalCode" />
+		<result property="order_address" column="order_address" />
+		<result property="order_name" column="order_name" />
+		<result property="order_phone" column="order_phone" />
+		<result property="order_demand" column="order_demand" />
+		<result property="order_delivery" column="order_delivery" />
+		<result property="order_invoicenum" column="order_invoicenum" />
+		<result property="order_payment" column="order_payment" />
+		<result property="order_account" column="order_account" />
+		<result property="order_date" column="order_date" />
+		<result property="non_member_flag" column="non_member_flag" />
+	</resultMap>
+	<!-- id는 Mapper.java(여기선 MemberMapper.java)에 동일하게 사용해야된다. -->
+
+	<insert id="insertOrderRecord"
+		parameterType="com.spring.order.OrderRecordVO">
+		<selectKey resultType="int" keyProperty="order_num"
+			order="BEFORE">
+			SELECT NVL(MAX(order_num),0)+1 FROM order_record
+		</selectKey>
+		INSERT INTO order_record VALUES (#{order_num}, #{order_id},
+		#{board_id}, #{board_title},
+		#{seller_id}, #{buyer_id}, #{amount}, #{price}, #{delivery_price}, #{use_point},
+		#{tot_price},
+		#{status}, #{buyer_name}, #{buyer_phone}, #{buyer_email}, #{order_postalCode},
+		#{order_address},
+		#{order_name}, #{order_phone}, #{order_demand, jdbcType=VARCHAR}, #{order_delivery},
+		#{order_invoicenum}, #{order_payment}, #{order_account}, SYSDATE,
+		#{non_member_flag})
 	</insert>
-	
-	<select id="getOrderID" parameterType="String" resultType="String">
-	    SELECT order_id FROM order_record 
-	        WHERE board_id = #{board_id} AND buyer_id = #{buyer_id} AND order_date > SYSDATE-14
+
+	<select id="getOrderID" parameterType="String"
+		resultType="String">
+		SELECT order_id FROM order_record
+		WHERE board_id = #{board_id} AND buyer_id = #{buyer_id} AND order_date >
+		SYSDATE-14
 	</select>
-	
-	<select id="selectOrderByOrderId" resultType="com.spring.order.OrderRecordVO">
-		SELECT a.*, b.thumbnail_thum, b.thumbnail_thum_path FROM order_record a,board_product b WHERE order_id=#{order_id} AND a.board_id = b.board_id(+)
+
+	<select id="selectOrderByOrderId"
+		resultType="com.spring.order.OrderRecordVO">
+		SELECT a.*, b.thumbnail_thum, b.thumbnail_thum_path FROM
+		order_record a,board_product b WHERE order_id=#{order_id} AND
+		a.board_id = b.board_id(+)
 	</select>
-	
-	<select id="selectOrderListById" resultType="com.spring.order.OrderRecordVO">
-	SELECT a.order_num,a.order_id,a.board_id,a.board_title,a.buyer_id,a.amount,a.price,a.status,a.order_date,
-        b.thumbnail_thum,b.thumbnail_thum_path
+
+	<select id="selectOrderListById"
+		resultType="com.spring.order.OrderRecordVO">
+		SELECT
+		a.order_num,a.order_id,a.board_id,a.board_title,a.buyer_id,a.amount,a.price,a.status,a.order_date,
+		b.thumbnail_thum,b.thumbnail_thum_path
 		FROM (
-			SELECT order_num,
-				    order_id,
-					board_id,
-					board_title,
-					buyer_id,
-					amount,
-					price,
-					status,
-					order_date,
-					row_number() OVER (ORDER BY order_num DESC)AS rNum
-			FROM order_record
+		SELECT order_num,
+		order_id,
+		board_id,
+		board_title,
+		buyer_id,
+		amount,
+		price,
+		status,
+		order_date,
+		row_number() OVER (ORDER BY order_num DESC)AS rNum
+		FROM order_record
 			<![CDATA[
 		     WHERE order_date >=to_date( #{startDate}, 'YYYY-MM-DD') AND order_date <= to_date(#{endDate}, 'YYYY-MM-DD')+1 
 		    ]]>
-			) a,
-            board_product b
-		WHERE rNum between #{rowStart} AND #{rowEnd} AND buyer_id = #{buyer_id} AND a.board_id = b.board_id(+)
+		) a,
+		board_product b
+		WHERE rNum between #{rowStart} AND #{rowEnd} AND buyer_id =
+		#{buyer_id} AND a.board_id = b.board_id(+)
 		ORDER BY order_num DESC
 	</select>
-	
+
 	<select id="orderListCountById" resultType="int">
 		SELECT count(*) FROM order_record
 		<![CDATA[  
@@ -88,23 +103,28 @@
 		AND order_date >=to_date(#{startDate}, 'YYYY-MM-DD') AND order_date <= to_date(#{endDate}, 'YYYY-MM-DD')+1
 			 ]]>
 	</select>
-	
-	<select id="orderBeingDeliveredListById" resultType="com.spring.order.OrderRecordVO">
-		SELECT * FROM order_record 
-		WHERE buyer_id = #{buyer_id} AND status != '구매확정' AND status != '주문취소' 
+
+	<select id="orderBeingDeliveredListById"
+		resultType="com.spring.order.OrderRecordVO">
+		SELECT * FROM order_record
+		WHERE buyer_id = #{buyer_id} AND status != '구매확정' AND status != '주문취소'
 		ORDER BY order_num desc
 	</select>
-	
-	<select id="orderListAllById" resultType="com.spring.order.OrderRecordVO" >
+
+	<select id="orderListAllById"
+		resultType="com.spring.order.OrderRecordVO">
 		SELECT * FROM order_record
 		WHERE buyer_id = #{buyer_id} ORDER BY order_num
 	</select>
-	
-	<select id="getOrderRecordOneByIdListCount" resultType="int" parameterType="String">
-		select count(*) from order_record WHERE seller_id = #{seller_id}
+
+	<select id="getOrderRecordOneByIdListCount" resultType="int"
+		parameterType="String">
+		select count(*) from order_record WHERE seller_id =
+		#{seller_id}
 	</select>
-	
-	<select id="getOrderRecordOneByIdList" parameterType="HashMap" resultType="com.spring.order.OrderRecordVO">
+
+	<select id="getOrderRecordOneByIdList" parameterType="HashMap"
+		resultType="com.spring.order.OrderRecordVO">
 		<![CDATA[
 			select order_num, order_id, board_id, board_title, seller_id, buyer_id, amount, price, delivery_price, use_point, tot_price,
 					status, buyer_name, buyer_phone, buyer_email, order_postalCode, order_address, order_name, order_phone, order_demand,
@@ -116,8 +136,26 @@
 	        where rnum>=#{startrow} and rnum<=#{endrow}
      	]]>
 	</select>
-	
-	
 
-		
+
+	<select id="salesStatusCount" resultType="int">
+		SELECT count(*) FROM
+		order_record WHERE seller_id=#{seller_id} AND NOT status like '취소%'
+		AND NOT status like '반품%'
+	</select>	
+	
+	<select id="todayOrderRequestListBySellerId" resultType="com.spring.order.OrderRecordVO">
+		SELECT * FROM 
+		order_record WHERE seller_id=#{seller_id} AND to_char(order_date,
+		'yyyymmdd') = to_char(sysdate, 'yyyymmdd')
+	</select>
+	
+	<select id="selectOrderListBySellerId" resultType="com.spring.order.OrderRecordVO">
+		SELECT * FROM 
+		order_record WHERE seller_id=#{seller_id} ORDER BY order_num DESC
+	</select>
+
+
+
+
 </mapper>

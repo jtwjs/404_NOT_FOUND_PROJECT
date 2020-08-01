@@ -129,6 +129,25 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 
+	@Override
+	public int salesStatusCount(String seller_id) {
+		int count = mapper.salesStatusCount(seller_id);
+		return count;
+	}
+
+	@Override
+	public ArrayList<OrderRecordVO> todayOrderRequestListBySellerId(String seller_id) {
+		ArrayList<OrderRecordVO> list = mapper.todayOrderRequestListBySellerId(seller_id);
+		return list;
+	}
+
+	@Override
+	public ArrayList<OrderRecordVO> selectOrderListBySellerId(String seller_id) {
+		ArrayList<OrderRecordVO> list = mapper.selectOrderListBySellerId(seller_id);
+		return list;
+	}
+
+
     
     
 }

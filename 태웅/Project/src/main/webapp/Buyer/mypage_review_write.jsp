@@ -100,7 +100,7 @@
                                    	<c:if test="${fn:length(orderList) == 0}">
                                         <tr>
                                             <td class="non-list" colspan="5">
-                                               주문한 상품이 없습니다.
+                                               		주문한 상품이 없습니다.
                                             </td>
                                         </tr>
                                    

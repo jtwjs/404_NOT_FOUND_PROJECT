@@ -225,6 +225,10 @@
 	    SELECT COUNT(*) FROM board_qna WHERE board_id = #{board_id}
 	</select>
 	
+	<select id="getCountQnaAnswer" parameterType="String" resultType="int" >
+		SELECT COUNT(*) FROM board_qna WHERE board_id = #{board_id} AND answer_status = 1
+	</select>
+	
 	<update id="insertQnaRecommend">
 	    UPDATE board_qna 
 	        SET answer_status = 1, recommend = #{recommend}, recommend_date = SYSDATE 

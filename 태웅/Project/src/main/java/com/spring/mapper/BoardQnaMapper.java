@@ -18,6 +18,7 @@ public interface BoardQnaMapper {
 			@Param("qna_status")int qna_status, @Param("answer_status")int answer_status, 
 			@Param("keyword")String keyword);
 	public int getCountQna(String board_id);
+	public int getCountQnaAnswer(String board_id);
 	public int insertQnaRecommend(@Param("board_id")String board_id, 
 			@Param("seller_id")String seller_id, @Param("qna_num")int qna_num, 
 			@Param("recommend")String recommend);

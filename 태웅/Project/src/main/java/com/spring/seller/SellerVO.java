@@ -31,7 +31,9 @@ public class SellerVO {
 	private String wtdrDate;
 	private String loginDate;
 	private int sellerNum;
-	private char grade;
+	private double grade;
+	private double productSatisfaction;
+	private double deliverySatisfaction;
 	private char delFlag;
 	
 	public String getId() {
@@ -181,11 +183,25 @@ public class SellerVO {
 	public void setSellerNum(int sellerNum) {
 		this.sellerNum = sellerNum;
 	}
-	public char getGrade() {
+	public double getGrade() {
 		return grade;
 	}
-	public void setGrade(char grade) {
+	public void setGrade(double grade) {
 		this.grade = grade;
+	}
+	
+	
+	public double getProductSatisfaction() {
+		return productSatisfaction;
+	}
+	public void setProductSatisfaction(double productSatisfaction) {
+		this.productSatisfaction = productSatisfaction;
+	}
+	public double getDeliverySatisfaction() {
+		return deliverySatisfaction;
+	}
+	public void setDeliverySatisfaction(double deliverySatisfaction) {
+		this.deliverySatisfaction = deliverySatisfaction;
 	}
 	public String getMemberType() {
 		return memberType;
