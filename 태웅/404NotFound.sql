@@ -407,7 +407,32 @@ create table board_qna(                -- 상품 문의 게시판
 
 
 ----------------------------------------------------------------------
-select * from member_buyer;
+select * from member_seller;
 select * from order_record;
 SELECT count(*) FROM order_record WHERE seller_id='xodnd123' AND order_date = sysdate;
 SELECT count(*) FROM order_record WHERE seller_id='xodnd123' AND NOT status like '취소%' AND NOT status like '반품%';
+
+SELECT p.* 
+		FROM (
+			
+		    SELECT seller_id,board_num,title,price,delivery_price,quantity,satisfaction,content,register_date,category_1,
+			category_2,category_local,sales_producer,product_name,product_weight,product_size,product_country,date_manufacture,best_before_date,
+			transgenic,storage_method,consumer_consulation,thumbnail_origin,thumbnail_thum,product_origin_1,product_thum_1,product_origin_2,product_thum_2,
+			product_origin_3,product_thum_3,product_origin_4,product_thum_4,content_origin,thumbnail_origin_path,thumbnail_thum_path,product_origin_path,
+			product_thum_path,content_origin_path,sale_status,hit,read_count,
+			row_number() OVER (ORDER BY board_num DESC)AS rNum
+			FROM board_product
+		     SELECT seller_id,board_num,title,price,delivery_price,quantity,satisfaction,content,register_date,category_1,
+			category_2,category_local,sales_producer,product_name,product_weight,product_size,product_country,date_manufacture,best_before_date,
+			transgenic,storage_method,consumer_consulation,thumbnail_origin,thumbnail_thum,product_origin_1,product_thum_1,product_origin_2,product_thum_2,
+			product_origin_3,product_thum_3,product_origin_4,product_thum_4,content_origin,thumbnail_origin_path,thumbnail_thum_path,product_origin_path,
+			product_thum_path,content_origin_path,sale_status,hit,read_count,
+			row_number() OVER (ORDER BY board_num DESC)AS rNum
+			FROM board_product
+		     WHERE register_date between to_date('20200904','YYYYMMDD')AND to_date('20000819','YYYYMMDD')
+
+			) p
+		WHERE rNum between 1 AND 10
+		ORDER BY register_date DESC;
+        select register_date from board_product where seller_id='xodnd123'AND register_date between to_date('20200104','YYYYMMDD')AND to_date('20200819','YYYYMMDD');
+        select * from order_record;

@@ -45,8 +45,13 @@ public interface BoardProductMapper {
     //삭제기능
     public int AdminBoardProductDelete(int board_num); 	
     public int isAdminBoardList(HashMap<String, String> hashmap);
-    
-    
 	public ArrayList<BoardProductVO> selectProductListBySellerId(String seller_id);
+	
+	public int selectProductListCountBySellerId(@Param("seller_id")String seller_id,@Param("startDate")String startDate,
+								@Param("endDate")String endDate);
+	public ArrayList<BoardProductVO> selectProductListBySellerId2(@Param("seller_id")String seller_id,
+							@Param("rowStart")int rowStart,@Param("rowEnd")int rowEnd, @Param("startDate")String startDate,@Param("endDate")String endDate);
+	
+	
     
 }

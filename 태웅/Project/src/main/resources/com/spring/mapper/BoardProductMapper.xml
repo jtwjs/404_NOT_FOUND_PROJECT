@@ -318,5 +318,32 @@
 		SELECT a.*, b.satisfaction AS product_satisfaction, b.delivery_satisfaction AS delivery_satisfaction FROM board_product a, board_review b 
 		WHERE seller_id = #{seller_id} AND a.board_id = b.board_id(+)
 	</select>
-
+	
+	
+	<select id="selectProductListCountBySellerId" resultType="int">
+		SELECT count(*) FROM board_product 
+		<![CDATA[  
+		WHERE seller_id=#{seller_id}
+		AND register_date >=to_date(#{startDate}, 'YYYY-MM-DD') AND register_date <= to_date(#{endDate}, 'YYYY-MM-DD')+1
+			 ]]>
+	</select>
+	
+	<select id="selectProductListBySellerId2" resultType="com.spring.boardproduct.BoardProductVO">
+		SELECT * 
+		FROM (
+			SELECT seller_id,board_num,title,price,delivery_price,quantity,satisfaction,content,register_date,category_1,
+			category_2,category_local,sales_producer,product_name,product_weight,product_size,product_country,date_manufacture,best_before_date,
+			transgenic,storage_method,consumer_consulation,thumbnail_origin,thumbnail_thum,product_origin_1,product_thum_1,product_origin_2,product_thum_2,
+			product_origin_3,product_thum_3,product_origin_4,product_thum_4,content_origin,thumbnail_origin_path,thumbnail_thum_path,product_origin_path,
+			product_thum_path,content_origin_path,sale_status,hit,read_count,
+			row_number() OVER (ORDER BY board_num DESC)AS rNum
+			FROM board_product
+			<![CDATA[
+		     WHERE register_date >=to_date( #{startDate}, 'YYYY-MM-DD') AND register_date <= to_date(#{endDate}, 'YYYY-MM-DD')+1 AND seller_id =#{seller_id} 
+		    ]]>
+			) p
+		WHERE rNum between #{rowStart} AND #{rowEnd} 
+		ORDER BY register_date DESC
+		
+	</select>
 </mapper>

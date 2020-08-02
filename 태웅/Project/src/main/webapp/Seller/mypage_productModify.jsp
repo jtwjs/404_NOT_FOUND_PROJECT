@@ -53,210 +53,142 @@
                 <section id="content">
                 <jsp:include page="mypage_template.jsp" flush="false"/>
                 
-                    <section id="myPage">
-                        <h2 class="content-title">상품수정</h2>
+                        <section id="myPage">
+                        <h2 class="content-title">상품등록</h2>
                     
                         <div class="mypage-upload">
-
-                            <div class="uploadBox">
-                                <table class="uploadBox__table">
-                                    <tr>
-                                        <th>이름</th>
-                                        <td>
-                                            <input type="text" name="sales_producer" value="${product.sales_producer}" readonly="readonly" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>연락처</th>
-                                        <td>
-                                            <input type="text" class="setNumberTel" name="consumer_consulation"
-                                                value="${product.consumer_consulation}" readonly="readonly" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>상품 카테고리</th>
-                                        <td class="select-btn">
-                                            <p>
-                                                <select name="code01_idx">
-                                                    <option value="">선택하세요.</option>
-                                                    <option value="1">쌀/잡곡</option>
-                                                    <option value="2">채소류</option>
-                                                    <option value="3">과일</option>
-                                                    <option value="4">축산물</option>
-                                                    <option value="5">수산물/건어물</option>
-                                                    <option value="6">가공식품/떡류</option>
-                                                    <option value="7">김치/반찬/젓갈</option>
-                                                    <option value="8">장/조청/식초</option>
-                                                    <option value="9">건강식품</option>
-                                                    <option value="10">차류</option>
+                            <form id="productUploadForm" method="post" onsubmit="return registCheck();" 
+                                action="BoardProductRegist.bo" enctype="multipart/form-data">
+								<div class="product-category1 article-wrap">
+									<h2 class="article-title">상품유형</h2>
+									<ul class="category1_list">
+										<li class="category1_list-item">
+											<button type="button" id="grain">쌀/잡곡</button>
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="vegetable">채소류</button>
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="fruit">과일</button>	
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="liveStock">축산물</button>
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="aquatic">수산물/건어물</button>
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="processedFood">가공식품/떡류</button>
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="kimchi">김치/반찬/젓갈</button>
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="jang">장/조청/식초</button>
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="health">건강식품</button>
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="tea">차류</button>
+										</li>
+									</ul>
+								</div>
+								<div class="product-name article-wrap">
+									<h2 class="article-title">게시물제목</h2>
+									<div class="input_wrap">
+										<input type="text" id="board_name" placeholder="게시물의 제목을 적어주세요" />
+									</div>
+								</div>
+								
+								<div class="product-detail_1 article-wrap">
+									<div class="product_representImg">
+										<h2 class="article-title">상품대표이미지</h2>
+										<input type="file" id="representImg" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" />
+										<label for="representImg" id="representImgLabel">이미지 등록</label>
+									</div>
+									<div class="detail_1-desc_wrap"> 
+										<div class="detail_1-desc_1">
+											<h2 class="article-title">상품이미지</h2>
+											<div class="productImg">	
+												<input type="file" id="productImg1" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" />
+												<label for="productImg1" id="productImg1Label">이미지 등록</label>
+												<input type="file" id="productImg2" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" />
+												<label for="productImg2" id="productImg2Label">이미지 등록</label>
+												<input type="file" id="productImg3" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" />
+												<label for="productImg3" id="productImg3Label">이미지 등록</label>
+											</div>
+											<div class="product_country">
+												<h2 class="article-title">원산지</h2>
+												<select name="category_local" id="code03_idx" class="select-btn1 product_input2">
+	                                                <option value="" selected disabled>선택하세요.</option>
+	                                                <option value=1>강원도</option>
+	                                                <option value=2>경기도</option>
+	                                                <option value=3>경상북도</option>
+	                                                <option value=4>경상남도</option>
+	                                                <option value=5>전라북도</option>
+	                                                <option value=6>전라남도</option>
+	                                                <option value=7>충청북도</option>
+	                                                <option value=8>충청남도</option>
+	                                                <option value=9>제주도</option>
+	                                                <option value=10>울릉도/독도</option>
+	                                            </select>
+	                                             <input type="text" value ="" placeholder="나머지 입력  예) 속초" 
+                                                id="code04_idx" class="product_input2" maxlength="53" />
+                                          	</div> 
+                                          	<div class="product_weight">
+												<h2 class="article-title">중량</h2>
+												<input type="text" id="weight" class="product_input3"/>
+												<select name="pd_symbol" id="pd_symbol" class="product_input4">
+	                                                <option value="Kg">Kg</option>
+	                                                <option value="근">근</option>
+	                                                <option value="개">개</option>
+	                                                <option value="g">g</option>
+	                                                <option value="톤">톤</option>
+	                                                <option value="묶음">묶음</option>
+                                            	</select>
+											</div>
+											
+										</div>
+										<div class="detail_1-desc_2">
+											<h2 class="article-title">상품카테고리</h2>
+											 <select name="category_1" id="code01_idx" class="select-btn1 product_input"
+                                                    onchange="selectedOption_1();">
+                                                    <option value="" selected disabled>선택하세요.</option>
+                                                    <option value=1>쌀/잡곡</option>
+                                                    <option value=2>채소류</option>
+                                                    <option value=3>과일</option>
+                                                    <option value=4>축산물</option>
+                                                    <option value=5>수산물/건어물</option>
+                                                    <option value=6>가공식품/떡류</option>
+                                                    <option value=7>김치/반찬/젓갈</option>
+                                                    <option value=8>장/조청/식초</option>
+                                                    <option value=9>건강식품</option>
+                                                    <option value=10>차류</option>
                                                 </select>
-                                            </p>
-                                            <p>
-                                                <select name="code02_idx" class="select-btn2">
-                                                    <option value="">선택하세요.</option>
-                                                </select>
-                                            </p>
-                                            <script>
-                                                $(function () {
-                                                    $("select[name=code01_idx]").change(function (e) {
-
-                                                        code01_idx = $(this).val();
-
-                                                        jQuery.ajax({
-                                                            type: "POST",
-                                                            url: "ajax_code2_idx.php",
-                                                            data: { code01_idx: code01_idx },
-                                                            success: function (data) {
-                                                                $("select[name=code02_idx]").empty().append(data)
-                                                            }
-                                                        });
-                                                    });
-                                                })
-                                            </script>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>제목</th>
-                                        <td>
-                                            <input type="text" name="title" value="${product.title}" 
-                                                placeholder="제목을 입력하세요." id="setTitle" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>지역</th>
-                                        <td class="addr">
-                                            <input type="text" id="sample4_postcode" class="inputAddrNum"
-                                                name="addr_num" placeholder="우편번호">
-                                            <button type="button" class="addrNumBtn"
-                                                onclick="sample4_execDaumPostcode()">우편번호찾기</button><br>
-                                            <input type="text" id="sample4_roadAddress" class="inputAddr1"
-                                                id="sample4_roadAddress" placeholder="도로명주소">
-                                            <span id="guide" style="color:#999;display:none"></span>
-                                            <input type="text" class="inputAddr2" id="sample4_detailAddress"
-                                                placeholder="상세주소">
-                                            <script
-                                                src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>단위</th>
-                                        <td>
-                                            <input type="text" name="pd_unit" value="0" class=""
-                                                onKeyUp="removeChar(event);inputNumberFormat(this);"
-                                                onKeyDown="inputNumberFormat(this);" />
-                                            <select name="pd_symbol">
-                                                <option value="21">Kg</option>
-                                                <option value="22">근</option>
-                                                <option value="23">개</option>
-                                                <option value="24">g</option>
-                                                <option value="25">톤</option>
-                                                <option value="26">묶음</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>거래량</th>
-                                        <td>
-                                            <input type="text" name="quantity" value="${product.quantity}" class="setComma" />
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <th>금액</th>
-                                        <td>
-                                            <input type="text" name="price" value="${product.price}" class="setComma" />
-                                            원
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>썸네일</th>
-                                        <td class="form-two">
-                                            <ul class="add_file">
-                                                <li class="on">
-                                                    <div class="comment_add_file">
-                                                        <input name="file5_filename" type="file" />
-                                                        <input name="file5" type="hidden">
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>대표이미지</th>
-                                        <td class="form-two">
-                                            <ul class="add_file">
-                                                <li class="on">
-                                                    <div class="comment_add_file">
-                                                        <input name="file1_filename" type="file" />
-                                                        <input name="file1" type="hidden">
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="comment_add_file">
-                                                        <input name="file2_filename" type="file" />
-                                                        <input name="file2" type="hidden">
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="comment_add_file">
-                                                        <input name="file3_filename" type="file" />
-                                                        <input name="file3" type="hidden">
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="comment_add_file">
-                                                        <input name="file4_filename" type="file" />
-                                                        <input name="file4" type="hidden">
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="2">
-                                            <p>상품상세설명</p>
-                                            <p class="fs14">* 사진 및 글을 자유롭게 올리시면 됩니다.</p>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <div>
-                                                <div id="summernote"></div>
-
-                                                <script>
-                                                    $(document).ready(function () {
-                                                        
-                                                        $('#summernote').summernote({
-                                                            height: 500,                 // 에디터 높이
-                                                            minHeight: null,             // 최소 높이
-                                                            maxHeight: null,             // 최대 높이
-                                                            focus: false,                  // 에디터 로딩후 포커스를 맞출지 여부
-                                                            lang: "ko-KR",					// 한글 설정
-                                                            onImageUpload: function (files, editor, welEditable) {
-                                                                sendFile(files[0], editor, welEditable);
-                                                            }
-                                                        });
-                                                    });
-
-                                                </script>
-                                            </div>                                        
-                                        </td>
-                                    </tr>                                   
-                                </table>
-                            </div>
-
+                                             <h2 class="article-title">재고량</h2>
+                                             <input type="text" id="totalStock" class="product_input"/>
+                                             <h2 class="article-title">금액</h2>
+                                             <input type="text" id="product_amount" class="product_input"/>
+                                             <div class="seller_info">
+                                             	<div class="info_name">
+		                                             <h2 class="article-title">판매자명</h2>
+													<input type="text" id="seller_name" class="product_input5"/>
+												</div>
+												<div class="info_tel">
+													<h2 class="article-title">연락처</h2>
+													<input type="text" id="seller_tel" class="product_input6" />
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
                             <!-- 등록 버튼 -->
-                            <div class="finish">
-                                <br />
-                                <button type="button" class="submitBtn" onclick="location.href='SellerProductModify.se'">수정</button>
-                                <button type="button" class="resetBtn" onclick="location.href='SellerProductList.se'">취소</button>
-                            </div>
-                            
-                        </div>
-                    
-                    
-                    </section>
-                    
+	                            <div class="finish">
+	                                <br />
+	                                <input type="submit" class="submitBtn" value="수정" onclick="return registCheck();"/>
+	                                <input type="button" class="resetBtn" value="취소" onclick="location.href='SellerMyPage.se'" />
+	                            </div>                    
                 </section>
             </div>
         </div>
@@ -268,6 +200,7 @@
 
 
     <script type="text/javascript" src="<c:url value='/resources/js/Seller/mypage_menu.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/Seller/mypage_productRegister.js?after'/>"></script>
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js'/>" ></script>    

@@ -57,33 +57,102 @@
                         <h2 class="content-title">상품등록</h2>
                     
                         <div class="mypage-upload">
-                        
-                            <%String user_id = ""; %>
-                            <sec:authorize access="isAuthenticated()">
-                                <sec:authentication var="user" property="principal.username" />
-                                <%user_id = pageContext.getAttribute("user").toString();%>
-                            </sec:authorize>
-                            
                             <form id="productUploadForm" method="post" onsubmit="return registCheck();" 
                                 action="BoardProductRegist.bo" enctype="multipart/form-data">
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                            
-                            <input type="hidden" name="seller_id" value="<%=user_id%>"/>
-                            
-                            <div class="uploadBox">
-                                <table class="uploadBox__table">
-                                    <tr>
-                                        <th>제목</th>
-                                        <td>
-                                            <input type="text" name="title" value="" 
-                                                placeholder="제목을 입력하세요." id="setTitle" maxlength="100" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>상품 카테고리</th>
-                                        <td class="select-btn">
-                                            <p>
-                                                <select name="category_1" id="code01_idx" class="select-btn1"
+								<div class="product-category1 article-wrap">
+									<h2 class="article-title">상품유형</h2>
+									<ul class="category1_list">
+										<li class="category1_list-item">
+											<button type="button" id="grain">쌀/잡곡</button>
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="vegetable">채소류</button>
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="fruit">과일</button>	
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="liveStock">축산물</button>
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="aquatic">수산물/건어물</button>
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="processedFood">가공식품/떡류</button>
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="kimchi">김치/반찬/젓갈</button>
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="jang">장/조청/식초</button>
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="health">건강식품</button>
+										</li>
+										<li class="category1_list-item">
+											<button type="button" id="tea">차류</button>
+										</li>
+									</ul>
+								</div>
+								<div class="product-name article-wrap">
+									<h2 class="article-title">게시물제목</h2>
+									<div class="input_wrap">
+										<input type="text" id="board_name" placeholder="게시물의 제목을 적어주세요" />
+									</div>
+								</div>
+								
+								<div class="product-detail_1 article-wrap">
+									<div class="product_representImg">
+										<h2 class="article-title">상품대표이미지</h2>
+										<input type="file" id="representImg" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" />
+										<label for="representImg" id="representImgLabel">이미지 등록</label>
+									</div>
+									<div class="detail_1-desc_wrap"> 
+										<div class="detail_1-desc_1">
+											<h2 class="article-title">상품이미지</h2>
+											<div class="productImg">	
+												<input type="file" id="productImg1" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" />
+												<label for="productImg1" id="productImg1Label">이미지 등록</label>
+												<input type="file" id="productImg2" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" />
+												<label for="productImg2" id="productImg2Label">이미지 등록</label>
+												<input type="file" id="productImg3" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" />
+												<label for="productImg3" id="productImg3Label">이미지 등록</label>
+											</div>
+											<div class="product_country">
+												<h2 class="article-title">원산지</h2>
+												<select name="category_local" id="code03_idx" class="select-btn1 product_input2">
+	                                                <option value="" selected disabled>선택하세요.</option>
+	                                                <option value=1>강원도</option>
+	                                                <option value=2>경기도</option>
+	                                                <option value=3>경상북도</option>
+	                                                <option value=4>경상남도</option>
+	                                                <option value=5>전라북도</option>
+	                                                <option value=6>전라남도</option>
+	                                                <option value=7>충청북도</option>
+	                                                <option value=8>충청남도</option>
+	                                                <option value=9>제주도</option>
+	                                                <option value=10>울릉도/독도</option>
+	                                            </select>
+	                                             <input type="text" value ="" placeholder="나머지 입력  예) 속초" 
+                                                id="code04_idx" class="product_input2" maxlength="53" />
+                                          	</div> 
+                                          	<div class="product_weight">
+												<h2 class="article-title">중량</h2>
+												<input type="text" id="weight" class="product_input3"/>
+												<select name="pd_symbol" id="pd_symbol" class="product_input4">
+	                                                <option value="Kg">Kg</option>
+	                                                <option value="근">근</option>
+	                                                <option value="개">개</option>
+	                                                <option value="g">g</option>
+	                                                <option value="톤">톤</option>
+	                                                <option value="묶음">묶음</option>
+                                            	</select>
+											</div>
+											
+										</div>
+										<div class="detail_1-desc_2">
+											<h2 class="article-title">상품카테고리</h2>
+											 <select name="category_1" id="code01_idx" class="select-btn1 product_input"
                                                     onchange="selectedOption_1();">
                                                     <option value="" selected disabled>선택하세요.</option>
                                                     <option value=1>쌀/잡곡</option>
@@ -97,219 +166,29 @@
                                                     <option value=9>건강식품</option>
                                                     <option value=10>차류</option>
                                                 </select>
-                                            </p>
-                                            <p>
-                                                <select name="category_2" id="code02_idx" class="select-btn2">
-                                                    <option value="" selected disabled>선택하세요.</option>
-                                                </select>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>금액</th>
-                                        <td>
-                                            <input type="text" name="price" id="setPrice" class="setComma" />
-                                            원
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>배송비</th>
-                                        <td>
-                                            <input type="text" name="delivery_price" id="setDeliveryPrice" class="setComma" />
-                                            원
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>수량 (재고량)</th>
-                                        <td>
-                                            <input type="text" name="quantity" id="setQuantity" class="setComma" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>판매생산자</th>
-                                        <td>
-                                            <input type="text" name="sales_producer" maxlength="32" 
-                                                id="setSalesProducer" value="" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>상품명</th>
-                                        <td>
-                                            <input type="text" name="product_name" maxlength="32" 
-                                                id="setProductName" value="" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>중량</th>
-                                        <td>
-                                            <input type="text" name="pd_unit" id="pd_unit" maxlength="28" />
-                                            <select name="pd_symbol" id="pd_symbol">
-                                                <option value="Kg">Kg</option>
-                                                <option value="근">근</option>
-                                                <option value="개">개</option>
-                                                <option value="g">g</option>
-                                                <option value="톤">톤</option>
-                                                <option value="묶음">묶음</option>
-                                            </select>
-                                            <input type="hidden" name="product_weight" 
-                                                id="setProductWeight" value="" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>크기</th>
-                                        <td>
-                                            <input type="text" name="product_size" id="setProductSize" maxlength="32" 
-                                                placeholder="예) 215 * 50 * 30 mm 혹은 -" value="" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>원산지</th>
-                                        <td class="select-btn">
-                                            <select name="category_local" id="code03_idx" class="select-btn1">
-                                                <option value="" selected disabled>선택하세요.</option>
-                                                <option value=1>강원도</option>
-                                                <option value=2>경기도</option>
-                                                <option value=3>경상북도</option>
-                                                <option value=4>경상남도</option>
-                                                <option value=5>전라북도</option>
-                                                <option value=6>전라남도</option>
-                                                <option value=7>충청북도</option>
-                                                <option value=8>충청남도</option>
-                                                <option value=9>제주도</option>
-                                                <option value=10>울릉도/독도</option>
-                                            </select>
-                                            <input type="text" value ="" placeholder="나머지 입력  예) 속초" 
-                                                id="code04_idx" maxlength="53" />
-                                            <input type="hidden" value="" name="product_country" id="setProductCountry">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>제조년월일</th>
-                                        <td>
-                                            <input type="text" name="date_manufacture" id="setDateManufacture"
-                                                placeholder="예) 2020년 06월 30일 생산" maxlength="32" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>품질유지기한(유통기한)</th>
-                                        <td>
-                                            <input type="text" name="best_before_date" id="setBestBeforeDate"
-                                                placeholder="예) 2020년 09월 30일 까지" maxlength="32" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>유전자 변형 농수산물 표시</th>
-                                        <td>
-                                            <input type="text" name="transgenic" id="setTransGenic"
-                                                placeholder="예) 특이사항 혹은 o,x 표기" maxlength="32" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>보관방법</th>
-                                        <td>
-                                            <input type="text" name="storage_method" id="setStorageMethod"
-                                                placeholder="예) 냉장보관" maxlength="32" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>소비자상담문의</th>
-                                        <td>
-                                            <input type="text" name="consumer_consulation" id="setConsumerConsulation"
-                                                placeholder="예) 010-0000-0000" maxlength="16" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>썸네일</th>
-                                        <td class="form-two">
-                                            <ul class="add_file">
-                                                <li class="on">
-                                                    <div class="comment_add_file">
-                                                        <input name="thumbnail_origin" type="file" accept="image/*;capture=camera,.gif, .jpg, .png"
-                                                            id="thumbnail_origin" onchange="return checkExtension(this, 1);" />
-                                                        <div id="image_container_thumbnail"></div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>대표이미지</th>
-                                        <td class="form-two">
-                                            <ul class="add_file">
-                                                <li class="on">
-                                                    <div class="comment_add_file">
-                                                        <input name="product_origin_1" type="file" accept="image/*;capture=camera,.gif, .jpg, .png" 
-                                                            id="product_origin_1" onchange="return checkExtension(this, 2);" />
-                                                        <div id="image_container_product_1"></div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="comment_add_file">
-                                                        <input name="product_origin_2" type="file" accept="image/*;capture=camera,.gif, .jpg, .png" 
-                                                            id="product_origin_2" onchange="return checkExtension(this, 3);" />
-                                                        <div id="image_container_product_2"></div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="comment_add_file">
-                                                        <input name="product_origin_3" type="file" accept="image/*;capture=camera,.gif, .jpg, .png" 
-                                                            id="product_origin_3" onchange="return checkExtension(this, 4);" />
-                                                        <div id="image_container_product_3"></div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="comment_add_file">
-                                                        <input name="product_origin_4" type="file" accept="image/*;capture=camera,.gif, .jpg, .png" 
-                                                            id="product_origin_4" onchange="return checkExtension(this, 5);" />
-                                                        <div id="image_container_product_4"></div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="2">
-                                            <p>상품상세설명</p>
-                                            <p class="fs14">* 사진 및 글을 자유롭게 올리시면 됩니다.</p>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <div>
-                                                <textarea id="summernote"></textarea>
-
-                                                <script>
-                                                    $(document).ready(function () {
-                                                        
-                                                        $('#summernote').summernote({
-                                                            height: 500,                 // 에디터 높이
-                                                            minHeight: null,             // 최소 높이
-                                                            maxHeight: null,             // 최대 높이
-                                                            focus: false,                  // 에디터 로딩후 포커스를 맞출지 여부
-                                                            lang: "ko-KR",					// 한글 설정
-                                                            onImageUpload: function (files, editor, welEditable) {
-                                                                sendFile(files[0], editor, welEditable);
-                                                            }
-                                                        });
-                                                        
-                                                        
-                                                    });
-
-                                                </script>
-                                            </div>                                        
-                                        </td>
-                                    </tr>                                   
-                                </table>
-                            </div>
-                            
-                            
-
+                                             <h2 class="article-title">재고량</h2>
+                                             <input type="text" id="totalStock" class="product_input"/>
+                                             <h2 class="article-title">금액</h2>
+                                             <input type="text" id="product_amount" class="product_input"/>
+                                             <div class="seller_info">
+                                             	<div class="info_name">
+		                                             <h2 class="article-title">판매자명</h2>
+													<input type="text" id="seller_name" class="product_input5"/>
+												</div>
+												<div class="info_tel">
+													<h2 class="article-title">연락처</h2>
+													<input type="text" id="seller_tel" class="product_input6" />
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
                             <!-- 등록 버튼 -->
-                            <div class="finish">
-                                <br />
-                                <input type="submit" class="submitBtn" value="등록" onclick="return registCheck();"/>
-                                <input type="button" class="resetBtn" value="취소" onclick="location.href='SellerMyPage.se'" />
-                            </div>
+	                            <div class="finish">
+	                                <br />
+	                                <input type="submit" class="submitBtn" value="등록" onclick="return registCheck();"/>
+	                                <input type="button" class="resetBtn" value="취소" onclick="location.href='SellerMyPage.se'" />
+	                            </div>
                             
                             </form>
                          

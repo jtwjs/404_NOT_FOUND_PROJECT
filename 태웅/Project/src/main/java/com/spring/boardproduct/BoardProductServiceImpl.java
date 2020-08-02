@@ -332,6 +332,19 @@ public class BoardProductServiceImpl implements BoardProductService {
 			ArrayList<BoardProductVO> list = mapper.selectProductListBySellerId(seller_id);
 			return list;
 		}
+
+		@Override
+		public int selectProductListCountBySellerId(String seller_id, String startDate, String endDate) {
+			int count =  mapper.selectProductListCountBySellerId(seller_id, startDate, endDate);
+			return count;
+		}
+
+		@Override
+		public ArrayList<BoardProductVO> selectProductListBySellerId2(String seller_id, int rowStart, int rowEnd,
+				String startDate, String endDate) {
+			ArrayList<BoardProductVO> list = mapper.selectProductListBySellerId2(seller_id, rowStart, rowEnd, startDate, endDate);
+			return list;
+		}
 	    
     
 }

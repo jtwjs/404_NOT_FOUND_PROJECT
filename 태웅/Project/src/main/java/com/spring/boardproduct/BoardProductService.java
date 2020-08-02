@@ -58,4 +58,8 @@ public interface BoardProductService {
     public int qnaCountById(String id,String startDate,String endDate);
     
     public ArrayList<BoardProductVO> selectProductListBySellerId(String seller_id);
+    
+    
+    public int selectProductListCountBySellerId(String seller_id,String startDate,String endDate);
+    public ArrayList<BoardProductVO> selectProductListBySellerId2(String seller_id,int rowStart,int rowEnd,String startDate,String endDate);
 }

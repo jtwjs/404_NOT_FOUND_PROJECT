@@ -39,6 +39,8 @@ import org.springframework.web.multipart.MultipartRequest;
 import com.spring.admin.AccountVO;
 import com.spring.boardproduct.BoardProductService;
 import com.spring.boardproduct.BoardProductVO;
+import com.spring.buyer.CriteriaVO;
+import com.spring.buyer.PageMaker;
 import com.spring.config.Security.CurrentUser;
 import com.spring.config.Security.CustomDetailService;
 import com.spring.order.OrderRecordVO;
@@ -257,32 +259,46 @@ public class SellerController {
 	@RequestMapping(value = "/SellerProductRegister.se") // �긽�뭹�궡�뿭 - �긽�뭹�벑濡�
 	public String sellerProductRegister(Model model, @CurrentUser AccountVO account) {
 
-		SellerVO sellerAccount = Sellerservice.selectOneById(account.getId());
-		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0, 10));
-		try {
-			if (sellerAccount.getProfileImg() == null && sellerAccount.getProfileImgPath() == null) {
-				sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png", "UTF-8"));
-				sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
-			} else {
-				sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(), "UTF-8"));
-				sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.getProfileImgPath(), "UTF-8"));
-			}
-
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-
-		model.addAttribute("user", sellerAccount);
-
+		/*
+		 * // SellerVO sellerAccount = Sellerservice.selectOneById(account.getId()); //
+		 * sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0, 10)); //
+		 * try { // if (sellerAccount.getProfileImg() == null &&
+		 * sellerAccount.getProfileImgPath() == null) { //
+		 * sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png", "UTF-8")); //
+		 * sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+		 * // } else { //
+		 * sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(),
+		 * "UTF-8")); //
+		 * sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.
+		 * getProfileImgPath(), "UTF-8")); // } // // } catch
+		 * (UnsupportedEncodingException e) { // e.printStackTrace(); // } // //
+		 * model.addAttribute("user", sellerAccount);
+		 */
 		return "Seller/mypage_productRegister";
 	}
 
 	@RequestMapping(value = "/SellerProductList.se") // �긽�뭹�궡�뿭 - �긽�뭹�궡�뿭
-	public String sellerProductList(Model model, @CurrentUser AccountVO account, BoardProductVO board) {
+	public String sellerProductList(Model model, @CurrentUser AccountVO account, BoardProductVO board, CriteriaVO cri,
+			@RequestParam(value="startDate", required=false, defaultValue="19800101")String startDate,
+			@RequestParam(value="endDate", required=false, defaultValue ="")String endDate) {
+		Date date = new Date();
+		date = new Date(date.getTime()+(1000*60*60*24*1));
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+		if(endDate.equals("") || endDate == null) {
+			endDate = simpleDateFormat.format(date);
+		}
+		
+		
+		int rowStart = cri.getRowStart();
+		int rowEnd = cri.getRowEnd();
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(productService.selectProductListCountBySellerId(account.getId(), startDate, endDate));
+		
 		SellerVO sellerAccount = Sellerservice.selectOneById(account.getId());
 		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0, 10));
 		board.setSeller_id(account.getId());
-		ArrayList<BoardProductVO> productList = Sellerservice.selectProductListById(board.getSeller_id());
+		ArrayList<BoardProductVO> productList = productService.selectProductListBySellerId2(account.getId(), rowStart, rowEnd, startDate, endDate);
 
 		try {
 			if (sellerAccount.getProfileImg() == null && sellerAccount.getProfileImgPath() == null) {
@@ -296,10 +312,21 @@ public class SellerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
+		for(int i =0; i<productList.size(); i++) {
+			try {
+				productList.get(i).setThumbnail_thum(URLEncoder.encode(productList.get(i).getThumbnail_thum(), "UTF-8"));
+				productList.get(i).setThumbnail_thum_path(URLEncoder.encode(productList.get(i).getThumbnail_thum_path(), "UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		model.addAttribute("currentPage", cri.getPage());
+		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("productList", productList);
 		model.addAttribute("user", sellerAccount);
-
+		model.addAttribute("startDate",startDate);
+		model.addAttribute("endDate",endDate);
 		return "Seller/mypage_productList";
 	}
 
