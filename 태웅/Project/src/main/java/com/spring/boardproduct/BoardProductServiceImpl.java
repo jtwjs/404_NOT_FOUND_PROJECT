@@ -18,10 +18,13 @@ public class BoardProductServiceImpl implements BoardProductService {
     private SqlSession sqlSession;
 	
     @Autowired
-    private BoardReviewMapper mapper;
+    private BoardReviewMapper reviewMapper;
     
     @Autowired
     private BoardQnaMapper qnaMapper;
+    
+    @Autowired
+    private BoardProductMapper mapper;
     
     public int getBoardNum() {
 		
@@ -178,13 +181,13 @@ public class BoardProductServiceImpl implements BoardProductService {
 
 	@Override
 	public int countReviewById(String buyer_id) {
-		int count = mapper.countReviewById(buyer_id);
+		int count = reviewMapper.countReviewById(buyer_id);
 		return count;
 	}
 
 	@Override
 	public ArrayList<BoardReviewVO> boardReviewListAllById(String buyer_id, int rowStart, int rowEnd) {
-		ArrayList<BoardReviewVO> list = mapper.boardReviewListAllById(buyer_id, rowStart, rowEnd);
+		ArrayList<BoardReviewVO> list = reviewMapper.boardReviewListAllById(buyer_id, rowStart, rowEnd);
 		return list;
 	}
 
@@ -287,6 +290,14 @@ public class BoardProductServiceImpl implements BoardProductService {
 		    return result;
 	    }
 	    
+	    public int getCountQnaAnswer(String board_id) {
+	    	
+	    	BoardQnaMapper boardQnaMapper = sqlSession.getMapper(BoardQnaMapper.class);
+	    	int result = boardQnaMapper.getCountQnaAnswer(board_id);
+		
+		    return result;
+	    }
+	    
 	    public int insertQnaRecommend(String board_id, String seller_id, int qna_num, String recommend) {
 	    	
 	    	BoardQnaMapper boardQnaMapper = sqlSession.getMapper(BoardQnaMapper.class);
@@ -315,6 +326,25 @@ public class BoardProductServiceImpl implements BoardProductService {
     	     = boardProductMapper.getSellerBestList(seller_id, board_id);
  	    return result;
      }
+
+		@Override
+		public ArrayList<BoardProductVO> selectProductListBySellerId(String seller_id) {
+			ArrayList<BoardProductVO> list = mapper.selectProductListBySellerId(seller_id);
+			return list;
+		}
+
+		@Override
+		public int selectProductListCountBySellerId(String seller_id, String startDate, String endDate) {
+			int count =  mapper.selectProductListCountBySellerId(seller_id, startDate, endDate);
+			return count;
+		}
+
+		@Override
+		public ArrayList<BoardProductVO> selectProductListBySellerId2(String seller_id, int rowStart, int rowEnd,
+				String startDate, String endDate) {
+			ArrayList<BoardProductVO> list = mapper.selectProductListBySellerId2(seller_id, rowStart, rowEnd, startDate, endDate);
+			return list;
+		}
 	    
     
 }

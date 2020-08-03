@@ -543,24 +543,30 @@ public class BoardProductController {
 	}
 
 	@PostMapping(value = "/BoardProductRegist.bo") // 상품등록
-	public String sellerProductRegisterDB(Model model, String seller_id, String title, int category_1, int category_2,
+	public String sellerProductRegisterDB(Model model, @CurrentUser AccountVO account, String title, int category_1, int category_2,
 			int price, int delivery_price, int quantity, // String content,
 			String sales_producer, String product_name, String product_weight, String product_size, int category_local,
 			String product_country, String date_manufacture, String best_before_date, String transgenic,
 			String storage_method, String consumer_consulation,
 			@RequestPart(value = "thumbnail_origin", required = false) MultipartFile thumbnail_origin,
-			@RequestPart(value = "product_origin_1", required = false) MultipartFile product_origin_1,
 			@RequestPart(value = "product_origin_2", required = false) MultipartFile product_origin_2,
 			@RequestPart(value = "product_origin_3", required = false) MultipartFile product_origin_3,
 			@RequestPart(value = "product_origin_4", required = false) MultipartFile product_origin_4)
 			throws IOException {
+		
 
+		System.out.println("1:"+thumbnail_origin);
+		System.out.println("2:"+product_origin_2);
+		System.out.println("3:"+product_origin_3);
+		System.out.println("4:"+product_origin_4);
+		
+		
 		// 받아온 값 vo에 세팅
 		// ============================================================================
 		BoardProductVO vo = new BoardProductVO();
 		vo.setContent("test"); // test값으로 세팅, summernote 건드리는중
 		vo.setContent_origin("test"); // test값으로 세팅, summernote 건드리는중
-		vo.setSeller_id(seller_id); // test값으로 세팅, 회원가입 로그인 완료되면 교체
+		vo.setSeller_id(account.getId()); // test값으로 세팅, 회원가입 로그인 완료되면 교체
 		vo.setTitle(title);
 		vo.setCategory_1(category_1);
 		vo.setCategory_2(category_2);
@@ -607,54 +613,45 @@ public class BoardProductController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
 		String str = sdf.format(date);
-
+		boolean imgFlag = false;
+		
 		if (!thumbnail_origin.isEmpty()) {
 
 			File thum_origin_save = imgSave(thumbnail_origin, uploadFolder_thumbnail_origin);
-
-			String thum_thum_name = makeThumbnail(thumbnail_origin, thum_origin_save, uploadFolder_thumbnail_thum, 215,
-					215);
+			String thum_thum_name = makeThumbnail(thumbnail_origin, thum_origin_save, uploadFolder_thumbnail_thum, 215, 215);
+			
+			
+			
 			vo.setThumbnail_origin(thum_origin_save.getName());
 			vo.setThumbnail_thum(thum_thum_name);
-
+			vo.setProduct_origin_1(thum_origin_save.getName());
+			vo.setProduct_thum_1(thum_thum_name);
 			StringBuilder img_path = new StringBuilder(
 					uploadFolder_thumbnail_origin.replace("C:\\Project156\\upload\\", "/img/") + "/"
 							+ str.replace("-", "/") + "/");
 			vo.setThumbnail_origin_path(img_path.toString());
-
+			vo.setProduct_origin_path(img_path.toString());
+			
+			
 			img_path.setLength(0);
 
 			img_path.append(uploadFolder_thumbnail_thum.replace("C:\\Project156\\upload\\", "/img/") + "/"
 					+ str.replace("-", "/") + "/");
 			vo.setThumbnail_thum_path(img_path.toString());
+			vo.setProduct_thum_path(img_path.toString());
+			
+
+			imgFlag = true;
 
 		} else {
 			vo.setThumbnail_thum("no_image_thum.jpg");
 			vo.setThumbnail_thum_path("/img/common/");
 		}
+		
+		
 
-		boolean imgFlag = false;
 
-		if (!product_origin_1.isEmpty()) {
-			File product_origin_1_save = imgSave(product_origin_1, uploadFolder_product_origin);
-			String product_thum_1_name = makeThumbnail(product_origin_1, product_origin_1_save,
-					uploadFolder_product_thum, 100, 100);
-			vo.setProduct_origin_1(product_origin_1_save.getName());
-			vo.setProduct_thum_1(product_thum_1_name);
-
-			StringBuilder img_path = new StringBuilder(
-					uploadFolder_product_origin.replace("C:\\Project156\\upload\\", "/img/") + "/"
-							+ str.replace("-", "/") + "/");
-			vo.setProduct_origin_path(img_path.toString());
-			img_path.setLength(0);
-
-			img_path.append(uploadFolder_product_thum.replace("C:\\Project156\\upload\\", "/img/") + "/"
-					+ str.replace("-", "/") + "/");
-			vo.setProduct_thum_path(img_path.toString());
-
-			imgFlag = true;
-		}
-
+		
 		if (!product_origin_2.isEmpty()) {
 			File product_origin_2_save = imgSave(product_origin_2, uploadFolder_product_origin);
 			String product_thum_2_name = makeThumbnail(product_origin_2, product_origin_2_save,
@@ -1196,3 +1193,4 @@ public class BoardProductController {
 	}
 
 }
+

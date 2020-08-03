@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Calendar" %>
 <%
@@ -21,6 +21,7 @@
     <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Seller/mypage_template.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Seller/mypage_productList.css?after'/>" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
     <title>상품 내역</title>
 </head>
 <body>
@@ -60,47 +61,30 @@
                 
                     <section id="myPage">
                         <h2 class="content-title">상품내역</h2>
-                        
-                           <article id="content__product-list--search">
-                                <div id="content__product-list--search-box">
-                                    <form id="product-list__search-box--form" method="get"
-                                        action="" onsubmit="">
-                                        <div id="product-list__search-box--line-1">
-                                            <input type="text" placeholder="주문번호, 상품명" />
-                                            <input type="submit" value="조회하기" />
-                                        </div>
-                                        <div id="product-list__search-box--line-2">
-                                            <div id="search-box__date--calendar">
-                                                <span>기간별 조회</span>
-                                                <input type="date" max="<%=today %>" /> 
-                                                ~ <input type="date" max="<%=today %>" />
-                                            </div>
-                                            <div id="search-box__date--select">
-                                                <ul>
-                                                    <li class="select-border"><a href="#">
-                                                        <strong>1</strong> 일</a>
-                                                    </li>
-                                                    <li class="select-border"><a href="#">
-                                                        <strong>3</strong> 일</a>
-                                                    </li>
-                                                    <li class="select-border"><a href="#">
-                                                        <strong>1</strong> 주일</a>
-                                                    </li>
-                                                    <li class="select-border"><a href="#">
-                                                        <strong>1</strong> 개월</a>
-                                                    </li>
-                                                    <li class="select-border"><a href="#">
-                                                        <strong>3</strong> 개월</a>
-                                                    </li>
-                                                    <li><a href="">
-                                                        <b>전체</b></a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </article>
+                        	<div class="search-date">
+                            	<div class="date-filter_wrap">
+                            		<input type="radio" id="1week" value="1week" name="dateSelect" class="hide" />
+                            		<label for="1week" class="date_label" id="1week_label">1주일</label>
+                            		<input type="radio" id="1month" value="1month" name="dateSelect" class="hide" />
+                            		<label for="1month" class="date_label" id="1month_label">1개월</label>
+                            		<input type="radio" id="3month" value="3month" name="dateSelect" class="hide" />
+                            		<label for="3month" class="date_label" id="3month_label">3개월</label>
+                            		<input type="radio" id="all_date" value="all_date" class="hide"  checked/>
+                            		<label for="all_date" class="date_label" id="all_label">전체 시기</label>
+                            	</div>
+                            	<div class="date-select_wrap">
+                            		<input type="text" name="startDate" id="startDate" class="datePicker" readonly  />
+                            		<img src="./resources/Images/Buyer/date_range_24px_rounded.png" id="start_calender" alt="달력이미지"/>
+                            		<input type="text" name="endDate" id="endDate" class="datePicker" readonly />
+                            		<img src="./resources/Images/Buyer/date_range_24px_rounded.png" id="end_calender" alt="달력이미지"/>
+
+                            	</div>
+                            	<div class="submitBtn_wrap">
+                            		<button type="button" id="dateSubmit" >조회</button>
+                            	</div>
+                            </div>
+                        	
+                           
                             
                             <article id="transaction__detail">
 
@@ -127,28 +111,32 @@
                                         </tr>
                                         </c:when>
                                         <c:otherwise>
-                                        <c:forEach items="${productList}" var="productList" varStatus="status">
+                                        <c:forEach items="${productList}" var="list" varStatus="status">
                                         	<tr>
                                             <td>
                                                ${status.count}
                                             </td>
-                                            <td>
-                                               ${productList.title}
+                                            <td class="product-title">
+	                                            <img src="display?path=${list.thumbnail_thum_path}&name=${list.thumbnail_thum}" onclick="location.href='BoardProductView.bo?board_id=${list.board_id}'"/>
+	                                            <p onclick="location.href='BoardProductView.bo?board_id=${list.board_id}'">
+	                                            ${list.title}
+                                            	</p>
+                                               
                                             </td>
                                             <td>
-                                               ${productList.satisfaction}
+                                               ${list.satisfaction}
                                             </td>
                                             <td>
-                                            <fmt:formatDate value="${productList.register_date}" pattern="yy-MM-dd" var ="registerDate"/>
+                                            <fmt:formatDate value="${list.register_date}" pattern="yy-MM-dd" var ="registerDate"/>
                                                ${registerDate}
                                 
                                             </td>
                                             <td>
-                                               ${productList.content_origin}
+                                               ${list.content_origin}
                                             </td>
                                             <td>
                                                 <input type="button" value="상품수정" class="product-modify"
-                                                    onclick="javascript:location.href='SellerProductModifyForm.se?board_id=${productList.board_id}'" />
+                                                    onclick="javascript:location.href='SellerProductModifyForm.se?board_id=${list.board_id}'" />
                                                     
                                             </td>
                                         </tr>
@@ -158,6 +146,27 @@
                                         
                                     </tbody>
                                 </table>
+                                 <div class="n-paging">
+                     		<ul>
+                     			<c:if test="${pageMaker.prev}">
+                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(pageMaker.startPage - 1,startDate,endDate)}" class="prev">이전</a></li>
+                     			</c:if>
+                     			
+                     			<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+                     				<c:if test="${currentPage eq idx}">
+                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(idx,startDate,endDate)}" class="page active">${idx}</a></li>
+                     				</c:if>
+                     				<c:if test="${currentPage ne idx}">
+                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(idx,startDate,endDate)}" class="page">${idx}</a></li>
+                     				</c:if>
+                     			</c:forEach>
+                     			
+                     			<c:if test="${pageMaker.next && pageMaker.endPage> 0}">
+                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(pageMaker.endPage + 1,startDate,endDate)}" class="next">다음</a></li>
+                     			</c:if>
+                     		</ul>
+                     	</div>
+                                
                             </article>
 
                     </section>
@@ -169,11 +178,16 @@
     
 
     <script type="text/javascript" src="<c:url value='/resources/js/Seller/mypage_menu.js?after'/>"></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/Seller/date_search.js'/>"></script>
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    
     <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js?after'/>" ></script>
     <script type="text/javascript" src="<c:url value='/resources/js/module/header.js?after'/>" ></script>
     <!-- footer,js end -->
+    <!--  date-picker -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" ></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" ></script>
 </body>
 </html>

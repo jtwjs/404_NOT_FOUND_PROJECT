@@ -535,7 +535,8 @@ dd {
 }
 
 .transaction__detail--table > thead {
-  background-color: #34c759;
+  border-top: 1px solid #509b59;
+    border-bottom: 1px solid #509b59;
 }
 
 .transaction__detail--table th,
@@ -556,13 +557,11 @@ dd {
 .order-amount,
 .order-date {
   font-weight: 500;
-  font-size: 20px;
-  color: #fff;
+  font-size: 16px;
+  color: #333;
 }
 
-.transaction__detail--table > tbody {
-  font-size: 1.2rem;
-}
+
 
 .non-post {
   height: 200px;

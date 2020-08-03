@@ -704,11 +704,7 @@ public class BuyerController {
 		pageMaker.setTotalCount(productService.qnaCountById(account.getId(),startDate,endDate));
 		
 		
-		System.out.println("path:"+ list.get(0).getThumbnail_thum_path());
-		System.out.println("img:"+ list.get(0).getThumbnail_thum());
-		System.out.println("country"+ list.get(0).getProduct_country());
-		System.out.println("name"+ list.get(0).getProduct_name());
-		System.out.println("board_title"+list.get(0).getBoard_title());
+		
 		
 		model.addAttribute("currentPage", cri.getPage());
 		model.addAttribute("pageMaker", pageMaker);

@@ -23,5 +23,8 @@ public interface OrderService {
     public int listCount(String buyer_id,String startDate, String endDate);
     public ArrayList<OrderRecordVO> orderBeingDeliveredListById(String buyer_id);
     public ArrayList<OrderRecordVO> orderListAllById(String buyer_id);
-
+   
+    public int salesStatusCount(String seller_id);
+    public ArrayList<OrderRecordVO> todayOrderRequestListBySellerId(String seller_id);
+    public ArrayList<OrderRecordVO> selectOrderListBySellerId(String seller_id);
 }

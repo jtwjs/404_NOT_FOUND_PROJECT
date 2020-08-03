@@ -173,7 +173,9 @@ insert into list_delivery (BUYER_ID, ADDRESS, RECEIVER_NAME, RECEIVER_PHONE)
 values (:new.buyer_id, :new.address, :new.name, :new.tel);
 END;
      
-
+   select * from member_seller;  
+     
+drop table member_seller;
      /*�뙋留ㅼ옄*/
  create table member_seller(               -- �뙋留ㅼ옄 �뀒�씠釉�
 seller_id varchar2(16) not null,      -- �뙋留ㅼ옄 ID (湲곕낯�궎)
@@ -190,7 +192,7 @@ mail_order_report_img_path varchar2(100) not null,
 bank_name varchar2(20) not null,
 bank_account varchar2(20) not null,   -- �젙�궛��湲덉엯湲덇퀎醫�
 seller_reg_num number not null,       -- �뙋留ㅼ옄 �벑濡앸쾲�샇
-seller_grade char(1) default 0 not null,        -- �뙋留ㅼ옄 �벑湲� 
+seller_grade number(2,1) default 0 not null,        -- �뙋留ㅼ옄 �벑湲� 
 member_type varchar2(10) default 'SELLER' not null,          -- 硫ㅻ쾭���엯 (�뙋留ㅼ옄) (援щℓ�옄:B �뙋留ㅼ옄:S 愿�由ъ옄:A)
 del_flag char(1) default 'N' not null,            -- �깉�눜�뿬遺� (Y,N�쑝濡� 援щ텇)
 join_date date default sysdate not null,              -- �쉶�썝媛��엯�씪
@@ -200,7 +202,8 @@ profile_img_path varchar2(100),
 last_loginDate date default sysdate,
 constraint member_seller_seller_id_pk primary key(seller_id)
 );
-
+desc order_record;
+select * from member_seller ;
 select * from board_product;
 select  *from member_seller;
 CREATE SEQUENCE seller_num_seq
@@ -283,6 +286,7 @@ select * from board_product;
 select * from all_acount;
 desc wish_list;
 
+
 create table wish_list(
     wish_id varchar2(32) not null,         -- 위시리스트 ID값 (기본키, 랜덤생성)
     buyer_id varchar2(16) not null,        -- 구매자 ID (member_buyer테이블 외래키)
@@ -304,7 +308,7 @@ create table product_cart(          -- �옣諛붽뎄�땲
 );
 
 
-select * from board_review where register_date between '2020-07-27' AND '2020-07-29';
+
 drop table board_review;
 create table board_review(              -- 상품후기 게시판
     review_id varchar2(32) not null,    -- 리뷰글 ID (기본키)
@@ -322,7 +326,7 @@ create table board_review(              -- 상품후기 게시판
     constraint board_review_review_id_pk primary key(review_id)
 );
 
-select * from board_review;
+select * from member_buyer;
 
 
 create or replace trigger TRG_board_review
@@ -401,37 +405,39 @@ create table board_qna(                -- 상품 문의 게시판
 );
 
 
- select * from board_qna;
-select * from member_buyer;
-select * from admin;
 
 ----------------------------------------------------------------------
-
-select * from order_record where seller_id = 'qstar9537';
-
-select * from wish_list where buyer_id = 'test000';
-SELECT ROWNUM AS rNum, a.order_num,a.order_id,a.board_id,a.board_title,a.buyer_id,a.amount,a.price,a.status,a.order_date,
-        b.thumbnail_thum,b.thumbnail_thum_path
-		FROM (
-			SELECT 
-                    order_num,
-				    order_id,
-					board_id,
-					board_title,
-					buyer_id,
-					amount,
-					price,
-					status,
-					order_date
-			FROM order_record
-            WHERE (order_date between '2020-07-01' AND sysdate) AND buyer_id = 'test000' 
-		    ORDER BY order_num DESC
-			) a,
-            board_product b
-		WHERE  a.board_id = b.board_id(+)
-        order by rNum DESC;
-
-select * from order_record where buyer_id = 'test01';
-select MAX(ORDER_NUM) from order_record where buyer_id = 'test01';
-
+select * from member_seller;
 select * from order_record;
+SELECT count(*) FROM order_record WHERE seller_id='xodnd123' AND order_date = sysdate;
+SELECT count(*) FROM order_record WHERE seller_id='xodnd123' AND NOT status like '취소%' AND NOT status like '반품%';
+
+SELECT p.* 
+		FROM (
+			
+		    SELECT seller_id,board_num,title,price,delivery_price,quantity,satisfaction,content,register_date,category_1,
+			category_2,category_local,sales_producer,product_name,product_weight,product_size,product_country,date_manufacture,best_before_date,
+			transgenic,storage_method,consumer_consulation,thumbnail_origin,thumbnail_thum,product_origin_1,product_thum_1,product_origin_2,product_thum_2,
+			product_origin_3,product_thum_3,product_origin_4,product_thum_4,content_origin,thumbnail_origin_path,thumbnail_thum_path,product_origin_path,
+			product_thum_path,content_origin_path,sale_status,hit,read_count,
+			row_number() OVER (ORDER BY board_num DESC)AS rNum
+			FROM board_product
+		     SELECT seller_id,board_num,title,price,delivery_price,quantity,satisfaction,content,register_date,category_1,
+			category_2,category_local,sales_producer,product_name,product_weight,product_size,product_country,date_manufacture,best_before_date,
+			transgenic,storage_method,consumer_consulation,thumbnail_origin,thumbnail_thum,product_origin_1,product_thum_1,product_origin_2,product_thum_2,
+			product_origin_3,product_thum_3,product_origin_4,product_thum_4,content_origin,thumbnail_origin_path,thumbnail_thum_path,product_origin_path,
+			product_thum_path,content_origin_path,sale_status,hit,read_count,
+			row_number() OVER (ORDER BY board_num DESC)AS rNum
+			FROM board_product
+		     WHERE register_date between to_date('2020101','YYYYMMDD')AND to_date('20200819','YYYYMMDD')
+
+			) p
+		WHERE rNum between 1 AND 10
+		ORDER BY register_date DESC;
+        
+        desc board_product;
+        
+        select register_date from board_product WHERE to_char(register_date) between to_char(to_date('20/07/01','YY/MM/DD')) and to_char(to_date('20/07/31','YY/MM/DD'));
+        select * from board_product;
+    
+        select register_date from board_product;

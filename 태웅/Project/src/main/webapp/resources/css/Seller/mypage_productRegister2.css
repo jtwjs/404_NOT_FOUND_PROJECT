@@ -1,0 +1,111 @@
+
+
+.main {
+    display: flex;
+    flex-direction: column;
+}
+
+.mypage-upload {
+    min-height: 420px; 
+    text-align: justify;
+}
+
+.mypage-upload h3 span {  
+    font-size: 24px; 
+}
+
+.uploadBox {
+    margin-top: 20px;
+}
+
+.uploadBox__table {
+    width: 100%;
+    border-top: 1px solid #c5c0c0;
+    border-collapse: collapse;
+}
+
+.uploadBox__table th {
+    width:300px;
+    background-color: #f0e7e7;
+    padding: 10px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.uploadBox__table td {
+    width:700px;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.uploadBox__table input {
+    border: 1px solid #c5c0c0;
+    border-radius: 5px;
+    padding:0px 10px;
+}
+
+.select-btn {
+    display: flex;
+}
+
+.select-btn1,
+.select-btn2 {
+    margin-right: 20px;
+    width: 150px;
+}
+
+.addrNumBtn, .submitBtn, .resetBtn {
+    width: 200px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font: 16px 맑은고딕,굴림,돋움;
+    letter-spacing: 1px;
+	color: #ffffff;
+}
+
+.addrNumBtn {
+    width: 100px;
+    padding: 5px;
+    margin-left: 20px;
+    font: 12px 맑은고딕,굴림,돋움;
+    background: #d3d3d3;
+	color: black;
+}
+
+.finish {
+	text-align: center;
+}
+
+.submitBtn {
+    background: #17a542;
+}
+
+.resetBtn {
+    margin-left: 20px;
+    background: #808080;
+}
+
+.add_file input[type=file] {
+    display: inline-block;
+}
+
+.add_file input[type=checkbox] {
+    height: inherit;
+}
+
+#setTitle {
+	width: 700px;
+}
+
+
+#code04_idx {
+	width: 300px;
+}
+
+#image_container_thumbnail,
+#image_container_product_1,
+#image_container_product_2,
+#image_container_product_3,
+#image_container_product_4 {
+}

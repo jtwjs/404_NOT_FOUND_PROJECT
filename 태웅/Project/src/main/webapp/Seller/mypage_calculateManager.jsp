@@ -12,6 +12,7 @@
     <link href="<c:url value='/resources/css/Common/sub_main.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Seller/mypage_template.css'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/Seller/mypage_calculateManager.css'/>" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
     <title>정산관리</title>
 </head>
 <body>
@@ -51,23 +52,28 @@
                     <section id="myPage">
                         <h2 class="content-title">시세정보</h2>
                         
-                        <article id="content__calculateSystem--search">
-                            <div id="content__calculateSystem--search-box">
-                                <form id="calculateSystem__search-box--form" method="get" action="" onsubmit="">
+                         <div class="search-date">
+                            	<div class="date-filter_wrap">
+                            		<input type="radio" id="1week" value="1week" name="dateSelect" class="hide" />
+                            		<label for="1week" class="date_label" id="1week_label">1주일</label>
+                            		<input type="radio" id="1month" value="1month" name="dateSelect" class="hide" />
+                            		<label for="1month" class="date_label" id="1month_label">1개월</label>
+                            		<input type="radio" id="3month" value="3month" name="dateSelect" class="hide" />
+                            		<label for="3month" class="date_label" id="3month_label">3개월</label>
+                            		<input type="radio" id="all_date" value="all_date" class="hide"  checked/>
+                            		<label for="all_date" class="date_label" id="all_label">전체 시기</label>
+                            	</div>
+                            	<div class="date-select_wrap">
+                            		<input type="text" name="startDate" id="startDate" class="datePicker" readonly  />
+                            		<img src="./resources/Images/Buyer/date_range_24px_rounded.png" id="start_calender" alt="달력이미지"/>
+                            		<input type="text" name="endDate" id="endDate" class="datePicker" readonly />
+                            		<img src="./resources/Images/Buyer/date_range_24px_rounded.png" id="end_calender" alt="달력이미지"/>
 
-                                    <div id="calculateSystem__search-box">
-                                        <span>주문검색기간</span>
-                                        <input type="date" /> ~ <input type="date" />
-                                        <input type="button" value="오늘" />
-                                        <input type="button" value="3일간" />
-                                        <input type="button" value="일주일" />
-                                        <input type="button" value="1개월" />
-                                        <input type="button" value="3개월" />
-                                        <input type="button" value="전체" />
-                                    </div>
-                                </form>
+                            	</div>
+                            	<div class="submitBtn_wrap">
+                            		<button type="button" id="dateSubmit" >조회</button>
+                            	</div>
                             </div>
-                        </article>
 
                         <article id="transaction__detail">
 
@@ -127,11 +133,16 @@
 
 
     <script type="text/javascript" src="<c:url value='/resources/js/Seller/mypage_menu.js'/>"></script> 
+    <script type="text/javascript" src="<c:url value='/resources/js/Seller/date_search.js'/>"></script>
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    
     <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js?after'/>" ></script>
     <script type="text/javascript" src="<c:url value='/resources/js/module/header.js?after'/>" ></script>
     <!-- footer,js end -->
+    <!--  date-picker -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" ></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" ></script>
 </body>
 </html>
