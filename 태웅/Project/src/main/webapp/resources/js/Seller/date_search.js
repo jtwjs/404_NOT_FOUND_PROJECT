@@ -109,11 +109,22 @@ $("#endDate").on("change", function(){
 
 
 document.getElementById('1week').addEventListener('click',function(){
-	var beforeDate = new String(date.getDate()-7)
-	if(beforeDate.length == 1){ 
+	var date = new Date();
+	var dayofMonth = date.getDate();
+	date.setDate(dayofMonth -7)
+	
+	var beforeDate = date.getDate();
+	var beforeMonth = date.getMonth()+1;
+	
+	if(beforeDate <10){ 
 		  beforeDate = "0" + beforeDate; 
 		} 
-	var ago = (year + "-" + month + "-" + beforeDate);
+	
+	
+	if(beforeMonth < 10 ){
+		beforeMonth = "0" + beforeMonth;
+	}
+	var ago = (year + "-" + beforeMonth + "-" + beforeDate);
 
 	startCalenderInput.value = ago;
 	endCalenderInput.value = today; 

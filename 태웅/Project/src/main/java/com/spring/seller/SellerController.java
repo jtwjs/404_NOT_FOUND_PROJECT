@@ -54,17 +54,18 @@ public class SellerController {
 
 	@Autowired
 	CustomDetailService SecurityService;
-	
+
 	@Autowired
 	BoardProductService productService;
-	
+
 	@Autowired
 	OrderService orderService;
+
 	@RequestMapping(value = "/SellerMyPage.se")
 	public String sellerMyPage(Model model, @CurrentUser AccountVO account) {
 		SellerVO sellerAccount = Sellerservice.selectOneById(account.getId());
-		System.out.println("123123"+account.getId());
-		System.out.println("4546"+sellerAccount);
+		System.out.println("123123" + account.getId());
+		System.out.println("4546" + sellerAccount);
 		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0, 10));
 		try {
 			if (sellerAccount.getProfileImg() == null && sellerAccount.getProfileImgPath() == null) {
@@ -78,7 +79,7 @@ public class SellerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		
+
 		ArrayList<BoardProductVO> productList = productService.selectProductListBySellerId(account.getId());
 		double product_satis = 0;
 		double delivery_satis = 0;
@@ -87,62 +88,66 @@ public class SellerController {
 		int qnaCount = 0;
 		int answerCount = 0;
 		double avgAnswer = 0;
-		for(int i=0; i<productList.size(); i++) {
+		for (int i = 0; i < productList.size(); i++) {
 			qnaCount += productService.getCountQna(productList.get(i).getBoard_id());
 			answerCount += productService.getCountQnaAnswer(productList.get(i).getBoard_id());
-			if(productList.get(i).getProduct_satisfaction() != 0 && productList.get(i).getDelivery_satisfaction() != 0) {
+			if (productList.get(i).getProduct_satisfaction() != 0
+					&& productList.get(i).getDelivery_satisfaction() != 0) {
 				product_satis += productList.get(i).getProduct_satisfaction();
-				System.out.println("["+i+"]:"+productList.get(i).getProduct_satisfaction());
+				System.out.println("[" + i + "]:" + productList.get(i).getProduct_satisfaction());
 				delivery_satis += productList.get(i).getDelivery_satisfaction();
-				System.out.println("["+i+"]:"+productList.get(i).getDelivery_satisfaction());
+				System.out.println("[" + i + "]:" + productList.get(i).getDelivery_satisfaction());
 				size++;
 			}
 		}
-		
-		product_satis /=size;
-		delivery_satis /=size;
-		if(qnaCount == 0) {
+		if (size != 0) {
+			product_satis /= size;
+			delivery_satis /= size;
+		} else {
+			product_satis = 5;
+			delivery_satis = 5;
+		}
+		if (qnaCount == 0) {
 			avgAnswer = 5.0;
-		} else if(answerCount == 0) {
+		} else if (answerCount == 0) {
 			avgAnswer = 0.5;
 		} else {
-			avgAnswer = answerAvg(qnaCount,answerCount);
+			avgAnswer = answerAvg(qnaCount, answerCount);
 		}
-		
-		
-		if(size  != 0 && product_satis != 0 && delivery_satis != 0) {
+
+		if (size != 0 && product_satis != 0 && delivery_satis != 0) {
 			avg_satis = gradeAvg(product_satis, delivery_satis, avgAnswer);
 		}
-		
-		
-		
+
 		String avgStarImgSrc = "";
-		if(avg_satis == 5.0) {
+		if (avg_satis == 5.0) {
 			avgStarImgSrc = "./resources/Images/Seller/star_5.png";
-		}else if(avg_satis == 4.5) {
+		} else if (avg_satis == 4.5) {
 			avgStarImgSrc = "./resources/Images/Seller/star_4-5.png";
-		}else if(avg_satis ==4.0) {
+		} else if (avg_satis == 4.0) {
 			avgStarImgSrc = "./resources/Images/Seller/star_4.png";
-		}else if(avg_satis ==3.5) {
+		} else if (avg_satis == 3.5) {
 			avgStarImgSrc = "./resources/Images/Seller/star_3-5.png";
-		}else if(avg_satis ==3.0) {
+		} else if (avg_satis == 3.0) {
 			avgStarImgSrc = "./resources/Images/Seller/star_3.png";
-		}else if(avg_satis ==2.5) {
+		} else if (avg_satis == 2.5) {
 			avgStarImgSrc = "./resources/Images/Seller/star_2-5.png";
-		}else if(avg_satis ==2.0) {
+		} else if (avg_satis == 2.0) {
 			avgStarImgSrc = "./resources/Images/Seller/star_2.png";
-		}else if(avg_satis ==1.5) {
+		} else if (avg_satis == 1.5) {
 			avgStarImgSrc = "./resources/Images/Seller/star_1-5.png";
-		}else if(avg_satis ==1.0) {
+		} else if (avg_satis == 1.0) {
 			avgStarImgSrc = "./resources/Images/Seller/star_1.png";
-		}else if(avg_satis ==0.5) {
+		} else if (avg_satis == 0.5) {
 			avgStarImgSrc = "./resources/Images/Seller/star_0-5.png";
+		} else {
+			avgStarImgSrc = "./resources/Images/Seller/star_0.png";
 		}
-		
+
 		ArrayList<OrderRecordVO> todayRequestList = orderService.todayOrderRequestListBySellerId(account.getId());
 		int todayAmount = 0;
-		for(int i=0; i<todayRequestList.size(); i++) {
-			todayAmount += todayRequestList.get(i).getTot_price()*0.95; //5% 수수료
+		for (int i = 0; i < todayRequestList.size(); i++) {
+			todayAmount += todayRequestList.get(i).getTot_price() * 0.95; // 5% 수수료
 		}
 		String strTodayAmount = numberOfDigit(todayAmount);
 		strTodayAmount = reverseString(strTodayAmount);
@@ -150,155 +155,175 @@ public class SellerController {
 		int unanswered = qnaCount - answerCount;
 		int todayRequest = todayRequestList.size();
 		int salesCount = orderService.salesStatusCount(account.getId());
-		int[] countArray = {regItemCount,unanswered,todayRequest,salesCount};
-		
-		int[] orderHistoryCntArray = {0,0,0,0,0,0,0,0};
-		
+		int[] countArray = { regItemCount, unanswered, todayRequest, salesCount };
+
+		int[] orderHistoryCntArray = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
 		ArrayList<OrderRecordVO> orderList = orderService.selectOrderListBySellerId(account.getId());
-		for(int i=0; i<orderList.size(); i++) {
-			switch(orderList.get(i).getStatus()) {
-			case "입금대기중" : orderHistoryCntArray[0]++; break;
-			case "상품준비중" : orderHistoryCntArray[1]++; break;
-			case "배송준비중" : orderHistoryCntArray[1]++; break;
-			case "배송중" : orderHistoryCntArray[2]++; break;
-			case "배송완료" : orderHistoryCntArray[3]++; break;
-			case "교환신청" : orderHistoryCntArray[4]++; break;
-			case "교환완료" : orderHistoryCntArray[5]++; break;
-			case "반품신청" : orderHistoryCntArray[6]++; break;
-			case "반품완료" : orderHistoryCntArray[7]++; break;
+		for (int i = 0; i < orderList.size(); i++) {
+			switch (orderList.get(i).getStatus()) {
+			case "입금대기중":
+				orderHistoryCntArray[0]++;
+				break;
+			case "상품준비중":
+				orderHistoryCntArray[1]++;
+				break;
+			case "배송준비중":
+				orderHistoryCntArray[1]++;
+				break;
+			case "배송중":
+				orderHistoryCntArray[2]++;
+				break;
+			case "배송완료":
+				orderHistoryCntArray[3]++;
+				break;
+			case "교환신청":
+				orderHistoryCntArray[4]++;
+				break;
+			case "교환완료":
+				orderHistoryCntArray[5]++;
+				break;
+			case "반품신청":
+				orderHistoryCntArray[6]++;
+				break;
+			case "반품완료":
+				orderHistoryCntArray[7]++;
+				break;
 			}
 		}
-		
-		
-		model.addAttribute("orderList",orderList);
-		model.addAttribute("orderHistoryCntArray",orderHistoryCntArray);
-		model.addAttribute("todayAmount",strTodayAmount);
-		model.addAttribute("countArray",countArray);
-		model.addAttribute("avgStarImgSrc",avgStarImgSrc);
-		model.addAttribute("product_satis",product_satis);
-		model.addAttribute("delivery_satis",delivery_satis);
-		model.addAttribute("avgAnswer",avgAnswer);
-		model.addAttribute("avg_satis",avg_satis);
+
+		model.addAttribute("orderList", orderList);
+		model.addAttribute("orderHistoryCntArray", orderHistoryCntArray);
+		model.addAttribute("todayAmount", strTodayAmount);
+		model.addAttribute("countArray", countArray);
+		model.addAttribute("avgStarImgSrc", avgStarImgSrc);
+		model.addAttribute("product_satis", product_satis);
+		model.addAttribute("delivery_satis", delivery_satis);
+		model.addAttribute("avgAnswer", avgAnswer);
+		model.addAttribute("avg_satis", avg_satis);
 		model.addAttribute("user", sellerAccount);
 
 		return "Seller/mypage_main";
 	}
+
 	public static String numberOfDigit(int amount) {
 		String str = Integer.toString(amount);
 		int count = 0;
 		String change_amount = "";
-		for(int i=str.length()-1; i>=0; i--) {
-			if(count%3 == 0 && count != 0) {
+		for (int i = str.length() - 1; i >= 0; i--) {
+			if (count % 3 == 0 && count != 0) {
 				change_amount += ",";
 			}
 			change_amount += str.charAt(i);
 			count++;
 		}
-		
+
 		return change_amount;
 	}
-	
-  public static String reverseString(String s){
-        return (new StringBuffer(s)).reverse().toString();
-    }
-	
-	
+
+	public static String reverseString(String s) {
+		return (new StringBuffer(s)).reverse().toString();
+	}
+
 	public double answerAvg(int qnaCount, int answerCount) {
 		double value = 0;
 		double result = 0;
-		value = qnaCount/answerCount;
-		if(value == 1) {
+		value = qnaCount / answerCount;
+		if (value == 1) {
 			result = 5.0;
-		}else if(value <=1.25){
+		} else if (value <= 1.25) {
 			result = 4.5;
-		}else if(value <=1.5) {
+		} else if (value <= 1.5) {
 			result = 4.0;
-		}else if(value <= 1.75) {
+		} else if (value <= 1.75) {
 			result = 3.5;
-		}else if(value <= 2) {
+		} else if (value <= 2) {
 			result = 3.0;
-		}else if(value <= 2.5) {
+		} else if (value <= 2.5) {
 			result = 2.5;
-		}else if(value <= 3.0) {
-			result  = 2.0;
-		}else if(value <= 3.5) {
+		} else if (value <= 3.0) {
+			result = 2.0;
+		} else if (value <= 3.5) {
 			result = 1.5;
-		}else {
+		} else {
 			result = 1.0;
 		}
-		
+
 		return result;
 	}
-	
+
 	public double gradeAvg(double product_satis, double delivery_satis, double avgAnswer) {
-		double value = (product_satis+delivery_satis+avgAnswer)/3;
+		double value = (product_satis + delivery_satis + avgAnswer) / 3;
 		double result = 0;
-		if(value == 5 ) {
+		if (value == 5) {
 			result = 5.0;
-		}else if(value >=4.5) {
+		} else if (value >= 4.5) {
 			result = 4.5;
-		}else if(value >=4.0) {
+		} else if (value >= 4.0) {
 			result = 4.0;
-		}else if(value >=3.5) {
+		} else if (value >= 3.5) {
 			result = 3.5;
-		}else if(value >=3.0) {
+		} else if (value >= 3.0) {
 			result = 3.0;
-		}else if(value >=2.5) {
+		} else if (value >= 2.5) {
 			result = 2.5;
-		}else if(value >=2.0) {
+		} else if (value >= 2.0) {
 			result = 2.0;
-		}else if(value >=1.5) {
+		} else if (value >= 1.5) {
 			result = 1.5;
-		}else {
+		} else {
 			result = 1.0;
 		}
-		
+
 		return result;
 	}
 
 	@RequestMapping(value = "/SellerProductRegister.se") // �긽�뭹�궡�뿭 - �긽�뭹�벑濡�
 	public String sellerProductRegister(Model model, @CurrentUser AccountVO account) {
 
-		/*
-		 * // SellerVO sellerAccount = Sellerservice.selectOneById(account.getId()); //
-		 * sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0, 10)); //
-		 * try { // if (sellerAccount.getProfileImg() == null &&
-		 * sellerAccount.getProfileImgPath() == null) { //
-		 * sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png", "UTF-8")); //
-		 * sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
-		 * // } else { //
-		 * sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(),
-		 * "UTF-8")); //
-		 * sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.
-		 * getProfileImgPath(), "UTF-8")); // } // // } catch
-		 * (UnsupportedEncodingException e) { // e.printStackTrace(); // } // //
-		 * model.addAttribute("user", sellerAccount);
-		 */
+		SellerVO sellerAccount = Sellerservice.selectOneById(account.getId()); //
+		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0, 10)); //
+		try {
+			if (sellerAccount.getProfileImg() == null && sellerAccount.getProfileImgPath() == null) {
+				sellerAccount.setProfileImg(URLEncoder.encode("no_profile.png", "UTF-8")); //
+				sellerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+			} else {
+				sellerAccount.setProfileImg(URLEncoder.encode(sellerAccount.getProfileImg(), "UTF-8"));
+				sellerAccount.setProfileImgPath(URLEncoder.encode(sellerAccount.getProfileImgPath(), "UTF-8"));
+			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("user", sellerAccount);
+
 		return "Seller/mypage_productRegister";
 	}
 
 	@RequestMapping(value = "/SellerProductList.se") // �긽�뭹�궡�뿭 - �긽�뭹�궡�뿭
 	public String sellerProductList(Model model, @CurrentUser AccountVO account, BoardProductVO board, CriteriaVO cri,
-			@RequestParam(value="startDate", required=false, defaultValue="19800101")String startDate,
-			@RequestParam(value="endDate", required=false, defaultValue ="")String endDate) {
+			@RequestParam(value = "startDate", required = false, defaultValue = "20000101") String startDate,
+			@RequestParam(value = "endDate", required = false, defaultValue = "") String endDate) {
 		Date date = new Date();
-		date = new Date(date.getTime()+(1000*60*60*24*1));
+		date = new Date(date.getTime() + (1000 * 60 * 60 * 24 * 1));
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-		if(endDate.equals("") || endDate == null) {
+		if (endDate.equals("") || endDate == null) {
 			endDate = simpleDateFormat.format(date);
 		}
-		
-		
+
 		int rowStart = cri.getRowStart();
 		int rowEnd = cri.getRowEnd();
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
+		System.out.println("startDate:"+startDate);
+		System.out.println("endDate:"+endDate);
 		pageMaker.setTotalCount(productService.selectProductListCountBySellerId(account.getId(), startDate, endDate));
-		
+		System.out.println("Count"+productService.selectProductListCountBySellerId(account.getId(), startDate, endDate));
+
 		SellerVO sellerAccount = Sellerservice.selectOneById(account.getId());
 		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0, 10));
 		board.setSeller_id(account.getId());
-		ArrayList<BoardProductVO> productList = productService.selectProductListBySellerId2(account.getId(), rowStart, rowEnd, startDate, endDate);
+		ArrayList<BoardProductVO> productList = productService.selectProductListBySellerId2(account.getId(), rowStart,
+				rowEnd, startDate, endDate);
 
 		try {
 			if (sellerAccount.getProfileImg() == null && sellerAccount.getProfileImgPath() == null) {
@@ -312,10 +337,12 @@ public class SellerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		for(int i =0; i<productList.size(); i++) {
+		for (int i = 0; i < productList.size(); i++) {
 			try {
-				productList.get(i).setThumbnail_thum(URLEncoder.encode(productList.get(i).getThumbnail_thum(), "UTF-8"));
-				productList.get(i).setThumbnail_thum_path(URLEncoder.encode(productList.get(i).getThumbnail_thum_path(), "UTF-8"));
+				productList.get(i)
+						.setThumbnail_thum(URLEncoder.encode(productList.get(i).getThumbnail_thum(), "UTF-8"));
+				productList.get(i).setThumbnail_thum_path(
+						URLEncoder.encode(productList.get(i).getThumbnail_thum_path(), "UTF-8"));
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
@@ -325,15 +352,15 @@ public class SellerController {
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("productList", productList);
 		model.addAttribute("user", sellerAccount);
-		model.addAttribute("startDate",startDate);
-		model.addAttribute("endDate",endDate);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
 		return "Seller/mypage_productList";
 	}
 
 	@RequestMapping(value = "/SellerProductModifyForm.se") // �긽�뭹�궡�뿭 - �뙋留ㅺ� �닔�젙
 	public String sellerProductModifyForm(Model model, @CurrentUser AccountVO account,
 			@RequestParam(value = "board_id", required = true) String board_id) {
-
+		
 		SellerVO sellerAccount = Sellerservice.selectOneById(account.getId());
 		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0, 10));
 		BoardProductVO product = Sellerservice.BoardSelectOneByBoardId(board_id);
@@ -349,7 +376,14 @@ public class SellerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
+		
+		
+		String str= product.getProduct_weight();
+		String intWeight = str.replaceAll("[^0-9]","");
+		String strWeight = str.replaceAll("[0-9]","");
+		
+		model.addAttribute("intWeight",intWeight);
+		model.addAttribute("strWeight",strWeight);
 		model.addAttribute("product", product);
 		model.addAttribute("user", sellerAccount);
 		return "Seller/mypage_productModify";
@@ -787,9 +821,9 @@ public class SellerController {
 
 		List<OrderRecordVO> orderRecordList = Sellerservice.getOrderRecordOneByIdList(account.getId(), startrow,
 				endrow);
-		
-		for(int i=0; i<orderRecordList.size(); i++) {
-			orderRecordList.get(i).setOrder_date(orderRecordList.get(i).getOrder_date().substring(0,11));
+
+		for (int i = 0; i < orderRecordList.size(); i++) {
+			orderRecordList.get(i).setOrder_date(orderRecordList.get(i).getOrder_date().substring(0, 11));
 		}
 
 		// 총 페이지 수

@@ -429,10 +429,15 @@ SELECT p.*
 			product_thum_path,content_origin_path,sale_status,hit,read_count,
 			row_number() OVER (ORDER BY board_num DESC)AS rNum
 			FROM board_product
-		     WHERE register_date between to_date('20200904','YYYYMMDD')AND to_date('20000819','YYYYMMDD')
+		     WHERE register_date between to_date('2020101','YYYYMMDD')AND to_date('20200819','YYYYMMDD')
 
 			) p
 		WHERE rNum between 1 AND 10
 		ORDER BY register_date DESC;
-        select register_date from board_product where seller_id='xodnd123'AND register_date between to_date('20200104','YYYYMMDD')AND to_date('20200819','YYYYMMDD');
-        select * from order_record;
+        
+        desc board_product;
+        
+        select register_date from board_product WHERE to_char(register_date) between to_char(to_date('20/07/01','YY/MM/DD')) and to_char(to_date('20/07/31','YY/MM/DD'));
+        select * from board_product;
+    
+        select register_date from board_product;

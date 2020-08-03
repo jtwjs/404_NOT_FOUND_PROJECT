@@ -59,6 +59,8 @@
                         <div class="mypage-upload">
                             <form id="productUploadForm" method="post" onsubmit="return registCheck();" 
                                 action="BoardProductRegist.bo" enctype="multipart/form-data">
+                                
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 								<div class="product-category1 article-wrap">
 									<h2 class="article-title">상품유형</h2>
 									<ul class="category1_list">
@@ -93,30 +95,33 @@
 											<button type="button" id="tea">차류</button>
 										</li>
 									</ul>
+									<input type="hidden" name="category_1" id="product_type" value="" />
 								</div>
 								<div class="product-name article-wrap">
 									<h2 class="article-title">게시물제목</h2>
 									<div class="input_wrap">
-										<input type="text" id="board_name" placeholder="게시물의 제목을 적어주세요" />
+										<input type="text" name="title" id="board_name" placeholder="게시물의 제목을 적어주세요" value="" />
 									</div>
 								</div>
 								
 								<div class="product-detail_1 article-wrap">
 									<div class="product_representImg">
 										<h2 class="article-title">상품대표이미지</h2>
-										<input type="file" id="representImg" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" />
+										<input type="file" name="thumbnail_origin" id="representImg" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" onchange="return checkExtension(this, 1);"/>
 										<label for="representImg" id="representImgLabel">이미지 등록</label>
 									</div>
 									<div class="detail_1-desc_wrap"> 
 										<div class="detail_1-desc_1">
-											<h2 class="article-title">상품이미지</h2>
-											<div class="productImg">	
-												<input type="file" id="productImg1" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" />
-												<label for="productImg1" id="productImg1Label">이미지 등록</label>
-												<input type="file" id="productImg2" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" />
-												<label for="productImg2" id="productImg2Label">이미지 등록</label>
-												<input type="file" id="productImg3" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" />
-												<label for="productImg3" id="productImg3Label">이미지 등록</label>
+											
+											<div class="product_info_1">
+												<div class="product-name">
+													<h2 class="article-title">상품명</h2>
+													<input type="text"name="product_name" id="ProductName" class="product_input2" maxlength="14" value=""/>
+												</div>
+												<div class="product_stock">
+													<h2 class="article-title">재고량</h2>
+	                                             	<input type="text" name="quantity"id="totalStock" class="product_input" maxlength="3" value=""/>
+                                             	</div>
 											</div>
 											<div class="product_country">
 												<h2 class="article-title">원산지</h2>
@@ -134,11 +139,12 @@
 	                                                <option value=10>울릉도/독도</option>
 	                                            </select>
 	                                             <input type="text" value ="" placeholder="나머지 입력  예) 속초" 
-                                                id="code04_idx" class="product_input2" maxlength="53" />
+                                                id="code04_idx" class="product_input2" maxlength="14" />
+                                                <input class="hidden"name="product_country" id="setProductCountry" />
                                           	</div> 
                                           	<div class="product_weight">
 												<h2 class="article-title">중량</h2>
-												<input type="text" id="weight" class="product_input3"/>
+												<input type="text" id="pd_unit" class="product_input3" value=""/>
 												<select name="pd_symbol" id="pd_symbol" class="product_input4">
 	                                                <option value="Kg">Kg</option>
 	                                                <option value="근">근</option>
@@ -147,39 +153,74 @@
 	                                                <option value="톤">톤</option>
 	                                                <option value="묶음">묶음</option>
                                             	</select>
+               	                              <input type="hidden" name="product_weight" id="setProductWeight" value="" />
 											</div>
+											 <div class="storage_size">
+											 	<div class="size">
+											 	   <h2 class="article-title">상품크기</h2>
+                                             	   <input type="text" name="product_size" id="productSize" class="product_input" maxlength="15" placeholder="예) 215 * 50 * 30 mm"  value=""/>
+											 	</div>
+											 	<div class="storage">
+                                             	   <h2 class="article-title">보관방법</h2>
+                                             	   <input type="text" name="storage_method" id="storageMethod" class="product_input" placeholder="예) 냉장보관" maxlength="15"  value=""/>
+                                           	    </div>
+                                             </div>
+											
 											
 										</div>
 										<div class="detail_1-desc_2">
-											<h2 class="article-title">상품카테고리</h2>
-											 <select name="category_1" id="code01_idx" class="select-btn1 product_input"
-                                                    onchange="selectedOption_1();">
+											<div class="category">
+												<h2 class="article-title">상품카테고리</h2>
+											  	<select name="category_2" id="code02_idx" class="select-btn2 product_input">
                                                     <option value="" selected disabled>선택하세요.</option>
-                                                    <option value=1>쌀/잡곡</option>
-                                                    <option value=2>채소류</option>
-                                                    <option value=3>과일</option>
-                                                    <option value=4>축산물</option>
-                                                    <option value=5>수산물/건어물</option>
-                                                    <option value=6>가공식품/떡류</option>
-                                                    <option value=7>김치/반찬/젓갈</option>
-                                                    <option value=8>장/조청/식초</option>
-                                                    <option value=9>건강식품</option>
-                                                    <option value=10>차류</option>
                                                 </select>
-                                             <h2 class="article-title">재고량</h2>
-                                             <input type="text" id="totalStock" class="product_input"/>
-                                             <h2 class="article-title">금액</h2>
-                                             <input type="text" id="product_amount" class="product_input"/>
-                                             <div class="seller_info">
-                                             	<div class="info_name">
-		                                             <h2 class="article-title">판매자명</h2>
-													<input type="text" id="seller_name" class="product_input5"/>
-												</div>
-												<div class="info_tel">
-													<h2 class="article-title">연락처</h2>
-													<input type="text" id="seller_tel" class="product_input6" />
-												</div>
+                                                </div>
+                                             <div class="amount">
+                                             	<div class="amount-product">
+		                                             <h2 class="article-title">판매가격</h2>
+		                                             <input type="text" name="price" id="product_amount" class="product_input5" maxlength="9" value=""/>
+	                                            </div>
+	                                            <div class="amount-delivery">
+		                                            <h2 class="article-title">배송비</h2>
+		                                             <input type="text" name="delivery_price" id="delivery_amount" class="product_input5" maxlength="9" value=""/>
+	                                            </div>
+                                             </div>
+                                            <div class="manufacture">
+												<h2 class="article-title">제조년도</h2>
+												<input type="text" name="date_manufacture" id="manufacture-year" class="product_input"  placeholder="예) 2020년 06월 30일 생산" maxlength="15" value="" />
+												
 											</div>
+											<div class="expirationDate">
+												  <h2 class="article-title">품질유지기한(유통기한)</h2>
+												  <input type="text"name="best_before_date" id="expiration" class="product_input"placeholder="예) 2020년 09월 30일 까지" maxlength="15" value=""/>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="product-detail_2 article-wrap">
+									<div class="product_img">
+										<h2 class="article-title">상품이미지</h2>
+										<div class="productImg">	
+											<input type="file" name="product_origin_2" id="productImg1" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" onchange="return checkExtension(this, 2);"/>
+											<label for="productImg1" id="productImg1Label">이미지 등록</label>
+											<input type="file" name="product_origin_3" id="productImg2" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" onchange="return checkExtension(this, 3);" />
+											<label for="productImg2" id="productImg2Label">이미지 등록</label>
+											<input type="file" name="product_origin_4" id="productImg3" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" onchange="return checkExtension(this, 4);"/>
+											<label for="productImg3" id="productImg3Label">이미지 등록</label>
+										</div>
+									</div>
+									<div class="additional_info">
+										<div class="transGenic">
+											<h2 class="article-title">유전자 변형 농수산물 표시</h2>
+											<input type="text" name="transgenic" id="transGenic" class="product_input5" placeholder="예) 특이사항 혹은 o,x 표기"maxlength="12" value=""/>
+										</div>
+										<div class="producer">
+											<h2 class="article-title">판매생산자명</h2>
+											<input type="text" name="sales_producer" id="salesProducer" class="product_input5" maxlength="12" value="" />
+										</div>
+										<div class="consulation">
+											<h2 class="article-title">소비자상담문의</h2>
+											  <input type="text" name="consumer_consulation" id="consumerConsulation" class="product_input" placeholder="예) 010-0000-0000" maxlength="16"  value="" />
 										</div>
 									</div>
 								</div>

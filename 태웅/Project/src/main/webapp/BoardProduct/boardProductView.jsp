@@ -140,8 +140,10 @@
                             <div class="seller-imgBig">
                                 <% String origin_path = java.net.URLEncoder.encode(vo.getProduct_origin_path(), "UTF-8"); 
                                    String thumb_path = java.net.URLEncoder.encode(vo.getProduct_thum_path(), "UTF-8"); 
+                                   String origin2_path = java.net.URLEncoder.encode(vo.getThumbnail_origin_path(),"UTF-8");
+                                   String thumb2_path = java.net.URLEncoder.encode(vo.getThumbnail_thum_path(),"UTF-8");
                                 if(vo.getProduct_thum_1() != null){ %>
-                                <img src="display?path=<%=origin_path %>&name=<%=java.net.URLEncoder.encode(vo.getProduct_origin_1(), "UTF-8") %>" alt="">
+                                <img src="display?path=<%=origin2_path %>&name=<%=java.net.URLEncoder.encode(vo.getProduct_origin_1(), "UTF-8") %>" alt="">
                                 <%}else if(vo.getProduct_thum_2() != null){ %>
                                 <img src="display?path=<%=origin_path %>&name=<%=java.net.URLEncoder.encode(vo.getProduct_origin_2(), "UTF-8") %>" alt="">
                                 <%}else if(vo.getProduct_thum_3() != null){ %>
@@ -154,8 +156,8 @@
                             <div class="seller__img--thumb">
                                 <ul>
                                     <%if(vo.getProduct_thum_1() != null){ %>
-                                    <li onclick="selectBigImg('<%=origin_path %>', '<%=java.net.URLEncoder.encode(vo.getProduct_origin_1(), "UTF-8")%>');">
-                                        <img src="display?path=<%=thumb_path %>&name=<%=java.net.URLEncoder.encode(vo.getProduct_thum_1(), "UTF-8") %>" alt="" >
+                                    <li onclick="selectBigImg('<%=origin2_path %>', '<%=java.net.URLEncoder.encode(vo.getProduct_origin_1(), "UTF-8")%>');">
+                                        <img src="display?path=<%=thumb2_path %>&name=<%=java.net.URLEncoder.encode(vo.getProduct_thum_1(), "UTF-8") %>" alt="" >
                                     </li>
                                     <%}
                                     if(vo.getProduct_thum_2() != null){ %>

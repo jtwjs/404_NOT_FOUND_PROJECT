@@ -111,28 +111,32 @@
                                         </tr>
                                         </c:when>
                                         <c:otherwise>
-                                        <c:forEach items="${productList}" var="productList" varStatus="status">
+                                        <c:forEach items="${productList}" var="list" varStatus="status">
                                         	<tr>
                                             <td>
                                                ${status.count}
                                             </td>
-                                            <td>
-                                               ${productList.title}
+                                            <td class="product-title">
+	                                            <img src="display?path=${list.thumbnail_thum_path}&name=${list.thumbnail_thum}" onclick="location.href='BoardProductView.bo?board_id=${list.board_id}'"/>
+	                                            <p onclick="location.href='BoardProductView.bo?board_id=${list.board_id}'">
+	                                            ${list.title}
+                                            	</p>
+                                               
                                             </td>
                                             <td>
-                                               ${productList.satisfaction}
+                                               ${list.satisfaction}
                                             </td>
                                             <td>
-                                            <fmt:formatDate value="${productList.register_date}" pattern="yy-MM-dd" var ="registerDate"/>
+                                            <fmt:formatDate value="${list.register_date}" pattern="yy-MM-dd" var ="registerDate"/>
                                                ${registerDate}
                                 
                                             </td>
                                             <td>
-                                               ${productList.content_origin}
+                                               ${list.content_origin}
                                             </td>
                                             <td>
                                                 <input type="button" value="상품수정" class="product-modify"
-                                                    onclick="javascript:location.href='SellerProductModifyForm.se?board_id=${productList.board_id}'" />
+                                                    onclick="javascript:location.href='SellerProductModifyForm.se?board_id=${list.board_id}'" />
                                                     
                                             </td>
                                         </tr>
