@@ -112,7 +112,7 @@
 	        				</button>
 	        				<%if(vo_list.get(i).getProduct_thum_1() != null){ %>
 	       					<img class="product-image" 
-	       					    src="display?path=<%=java.net.URLEncoder.encode(vo_list.get(i).getProduct_origin_path(), "UTF-8") %>&name=<%=java.net.URLEncoder.encode(vo_list.get(i).getProduct_origin_1(), "UTF-8") %>" alt="product image"/>
+	       					    src="display?path=<%=java.net.URLEncoder.encode(vo_list.get(i).getThumbnail_thum_path(), "UTF-8") %>&name=<%=java.net.URLEncoder.encode(vo_list.get(i).getThumbnail_thum(), "UTF-8") %>" alt="product image"/>
 	       					<%}else if(vo_list.get(i).getProduct_thum_2() != null){ %>
 	       					<img class="product-image" 
 	       					    src="display?path=<%=java.net.URLEncoder.encode(vo_list.get(i).getProduct_origin_path(), "UTF-8") %>&name=<%=java.net.URLEncoder.encode(vo_list.get(i).getProduct_origin_2(), "UTF-8") %>" alt="product image"/>

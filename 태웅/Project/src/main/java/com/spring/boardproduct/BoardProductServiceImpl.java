@@ -345,6 +345,18 @@ public class BoardProductServiceImpl implements BoardProductService {
 			ArrayList<BoardProductVO> list = mapper.selectProductListBySellerId2(seller_id, rowStart, rowEnd, startDate, endDate);
 			return list;
 		}
+
+		@Override
+		public void updateboardProduct(BoardProductVO vo) {
+			mapper.updateboardProduct(vo);
+			
+		}
+
+		@Override
+		public void updateProductStock(BoardProductVO productVO) {
+			mapper.updateProductStock(productVO);
+			
+		}
 	    
     
 }

@@ -29,4 +29,7 @@ public interface OrderRecordMapper {
     public int salesStatusCount(String seller_id);
     public ArrayList<OrderRecordVO> todayOrderRequestListBySellerId(String seller_id);
     public ArrayList<OrderRecordVO> selectOrderListBySellerId(String seller_id);
+    public ArrayList<OrderRecordVO> selectOrderListGroupByDate(@Param("seller_id")String seller_id,
+    		@Param("rowStart")int rowStart,@Param("rowEnd")int rowEnd, @Param("startDate")String startdate, @Param("endDate")String endDate);
+    public int selectCountGroupByDate(@Param("seller_id")String seller_id,@Param("startDate")String startdate,@Param("endDate")String endDate);
 }

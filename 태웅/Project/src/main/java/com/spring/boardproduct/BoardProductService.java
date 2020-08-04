@@ -6,6 +6,8 @@ public interface BoardProductService {
 
     public int getBoardNum();
     public int insertBoardProduct(BoardProductVO vo);
+    public void updateboardProduct(BoardProductVO vo);
+    public void updateProductStock(BoardProductVO productVO);
     public BoardProductVO getBoardProductVO(String board_id);
     public ArrayList<BoardProductVO> getBoardList_category1(
     		int category_1, int sort_list, int page_num, int page_amount);

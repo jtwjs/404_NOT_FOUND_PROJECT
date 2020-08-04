@@ -395,6 +395,12 @@ public class OrderController {
 	    		if(reserveUse != 0 ) {
 				buyerService.InsertSavePoint(buyer_id,"사용","적립금결제",reserveUse, board_title[i], vo.getOrder_id());
 	    		}
+	    		BoardProductVO productVO = new BoardProductVO();
+				productVO.setBoard_id(board_id[i]);
+				productVO.setSeller_id(seller_id[i]);
+				productVO.setQuantity(amount[i]);
+				
+				boardProductService.updateProductStock(productVO);
 			}
 			vo.setBoard_id(board_id[i]);
 			vo.setBoard_title(board_title[i]);
@@ -446,6 +452,7 @@ public class OrderController {
 			vo.setOrder_address(vo.getOrder_address().substring(index1+1,index2)
 			+ " " +vo.getOrder_address().substring(index2+1));
 		
+			
 		model.addAttribute("order",vo);
 		
     	return "Order/order_complete";

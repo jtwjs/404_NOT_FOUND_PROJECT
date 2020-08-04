@@ -147,6 +147,20 @@ public class OrderServiceImpl implements OrderService {
 		return list;
 	}
 
+	@Override
+	public ArrayList<OrderRecordVO> selectOrderListGroupByDate(String seller_id, int rowStart, int rowEnd,
+			String startDate, String endDate) {
+		ArrayList<OrderRecordVO> list = mapper.selectOrderListGroupByDate(seller_id, rowStart, rowEnd, startDate, endDate);
+		return list;
+	}
+
+	@Override
+	public int selectCountGroupByDate(String seller_id, String startDate, String endDate) {
+		int count = mapper.selectCountGroupByDate(seller_id, startDate, endDate);
+		return count;
+	}
+
+
 
     
     

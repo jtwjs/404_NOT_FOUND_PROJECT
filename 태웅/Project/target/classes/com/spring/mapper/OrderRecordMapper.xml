@@ -35,6 +35,9 @@
 		<result property="order_account" column="order_account" />
 		<result property="order_date" column="order_date" />
 		<result property="non_member_flag" column="non_member_flag" />
+		<result property="date_order_date" column="date_order_date" />
+		<result property="date_tot_price" column="date_tot_price" />
+		<result property="date_order_id" column="date_order_id" />
 	</resultMap>
 	<!-- id는 Mapper.java(여기선 MemberMapper.java)에 동일하게 사용해야된다. -->
 
@@ -154,6 +157,39 @@
 	<select id="selectOrderListBySellerId" resultType="com.spring.order.OrderRecordVO">
 		SELECT * FROM 
 		order_record WHERE seller_id=#{seller_id} ORDER BY order_num DESC
+	</select>
+	
+	<select id="selectOrderListGroupByDate" resultType="com.spring.order.OrderRecordVO">
+	SELECT date_tot_price,date_order_id, date_order_date
+	from (
+	    select sum(총주문금액)as date_tot_price,count(주문번호)as date_order_id, date_order_date,row_number() OVER (ORDER BY date_order_date DESC) AS rNum
+	    from 
+	        (select sum(tot_price) AS 총주문금액 ,count(order_id) AS 주문번호,to_char(max(order_date),'yy-mm-dd') AS date_order_date
+	         from order_record
+	         where seller_id='seller02'
+	         group by order_id
+	        ) a
+	    group by date_order_date
+	    having date_order_date between to_date(#{startDate},'yy-mm-dd') AND to_date(#{endDate},'yy-mm-dd')+1
+	    order by date_order_date asc
+	    )b
+	    WHERE rNum between #{rowStart} AND #{rowEnd} 
+	</select>
+	
+	<select id="selectCountGroupByDate" resultType="int">
+		select count(*)
+		from(
+		    select  sum(date_tot_price),count(date_order_id), date_order_date
+		    from 
+		        (select sum(tot_price) AS date_tot_price ,count(order_id) AS date_order_id,to_char(max(order_date),'yy-mm-dd') AS date_order_date
+		         from order_record
+		         where seller_id='seller02'
+		         group by order_id
+		        ) a
+		    group by date_order_date 
+		    having date_order_date between to_date(#{startDate},'yy-mm-dd') AND to_date(#{endDate},'yy-mm-dd')+1
+		    order by date_order_date asc
+		    )
 	</select>
 
 

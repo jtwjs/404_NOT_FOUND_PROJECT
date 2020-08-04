@@ -140,7 +140,9 @@ public class BuyerController {
 		}
 		
 		ArrayList<OrderRecordVO> recentlyRecord = orderService.orderBeingDeliveredListById(account.getId());
-		
+		String change_savePoint = numberOfDigit(buyerAccount.getSavePoint());
+		change_savePoint = reverseString(change_savePoint);
+		buyerAccount.setStrSavePoint(change_savePoint);
 		
 		model.addAttribute("orderList",recentlyRecord);
 		model.addAttribute("countList",cntArray);
@@ -619,6 +621,7 @@ public class BuyerController {
 		model.addAttribute("order_id",order_id);
 		model.addAttribute("user",buyerAccount);
 		model.addAttribute("item",product);
+		
 		return "Buyer/mypage_review_write_form";
 	}
 	
@@ -642,8 +645,19 @@ public class BuyerController {
     	
     	System.out.println("상품점수"+vo.getSatisfaction());
     	System.out.println("배송점수"+vo.getDelivery_satisfaction());
+	
+    	double avgSatisfaction = 0.0;
+    	
+		if (productService.insertReview(vo) == 1) {
+			avgSatisfaction = productService.getAvgSatisfaction(vo.getBoard_id());
+		}
+
+		if (productService.updateSatisfaction(vo.getBoard_id(), avgSatisfaction) == 1) {
+		}
+    	
 		
-		productService.insertReview(vo);
+		
+	
 		return "redirect:BuyerMyPageReviewWrite.by";
 	}
 	
@@ -728,6 +742,10 @@ public class BuyerController {
 		
 		BuyerVO buyerAccount = buyerService.selectOneById(id);
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
+		String change_savePoint = numberOfDigit(buyerAccount.getSavePoint());
+		change_savePoint = reverseString(change_savePoint);
+		buyerAccount.setStrSavePoint(change_savePoint);
+		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(buyerService.listCount(id, status));

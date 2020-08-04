@@ -71,7 +71,7 @@
                             <div class="find">
 	                            <div class="check_id">
 	                                <input type="checkbox" class="chk_Id" name="remember" id="Id_button" >
-									<label for="Id_button">로그인 유지</label>
+									<label for="Id_button" id="Id_buttonLabel">로그인 유지</label>
 	                            </div>
 	                            <div class="loginfind_btn">
 	                                <a href="#" id="findIdBtn" class="findIdBtn" onclick="location.href='#'">아이디

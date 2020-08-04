@@ -16,9 +16,9 @@ $(document).ready(function(){
 
 
 	var refImg = document.getElementById('repImg').value,
-		Img2 = document.getElementById('productImg2').value,
-		Img3 = document.getElementById('productImg3').value,
-		Img4 = document.getElementById('productImg4').value;
+		Img2 = document.getElementById('productThumbImg2').value,
+		Img3 = document.getElementById('productThumbImg3').value,
+		Img4 = document.getElementById('productThumbImg4').value;
 	
 	document.getElementById('representImgLabel').style.backgroundImage = "url("+refImg+")";
 	document.getElementById('representImgLabel').style.backgroundSize = "250px";

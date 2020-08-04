@@ -27,4 +27,7 @@ public interface OrderService {
     public int salesStatusCount(String seller_id);
     public ArrayList<OrderRecordVO> todayOrderRequestListBySellerId(String seller_id);
     public ArrayList<OrderRecordVO> selectOrderListBySellerId(String seller_id);
+    public ArrayList<OrderRecordVO> selectOrderListGroupByDate(String seller_id,int rowStart,int rowEnd,
+    		String startDate,String endDate);
+    public int selectCountGroupByDate(String seller_id,String startDate,String endDate);
 }

@@ -306,7 +306,7 @@ function select_liveStock(){
 	category_2.options.add(addOption[6]);
 }
 
-function select_auqatic(){
+function select_aquatic(){
 
 	if(category_2 == null) {
 		return;

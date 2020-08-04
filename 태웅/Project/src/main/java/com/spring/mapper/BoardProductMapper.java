@@ -13,6 +13,8 @@ public interface BoardProductMapper {
 
     public int getBoardNum();
     public int insertBoardProduct(BoardProductVO vo);
+    public void updateboardProduct(BoardProductVO vo);
+    public void updateProductStock(BoardProductVO vo);
     public BoardProductVO getBoardProductVO(String board_id);
     public ArrayList<BoardProductVO> getBoardList_category1(
     		@Param("category_1")int category_1, @Param("sort_list")int sort_list, 

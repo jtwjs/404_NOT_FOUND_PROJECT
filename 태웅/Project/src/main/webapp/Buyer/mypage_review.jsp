@@ -87,8 +87,8 @@
                                    	<tr>
                                    		<td class="product-title">
                                    			<div class="title-detail">
-	                                   			<img src="display?path=${list.review_img_path}&name=${list.review_img_name}"/>
-	                                   			<p>${list.title}</p>
+	                                   			<img src="display?path=${list.review_img_path}&name=${list.review_img_name}" onclick="location.href='BoardProductView.bo?board_id=${list.board_id}'" />
+	                                   			<p onclick="location.href='BoardProductView.bo?board_id=${list.board_id}'">${list.title}</p>
                                    			</div>
                                			</td>
                                    		<td class="content">

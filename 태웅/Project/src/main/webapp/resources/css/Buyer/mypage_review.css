@@ -70,7 +70,10 @@
 	display: block;
 	width: 80px;
 	height: 80px;
+	cursor: pointer;
 }
+
+
 
 .product-title p {
 	display: flex;
@@ -78,6 +81,11 @@
 	width: 100%;
 	padding: 0 10px;
 	text-align: left;
+}
+
+.product-title p:hover {
+	text-decoration: underline;
+	cursor: pointer;
 }
 
 .review-content {

@@ -137,7 +137,16 @@
 
                         <!-- 이미지 -->
                         <div class="seller__datathumb--img">
+                       <c:choose>
+                        
+                        <c:when test="${vo.quantity ne 0 }">
                             <div class="seller-imgBig">
+                        </c:when>
+                        <c:otherwise>
+                        	<div class="seller-imgBig sold_out">
+                        </c:otherwise>
+                       </c:choose>
+                        
                                 <% String origin_path = java.net.URLEncoder.encode(vo.getProduct_origin_path(), "UTF-8"); 
                                    String thumb_path = java.net.URLEncoder.encode(vo.getProduct_thum_path(), "UTF-8"); 
                                    String origin2_path = java.net.URLEncoder.encode(vo.getThumbnail_origin_path(),"UTF-8");
@@ -152,7 +161,8 @@
                                 <img src="display?path=<%=origin_path %>&name=<%=java.net.URLEncoder.encode(vo.getProduct_origin_4(), "UTF-8") %>" alt="">
                                 <%} %>
                             </div>
-                            
+                      	
+                     
                             <div class="seller__img--thumb">
                                 <ul>
                                     <%if(vo.getProduct_thum_1() != null){ %>
@@ -296,11 +306,19 @@
                                 <input type="hidden" value="<%=vo.getThumbnail_thum_path() %>" name="thumbnail_thum_path"/>
                             </form>
                             <div class="seller__data--btn">
+                            <c:if test="${vo.quantity ne 0 }">
                                 <div class="seller__btnWrap">
                                     <button type="button" class="button1" id="buy-btn" 
                                         onclick="buyForm('<%=user_id %>', '<%=login_case%>');">
                                     <b>구매하기</b></button>
                                 </div>
+                           </c:if>
+                           <c:if test="${vo.quantity eq 0 }">
+                           		<div class="seller__btnWrap">
+                                    <button type="button" class="button1" id="sold_out">
+                                    <b>품절</b></button>
+                                </div>
+                           </c:if>
                                 <div class="seller__btnWrap">
                                     <button type="button" class="button2" id="cart-btn" 
                                         onclick="cartForm('<%=user_id %>', '<%=login_case%>');">

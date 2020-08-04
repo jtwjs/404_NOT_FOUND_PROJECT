@@ -121,19 +121,19 @@ public class SellerController {
 
 		String avgStarImgSrc = "";
 		if (avg_satis == 5.0) {
-			avgStarImgSrc = "./resources/Images/Seller/star_5.png";
+			avgStarImgSrc = "./resources/Images/Seller/stars_5.png";
 		} else if (avg_satis == 4.5) {
-			avgStarImgSrc = "./resources/Images/Seller/star_4-5.png";
+			avgStarImgSrc = "./resources/Images/Seller/stars_4-5.png";
 		} else if (avg_satis == 4.0) {
 			avgStarImgSrc = "./resources/Images/Seller/star_4.png";
 		} else if (avg_satis == 3.5) {
-			avgStarImgSrc = "./resources/Images/Seller/star_3-5.png";
+			avgStarImgSrc = "./resources/Images/Seller/stars_3-5.png";
 		} else if (avg_satis == 3.0) {
 			avgStarImgSrc = "./resources/Images/Seller/star_3.png";
 		} else if (avg_satis == 2.5) {
-			avgStarImgSrc = "./resources/Images/Seller/star_2-5.png";
+			avgStarImgSrc = "./resources/Images/Seller/stars_2-5.png";
 		} else if (avg_satis == 2.0) {
-			avgStarImgSrc = "./resources/Images/Seller/star_2.png";
+			avgStarImgSrc = "./resources/Images/Seller/stars_2.png";
 		} else if (avg_satis == 1.5) {
 			avgStarImgSrc = "./resources/Images/Seller/star_1-5.png";
 		} else if (avg_satis == 1.0) {
@@ -416,7 +416,25 @@ public class SellerController {
 	}
 
 	@RequestMapping(value = "/SellerCalculateManager.se") // 嫄곕옒�궡�뿭 - 嫄곕옒紐⑸줉
-	public String sellerCalculateManager(Model model, @CurrentUser AccountVO account) {
+	public String sellerCalculateManager(Model model, @CurrentUser AccountVO account,
+			CriteriaVO cri,@RequestParam(value="startDate", required=false, defaultValue="19800101")String startDate,
+			@RequestParam(value="endDate", required=false, defaultValue ="")String endDate)throws Exception {
+		
+		Date date = new Date();
+		date = new Date(date.getTime()+(1000*60*60*24*1));
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+		if(endDate.equals("") || endDate == null) {
+			endDate = simpleDateFormat.format(date);
+		}
+		
+		int rowStart = cri.getRowStart();
+		int rowEnd = cri.getRowEnd();
+		ArrayList<OrderRecordVO> list = orderService.selectOrderListGroupByDate(account.getId(), rowStart, rowEnd, startDate, endDate);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(orderService.selectCountGroupByDate(account.getId(), startDate, endDate));
+		
 		SellerVO sellerAccount = Sellerservice.selectOneById(account.getId());
 		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0, 10));
 		try {
@@ -431,7 +449,24 @@ public class SellerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
+		
+		for(int i=0; i<list.size();i++) {
+			int commission = (int)(Integer.parseInt(list.get(i).getDate_tot_price())*0.05);
+			int calculate = (Integer.parseInt(list.get(i).getDate_tot_price())-commission);
+			String changeCommision = numberOfDigit(commission);
+			String changeCalculate = numberOfDigit(calculate);
+			String changeTotPrice = numberOfDigit(Integer.parseInt(list.get(i).getDate_tot_price()));
+			changeCommision = reverseString(changeCommision);
+			changeCalculate = reverseString(changeCalculate);
+			changeTotPrice = reverseString(changeTotPrice);
+			list.get(i).setDate_tot_price(changeTotPrice);
+			list.get(i).setCommission(changeCommision);
+			list.get(i).setCalculate(changeCalculate);
+		}
+		
+		model.addAttribute("currentPage", cri.getPage());
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("orderList", list);
 		model.addAttribute("user", sellerAccount);
 		return "Seller/mypage_calculateManager";
 	}

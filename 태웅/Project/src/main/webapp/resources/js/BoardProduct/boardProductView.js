@@ -123,17 +123,17 @@ $("#board__delivery--move").on("click", function (e) {
 
 function enableCheck(quantity, status, login_case, user_id, board_id, location){
 	
-	if(Number(quantity) < 1 || status == 'N'){  // 재고량이 1개 이하이거나 판매중지 상태일 경우 버튼 비활성화
-		var buy_btn = document.getElementById("buy-btn");
-		var cart_btn = document.getElementById("cart-btn");
-		var wish_btn = document.getElementById("wish-btn");
-		var tot_price = document.getElementById("tot-price-span");
-		tot_price.contentText = "0";
-		buy_btn.disabled = true;
-		cart_btn.disabled = true;
-		wish_btn.disabled = true;
-	}
-	
+//	if(Number(quantity) < 1 || status == 'N'){  // 재고량이 1개 이하이거나 판매중지 상태일 경우 버튼 비활성화
+//		var buy_btn = document.getElementById("buy-btn");
+//		var cart_btn = document.getElementById("cart-btn");
+//		var wish_btn = document.getElementById("wish-btn");
+//		var tot_price = document.getElementById("tot-price-span");
+//		tot_price.contentText = "0";
+//		buy_btn.disabled = true;
+//		cart_btn.disabled = true;
+//		wish_btn.disabled = true;
+//	}
+//	
 	// 사용자가 글을 볼 때마다 조회수(read_count) 1 증가
 	$.ajax({
 	    type: 'GET',

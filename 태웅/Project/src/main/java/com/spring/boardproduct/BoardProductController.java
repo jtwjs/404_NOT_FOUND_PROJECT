@@ -321,6 +321,193 @@ public class BoardProductController {
 
 		return "BoardProduct/boardProductList";
 	}
+	
+	@PostMapping(value = "/BoardProductModify.bo")
+	public String boadProductModify( @CurrentUser AccountVO account, String title, int category_1, int category_2,
+			int price, int delivery_price, int quantity, // String content,
+			String sales_producer, String product_name, String product_weight, String product_size, int category_local,
+			String product_country, String date_manufacture, String best_before_date, String transgenic,
+			String storage_method, String consumer_consulation,String board_id,
+			@RequestPart(value = "thumbnail_origin", required = false) MultipartFile thumbnail_origin,
+			@RequestPart(value = "product_origin_2", required = false) MultipartFile product_origin_2,
+			@RequestPart(value = "product_origin_3", required = false) MultipartFile product_origin_3,
+			@RequestPart(value = "product_origin_4", required = false) MultipartFile product_origin_4)
+			throws IOException{
+		BoardProductVO vo = new BoardProductVO();
+		
+		vo.setContent("test"); // test값으로 세팅, summernote 건드리는중
+		vo.setContent_origin("test"); // test값으로 세팅, summernote 건드리는중
+		vo.setSeller_id(account.getId()); // test값으로 세팅, 회원가입 로그인 완료되면 교체
+		vo.setTitle(title);
+		vo.setCategory_1(category_1);
+		vo.setCategory_2(category_2);
+		vo.setPrice(price);
+		vo.setDelivery_price(delivery_price);
+		vo.setQuantity(quantity);
+		vo.setSales_producer(sales_producer);
+		vo.setProduct_name(product_name);
+		vo.setProduct_weight(product_weight);
+		vo.setProduct_size(product_size);
+		vo.setCategory_local(category_local);
+		vo.setProduct_country(product_country);
+		vo.setDate_manufacture(date_manufacture);
+		vo.setBest_before_date(best_before_date);
+		vo.setTransgenic(transgenic);
+		vo.setStorage_method(storage_method);
+		vo.setConsumer_consulation(consumer_consulation);
+		vo.setBoard_id(board_id);
+		// 받아온 값 vo에 세팅 end
+		// =========================================================================
+
+		
+
+
+		// 이미지 파일 저장 및 썸네일 생성
+		// =======================================================================
+		String uploadFolder_thumbnail_origin = "C:\\Project156\\upload\\thumbnail_origin"; // 썸네일 원본 업로드 경로
+		String uploadFolder_thumbnail_thum = "C:\\Project156\\upload\\thumbnail_thum"; // 썸네일 썸네일 업로드 경로
+		String uploadFolder_product_origin = "C:\\Project156\\upload\\product_origin"; // 상품이미지 원본 업로드 경로
+		String uploadFolder_product_thum = "C:\\Project156\\upload\\product_thum"; // 상품이미지 썸네일 업로드 경로
+//		String uploadFolder_content_origin = "C:\\Project156\\upload\\content_origin"; // 본문 이미지 업로드 경로
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String str = sdf.format(date);
+		boolean imgFlag = false;
+		
+		if (!thumbnail_origin.isEmpty()) {
+
+			File thum_origin_save = imgSave(thumbnail_origin, uploadFolder_thumbnail_origin);
+			String thum_thum_name = makeThumbnail(thumbnail_origin, thum_origin_save, uploadFolder_thumbnail_thum, 215, 215);
+			
+			
+			
+			vo.setThumbnail_origin(thum_origin_save.getName());
+			vo.setThumbnail_thum(thum_thum_name);
+			vo.setProduct_origin_1(thum_origin_save.getName());
+			vo.setProduct_thum_1(thum_thum_name);
+			StringBuilder img_path = new StringBuilder(
+					uploadFolder_thumbnail_origin.replace("C:\\Project156\\upload\\", "/img/") + "/"
+							+ str.replace("-", "/") + "/");
+			vo.setThumbnail_origin_path(img_path.toString());
+			vo.setProduct_origin_path(img_path.toString());
+			
+			
+			img_path.setLength(0);
+
+			img_path.append(uploadFolder_thumbnail_thum.replace("C:\\Project156\\upload\\", "/img/") + "/"
+					+ str.replace("-", "/") + "/");
+			vo.setThumbnail_thum_path(img_path.toString());
+			vo.setProduct_thum_path(img_path.toString());
+			
+
+			imgFlag = true;
+
+		} else {
+			vo.setThumbnail_thum("no_image_thum.jpg");
+			vo.setThumbnail_thum_path("/img/common/");
+		}
+		
+		
+
+
+		
+		if (!product_origin_2.isEmpty()) {
+			File product_origin_2_save = imgSave(product_origin_2, uploadFolder_product_origin);
+			String product_thum_2_name = makeThumbnail(product_origin_2, product_origin_2_save,
+					uploadFolder_product_thum, 100, 100);
+			vo.setProduct_origin_2(product_origin_2_save.getName());
+			vo.setProduct_thum_2(product_thum_2_name);
+
+			StringBuilder img_path = new StringBuilder(
+					uploadFolder_product_origin.replace("C:\\Project156\\upload\\", "/img/") + "/"
+							+ str.replace("-", "/") + "/");
+			vo.setProduct_origin_path(img_path.toString());
+			img_path.setLength(0);
+
+			img_path.append(uploadFolder_product_thum.replace("C:\\Project156\\upload\\", "/img/") + "/"
+					+ str.replace("-", "/") + "/");
+			vo.setProduct_thum_path(img_path.toString());
+
+			imgFlag = true;
+		}
+
+		if (!product_origin_3.isEmpty()) {
+			File product_origin_3_save = imgSave(product_origin_3, uploadFolder_product_origin);
+			String product_thum_3_name = makeThumbnail(product_origin_3, product_origin_3_save,
+					uploadFolder_product_thum, 100, 100);
+			vo.setProduct_origin_3(product_origin_3_save.getName());
+			vo.setProduct_thum_3(product_thum_3_name);
+
+			StringBuilder img_path = new StringBuilder(
+					uploadFolder_product_origin.replace("C:\\Project156\\upload\\", "/img/") + "/"
+							+ str.replace("-", "/") + "/");
+			vo.setProduct_origin_path(img_path.toString());
+			img_path.setLength(0);
+
+			img_path.append(uploadFolder_product_thum.replace("C:\\Project156\\upload\\", "/img/") + "/"
+					+ str.replace("-", "/") + "/");
+			vo.setProduct_thum_path(img_path.toString());
+
+			imgFlag = true;
+		}
+
+		if (!product_origin_4.isEmpty()) {
+			File product_origin_4_save = imgSave(product_origin_4, uploadFolder_product_origin);
+			String product_thum_4_name = makeThumbnail(product_origin_4, product_origin_4_save,
+					uploadFolder_product_thum, 100, 100);
+			vo.setProduct_origin_4(product_origin_4_save.getName());
+			vo.setProduct_thum_4(product_thum_4_name);
+
+			StringBuilder img_path = new StringBuilder(
+					uploadFolder_product_origin.replace("C:\\Project156\\upload\\", "/img/") + "/"
+							+ str.replace("-", "/") + "/");
+			vo.setProduct_origin_path(img_path.toString());
+			img_path.setLength(0);
+
+			img_path.append(uploadFolder_product_thum.replace("C:\\Project156\\upload\\", "/img/") + "/"
+					+ str.replace("-", "/") + "/");
+			vo.setProduct_thum_path(img_path.toString());
+
+			imgFlag = true;
+		}
+
+		if (!imgFlag) { // 아무런 대표이미지도 저장되지 않았을 때
+			vo.setProduct_origin_1("no_image.jpg");
+			vo.setProduct_thum_1("no_image_thum.jpg");
+			vo.setProduct_origin_path("/img/common/");
+			vo.setProduct_thum_path("/img/common/");
+		}
+		System.out.println("게시판 id: " + vo.getBoard_id());
+		System.out.println("판매자 id: " + vo.getSeller_id());
+		System.out.println("게시판 번호: " + vo.getBoard_num());
+		System.out.println("제목: " + vo.getTitle());
+		System.out.println("판매가: " + vo.getPrice());
+		System.out.println("배송비: " + vo.getDelivery_price());
+		System.out.println("수량: " + vo.getQuantity());
+		System.out.println("본문내용: " + vo.getContent());
+		System.out.println("게시글 등록일: " + vo.getRegister_date());
+		System.out.println("1차 카테고리: " + vo.getCategory_1());
+		System.out.println("2차 카테고리: " + vo.getCategory_2());
+	
+		
+
+			boardProductService.updateboardProduct(vo);
+			System.out.println("게시판 id: " + vo.getBoard_id());
+			System.out.println("판매자 id: " + vo.getSeller_id());
+			System.out.println("게시판 번호: " + vo.getBoard_num());
+			System.out.println("제목: " + vo.getTitle());
+			System.out.println("판매가: " + vo.getPrice());
+			System.out.println("배송비: " + vo.getDelivery_price());
+			System.out.println("수량: " + vo.getQuantity());
+			System.out.println("본문내용: " + vo.getContent());
+			System.out.println("게시글 등록일: " + vo.getRegister_date());
+			System.out.println("1차 카테고리: " + vo.getCategory_1());
+			System.out.println("2차 카테고리: " + vo.getCategory_2());
+			
+		
+			return "redirect:/SellerProductList.se";
+	}
 
 	@GetMapping(value = "/BoardProductView.bo") // 판매글 보기
 	public String boardProductView(Model model, HttpServletRequest request, HttpServletResponse response,
@@ -966,7 +1153,6 @@ public class BoardProductController {
 		}
 
 		if (boardProductService.updateSatisfaction(board_id, avgSatisfaction) == 1) {
-
 		}
 
 		return "redirect:/BoardProductView.bo?board_id=" + board_id + "&location=" + location;

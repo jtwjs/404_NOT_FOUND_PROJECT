@@ -63,11 +63,15 @@ public class OrderRecordVO {           // 주문기록
     private String order_account;      // 결제계좌/카드번호
     private String order_date;           // 결제일
     private char non_member_flag;      // 비회원 여부 ('Y', 'N' 으로 구분)
-    
     private String thumbnail_thum;
     private String thumbnail_thum_path;
-    
     private boolean reviewCheck;
+    
+    private String date_order_id;
+    private String date_tot_price;
+    private String date_order_date;
+    private String commission;
+    private String calculate;
     
 	public int getOrder_num() {
 		return order_num;
@@ -242,6 +246,36 @@ public class OrderRecordVO {           // 주문기록
 	}
 	public void setReviewCheck(boolean reviewCheck) {
 		this.reviewCheck = reviewCheck;
+	}
+	public String getDate_order_id() {
+		return date_order_id;
+	}
+	public void setDate_order_id(String date_order_id) {
+		this.date_order_id = date_order_id;
+	}
+	public String getDate_tot_price() {
+		return date_tot_price;
+	}
+	public void setDate_tot_price(String date_tot_price) {
+		this.date_tot_price = date_tot_price;
+	}
+	public String getDate_order_date() {
+		return date_order_date;
+	}
+	public void setDate_order_date(String date_order_date) {
+		this.date_order_date = date_order_date;
+	}
+	public String getCommission() {
+		return commission;
+	}
+	public void setCommission(String commission) {
+		this.commission = commission;
+	}
+	public String getCalculate() {
+		return calculate;
+	}
+	public void setCalculate(String calculate) {
+		this.calculate = calculate;
 	}
 	
 	
