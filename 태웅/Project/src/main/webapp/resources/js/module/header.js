@@ -595,14 +595,6 @@ function checkRedirect(indexCheck){
 	}
 }
 
-// 상품 검색
 
-function boardProductSearch(){
-	var searchText = document.getElementById("search-input");
-	
-	if(searchText.value != ""){
-	    location.href= "BoardProductSearch.bo?keyword=" + searchText.value;
-	}
-}
 
 }
