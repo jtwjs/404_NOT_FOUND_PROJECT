@@ -20,6 +20,16 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script>
+
+function boardProductSearch(){
+	var searchText = document.getElementById("search-input");
+	
+	if(searchText.value != ""){
+	    location.href= "BoardProductSearch.bo?keyword=" + searchText.value;
+	}
+}
+</script>
 
 <header id="header" role="banner">
 	<div id="header__content">

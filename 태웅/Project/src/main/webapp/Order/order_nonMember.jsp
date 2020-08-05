@@ -46,7 +46,7 @@
            <div class="login__box">
 		    <div class="order__login--wrap">  
 		        <h5 class="order_title">비회원 주문조회</h5>                        
-			    <form name="order__non-member--form">
+			    <form name="order__non-member--form" id="form" action="non-OrderResearchByInfo.or" method="GET">
 			        <div class="irum">
 			        	<label for ="userIrum">이름</label>
 			            <input type="text" class="inputIrum" id="userIrum" name="userIrum" maxlength="20" value=""
@@ -56,11 +56,11 @@
 			        <div class="phone">
 			        	<label for="userPhone">휴대폰 번호</label>
 			            <input type="text" class="inputPhone" id="userPhon" name="userPhone" maxlength="20"
-			                placeholder="  휴대폰 번호를 입력해 주세요.">
+			                placeholder="  휴대폰 번호를 입력해 주세요. 예) 010-XXXX-XXXX">
 			        </div>
 			
 			        <div class="cart_btn">
-			            <button type="button" class="submitcartBtn" onclick="location.href='OrderCheck.or'">비회원 주문조회</button>
+			            <button type="button" id="submitBtn" class="submitcartBtn">비회원 주문조회</button>
 			        </div>
 			    </form>
 		      </div>
@@ -69,6 +69,7 @@
 	    </div>
 	  </div>
 	</main>
+	<script type="text/javascript" src="<c:url value='/resources/js/Order/nonMember.js?after'/>" ></script>    
 	<!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    

@@ -220,4 +220,16 @@ public class OrderServiceImpl implements OrderService {
 		return result;
 	}
 
+	@Override
+	public ArrayList<OrderRecordVO> non_orderResearch(OrderRecordVO vo) {
+		ArrayList<OrderRecordVO> list = mapper.non_orderResearch(vo);
+		return list;
+	}
+
+	@Override
+	public int non_orderResearchCount(OrderRecordVO vo) {
+		int count = mapper.non_orderResearchCount(vo);
+		return count;
+	}
+
 }

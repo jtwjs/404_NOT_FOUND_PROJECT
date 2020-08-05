@@ -59,5 +59,7 @@ public interface OrderRecordMapper {
     public int orderListCountByConfirmation(@Param("buyer_id")String buyer_id,@Param("startDate")String startDate, @Param("endDate")String endDate);
     public OrderRecordVO orderDelivery(
     		@Param("order_id")String order_id, @Param("board_id")String board_id);
+    public ArrayList<OrderRecordVO> non_orderResearch(OrderRecordVO vo);
+    public int non_orderResearchCount(OrderRecordVO vo);
 }
 
