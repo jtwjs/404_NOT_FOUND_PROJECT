@@ -35,6 +35,22 @@
   height: 38px;
 }
 
+#non_navi {
+	left: 890px;
+}
+
+#admin_navi {
+	left: 860px;
+}
+
+#buyer_navi {
+	left: 795px;	
+}
+
+#seller_navi {
+ 	left: 940px;
+} 
+
 .header__top__navi li {
   position: relative;
   padding: 0 11px;

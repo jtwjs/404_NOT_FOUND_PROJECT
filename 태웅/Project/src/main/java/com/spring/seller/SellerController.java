@@ -182,16 +182,16 @@ public class SellerController {
 			case "배송완료":
 				orderHistoryCntArray[3]++;
 				break;
-			case "교환신청":
+			case "주문취소중":
 				orderHistoryCntArray[4]++;
 				break;
-			case "교환완료":
+			case "주문취소완료":
 				orderHistoryCntArray[5]++;
 				break;
-			case "반품신청":
+			case "환불확인중":
 				orderHistoryCntArray[6]++;
 				break;
-			case "반품완료":
+			case "환불완료":
 				orderHistoryCntArray[7]++;
 				break;
 			}

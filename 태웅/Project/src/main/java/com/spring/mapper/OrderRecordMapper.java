@@ -52,4 +52,12 @@ public interface OrderRecordMapper {
     		@Param("status")String[] status, @Param("order_payment")String[] order_payment, 
     		@Param("start_date")String start_date, @Param("end_date")String end_date);
     
+    
+    ArrayList<OrderRecordVO> selectOrderListByConfirmation(@Param("buyer_id")String buyer_id,
+    		@Param("rowStart")int rowStart, @Param("rowEnd")int rowEnd, @Param("startDate")String startDate, 
+    		@Param("endDate")String endDate);
+    public int orderListCountByConfirmation(@Param("buyer_id")String buyer_id,@Param("startDate")String startDate, @Param("endDate")String endDate);
+    public OrderRecordVO orderDelivery(
+    		@Param("order_id")String order_id, @Param("board_id")String board_id);
 }
+

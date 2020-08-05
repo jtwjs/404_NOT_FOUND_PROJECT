@@ -745,16 +745,19 @@ public class AdminController {
 		
 		if(account == null) {
 			result.put("result", "null");
-		}else if(securityService.isPasswordCheck(buyer_pw,account.getPassword())) {
-			result.put("password", "Success");
-		}else if(!(securityService.isPasswordCheck(buyer_pw, account.getPassword()))) {
-			result.put("password", "Fail");
-		}else if(account.getMemberType().equals("SELLER")||account.getMemberType().equals("ADMIN")) {
-			result.put("result","SELLER");
+		}else if(account.getMemberType().equals("BUYER")||account.getMemberType().equals("ADMIN")) {
+			result.put("result","BUYER");
 		}else {
-			result.put("result","NOT_SELLER");
+			result.put("result","NOT_BUYER");
 		}
 		
+		if(account != null) {
+			 if(securityService.isPasswordCheck(buyer_pw,account.getPassword())) {
+				result.put("password", "Success");
+			}else if(!(securityService.isPasswordCheck(buyer_pw, account.getPassword()))) {
+				result.put("password", "Fail");
+			}
+		}
 		
 	
 		return result;
@@ -769,16 +772,19 @@ public class AdminController {
 		
 		if(account == null) {
 			result.put("result", "null");
-		}else if(securityService.isPasswordCheck(seller_pw,account.getPassword())) {
-			result.put("password", "Success");
-		}else if(!(securityService.isPasswordCheck(seller_pw, account.getPassword()))) {
-			result.put("password", "Fail");
 		}else if(account.getMemberType().equals("SELLER")||account.getMemberType().equals("ADMIN")) {
 			result.put("result","SELLER");
 		}else {
 			result.put("result","NOT_SELLER");
 		}
-		
+
+		if(account != null) {
+			 if(securityService.isPasswordCheck(seller_pw,account.getPassword())) {
+				result.put("password", "Success");
+			}else if(!(securityService.isPasswordCheck(seller_pw, account.getPassword()))) {
+				result.put("password", "Fail");
+			}
+		}
 		
 		
 	

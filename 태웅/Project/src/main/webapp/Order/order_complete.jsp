@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -118,11 +120,16 @@
                     </div>
                 </div>
             </div>
-            
+            <sec:authorize access="isAnonymous()">
             <div class="col-xs-12" id="order__complete--btn">
+                <input type="button" value="주문내역 확인하기" onclick="javascript:location.href='non-OrderResearch.or?order_id=${order.order_id}'" />
+            </div>
+            </sec:authorize>
+       		<sec:authorize access = "isAuthenticated()">
+       		<div class="col-xs-12" id="order__complete--btn">
                 <input type="button" value="주문내역 확인하기" onclick="javascript:location.href='OrderResearch.or?order_id=${order.order_id}'" />
             </div>
-            
+       		</sec:authorize>
         </div>
     </div>
 </main>

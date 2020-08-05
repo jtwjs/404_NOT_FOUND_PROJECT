@@ -6,7 +6,6 @@ account_type varchar2(10) not null,
 constraint all_account_pk primary key(account_id)
 );
 
-
 create table admin(                 -- 愿�由ъ옄 �뀒�씠釉�
     admin_id varchar2(16) not null, -- 愿�由ъ옄 ID (湲곕낯�궎)
     password varchar2(100) not null, -- 鍮꾨�踰덊샇
@@ -18,6 +17,7 @@ create table admin(                 -- 愿�由ъ옄 �뀒�씠釉�
 
 insert into admin 
 values ('admin','{bcrypt}$2a$10$UgciI5e8vDo2uZlnRDSL4eZlPwkWMyd4pOCj90wja8UWqkX.GSAqu','관리자',admin_num_seq.nextval,'ADMIN');
+
 
 CREATE SEQUENCE admin_num_seq
     INCREMENT BY 1
@@ -63,6 +63,7 @@ CREATE SEQUENCE buyer_num_seq
 --     select buyer_num_seq.nextval from DUAL;
 --     select buyer_num_seq.currval from dual;   
 
+select * from save_point;
 /*적립금 테이블*/     
 create table save_point (
  sp_status varchar2(4) not null, --적립, 사용
@@ -258,6 +259,7 @@ create table product_cart(          -- �옣諛붽뎄�땲
     constraint product_cart_cart_id_pk primary key(cart_id)
 );
 
+
 create table board_review(              -- 상품후기 게시판
     review_id varchar2(32) not null,    -- 리뷰글 ID (기본키)
     review_num number not null,         -- 리뷰글 번호
@@ -349,36 +351,5 @@ create table board_qna(                -- 상품 문의 게시판
 --
 --SELECT 'DROP TABLE "' || TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
 
-select * from order_record;
 
-SELECT one,two, 정산일,b.rNum
-from (
-    select sum(총주문금액)as one,count(주문번호)as two, 정산일,row_number() OVER (ORDER BY 정산일 DESC) AS rNum
-    from 
-        (select sum(price) AS 총주문금액 ,count(order_id) AS 주문번호,to_char(max(order_date),'yy-mm-dd') AS 정산일
-         from order_record
-         where seller_id='seller02'
-         group by order_id
-        ) a
-    group by 정산일
-    having 정산일 between '00-01-01' AND '20-08-04'
-    order by 정산일 asc
-    )b
-    WHERE rNum between 1 AND 10 
-;
-select count(*)
-from(
-    select  sum(총주문금액),count(주문번호), 정산일
-    from 
-        (select sum(price) AS 총주문금액 ,count(order_id) AS 주문번호,to_char(max(order_date),'yy-mm-dd') AS 정산일
-         from order_record
-         where seller_id='seller02'
-         group by order_id
-        ) a
-    group by 정산일 
-    having 정산일 between '00-01-01' AND '20-08-04'
-    order by 정산일 asc)
-;
 
-select * from member_buyer;
-select * from all_account;

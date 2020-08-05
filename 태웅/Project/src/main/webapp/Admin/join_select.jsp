@@ -51,9 +51,9 @@
                             <div class="join--buyer" onclick="javascript:location.href='JoinBuyer.ad'">
                                 <h2 class="join--type">개인구매회원<span class="enter">가입</span></h2>       
                                 <p class="join--content">
-                                    *Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                                    구매를 원하시는 분은 이쪽을 클릭해 주세요!
                                 </p>
-                                <div class="easy-signUp">
+                                <!-- <div class="easy-signUp">
                                     <dl>
                                         <dt>간편회원</dt>
                                         <dd>자주 사용하는 SNS 아이디로 간편하게 가입하실 수 있습니다.</dd>
@@ -63,14 +63,13 @@
                                             <a href="#" class="facebook-btn" title="페이스북으로 가입"><span class="hide-text">페이스북으로 가입</span></a>
                                         </dd>
                                     </dl>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="join--seller" onclick="javascript:location.href='JoinSeller.ad'">
                                 <h2 class="join--type">판매사업자회원<span class="enter">가입</span></h2>
                                 <p class="join--content">
-                                    *Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                    Nisl tincidunt eget nullam non
+                                    판매를 원하시는 분은 이쪽을 클릭해 주세요!<br>
+                  (사업자등록증을 보유한 판매회원)
                                 </p>
                             </div>
                         </div>

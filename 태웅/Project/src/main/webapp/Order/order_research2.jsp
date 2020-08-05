@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib  prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,40 +11,40 @@
     <link href="<c:url value='/resources/css/module/header.css?after'/>" rel="stylesheet" />
     <link href="<c:url value='/resources/css/module/footer.css?after'/>" rel="stylesheet" />
     <!-- header, css end -->
-    <link href="<c:url value='/resources/css/Common/sub_main.css?after'/>" rel="stylesheet" />
-    <link href="<c:url value='/resources/css/Admin/login_buyer.css'/>" rel="stylesheet" />
-    <title>로그인</title>
+    <link href="<c:url value='/resources/css/Common/sub_main.css'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Order/order_login.css'/>" rel="stylesheet" />
+    <link href="<c:url value='/resources/css/Order/order_research.css?after'/>" rel="stylesheet" />
+    <title>주문조회</title>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8" ></script>
-    <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8" ></script>
+    <!-- <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8" ></script> -->
 </head>
 <body>
-  <section id="sub-main" class="login">
+  <section id="sub-main" class="delivery">
 	  <div class="sub-top">
-	  	<h2 class="sub-title">로그인</h2>
+	  	<h2 class="sub-title">주문배송</h2>
 	  	<ul class="sub-location">
 	  		<li class="home">
 	  		  <a href="Index.in"><span class="hide-text">home</span></a>
 	  		</li>
 	  		<li>
-	  		  <strong>로그인</strong>
-	  		</li>
-	  		<li>
-	  		  <strong>구매자 로그인</strong>
+	  		  <strong>주문배송</strong>
 	  		</li>
 	  	</ul>
 	  </div>
 	  <div class="sub-tab">
 	  	<ul>
 	  		<li>
-	  			<a href="LoginBuyer.ad">
-	  				<span>구매자 로그인</span>
+	  			<a href="OrderResearch.or">
+	  				<span>주문배송</span>
 	  			</a>
 	  		</li>
+	  		<sec:authorize access = "isAnonymous()">
 	  		<li class="unselect">
-	  			<a href="LoginSeller.ad">
-	  				<span>판매자 로그인</span>
+	  			<a href="OrderNonMember.or">
+	  				<span>비회원 주문배송</span>
 	  			</a>
 	  		</li>
+	  		</sec:authorize>
 	  	</ul>
 	  </div>
 	</section>
@@ -55,7 +56,7 @@
                     	<div class="order__login--wrap">
                         <!-- 일반회원 주문조회 로그인-->
                             <h5 class="order_title">로그인</h5>                        
-                     <form name="order__login--form" id="login_form" action='<c:url value='/Login.ad'/>' method="post">
+                 		<form name="order__login--form" id="login_form" action='<c:url value='/Login.ad'/>' method="post">
     
                             <div class="id">
                             	<label for="userId">아이디</label>
@@ -71,7 +72,7 @@
                             <div class="find">
 	                            <div class="check_id">
 	                                <input type="checkbox" class="chk_Id" name="remember" id="Id_button" >
-									<label for="Id_button" id="Id_buttonLabel">로그인 유지</label>
+									<label for="Id_button">로그인 유지</label>
 	                            </div>
 	                            <div class="loginfind_btn">
 	                                <a href="#" id="findIdBtn" class="findIdBtn" onclick="location.href='#'">아이디
@@ -96,16 +97,17 @@
                         </form> 
                       </div>
                	   </div>
+        
+   
                 </div>
             </div>
         </div>
     </main>
 
 
-    
     <!-- footer,js -->
     <jsp:include page="../footer.jsp" flush="false"/>
-    <script type="text/javascript" src="<c:url value='/resources/js/Admin/buyer_login.js?after'/>" ></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/Admin/login.js?after'/>" ></script>
     <script type="text/javascript" src="<c:url value='/resources/js/Common/sub_main.js?after'/>" ></script>    
     <script type="text/javascript" src="<c:url value='/resources/js/module/footer.js?after'/>" ></script>
     <script type="text/javascript" src="<c:url value='/resources/js/module/header.js?after'/>" ></script>

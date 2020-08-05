@@ -349,8 +349,12 @@ if((String)request.getAttribute("buyer_id") != null){
 										<span>보유한 적립금</span>
 									</div>
 									<div class="my_reserves">
-										<input type="text" id="reserves" value="${user.savePoint}" readonly /> 
-										
+									<sec:authorize access="isAnonymous()">
+										<input type="text" id="reserves" value="0" readonly />
+									</sec:authorize> 
+									<sec:authorize access="isAuthenticated()">
+										<input type="text" id="reserves" value="${user.savePoint}" readonly />
+									</sec:authorize>	
 									</div>
 								</div>
 								<div class="reserveWrap">
@@ -361,7 +365,7 @@ if((String)request.getAttribute("buyer_id") != null){
 									<div class="order__delivery--info-body">
                            				비회원인 경우에는 적립혜택이 없습니다
                            			</div>
-                           			<input type="text" id="expected_sp" name="expected_sp" value ="0" readonly />
+                           			<input type="hidden" id="expected_sp" name="expected_sp" value ="0" readonly />
                            			<input type="hidden" value="Y" name="member_flag">
                          			</sec:authorize>
 									<sec:authorize access="isAuthenticated()">
