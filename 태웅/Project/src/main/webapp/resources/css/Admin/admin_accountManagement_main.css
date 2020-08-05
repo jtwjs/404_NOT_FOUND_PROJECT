@@ -85,3 +85,15 @@
   content: "";
 }
 
+#account__info {
+	margin-bottom: 150px;
+}
+
+#order__chart {
+	margin-bottom: 50px;
+}
+
+#order__chart > div {
+	display: inline-block;
+	margin: 0 40px;
+}

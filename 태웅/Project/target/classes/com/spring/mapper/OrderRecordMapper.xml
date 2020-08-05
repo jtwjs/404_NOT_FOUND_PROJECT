@@ -49,19 +49,24 @@
 		</selectKey>
 		INSERT INTO order_record VALUES (#{order_num}, #{order_id},
 		#{board_id}, #{board_title},
-		#{seller_id}, #{buyer_id}, #{amount}, #{price}, #{delivery_price}, #{use_point},
+		#{seller_id}, #{buyer_id}, #{amount},
+		#{price}, #{delivery_price}, #{use_point},
 		#{tot_price},
-		#{status}, #{buyer_name}, #{buyer_phone}, #{buyer_email}, #{order_postalCode},
+		#{status},
+		#{buyer_name}, #{buyer_phone}, #{buyer_email}, #{order_postalCode},
 		#{order_address},
-		#{order_name}, #{order_phone}, #{order_demand, jdbcType=VARCHAR}, #{order_delivery},
-		#{order_invoicenum}, #{order_payment}, #{order_account}, SYSDATE,
+		#{order_name}, #{order_phone}, #{order_demand,
+		jdbcType=VARCHAR}, #{order_delivery},
+		#{order_invoicenum},
+		#{order_payment}, #{order_account}, SYSDATE,
 		#{non_member_flag})
 	</insert>
 
 	<select id="getOrderID" parameterType="String"
 		resultType="String">
 		SELECT order_id FROM order_record
-		WHERE board_id = #{board_id} AND buyer_id = #{buyer_id} AND order_date >
+		WHERE board_id =
+		#{board_id} AND buyer_id = #{buyer_id} AND order_date >
 		SYSDATE-14
 	</select>
 
@@ -88,15 +93,18 @@
 		status,
 		order_date,
 		row_number() OVER (ORDER BY order_num DESC)AS rNum
-		FROM order_record
+		FROM
+		order_record
 			<![CDATA[
 		     WHERE order_date >=to_date( #{startDate}, 'YYYY-MM-DD') AND order_date <= to_date(#{endDate}, 'YYYY-MM-DD')+1 
 		    ]]>
 		) a,
 		board_product b
-		WHERE rNum between #{rowStart} AND #{rowEnd} AND buyer_id =
+		WHERE rNum between #{rowStart} AND #{rowEnd} AND
+		buyer_id =
 		#{buyer_id} AND a.board_id = b.board_id(+)
-		ORDER BY order_num DESC
+		ORDER BY order_num
+		DESC
 	</select>
 
 	<select id="orderListCountById" resultType="int">
@@ -106,19 +114,21 @@
 		AND order_date >=to_date(#{startDate}, 'YYYY-MM-DD') AND order_date <= to_date(#{endDate}, 'YYYY-MM-DD')+1
 			 ]]>
 	</select>
-	
+
 
 	<select id="orderBeingDeliveredListById"
 		resultType="com.spring.order.OrderRecordVO">
 		SELECT * FROM order_record
-		WHERE buyer_id = #{buyer_id} AND status != '구매확정' AND status != '주문취소'
+		WHERE buyer_id = #{buyer_id} AND
+		status != '구매확정' AND status != '주문취소'
 		ORDER BY order_num desc
 	</select>
 
 	<select id="orderListAllById"
 		resultType="com.spring.order.OrderRecordVO">
 		SELECT * FROM order_record
-		WHERE buyer_id = #{buyer_id} ORDER BY order_num
+		WHERE buyer_id = #{buyer_id}
+		ORDER BY order_num
 	</select>
 
 	<select id="getOrderRecordOneByIdListCount" resultType="int"
@@ -146,53 +156,182 @@
 		SELECT count(*) FROM
 		order_record WHERE seller_id=#{seller_id} AND NOT status like '취소%'
 		AND NOT status like '반품%'
-	</select>	
-	
-	<select id="todayOrderRequestListBySellerId" resultType="com.spring.order.OrderRecordVO">
-		SELECT * FROM 
-		order_record WHERE seller_id=#{seller_id} AND to_char(order_date,
-		'yyyymmdd') = to_char(sysdate, 'yyyymmdd')
 	</select>
-	
-	<select id="selectOrderListBySellerId" resultType="com.spring.order.OrderRecordVO">
-		SELECT * FROM 
-		order_record WHERE seller_id=#{seller_id} ORDER BY order_num DESC
+
+	<select id="todayOrderRequestListBySellerId"
+		resultType="com.spring.order.OrderRecordVO">
+		SELECT * FROM
+		order_record WHERE seller_id=#{seller_id} AND
+		to_char(order_date,
+		'yyyymmdd') =
+		to_char(sysdate, 'yyyymmdd')
 	</select>
-	
-	<select id="selectOrderListGroupByDate" resultType="com.spring.order.OrderRecordVO">
-	SELECT date_tot_price,date_order_id, date_order_date
-	from (
-	    select sum(총주문금액)as date_tot_price,count(주문번호)as date_order_id, date_order_date,row_number() OVER (ORDER BY date_order_date DESC) AS rNum
-	    from 
-	        (select sum(tot_price) AS 총주문금액 ,count(order_id) AS 주문번호,to_char(max(order_date),'yy-mm-dd') AS date_order_date
-	         from order_record
-	         where seller_id='seller02'
-	         group by order_id
-	        ) a
-	    group by date_order_date
-	    having date_order_date between to_date(#{startDate},'yy-mm-dd') AND to_date(#{endDate},'yy-mm-dd')+1
-	    order by date_order_date asc
-	    )b
-	    WHERE rNum between #{rowStart} AND #{rowEnd} 
+
+	<select id="selectOrderListBySellerId"
+		resultType="com.spring.order.OrderRecordVO">
+		SELECT * FROM
+		order_record WHERE seller_id=#{seller_id}
+		ORDER BY order_num DESC
 	</select>
-	
+
+	<select id="selectOrderListGroupByDate"
+		resultType="com.spring.order.OrderRecordVO">
+		SELECT date_tot_price,date_order_id, date_order_date
+		from (
+		select sum(총주문금액)as date_tot_price,count(주문번호)as date_order_id,
+		date_order_date,row_number() OVER (ORDER BY date_order_date DESC) AS
+		rNum
+		from
+		(select sum(tot_price) AS 총주문금액 ,count(order_id) AS
+		주문번호,to_char(max(order_date),'yy-mm-dd') AS date_order_date
+		from
+		order_record
+		where seller_id='seller02'
+		group by order_id
+		) a
+		group by
+		date_order_date
+		having date_order_date between
+		to_date(#{startDate},'yy-mm-dd') AND
+		to_date(#{endDate},'yy-mm-dd')+1
+		order by date_order_date asc
+		)b
+		WHERE rNum between #{rowStart} AND
+		#{rowEnd}
+	</select>
+
 	<select id="selectCountGroupByDate" resultType="int">
 		select count(*)
 		from(
-		    select  sum(date_tot_price),count(date_order_id), date_order_date
-		    from 
-		        (select sum(tot_price) AS date_tot_price ,count(order_id) AS date_order_id,to_char(max(order_date),'yy-mm-dd') AS date_order_date
-		         from order_record
-		         where seller_id='seller02'
-		         group by order_id
-		        ) a
-		    group by date_order_date 
-		    having date_order_date between to_date(#{startDate},'yy-mm-dd') AND to_date(#{endDate},'yy-mm-dd')+1
-		    order by date_order_date asc
-		    )
+		select sum(date_tot_price),count(date_order_id), date_order_date
+		from
+		(select sum(tot_price) AS date_tot_price ,count(order_id) AS
+		date_order_id,to_char(max(order_date),'yy-mm-dd') AS date_order_date
+		from order_record
+		where seller_id='seller02'
+		group by order_id
+		) a
+		group
+		by date_order_date
+		having date_order_date between
+		to_date(#{startDate},'yy-mm-dd') AND
+		to_date(#{endDate},'yy-mm-dd')+1
+		order by date_order_date asc
+		)
+	</select>
+	<select id="getOrderReceipt"
+		resultType="com.spring.order.OrderRecordVO">
+		SELECT * FROM order_record WHERE order_id = #{order_id} AND
+		board_id =
+		#{board_id}
 	</select>
 
+	<update id="orderReceiptModify">
+		UPDATE order_record SET
+		<choose>
+			<when test='status != null and status != ""'>
+				status = #{status}
+			</when>
+			<when test='order_delivery != null and order_delivery != ""'>
+				order_delivery = #{order_delivery}
+			</when>
+			<when test='order_address != null and order_address != ""'>
+				order_address = #{order_address}
+			</when>
+			<when test='order_name != null and order_name != ""'>
+				order_name = #{order_name}
+			</when>
+			<when test='order_phone != null and order_phone != ""'>
+				order_phone = #{order_phone}
+			</when>
+			<when test='order_invoicenum != null and order_invoicenum != ""'>
+				order_invoicenum = #{order_invoicenum}
+			</when>
+		</choose>
+		WHERE order_id = #{order_id} AND board_id = #{board_id}
+	</update>
 
+
+	<select id="getMemberChart" parameterType="String"
+		resultType="int">
+		SELECT COUNT(*) FROM order_record WHERE non_member_flag =
+		#{flag}
+	</select>
+
+	<update id="orderCancle">
+		UPDATE order_record SET status = '주문취소중'
+		WHERE
+		order_id = #{order_id} AND board_id = #{board_id}
+	</update>
+
+	<update id="orderRefund">
+		UPDATE order_record SET status = '환불확인중'
+		WHERE
+		order_id = #{order_id} AND board_id = #{board_id}
+	</update>
+
+	<update id="orderComplete">
+		UPDATE order_record SET status = '거래완료'
+		WHERE order_id
+		= #{order_id} AND board_id = #{board_id}
+	</update>
+
+	<select id="getOrderRecordListSearch"
+		resultType="com.spring.order.OrderRecordVO">
+		SELECT * FROM (
+		SELECT ROWNUM AS RNUM, B.* FROM (
+		SELECT * FROM order_record WHERE
+		<if test="status != null">
+			status IN
+			<foreach collection="status" item="item" index="i" open="("
+				close=")" separator=",">
+				#{item}
+			</foreach>
+			AND
+		</if>
+		<if test="order_payment != null">
+			order_payment IN
+			<foreach collection="order_payment" item="item" index="i"
+				open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+			AND
+		</if>
+	    <![CDATA[
+	                (order_date >= TO_DATE(#{start_date}, 'YYYY-MM-DD') 
+	                AND order_date <= TO_DATE(#{end_date}, 'YYYY-MM-DD')+1)
+	                AND seller_id = #{seller_id} 
+	                ORDER BY order_date DESC
+	            ) B)
+	        WHERE RNUM >= (#{page_num} - 1) * #{page_amount} 
+	            AND   RNUM <= #{page_num} * #{page_amount} 
+	    ]]>
+	</select>
+
+	<select id="getOrderRecordListSearchCount" resultType="int">
+		SELECT COUNT(*) FROM order_record WHERE
+		<if test="status != null">
+			status IN
+			<foreach collection="status" item="item" index="i" open="("
+				close=")" separator=",">
+				#{item}
+			</foreach>
+			AND
+		</if>
+		<if test="order_payment != null">
+			order_payment IN
+			<foreach collection="order_payment" item="item" index="i"
+				open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+			AND
+		</if>
+	    <![CDATA[
+	        (order_date >= TO_DATE(#{start_date}, 'YYYY-MM-DD') 
+	        AND order_date <= TO_DATE(#{end_date}, 'YYYY-MM-DD')+1)
+	        AND seller_id = #{seller_id}
+	    ]]>
+	</select>
 
 
 </mapper>

@@ -39,6 +39,13 @@ public class CustomDetailService implements UserDetailsService {
 		return new UserAccount(userAccount);
 		
 	}
+
+	public boolean isPasswordCheck(String pw,String encodePw) {
+		boolean check = passwordEncoder.matches(pw, encodePw);
+		
+		return check;
+		
+	}
 	
 	public void RegisterBuyerAccount(BuyerVO buyer) {
 		buyer.setPassword(passwordEncoder.encode(buyer.getPassword()));

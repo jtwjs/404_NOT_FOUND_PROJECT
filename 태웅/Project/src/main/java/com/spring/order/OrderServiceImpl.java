@@ -160,6 +160,51 @@ public class OrderServiceImpl implements OrderService {
 		return count;
 	}
 
+	public int orderReceiptModify(String status, String order_delivery, String order_address, 
+    		String order_name, String order_phone, String order_invoicenum, 
+    		String order_id, String board_id) {
+		
+		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
+        int result = orderRecordMapper.orderReceiptModify(
+        		status, order_delivery, order_address, order_name, order_phone, order_invoicenum, 
+        		order_id, board_id);
+		
+        return result;
+	}
+	
+	public int getMemberChart(String flag) {
+		
+		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
+        int result = orderRecordMapper.getMemberChart(flag);
+		
+        return result;
+	}
+	
+	
+	public int orderCancle(String order_id, String board_id) {
+		
+		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
+        int result = orderRecordMapper.orderCancle(order_id, board_id);
+		
+        return result;
+	}
+	
+	public int orderRefund(String order_id, String board_id) {
+		
+		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
+        int result = orderRecordMapper.orderRefund(order_id, board_id);
+		
+        return result;
+	}
+	
+	public int orderComplete(String order_id, String board_id) {
+		
+		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
+        int result = orderRecordMapper.orderComplete(order_id, board_id);
+		
+        return result;
+	}
+
 
 
     

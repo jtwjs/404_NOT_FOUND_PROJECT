@@ -29,7 +29,12 @@
 	rel="stylesheet" />
 <title>회원 관리</title>
 </head>
-<body>
+<body onload="setWindow();">
+<script>
+function setWindow(){
+	window.scrollTo(0, 380);
+}
+</script>
 	<section id="sub-main" class="">
 		<div class="sub-top">
 			<h2 class="sub-title">회원관리페이지</h2>

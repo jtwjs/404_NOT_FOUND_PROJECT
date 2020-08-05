@@ -60,7 +60,7 @@
           <div class="inner">
             <h2 id="header__logo">
               <a href="Index.in">
-                <img src="./resources/Images/module/header/kindpng_570372.png" />
+                <img src="./resources/Images/module/header/main_logo.png" />
               </a>
             </h2>
             <div id="header__nav--category">

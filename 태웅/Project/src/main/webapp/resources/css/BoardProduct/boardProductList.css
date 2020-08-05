@@ -114,3 +114,23 @@ ul {
 	text-align: center;
 	border: 1px solid #000;
 }
+
+/*품절표시*/
+
+.sold_out{
+	position: relative;
+}
+
+.sold_out::after{
+    position: absolute;
+    top: 0;
+    left: 0px;
+    width: 200px;
+    height: 215px;
+    background-image: url(../../Images/BoardProduct/sold_out.png);
+    background-color: rgba(0,0,0,0.5);
+    background-repeat: no-repeat;
+    background-size: 140px;
+    background-position: center;
+    content: '';
+}

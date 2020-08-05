@@ -2,12 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Calendar" %>
-<%
-    SimpleDateFormat format_time = new SimpleDateFormat("yyyy-MM-dd");
-    String today = format_time.format(Calendar.getInstance().getTime());
-%>
+<%@ page import="java.util.Date" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,21 +83,11 @@
                             <article id="transaction__detail">
 
                                 <table class="transaction__detail--table">
-                                    <thead>
-                                        <tr>
-                                            <th class="order-number">주문번호</th>                
-                                            <th class="board-name">상품명</th>       
-                                            <th class="order-amount">수량</th>       
-                                            <th class="order-price">구매가격</th>       
-                                            <th class="order-date">구매일</th>       
-                                            <th class="order-status">주문상태</th>       
-                                        </tr>   
-                                    </thead>
                                     <tbody>
 	                              	<c:choose>
 	                              		<c:when test="${fn:length(orderList)==0}">
-                                        <tr>
-                                            <td class="non-post" colspan="6">
+                                        <tr style="width: 900px;">
+                                            <td class="non-post">
                                                 주문내역이 없습니다.
                                             </td>
                                         </tr>
@@ -112,19 +100,132 @@
                                       </c:when>
                                       <c:otherwise>
                                       	<c:forEach var="orderList" items="${orderList}" varStatus="status">
-                                      		<tr class="">
-                                      			<td><a href="OrderResearch.or?order_id=${orderList.order_id}">${orderList.order_id}</a></td>
-                                      			<td class="imgWrap">
-                                      				<a href="BoardProductView.bo?board_id=${orderList.board_id}">
-	                                      				<img src="display?path=${orderList.thumbnail_thum_path}&name=${orderList.thumbnail_thum}" class="product_img" alt="상품 이미지"/>
-	                                      			${orderList.board_title}
-	                                      			</a>
-                                      			</td>
-                                      			<td>${orderList.amount}</td>
-                                      			<td>${orderList.price}</td>
-                                      			<td>${orderList.order_date}</td>
-                                      			<td>${orderList.status}</td>
+                                      		
+                                      		<tr class="order-list__table--tr">
+                                      		    <td>
+                                      		        <div class="order-list__status">
+                                      		            <span class="order-list__status--span">${orderList.status}</span>
+                                      		            <c:set var="orderDate" value="${orderList.order_date}" ></c:set>
+                                      		            <%String orderDate = (String)pageContext.getAttribute("orderDate");
+                                      		            SimpleDateFormat format_time = new SimpleDateFormat("yyyy-MM-dd");
+                                      		            Date today = new Date();
+                                      		            Date date = new Date();
+                                      		            date = format_time.parse(orderDate);
+                                      		            Calendar delivery_date = Calendar.getInstance();
+                                      		            delivery_date.setTime(date);
+                                      		            delivery_date.add(Calendar.DATE, 2);
+                                      		            date = delivery_date.getTime();
+                                      		            
+                                      		            int compare = today.compareTo(date);
+                                      		            int month = delivery_date.get(Calendar.MONTH);
+                                      		            int day = delivery_date.get(Calendar.DATE);
+                                      		            int day_of_week = delivery_date.get(Calendar.DAY_OF_WEEK);
+                                      		            String week = null;
+                                      		            
+                                      		            if(compare >= 0){ // 배송예정일보다 시간이 지났을 때
+
+                                      		            	delivery_date.setTime(today);
+                                      		            	delivery_date.add(Calendar.DATE, 2);
+
+                                      		            	month = delivery_date.get(Calendar.MONTH);
+                                          		            day = delivery_date.get(Calendar.DATE);
+                                          		            day_of_week = delivery_date.get(Calendar.DAY_OF_WEEK);
+
+                                      		            }
+                                      		            
+                                      		            switch(day_of_week){
+                                      		            case 1:
+                                      		            	week = "일";
+                                      		            	break;
+                                      		            case 2:
+                                      		            	week = "월";
+                                    		            	break;
+                                      		            case 3:
+                                      		            	week = "화";
+                                  		            	    break;
+                                      		            case 4:
+                                      		            	week = "수";
+                                    		            	break;
+                                      		            case 5:
+                                      		            	week = "목";
+                                  		            	    break;
+                                      		            case 6:
+                                      		            	week = "금";
+                                		            	    break;
+                                      		            case 7:
+                                      		            	week = "토";
+                                    		            	break;
+                                      		            }
+                                      		            
+                                      		             %>
+                                      		            <c:if test='${orderList.status ne "배송완료" && orderList.status ne "거래완료" && orderList.status ne "주문취소완료"}'>
+                                      		                <span class="order-listt__delivery-schedule"
+                                      		                    >해당상품은 <%=month+1%>/<%=day%> (<%=week%>) 에 도착할 예정입니다.</span>
+                                      		            </c:if>  
+                                      		        </div>
+                                      		        <div class="order_list__table--detail">
+                                      		            <div class="order_list__detail-info--image">
+                                      		                <img src="display?path=${orderList.thumbnail_thum_path}&name=${orderList.thumbnail_thum}" alt="상품 이미지"/>
+                                      		            </div>
+                                      		            <div class="order_list__detail-info">
+                                      		                <div onclick="javascript:location.href='BoardProductView.bo?board_id=${orderList.board_id}'"
+                                      		                    class="order-list__title"><span>${orderList.board_title}</span>
+                                      		                </div>
+                                      		                <div>
+                                      		                    <span style="color: #848484;">${orderList.price} 원 / ${orderList.amount} 개</span>
+                                      		                </div>
+                                      		            </div>
+                                      		            <div class="order_list__detail-info--order">
+                                      		                <div><strong>주문번호</strong></div>
+                                      		                <div style="margin-bottom: 10px;">${orderList.order_id}</div>
+                                      		                <div><strong>주문일자</strong></div>
+                                      		                <div>${orderList.order_date}</div>
+                                      		            </div>
+                                      		            <div class="order_list__detail-info--btn">
+                                      		                <c:if test='${orderList.status eq "결제확인중" || orderList.status eq "상품준비중" || orderList.status eq "배송준비중"}'>
+                                      		                    <input type="button" value="주문취소" 
+                                      		                        onclick="orderCancle('${status.index}', '${orderList.order_id}', '${orderList.board_id}');" />
+                                      		                    <input type="button" value="배송정보" 
+                                      		                        onclick="orderDelivery('${orderList.order_id}', '${orderList.board_id}');" />
+                                      		                </c:if>
+                                      		                <c:if test='${orderList.status eq "배송중"}'>
+                                      		                    <input type="button" value="배송정보" 
+                                      		                        onclick="orderDelivery('${orderList.order_id}', '${orderList.board_id}');" />
+                                      		                </c:if>
+                                      		                <c:if test='${orderList.status eq "배송완료"}'>
+                                      		                    <input type="button" value="환불신청" 
+                                      		                        onclick="orderRefund('${status.index}', '${orderList.order_id}', '${orderList.board_id}');" />
+                                      		                    <input type="button" value="구매확정" 
+                                      		                        onclick="orderComplete('${status.index}', '${orderList.price}', 
+                                      		                            '${orderList.amount}', '${orderList.order_id}', '${orderList.board_id}');" />
+                                      		                </c:if>
+                                      		                <c:if test='${orderList.status eq "거래완료"}'>
+                                      		                <fmt:parseNumber var="savePoint" integerOnly="true" 
+                                      		                    value="${(orderList.price * orderList.amount) / 10}" />
+                                      		                    <span style="color: limegreen; font-size: 17px;">
+                                      		                        ${savePoint}P 적립
+                                      		                    </span>
+                                      		                </c:if>
+                                      		                <c:if test='${orderList.status eq "환불확인중"}'>
+                                      		                    <span>환불확인중입니다</span>
+                                      		                </c:if>
+                                      		                <c:if test='${orderList.status eq "반송중"}'>
+                                      		                    <input type="button" value="배송정보" 
+                                      		                        onclick="orderRefund('${orderList.order_id}', '${orderList.board_id}');" />
+                                      		                </c:if>
+                                      		                <c:if test='${orderList.status eq "주문취소중"}'>
+                                      		                    <span>주문취소중입니다</span>
+                                      		                </c:if>
+                                      		                <c:if test='${orderList.status eq "주문취소완료"}'>
+                                      		                    <span>주문취소완료</span>
+                                      		                </c:if>
+                                      		            </div>
+                                      		            
+                                      		        </div>
+                                      		       
+                                      		    </td>
                                       		</tr>
+                                      		
                                       	</c:forEach>
                                       </c:otherwise>
                                    </c:choose>
@@ -160,6 +261,7 @@
     </main>
     
 	<script type="text/javascript" src="<c:url value='/resources/js/Buyer/date_search.js'/>"></script>
+	<script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_orderList.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/resources/js/Buyer/mypage_menu.js'/>"></script>
     <!-- footer,js -->
     

@@ -312,7 +312,15 @@ public class BoardProductController {
 				category_sub.add("기타");
 			}
 		}
-
+		for(int i=0; i<vo_list.size();i++) {
+			try {
+				vo_list.get(i).setThumbnail_thum(URLEncoder.encode(vo_list.get(i).getThumbnail_thum(), "UTF-8"));
+				vo_list.get(i).setThumbnail_thum_path(URLEncoder.encode(vo_list.get(i).getThumbnail_thum_path(), "UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				
+				e.printStackTrace();
+			}
+		}
 		model.addAttribute("pageMaker", new PageMaker(page_num, page_amount, vo_list_size));
 		model.addAttribute("category_title", category_title);
 		model.addAttribute("category_sub", category_sub);
@@ -1377,6 +1385,66 @@ public class BoardProductController {
         out.flush();
 		
 	}
+	
+	@GetMapping(value = "/RegistChartData.bo")
+	@ResponseBody
+	public void registChartData(HttpServletRequest request, HttpServletResponse response
+			) throws IOException {
+		
+		request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        
+        String before3Month = addMonth(-3);
+        String before1Month = addMonth(-1);
+        String before7Day = addDay(-7);
+        String before3Day = addDay(-3);
+        
+        int regist_3monthAgo = boardProductService.getRegistChartData(addMonth(-6), before3Month);
+        int regist_1monthAgo = boardProductService.getRegistChartData(before3Month, before1Month);
+        int regist_7daysAgo = boardProductService.getRegistChartData(before1Month, before7Day);
+        int regist_3daysAgo = boardProductService.getRegistChartData(before7Day, before3Day);
+        int regist_yesterday = boardProductService.getRegistChartData(before3Day, addDay(-1));
+        
+        JSONObject jsonObj = new JSONObject();
+    	
+    	jsonObj.put("regist_3monthAgo", regist_3monthAgo);
+    	jsonObj.put("regist_1monthAgo", regist_1monthAgo);
+    	jsonObj.put("regist_7daysAgo", regist_7daysAgo);
+    	jsonObj.put("regist_3daysAgo", regist_3daysAgo);
+    	jsonObj.put("regist_yesterday", regist_yesterday);
+        
+        out.println(jsonObj.toString());
+        
+        out.flush();
+	}
+	
+    private String addMonth(int months) {
+		
+		Date date = new Date();
+        SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+        
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MONTH, months);
+        Date getMonth = cal.getTime();
+		
+		return sdformat.format(getMonth).toString();
+	}
+	
+    private String addDay(int days) {
+		
+		Date date = new Date();
+        SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+        
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days);
+        Date getDay = cal.getTime();
+		
+		return sdformat.format(getDay).toString();
+	}
+
 
 }
 

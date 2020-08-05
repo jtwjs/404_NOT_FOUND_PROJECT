@@ -54,6 +54,7 @@ public interface BoardProductMapper {
 	public ArrayList<BoardProductVO> selectProductListBySellerId2(@Param("seller_id")String seller_id,
 							@Param("rowStart")int rowStart,@Param("rowEnd")int rowEnd, @Param("startDate")String startDate,@Param("endDate")String endDate);
 	
-	
+	public int getRegistChartData(
+    		@Param("startSearch")String startSearch, @Param("endSearch")String endSearch);
     
 }

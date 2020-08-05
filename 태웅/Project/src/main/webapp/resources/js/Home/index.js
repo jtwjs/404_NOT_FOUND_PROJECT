@@ -1,4 +1,11 @@
 
+function checkRedirect(num){
+	
+	if(num != 1){
+		location.href="Index.in";
+	}
+}
+
 $(document).ready(function(){
 	$('#main__visual1').addClass('on');
 });
