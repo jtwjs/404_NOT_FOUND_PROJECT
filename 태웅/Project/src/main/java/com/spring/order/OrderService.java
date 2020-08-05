@@ -61,4 +61,7 @@ public interface OrderService {
 	public int listCountByConfirmation(String buyer_id, String startDate, String endDate);
 
 	public OrderRecordVO orderDelivery(String order_id, String board_id);
+
+	public ArrayList<OrderRecordVO> non_orderResearch(OrderRecordVO vo);
+	public int non_orderResearchCount(OrderRecordVO vo);
 }

@@ -373,5 +373,12 @@
 	    SELECT * FROM order_record WHERE order_id = #{order_id} AND board_id = #{board_id}
 	</select>
 
-
+	<select id="non_orderResearch" resultMap="OrderRecordMap">
+		SELECT * FROM order_record WHERE buyer_name = #{buyer_name} AND buyer_phone = #{buyer_phone} ORDER BY order_num desc
+	</select>
+	
+	<select id="non_orderResearchCount" resultType="int">
+		SELECT count(*) FROM order_record WHERE buyer_name = #{buyer_name} AND buyer_phone = #{buyer_phone}
+	</select>
+	
 </mapper>

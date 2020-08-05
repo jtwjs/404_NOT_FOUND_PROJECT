@@ -193,6 +193,10 @@
                             <div class="item_box" 
                             onclick="javascript:location.href='BoardProductView2.bo?board_id=${list.board_id}'">
                             </sec:authorize>
+                            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                            <div class="item_box" 
+                            onclick="javascript:location.href='BoardProductView2.bo?board_id=${list.board_id}'">
+                            </sec:authorize>
                                 <ul class="item">
                                 <c:if test="${list.quantity eq 0}">
                                     <li class="sold_out">

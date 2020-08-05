@@ -534,6 +534,52 @@ public class OrderController {
     	return "Order/order_research";
     }
     
+    @GetMapping(value="/non-OrderResearchByInfo.or")
+    public String non_OrderResearchByInfo(@RequestParam("userIrum")String name, @RequestParam("userPhone")String tel,Model model){
+    	
+    	OrderRecordVO vo = new OrderRecordVO();
+    	vo.setBuyer_name(name);
+    	vo.setBuyer_phone(tel);
+    	ArrayList<OrderRecordVO> search_list = orderService.non_orderResearch(vo);
+    	
+    	ArrayList<OrderRecordVO> list = orderService.selectOrderByOrderId(search_list.get(0).getOrder_id());
+    	
+    	for(int i=0; i<list.size(); i++) {
+    		try {
+				list.get(i).setThumbnail_thum(URLEncoder.encode(list.get(i).getThumbnail_thum(),"UTF-8"));
+				list.get(i).setThumbnail_thum_path(URLEncoder.encode(list.get(i).getThumbnail_thum_path(),"UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+    		int index1 = list.get(i).getOrder_address().indexOf("+");
+    		int index2 = list.get(i).getOrder_address().indexOf("/");
+    		list.get(i).setOrder_address(list.get(i).getOrder_address().substring(index1+1,index2)+" "+
+    					list.get(i).getOrder_address().substring(index2+1));
+    	}
+    	
+    	model.addAttribute("list",list);
+    	return "Order/order_research";
+    }
+    
+	@RequestMapping(value = "/non-orderCheck.or", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	@ResponseBody
+	public HashMap<String, Object> non_orderCheck(String name, String tel) {
+		HashMap<String,Object> result = new HashMap<>();
+		OrderRecordVO vo = new OrderRecordVO();
+		vo.setBuyer_name(name);
+		vo.setBuyer_phone(tel);
+		int count = orderService.non_orderResearchCount(vo);
+		
+		if(count == 0) {
+			result.put("result", "Fail");
+		}else {
+			result.put("result","Success");
+		}
+		
+		return result;
+	}
+    
+    
     /*주소록팝업창*/
     @RequestMapping(value = "/addrBook_popup.or")
     public String addrBookPopup(Model model, @CurrentUser AccountVO account) {
