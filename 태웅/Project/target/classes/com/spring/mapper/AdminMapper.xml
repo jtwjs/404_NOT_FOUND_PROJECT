@@ -29,10 +29,7 @@
 	  	SELECT count(*) FROM all_account WHERE account_id = #{id}
 	  </select>
 	  
-	  
-	  
-	  
-	  
+
 	  
 	  
 <!-- ======================= 하나 기석 작업  ======================================================== -->
@@ -54,6 +51,18 @@
 	  	]]> 
 	  </select>
 	  
+	  
+	<select id="getJoinChartData" resultType="int">
+	    <![CDATA[
+	    SELECT COUNT(*) FROM(
+            SELECT b.*, s.* 
+            FROM member_buyer b 
+            JOIN member_seller s 
+            ON (b.join_date = s.join_date 
+            AND (b.join_date >= TO_DATE(#{startSearch}, 'YYYY-MM-DD') 
+            AND b.join_date <= TO_DATE(#{endSearch}, 'YYYY-MM-DD')+1)))
+        ]]>
+	</select>
 	 
 	
 

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,12 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +36,7 @@ import com.spring.boardproduct.BoardReviewVO;
 import com.spring.buyer.BuyerService;
 import com.spring.buyer.BuyerVO;
 import com.spring.config.Security.CurrentUser;
+import com.spring.config.Security.CustomDetailService;
 import com.spring.seller.SellerService;
 import com.spring.seller.SellerVO;
 
@@ -47,6 +51,9 @@ public class AdminController {
 
 	@Autowired
 	SellerService sellerService;
+	
+	@Autowired
+	CustomDetailService securityService;
 
 	@RequestMapping(value = "/Login.ad")
 	public String login() throws Exception {
@@ -727,5 +734,114 @@ public class AdminController {
 
 		return false;
 	}
+	
 
+	@PostMapping(value="/loginCheckBuyer.ad" ,produces = "application/json;charset=utf-8" )
+	@ResponseBody
+	public HashMap<String,Object> loginCheckBuyer(String buyer_id,String buyer_pw) {
+		
+		HashMap<String,Object> result = new HashMap<String, Object>();
+		AccountVO account = service.selectAccountById(buyer_id);
+		
+		if(account == null) {
+			result.put("result", "null");
+		}else if(securityService.isPasswordCheck(buyer_pw,account.getPassword())) {
+			result.put("password", "Success");
+		}else if(!(securityService.isPasswordCheck(buyer_pw, account.getPassword()))) {
+			result.put("password", "Fail");
+		}else if(account.getMemberType().equals("SELLER")||account.getMemberType().equals("ADMIN")) {
+			result.put("result","SELLER");
+		}else {
+			result.put("result","NOT_SELLER");
+		}
+		
+		
+	
+		return result;
+		
+	}
+	@PostMapping(value="/loginCheckSeller.ad" ,produces = "application/json;charset=utf-8" )
+	@ResponseBody
+	public HashMap<String,Object> loginCheckseller(String seller_id,String seller_pw) {
+		
+		HashMap<String,Object> result = new HashMap<String, Object>();
+		AccountVO account = service.selectAccountById(seller_id);
+		
+		if(account == null) {
+			result.put("result", "null");
+		}else if(securityService.isPasswordCheck(seller_pw,account.getPassword())) {
+			result.put("password", "Success");
+		}else if(!(securityService.isPasswordCheck(seller_pw, account.getPassword()))) {
+			result.put("password", "Fail");
+		}else if(account.getMemberType().equals("SELLER")||account.getMemberType().equals("ADMIN")) {
+			result.put("result","SELLER");
+		}else {
+			result.put("result","NOT_SELLER");
+		}
+		
+		
+		
+	
+		return result;
+		
+	}
+	
+	@GetMapping(value = "/JoinChartData.ad")
+	@ResponseBody
+	public void joinChartData(HttpServletRequest request, HttpServletResponse response
+			) throws IOException {
+		
+		request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        String before3Month = addMonth(-3);
+        String before1Month = addMonth(-1);
+        String before7Day = addDay(-7);
+        String before3Day = addDay(-3);
+        
+        int join_3monthAgo = service.getJoinChartData(addMonth(-6), before3Month);
+        int join_1monthAgo = service.getJoinChartData(before3Month, before1Month);
+        int join_7daysAgo = service.getJoinChartData(before1Month, before7Day);
+        int join_3daysAgo = service.getJoinChartData(before7Day, before3Day);
+        int join_yesterday = service.getJoinChartData(before3Day, addDay(-1));
+        
+        JSONObject jsonObj = new JSONObject();
+    	
+    	jsonObj.put("join_3monthAgo", join_3monthAgo);
+    	jsonObj.put("join_1monthAgo", join_1monthAgo);
+    	jsonObj.put("join_7daysAgo", join_7daysAgo);
+    	jsonObj.put("join_3daysAgo", join_3daysAgo);
+    	jsonObj.put("join_yesterday", join_yesterday);
+        
+        out.println(jsonObj.toString());
+        
+        out.flush();
+	}
+	
+	private String addMonth(int months) {
+		
+		Date date = new Date();
+        SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+        
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MONTH, months);
+        Date getMonth = cal.getTime();
+		
+		return sdformat.format(getMonth).toString();
+	}
+	
+    private String addDay(int days) {
+		
+		Date date = new Date();
+        SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+        
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days);
+        Date getDay = cal.getTime();
+		
+		return sdformat.format(getDay).toString();
+	}
 }

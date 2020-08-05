@@ -251,4 +251,18 @@ public class AdminServiceImpl implements AdminService {
 		List<AccountVO> list = mapper.getAllAccountList(hashmap);
 		return list;
 	}
+
+	@Override
+	public AccountVO selectAccountById(String id) {
+		AccountVO account = mapper.selectAccountById(id);
+		return account;
+	}
+	
+	public int getJoinChartData(String startSearch, String endSearch) {
+		
+		AdminMapper adminMapper = sqlSession.getMapper(AdminMapper.class);
+		int res = adminMapper.getJoinChartData(startSearch, endSearch);
+		return res;
+	}
+	
 }

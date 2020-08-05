@@ -1,17 +1,10 @@
 /*모든 계정 테이블*/
-select * from member_seller;
 CREATE Table all_account(
 account_id varchar2(16) not null,
 account_pw varchar2(100) not null,
 account_type varchar2(10) not null,
 constraint all_account_pk primary key(account_id)
 );
-select * from list_delivery;
-delete from	list_delivery where num= 1 and default_address='N';
-select * from list_delivery;
-select * from member_buyer where buyer_id = 'test111';
-
-
 
 
 create table admin(                 -- 愿�由ъ옄 �뀒�씠釉�
@@ -23,8 +16,8 @@ create table admin(                 -- 愿�由ъ옄 �뀒�씠釉�
     constraint admin_admin_id_pk primary key(admin_id)
 );
 
---insert into admin 
---values ('admin','{bcrypt}$2a$10$UgciI5e8vDo2uZlnRDSL4eZlPwkWMyd4pOCj90wja8UWqkX.GSAqu','관리자',admin_num_seq.nextval,'ADMIN');
+insert into admin 
+values ('admin','{bcrypt}$2a$10$UgciI5e8vDo2uZlnRDSL4eZlPwkWMyd4pOCj90wja8UWqkX.GSAqu','관리자',admin_num_seq.nextval,'ADMIN');
 
 CREATE SEQUENCE admin_num_seq
     INCREMENT BY 1
@@ -40,7 +33,6 @@ BEGIN
 insert into all_account (account_ID, account_pw, account_type)
 values (:new.admin_id, :new.password, :new.member_type);
 END;
-
 
 create table member_buyer(          -- 援щℓ�옄 �뀒�씠釉�
     buyer_id varchar2(16) not null, -- 援щℓ�옄 ID (湲곕낯�궎)
@@ -62,10 +54,6 @@ create table member_buyer(          -- 援щℓ�옄 �뀒�씠釉�
     constraint member_buyer_buyer_id_pk primary key(buyer_id)
 );
 
-
-
-
-select * from member_buyer;
 /*buyer_num Sequence*/
 CREATE SEQUENCE buyer_num_seq
     INCREMENT BY 1
@@ -76,8 +64,6 @@ CREATE SEQUENCE buyer_num_seq
 --     select buyer_num_seq.currval from dual;   
 
 /*적립금 테이블*/     
-select*from save_point;
-
 create table save_point (
  sp_status varchar2(4) not null, --적립, 사용
  sp_point number not null,
@@ -92,23 +78,12 @@ constraint save_point_fk foreign key(buyer_id)
 constraint save_point_pk primary key(point_num)
 );
 
-
-select * from save_point;
-
-select * from save_point;
 /*point_num Sequence*/
 CREATE SEQUENCE point_num_seq
     INCREMENT BY 1
     START WITH 1
     MAXVALUE 9999
-    NOCYCLE;
-
-----적립 Test
---insert into save_point 
---values ('적립',300,'주문결제 적립+테스트',123123123,SYSDATE,'buyer123',point_num_seq.nextval);
-----사용 Test
---insert into save_point
---values ('사용',300,'적립금 결제+테스트',123123123,SYSDATE,'buyer123',point_num_seq.nextval);     
+    NOCYCLE; 
 
 create or replace trigger TRG_buyer_account
 AFTER INSERT ON member_buyer
@@ -117,9 +92,6 @@ BEGIN
 insert into all_account (account_ID, account_pw, account_type)
 values (:new.buyer_id, :new.password, :new.member_type);
 END;
-
-select * from save_point;
-
 
 create or replace trigger TRG_buyer_savePoint --구매자 적립금 update 
 AFTER INSERT ON save_point
@@ -148,22 +120,12 @@ create table list_delivery(                 -- 개인저장 배송지 목록
     constraint list_delivery_buyer_id_fk foreign key(buyer_id)
     references member_buyer(buyer_id) on delete cascade
 );
-select* from list_delivery;
-commit;
 
-select* from member_seller;
 CREATE SEQUENCE delivery_num_seq
     INCREMENT BY 1
     START WITH 1
     MAXVALUE 9999
     NOCYCLE;   
-
-
-
-select * from list_delivery ;
-
-select * from member_buyer;
-
 
 create or replace trigger TRG_Buyer_delivery
 AFTER INSERT ON member_buyer
@@ -173,10 +135,7 @@ insert into list_delivery (BUYER_ID, ADDRESS, RECEIVER_NAME, RECEIVER_PHONE)
 values (:new.buyer_id, :new.address, :new.name, :new.tel);
 END;
      
-   select * from member_seller;  
-     
-drop table member_seller;
-     /*�뙋留ㅼ옄*/
+   
  create table member_seller(               -- �뙋留ㅼ옄 �뀒�씠釉�
 seller_id varchar2(16) not null,      -- �뙋留ㅼ옄 ID (湲곕낯�궎)
 password varchar2(100) not null,       -- 鍮꾨�踰덊샇(*�븫�샇�솕�븣臾몄뿉 �겕湲곕뒛由�)
@@ -202,10 +161,7 @@ profile_img_path varchar2(100),
 last_loginDate date default sysdate,
 constraint member_seller_seller_id_pk primary key(seller_id)
 );
-desc order_record;
-select * from member_seller ;
-select * from board_product;
-select  *from member_seller;
+
 CREATE SEQUENCE seller_num_seq
     INCREMENT BY 1
     START WITH 1
@@ -236,7 +192,7 @@ create table board_notice(            -- 怨듭��궗�빆
     register_date date not null            -- 怨듭��궗�빆 �벑濡앹씪
     
 );
-select * from board_product;
+
 create table board_product(                     -- �뙋留ㅺ쾶�떆�뙋
     board_id varchar2(32) not null,             -- 寃뚯떆�뙋 ID (湲곕낯�궎)
     seller_id varchar2(16) not null,            -- �옉�꽦�옄 (member_seller�뀒�씠釉� �쇅�옒�궎)
@@ -282,10 +238,6 @@ create table board_product(                     -- �뙋留ㅺ쾶�떆�뙋
     read_count number not null,                 -- 議고쉶�닔
     constraint board_product_board_id_pk primary key(board_id)
 );
-select * from board_product;
-select * from all_acount;
-desc wish_list;
-
 
 create table wish_list(
     wish_id varchar2(32) not null,         -- 위시리스트 ID값 (기본키, 랜덤생성)
@@ -297,7 +249,6 @@ create table wish_list(
     thumbnail_thum_path varchar2(100),          -- 썸네일 썸네일 경로
     constraint wish_list_wish_id_pk primary key(wish_id)
 );
-select * from member_buyer where buyer_id='test000';
 
 create table product_cart(          -- �옣諛붽뎄�땲
     cart_id varchar2(32) not null,  -- �옣諛붽뎄�땲ID (湲곕낯�궎, �옖�뜡肄붾뱶 �깮�꽦)
@@ -307,9 +258,6 @@ create table product_cart(          -- �옣諛붽뎄�땲
     constraint product_cart_cart_id_pk primary key(cart_id)
 );
 
-
-
-drop table board_review;
 create table board_review(              -- 상품후기 게시판
     review_id varchar2(32) not null,    -- 리뷰글 ID (기본키)
     review_num number not null,         -- 리뷰글 번호
@@ -326,9 +274,6 @@ create table board_review(              -- 상품후기 게시판
     constraint board_review_review_id_pk primary key(review_id)
 );
 
-select * from member_buyer;
-
-
 create or replace trigger TRG_board_review
 AFTER INSERT ON board_review
 for each row
@@ -338,8 +283,6 @@ values ('적립', '500', '상품후기 작성으로 인한 적립금 지급+',:n
 update member_buyer SET save_point = save_point + 500 WHERE buyer_id = :new.buyer_id;
 END;
 
-select* from board_review;
-drop table comment_review;
 create table comment_review(               -- 상품 리뷰 댓글
     review_cmt_id varchar2(32) not null,   -- 리뷰댓글 ID (기본키)
     review_cmt_num number not null,        -- 리뷰댓글 번호 (각 댓글당 1부터 적용)
@@ -352,8 +295,6 @@ create table comment_review(               -- 상품 리뷰 댓글
         references board_review(review_id) on delete cascade
 );
 
-
-drop table order_record;
 create table order_record(                   -- 주문기록
     order_num number not null,               -- 주문번호 (기본키)
     order_id varchar2(32) not null,          -- 주문번호 ID
@@ -384,9 +325,7 @@ create table order_record(                   -- 주문기록
     constraint order_record_order_num_pk primary key(order_num)
 );
 
-select* from board_qna;
 /*상품문의*/
-drop table board_qna;
 create table board_qna(                -- 상품 문의 게시판
     qna_id varchar2(50) not null,            -- Qna게시판 ID (기본키)
     qna_num number not null,           -- Qna게시판 ID (기본키)
@@ -407,37 +346,39 @@ create table board_qna(                -- 상품 문의 게시판
 
 
 ----------------------------------------------------------------------
-select * from member_seller;
+--
+--SELECT 'DROP TABLE "' || TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
+
 select * from order_record;
-SELECT count(*) FROM order_record WHERE seller_id='xodnd123' AND order_date = sysdate;
-SELECT count(*) FROM order_record WHERE seller_id='xodnd123' AND NOT status like '취소%' AND NOT status like '반품%';
 
-SELECT p.* 
-		FROM (
-			
-		    SELECT seller_id,board_num,title,price,delivery_price,quantity,satisfaction,content,register_date,category_1,
-			category_2,category_local,sales_producer,product_name,product_weight,product_size,product_country,date_manufacture,best_before_date,
-			transgenic,storage_method,consumer_consulation,thumbnail_origin,thumbnail_thum,product_origin_1,product_thum_1,product_origin_2,product_thum_2,
-			product_origin_3,product_thum_3,product_origin_4,product_thum_4,content_origin,thumbnail_origin_path,thumbnail_thum_path,product_origin_path,
-			product_thum_path,content_origin_path,sale_status,hit,read_count,
-			row_number() OVER (ORDER BY board_num DESC)AS rNum
-			FROM board_product
-		     SELECT seller_id,board_num,title,price,delivery_price,quantity,satisfaction,content,register_date,category_1,
-			category_2,category_local,sales_producer,product_name,product_weight,product_size,product_country,date_manufacture,best_before_date,
-			transgenic,storage_method,consumer_consulation,thumbnail_origin,thumbnail_thum,product_origin_1,product_thum_1,product_origin_2,product_thum_2,
-			product_origin_3,product_thum_3,product_origin_4,product_thum_4,content_origin,thumbnail_origin_path,thumbnail_thum_path,product_origin_path,
-			product_thum_path,content_origin_path,sale_status,hit,read_count,
-			row_number() OVER (ORDER BY board_num DESC)AS rNum
-			FROM board_product
-		     WHERE register_date between to_date('2020101','YYYYMMDD')AND to_date('20200819','YYYYMMDD')
+SELECT one,two, 정산일,b.rNum
+from (
+    select sum(총주문금액)as one,count(주문번호)as two, 정산일,row_number() OVER (ORDER BY 정산일 DESC) AS rNum
+    from 
+        (select sum(price) AS 총주문금액 ,count(order_id) AS 주문번호,to_char(max(order_date),'yy-mm-dd') AS 정산일
+         from order_record
+         where seller_id='seller02'
+         group by order_id
+        ) a
+    group by 정산일
+    having 정산일 between '00-01-01' AND '20-08-04'
+    order by 정산일 asc
+    )b
+    WHERE rNum between 1 AND 10 
+;
+select count(*)
+from(
+    select  sum(총주문금액),count(주문번호), 정산일
+    from 
+        (select sum(price) AS 총주문금액 ,count(order_id) AS 주문번호,to_char(max(order_date),'yy-mm-dd') AS 정산일
+         from order_record
+         where seller_id='seller02'
+         group by order_id
+        ) a
+    group by 정산일 
+    having 정산일 between '00-01-01' AND '20-08-04'
+    order by 정산일 asc)
+;
 
-			) p
-		WHERE rNum between 1 AND 10
-		ORDER BY register_date DESC;
-        
-        desc board_product;
-        
-        select register_date from board_product WHERE to_char(register_date) between to_char(to_date('20/07/01','YY/MM/DD')) and to_char(to_date('20/07/31','YY/MM/DD'));
-        select * from board_product;
-    
-        select register_date from board_product;
+select * from member_buyer;
+select * from all_account;

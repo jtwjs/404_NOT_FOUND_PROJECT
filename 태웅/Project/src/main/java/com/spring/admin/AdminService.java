@@ -11,11 +11,7 @@ import com.spring.seller.SellerVO;
 public interface AdminService {
 	boolean duplicateCheck(String id);
 	public AdminVO selectOneById(String id);
-	
-	
-
-	
-	
+	public AccountVO selectAccountById(String id);
 //====================== 하나 기석 작업 ==========================================================	
 	
 	public int getAllAccountCount();
@@ -54,4 +50,7 @@ public interface AdminService {
 
 	// 댓글 삭제 관리
 	public int AdminBoardReviewDelete(HashMap<String, String> hashmap);
+	
+	
+	public int getJoinChartData(String startSearch, String endSearch);
 }

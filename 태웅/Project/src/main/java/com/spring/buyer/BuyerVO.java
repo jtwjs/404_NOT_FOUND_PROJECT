@@ -30,7 +30,8 @@ public class BuyerVO {
     private String cumulative_amount;
     private char delFlag;     
     
-    private int savePoint;    
+    private int savePoint; 
+    private String strSavePoint;
     
 	
     public String getId() {
@@ -202,6 +203,13 @@ public class BuyerVO {
 	}
 	
 
+	
+	public String getStrSavePoint() {
+		return strSavePoint;
+	}
+	public void setStrSavePoint(String strSavePoint) {
+		this.strSavePoint = strSavePoint;
+	}
 	@Override
 	public String toString() { 
 		return "BuyerVO [id = " + id + ", pw = " + password + ", name = " + name

@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <!DOCTYPE html>
 <html>
 <head>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
 <!-- header, css -->
 <jsp:include page="../header.jsp" flush="false" />
 <link href="<c:url value='/resources/css/module/reset.css?after'/>"
@@ -20,9 +21,11 @@
 <link
 	href="<c:url value='/resources/css/Admin/admin_accountManagement_main.css?after'/>"
 	rel="stylesheet" />
+	
+
 <title>관리자페이지</title>
 </head>
-<body>
+<body onload="setWindow();">
 	<section id="sub-main" class="">
 		<div class="sub-top">
 			<h2 class="sub-title">회원관리페이지</h2>
@@ -46,6 +49,21 @@
 					<section id="content">
 						<section id="myPage">
 							<h2 class="content-title">회원 현황</h2>
+							
+							<article id="order__chart">
+                                <div style="display: inline-block;">
+                                    <canvas id="join-data__chart" width="300px" height="300px"></canvas>
+                                </div>
+                                
+                                <div style="display: inline-block;">
+                                   <canvas id="regist-data__chart" width="300px" height="300px"></canvas> 
+                                </div>    
+                                
+                                <div style="display: inline-block;">
+                                    <canvas id="member-data__chart" width="300px" height="300px"></canvas>
+                                </div>
+                            
+                            </article>
 							
 							<article id="account__info">
 								<div class="buyer__info">
@@ -174,6 +192,9 @@
 			</div>
 		</div>
 	</main>
+	
+	<script type="text/javascript"
+		src="<c:url value='/resources/js/Admin/admin_accountManagement_main.js?after'/>"></script>
 	<script type="text/javascript"
 		src="<c:url value='/resources/js/Admin/admin_menu.js?after'/>"></script>
 	<!-- footer,js -->

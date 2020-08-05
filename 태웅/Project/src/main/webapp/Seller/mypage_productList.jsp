@@ -149,20 +149,20 @@
                                  <div class="n-paging">
                      		<ul>
                      			<c:if test="${pageMaker.prev}">
-                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(pageMaker.startPage - 1,startDate,endDate)}" class="prev">이전</a></li>
+                     				<li><a href="SellerProductList.se${pageMaker.makeQuery(pageMaker.startPage - 1,startDate,endDate)}" class="prev">이전</a></li>
                      			</c:if>
                      			
                      			<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
                      				<c:if test="${currentPage eq idx}">
-                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(idx,startDate,endDate)}" class="page active">${idx}</a></li>
+                     				<li><a href="SellerProductList.se${pageMaker.makeQuery(idx,startDate,endDate)}" class="page active">${idx}</a></li>
                      				</c:if>
                      				<c:if test="${currentPage ne idx}">
-                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(idx,startDate,endDate)}" class="page">${idx}</a></li>
+                     				<li><a href="SellerProductList.se${pageMaker.makeQuery(idx,startDate,endDate)}" class="page">${idx}</a></li>
                      				</c:if>
                      			</c:forEach>
                      			
                      			<c:if test="${pageMaker.next && pageMaker.endPage> 0}">
-                     				<li><a href="BuyerMyPageReview.by${pageMaker.makeQuery(pageMaker.endPage + 1,startDate,endDate)}" class="next">다음</a></li>
+                     				<li><a href="SellerProductList.se${pageMaker.makeQuery(pageMaker.endPage + 1,startDate,endDate)}" class="next">다음</a></li>
                      			</c:if>
                      		</ul>
                      	</div>

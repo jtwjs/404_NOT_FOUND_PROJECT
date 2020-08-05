@@ -141,10 +141,14 @@
 }
 
 .seller__datatxt .seller__data--btn .button1 {
-    background: #91cf4a !important;
-    color: #000000 !important; 
+    background: #91cf4a ;
+    color: #000000 ; 
 }
 
+#sold_out {
+	background: #50554b;
+    color: #ffffff
+}
 .seller__datatxt .seller__data--btn .button2 {
     background: #50554b !important;
     color: #ffffff !important;
@@ -1288,6 +1292,23 @@
 	width: 600px;
 	height: 600px;
 	text-align: center;
+}
+
+.seller-imgBig.sold_out {
+	position: relative;
+}
+
+.seller-imgBig.sold_out::after {
+	position: absolute;
+	left: 25px;
+	width: 550px;
+	height: 550px;
+	background-image: url("../../Images/BoardProduct/sold_out.png");
+	background-color: rgba(0,0,0,0.6);
+	background-repeat: no-repeat;
+	background-position: center;
+
+	content: '';
 }
 
 .seller-imgBig > img {

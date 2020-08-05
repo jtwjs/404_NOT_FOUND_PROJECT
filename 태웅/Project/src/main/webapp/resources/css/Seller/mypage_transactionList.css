@@ -99,6 +99,12 @@
     border-bottom: 1px solid #509b59;
 }
 
+.transaction__detail--table tr {
+	height: 70px;
+	border-bottom: 1px solid #f5f5f5;
+	
+}
+
 .transaction__detail--table th,
 .transaction__detail--table td {
   padding: 10px;

@@ -59,8 +59,9 @@
                         <h2 class="content-title">상품등록</h2>
                     
                         <div class="mypage-upload">
-                            <form id="productUploadForm" method="post" onsubmit="return registCheck();"  action="BoardProductRegist.bo" enctype="multipart/form-data">
+                            <form id="productUploadForm" method="post" onsubmit="return registCheck();"  action="BoardProductModify.bo" enctype="multipart/form-data">
 								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+								<input type="hidden" value="${product.board_id}" name="board_id" />
 								<div class="product-category1 article-wrap">
 									<h2 class="article-title">상품유형</h2>
 									<ul class="category1_list">
@@ -206,13 +207,13 @@
 										<div class="productImg">	
 											<input type="file" name="product_origin_2" id="productImg1" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" onchange="return checkExtension(this, 2);"/>
 											<label for="productImg1" id="productImg1Label">이미지 등록</label>
-											<input type="hidden" id="productImg2" value="${product.product_origin_path}${product.product_origin_2}" />
+											<input type="hidden" id="productThumbImg2" value="${product.product_origin_path}${product.product_origin_2}" />
 											<input type="file" name="product_origin_3" id="productImg2" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" onchange="return checkExtension(this, 3);" />
 											<label for="productImg2" id="productImg2Label">이미지 등록</label>
-											<input type="hidden" id="productImg3" value="${product.product_origin_path}${product.product_origin_3}" />
+											<input type="hidden" id="productThumbImg3" value="${product.product_origin_path}${product.product_origin_3}" />
 											<input type="file" name="product_origin_4" id="productImg3" class="hidden" accept="image/*;capture=camera,.gif, .jpg, .png" onchange="return checkExtension(this, 4);"/>
 											<label for="productImg3" id="productImg3Label">이미지 등록</label>
-											<input type="hidden" id="productImg4" value="${product.product_origin_path}${product.product_origin_4}" />
+											<input type="hidden" id="productThumbImg4" value="${product.product_origin_path}${product.product_origin_4}" />
 										</div>
 									</div>
 									<div class="additional_info">

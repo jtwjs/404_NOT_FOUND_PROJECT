@@ -74,6 +74,27 @@
 	        #{product_thum_path, jdbcType=VARCHAR}, #{content_origin_path, jdbcType=VARCHAR}, 'Y', 0, 0)
 	</insert>
 	
+	<update id="updateboardProduct" parameterType="com.spring.boardproduct.BoardProductVO">
+	
+		UPDATE board_product 
+		SET title=#{title},price=#{price},delivery_price=#{delivery_price}, quantity=#{quantity},
+			category_1=#{category_1},category_2=#{category_2},category_local=#{category_local},sales_producer=#{sales_producer},
+			product_name=#{product_name},best_before_date=#{best_before_date},transgenic=#{transgenic},storage_method=#{storage_method},
+			consumer_consulation=#{consumer_consulation},thumbnail_origin=#{thumbnail_origin, jdbcType=VARCHAR}, thumbnail_thum=#{thumbnail_thum,jdbcType=VARCHAR},
+			product_origin_1=#{product_origin_1,jdbcType=VARCHAR},product_thum_1=#{product_thum_1,jdbcType=VARCHAR},
+			product_origin_2=#{product_origin_2,jdbcType=VARCHAR},product_thum_2=#{product_thum_2,jdbcType=VARCHAR},
+			product_origin_3=#{product_origin_3,jdbcType=VARCHAR},product_thum_3=#{product_thum_3,jdbcType=VARCHAR},
+			product_origin_4=#{product_origin_4,jdbcType=VARCHAR},product_thum_4=#{product_thum_4,jdbcType=VARCHAR},
+			thumbnail_thum_path=#{thumbnail_thum_path,jdbcType=VARCHAR},product_thum_path=#{product_thum_path,jdbcType=VARCHAR}
+		WHERE seller_id=#{seller_id} AND board_id=#{board_id}	
+	</update>
+	
+	<update id="updateProductStock" parameterType="com.spring.boardproduct.BoardProductVO">
+		UPDATE board_product 
+		SET quantity = quantity - #{quantity}
+		WHERE seller_id=#{seller_id} AND board_id=#{board_id}
+	</update>
+	
 	<select id="getBoardProductVO" parameterType="String" resultMap="BoardProductMap">
 	   
 	    SELECT * FROM board_product WHERE board_id = #{board_id}
@@ -345,5 +366,52 @@
 		WHERE rNum between #{rowStart} AND #{rowEnd} 
 		ORDER BY register_date DESC
 		
+	</select>
+	
+		<!-- 관리자 게시글 관리 페이지 -->
+		
+	<select id="getAdminBoardProductCount" resultType="int">		   
+	    select count(*) from board_product	    
+	</select>
+	
+	
+	<select id="SelectAdminBoardAllList" parameterType="HashMap" resultMap="BoardProductMap">
+		<![CDATA[
+			     select board_id,seller_id,board_num,title,price,delivery_price,quantity,satisfaction,
+						content,register_date,category_1,category_2,category_local,sales_producer,product_name,
+						product_weight,product_size,product_country,date_manufacture,best_before_date,transgenic,
+						storage_method,consumer_consulation,thumbnail_origin,thumbnail_thum,product_origin_1,product_thum_1,
+						product_origin_2,product_thum_2,product_origin_3,product_thum_3,product_origin_4,product_thum_4,
+						content_origin,thumbnail_origin_path,thumbnail_thum_path,product_origin_path,product_thum_path,
+						content_origin_path,sale_status,hit,read_count
+	        	from (select rownum rnum,board_id,seller_id,board_num,title,price,delivery_price,quantity,satisfaction,
+							content,register_date,category_1,category_2,category_local,sales_producer,product_name,
+							product_weight,product_size,product_country,date_manufacture,best_before_date,transgenic,
+							storage_method,consumer_consulation,thumbnail_origin,thumbnail_thum,product_origin_1,product_thum_1,
+							product_origin_2,product_thum_2,product_origin_3,product_thum_3,product_origin_4,product_thum_4,
+							content_origin,thumbnail_origin_path,thumbnail_thum_path,product_origin_path,product_thum_path,
+							content_origin_path,sale_status,hit,read_count
+            		from (select * from board_product order by rownum desc)) 
+	        where rnum>=#{startrow} and rnum<=#{endrow}
+     	]]>
+	</select>
+	
+	
+	<!-- 관리자 게시글 삭제 기능 -->
+	
+	<delete id="AdminBoardProductDelete" parameterType="int">
+		delete from	board_product where board_num=#{board_num}
+	</delete>
+
+	<select id="isAdminBoardList" parameterType="HashMap"	resultType="int">
+		select count(*) from board_product where board_num=#{board_num}
+	</select>
+	
+	<select id="getRegistChartData" resultType="int">
+	    <![CDATA[
+	    SELECT COUNT(*) FROM board_product 
+	    WHERE TO_CHAR(register_date) >= TO_CHAR(TO_DATE(#{startSearch}, 'YYYY-MM-DD'))
+            AND TO_CHAR(register_date) <= TO_CHAR(TO_DATE(#{endSearch}, 'YYYY-MM-DD'))
+	    ]]>
 	</select>
 </mapper>

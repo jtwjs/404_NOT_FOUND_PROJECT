@@ -39,7 +39,12 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 	rel="stylesheet" />
 <title>게시판 관리</title>
 </head>
-<body>
+<body onload="setWindow();">
+<script>
+function setWindow(){
+	window.scrollTo(0, 380);
+}
+</script>
 	<section id="sub-main" class="">
 		<div class="sub-top">
 			<h2 class="sub-title">게시물 관리페이지</h2>

@@ -147,6 +147,65 @@ public class OrderServiceImpl implements OrderService {
 		return list;
 	}
 
+	@Override
+	public ArrayList<OrderRecordVO> selectOrderListGroupByDate(String seller_id, int rowStart, int rowEnd,
+			String startDate, String endDate) {
+		ArrayList<OrderRecordVO> list = mapper.selectOrderListGroupByDate(seller_id, rowStart, rowEnd, startDate, endDate);
+		return list;
+	}
+
+	@Override
+	public int selectCountGroupByDate(String seller_id, String startDate, String endDate) {
+		int count = mapper.selectCountGroupByDate(seller_id, startDate, endDate);
+		return count;
+	}
+
+	public int orderReceiptModify(String status, String order_delivery, String order_address, 
+    		String order_name, String order_phone, String order_invoicenum, 
+    		String order_id, String board_id) {
+		
+		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
+        int result = orderRecordMapper.orderReceiptModify(
+        		status, order_delivery, order_address, order_name, order_phone, order_invoicenum, 
+        		order_id, board_id);
+		
+        return result;
+	}
+	
+	public int getMemberChart(String flag) {
+		
+		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
+        int result = orderRecordMapper.getMemberChart(flag);
+		
+        return result;
+	}
+	
+	
+	public int orderCancle(String order_id, String board_id) {
+		
+		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
+        int result = orderRecordMapper.orderCancle(order_id, board_id);
+		
+        return result;
+	}
+	
+	public int orderRefund(String order_id, String board_id) {
+		
+		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
+        int result = orderRecordMapper.orderRefund(order_id, board_id);
+		
+        return result;
+	}
+	
+	public int orderComplete(String order_id, String board_id) {
+		
+		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
+        int result = orderRecordMapper.orderComplete(order_id, board_id);
+		
+        return result;
+	}
+
+
 
     
     

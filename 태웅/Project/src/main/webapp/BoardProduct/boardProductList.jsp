@@ -180,31 +180,41 @@
                         <div id="non-box">검색된 상품이 없습니다</div>
                         <%} %>
                         <div id="new">
-                            <%for(int i = 0; i < vo_list.size(); i++){ %>
+                           <c:forEach  var="list" items="${vo_list}" >
                             <sec:authorize access = "isAnonymous()">
                             <div class="item_box" 
-                            onclick="javascript:location.href='BoardProductView.bo?board_id=<%=vo_list.get(i).getBoard_id()%>'">
+                            onclick="javascript:location.href='BoardProductView.bo?board_id=${list.board_id}'">
                            </sec:authorize>
                            <sec:authorize access="hasRole('ROLE_SELLER')">
                             <div class="item_box" 
-                            onclick="javascript:location.href='BoardProductView.bo?board_id=<%=vo_list.get(i).getBoard_id()%>'">
+                            onclick="javascript:location.href='BoardProductView.bo?board_id=${list.board_id}'">
                             </sec:authorize>
                             <sec:authorize access="hasRole('ROLE_BUYER')">
                             <div class="item_box" 
-                            onclick="javascript:location.href='BoardProductView2.bo?board_id=<%=vo_list.get(i).getBoard_id()%>'">
+                            onclick="javascript:location.href='BoardProductView2.bo?board_id=${list.board_id}'">
                             </sec:authorize>
                                 <ul class="item">
-                                    <li><img src="display?path=<%=java.net.URLEncoder.encode(vo_list.get(i).getThumbnail_thum_path(), "UTF-8") %>&name=<%=java.net.URLEncoder.encode(vo_list.get(i).getThumbnail_thum(), "UTF-8")%>"></li>
-                                    <li class="subject"><%=vo_list.get(i).getTitle() %></li>
-                                    <li class="price"><%=vo_list.get(i).getPrice() %>원</li>
-                                    <%if(vo_list.get(i).getDelivery_price() != 0){ %>
-                                    <li class="comment">배송비 <%=vo_list.get(i).getDelivery_price() %>원</li>
-                                    <%}else{ %>
+                                <c:if test="${list.quantity eq 0}">
+                                    <li class="sold_out">
+                                    	<img src="display?path=${list.thumbnail_thum_path}&name=${list.thumbnail_thum}">
+                                   	</li>
+                              	</c:if>
+                              	<c:if test="${list.quantity ne 0}">
+                                    <li>
+                                    	<img src="display?path=${list.thumbnail_thum_path}&name=${list.thumbnail_thum}">
+                                   	</li>
+                              	</c:if>
+                                    <li class="subject">${list.title}</li>
+                                    <li class="price">${list.price}원</li>
+                                    <c:if test="${list.delivery_price ne 0 }" >
+                                    <li class="comment">배송비 ${list.delivery_price}원</li>
+                                    </c:if>
+                                    <c:if test="${list.delivery_price eq 0 }" >
                                     <li class="comment">무료배송</li>
-                                    <%} %>
+                                    </c:if>
                                 </ul>
-                            </div>
-                            <%} %>
+                        	</div>
+                          </c:forEach>
                         </div> 
                         <!-- new 끝-->
 

@@ -18,25 +18,21 @@ import com.spring.order.OrderRecordVO;
 public class SellerServiceImpl implements SellerService {
 	@Autowired
 	SellerMapper mapper;
-	
+
 	@Autowired
 	BoardProductMapper boardMapper;
-	
+
 	@Autowired
 	OrderRecordMapper orderRecordMapper;
 
 	@Autowired
 	private SqlSession sqlSession;
 
-	
-	
 	@Override
 	public SellerVO selectOneById(String id) {
 		SellerVO sellerAccount = mapper.selectOneById(id);
 		return sellerAccount;
 	}
-
-
 
 	@Override
 	public void RegisterSellerAccout(SellerVO seller) {
@@ -66,7 +62,6 @@ public class SellerServiceImpl implements SellerService {
 		BoardProductVO product = boardMapper.getBoardProductVO(board_id);
 		return product;
 	}
-	
 
 	@Override
 	public int getOrderRecordOneByIdListCount(String seller_id) {
@@ -77,24 +72,54 @@ public class SellerServiceImpl implements SellerService {
 
 		return res;
 	}
-	
-	
+
 	@Override
 	public List<OrderRecordVO> getOrderRecordOneByIdList(String seller_id, int startrow, int endrow) {
-		
+
 		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
-		
+
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		
+
 		map.put("seller_id", seller_id);
 		map.put("startrow", startrow);
 		map.put("endrow", endrow);
-		
+
 		List<OrderRecordVO> vo_list = orderRecordMapper.getOrderRecordOneByIdList(map);
-		
+
 		System.out.println("vo_list : " + vo_list);
-		
+
 		return vo_list;
-	}	
-	
+	}
+
+	public OrderRecordVO getOrderReceipt(String order_id, String board_id) {
+
+		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
+
+		OrderRecordVO vo = orderRecordMapper.getOrderReceipt(order_id, board_id);
+
+		return vo;
+	}
+
+	public int getOrderRecordListSearchCount(String seller_id, String[] status, String[] order_payment,
+			String start_date, String end_date) {
+
+		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
+
+		int count = orderRecordMapper.getOrderRecordListSearchCount(seller_id, status, order_payment, start_date,
+				end_date);
+
+		return count;
+	}
+
+	public ArrayList<OrderRecordVO> getOrderRecordListSearch(String seller_id, String[] status, String[] order_payment,
+			String start_date, String end_date, int page_num, int page_amount) {
+
+		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
+
+		ArrayList<OrderRecordVO> vo_list = orderRecordMapper.getOrderRecordListSearch(seller_id, status, order_payment,
+				start_date, end_date, page_num, page_amount);
+
+		return vo_list;
+	}
+
 }

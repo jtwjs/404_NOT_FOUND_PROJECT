@@ -2,6 +2,7 @@ package com.spring.seller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.file.Files;
@@ -21,13 +22,17 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -121,19 +126,19 @@ public class SellerController {
 
 		String avgStarImgSrc = "";
 		if (avg_satis == 5.0) {
-			avgStarImgSrc = "./resources/Images/Seller/star_5.png";
+			avgStarImgSrc = "./resources/Images/Seller/stars_5.png";
 		} else if (avg_satis == 4.5) {
-			avgStarImgSrc = "./resources/Images/Seller/star_4-5.png";
+			avgStarImgSrc = "./resources/Images/Seller/stars_4-5.png";
 		} else if (avg_satis == 4.0) {
 			avgStarImgSrc = "./resources/Images/Seller/star_4.png";
 		} else if (avg_satis == 3.5) {
-			avgStarImgSrc = "./resources/Images/Seller/star_3-5.png";
+			avgStarImgSrc = "./resources/Images/Seller/stars_3-5.png";
 		} else if (avg_satis == 3.0) {
 			avgStarImgSrc = "./resources/Images/Seller/star_3.png";
 		} else if (avg_satis == 2.5) {
-			avgStarImgSrc = "./resources/Images/Seller/star_2-5.png";
+			avgStarImgSrc = "./resources/Images/Seller/stars_2-5.png";
 		} else if (avg_satis == 2.0) {
-			avgStarImgSrc = "./resources/Images/Seller/star_2.png";
+			avgStarImgSrc = "./resources/Images/Seller/stars_2.png";
 		} else if (avg_satis == 1.5) {
 			avgStarImgSrc = "./resources/Images/Seller/star_1-5.png";
 		} else if (avg_satis == 1.0) {
@@ -395,7 +400,14 @@ public class SellerController {
 	}
 
 	@RequestMapping(value = "/SellerOrderStatus.se") // 嫄곕옒�궡�뿭 - 二쇰Ц愿�由�
-	public String sellerOrderStatus(Model model, @CurrentUser AccountVO account) {
+	public String sellerOrderStatus(Model model, @CurrentUser AccountVO account, 
+			@RequestParam(value="status", required=false)String[] status, 
+			@RequestParam(value="order_payment", required=false)String[] order_payment, 
+			@RequestParam(value="start_date", required=false, defaultValue="1980-01-01")String start_date_input, 
+			@RequestParam(value="end_date", required=false)String end_date_input, 
+			@RequestParam(value="page_num", required=false, defaultValue="1")int page_num, 
+			@RequestParam(value="page_amount", required=false, defaultValue="20")int page_amount) {
+		
 		SellerVO sellerAccount = Sellerservice.selectOneById(account.getId());
 		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0, 10));
 		try {
@@ -410,13 +422,134 @@ public class SellerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+		
+		String end_date = null;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		
+		if(end_date_input == null || end_date_input == "") {
+			Date date = new Date();
+			end_date_input = format.format(date);
+		}
+		
+		end_date = end_date_input;
+		
+		ArrayList<OrderRecordVO> vo_list = Sellerservice.getOrderRecordListSearch(
+				account.getId(), status, order_payment, start_date_input, end_date, page_num, page_amount);
+		int vo_count = Sellerservice.getOrderRecordListSearchCount(
+				account.getId(), status, order_payment, start_date_input, end_date);
+		
+		if(vo_list.size() != 0) {
+			for(int i = 0; i < vo_list.size(); i++) {
+				vo_list.get(i).setOrder_date(vo_list.get(i).getOrder_date().substring(0, 10));
+			}
+		}
+		
+		if(status != null) {			
+            StringBuilder status_data = new StringBuilder();
+			
+			for(int i = 0; i < status.length; i++) {
+				status_data.append(status[i]);
+				
+				if(i != status.length-1) {
+					status_data.append(",");
+				}
+			}
+			
+			model.addAttribute("status_data", status_data.toString());
+		}
+		
+		if(order_payment != null) {
+			StringBuilder payment_data = new StringBuilder();
+			
+			for(int i = 0; i < order_payment.length; i++) {
+				payment_data.append(order_payment[i]);
+				
+				if(i != order_payment.length-1) {
+					payment_data.append(",");
+				}
+			}
+			
+			model.addAttribute("payment_data", payment_data.toString());
+		}
+		
 
 		model.addAttribute("user", sellerAccount);
+		model.addAttribute("start_date", start_date_input);
+		model.addAttribute("end_date", end_date);
+		model.addAttribute("vo_list", vo_list);
+		model.addAttribute("vo_count", vo_count);
+		model.addAttribute("PageMaker", new com.spring.util.PageMaker(page_num, page_amount, vo_count));
+		
 		return "Seller/mypage_orderStatus";
+	}
+	
+	@GetMapping(value="GetOrderReceipt.se")
+	@ResponseBody
+	public void getOrderReceipt(HttpServletRequest request, HttpServletResponse response, 
+			String order_id, String board_id) throws IOException {
+		
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		
+		OrderRecordVO vo = Sellerservice.getOrderReceipt(order_id, board_id);
+		
+		int save_point = (int)((vo.getPrice() * vo.getAmount()) / 10);
+		int totPrice = vo.getPrice() * vo.getAmount();
+		
+		JSONObject resultObj = new JSONObject();
+		
+		resultObj.put("order_id", vo.getOrder_id());
+		resultObj.put("buyer_id", vo.getBuyer_id());
+		resultObj.put("status", vo.getStatus());
+		resultObj.put("buyer_phone", vo.getBuyer_phone());
+		resultObj.put("order_address", vo.getOrder_address());
+		resultObj.put("order_name", vo.getOrder_name());
+		resultObj.put("order_phone", vo.getOrder_phone());
+		resultObj.put("order_delivery", vo.getOrder_delivery());
+		resultObj.put("order_invoicenum", vo.getOrder_invoicenum());
+		resultObj.put("price", vo.getPrice());
+		resultObj.put("delivery_price", vo.getDelivery_price());
+		resultObj.put("save_point", save_point);
+		resultObj.put("use_point", vo.getUse_point());
+		resultObj.put("buyer_name", vo.getBuyer_name());
+		resultObj.put("order_payment", vo.getOrder_payment());
+		resultObj.put("order_account", vo.getOrder_account());
+		resultObj.put("amount", vo.getAmount());
+		resultObj.put("totPrice", totPrice);
+
+		Date orderDate = new Date();
+		SimpleDateFormat orderDateFormat = new SimpleDateFormat("yyyy-MM-dd a hh:mm:ss");
+		String orderDateStr = orderDateFormat.format(orderDate);
+		orderDateStr.replace("AM", "오전");
+		orderDateStr.replace("PM", "오후");
+		resultObj.put("order_date", vo.getOrder_date());
+
+		out.println(resultObj.toString());
+		
+		out.flush();
 	}
 
 	@RequestMapping(value = "/SellerCalculateManager.se") // 嫄곕옒�궡�뿭 - 嫄곕옒紐⑸줉
-	public String sellerCalculateManager(Model model, @CurrentUser AccountVO account) {
+	public String sellerCalculateManager(Model model, @CurrentUser AccountVO account,
+			CriteriaVO cri,@RequestParam(value="startDate", required=false, defaultValue="19800101")String startDate,
+			@RequestParam(value="endDate", required=false, defaultValue ="")String endDate)throws Exception {
+		
+		Date date = new Date();
+		date = new Date(date.getTime()+(1000*60*60*24*1));
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+		if(endDate.equals("") || endDate == null) {
+			endDate = simpleDateFormat.format(date);
+		}
+		
+		int rowStart = cri.getRowStart();
+		int rowEnd = cri.getRowEnd();
+		ArrayList<OrderRecordVO> list = orderService.selectOrderListGroupByDate(account.getId(), rowStart, rowEnd, startDate, endDate);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(orderService.selectCountGroupByDate(account.getId(), startDate, endDate));
+		
 		SellerVO sellerAccount = Sellerservice.selectOneById(account.getId());
 		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0, 10));
 		try {
@@ -431,7 +564,24 @@ public class SellerController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
+		
+		for(int i=0; i<list.size();i++) {
+			int commission = (int)(Integer.parseInt(list.get(i).getDate_tot_price())*0.05);
+			int calculate = (Integer.parseInt(list.get(i).getDate_tot_price())-commission);
+			String changeCommision = numberOfDigit(commission);
+			String changeCalculate = numberOfDigit(calculate);
+			String changeTotPrice = numberOfDigit(Integer.parseInt(list.get(i).getDate_tot_price()));
+			changeCommision = reverseString(changeCommision);
+			changeCalculate = reverseString(changeCalculate);
+			changeTotPrice = reverseString(changeTotPrice);
+			list.get(i).setDate_tot_price(changeTotPrice);
+			list.get(i).setCommission(changeCommision);
+			list.get(i).setCalculate(changeCalculate);
+		}
+		
+		model.addAttribute("currentPage", cri.getPage());
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("orderList", list);
 		model.addAttribute("user", sellerAccount);
 		return "Seller/mypage_calculateManager";
 	}

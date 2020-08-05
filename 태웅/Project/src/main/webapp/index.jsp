@@ -51,9 +51,9 @@
 						</div>
 						<div class="slider__slogon">
 							<div class="slider__slogon--title">
-								<h2>LOREM IPSUM,LOREM IPSUM</h2>
-								<span><strong>로림 입섬</strong>도울러 싯 애밋
-								<span class="enter">로림 입섬</span></span>
+								<h2>바른먹거리, 신뢰와 상생</h2> 
+								<span class="main_title">농산물 직거래 플랫폼
+								<span class="enter subtitle">우리 지역 농산물의 <strong>신선함</strong>을 그대로 전달해드립니다</span></span>
 							</div>
 						</div>
 					</li>
@@ -62,9 +62,9 @@
 						</div>
 						<div class="slider__slogon">
 							<div class="slider__slogon--title">
-								<h2>LOREM IPSUM,LOREM IPSUM</h2>
-								<span><strong>로림 입섬</strong>도울러 싯 애밋
-								<span class="enter">로림 입섬</span></span>
+								<h2>바른먹거리, 신뢰와 상생</h2>
+								<span class="main_title">농산물 직거래 플랫폼
+								<span class="enter subtitle">우리 지역 농산물의 <strong>신선함</strong>을 그대로 전달해드립니다</span></span>
 							</div>
 						</div>
 					</li>
@@ -73,9 +73,9 @@
 						</div>
 						<div class="slider__slogon">
 							<div class="slider__slogon--title">
-								<h2>LOREM IPSUM,LOREM IPSUM</h2>
-								<span><strong>로림 입섬</strong>도울러 싯 애밋
-								<span class="enter">로림 입섬</span></span>
+								<h2>바른먹거리, 신뢰와 상생</h2>
+								<span class="main_title">농산물 직거래 플랫폼
+								<span class="enter subtitle">우리 지역 농산물의 <strong>신선함</strong>을 그대로 전달해드립니다</span></span>
 							</div>
 						</div>
 					</li>
@@ -112,7 +112,7 @@
 	        				</button>
 	        				<%if(vo_list.get(i).getProduct_thum_1() != null){ %>
 	       					<img class="product-image" 
-	       					    src="display?path=<%=java.net.URLEncoder.encode(vo_list.get(i).getProduct_origin_path(), "UTF-8") %>&name=<%=java.net.URLEncoder.encode(vo_list.get(i).getProduct_origin_1(), "UTF-8") %>" alt="product image"/>
+	       					    src="display?path=<%=java.net.URLEncoder.encode(vo_list.get(i).getThumbnail_thum_path(), "UTF-8") %>&name=<%=java.net.URLEncoder.encode(vo_list.get(i).getThumbnail_thum(), "UTF-8") %>" alt="product image"/>
 	       					<%}else if(vo_list.get(i).getProduct_thum_2() != null){ %>
 	       					<img class="product-image" 
 	       					    src="display?path=<%=java.net.URLEncoder.encode(vo_list.get(i).getProduct_origin_path(), "UTF-8") %>&name=<%=java.net.URLEncoder.encode(vo_list.get(i).getProduct_origin_2(), "UTF-8") %>" alt="product image"/>
@@ -126,9 +126,13 @@
      					</div>
 	       				<div class="item-desc">
 	       					<div class="item-desc--content">
+	       				
 	       						<dl>
-	       							<dt><%=vo_list.get(i).getTitle() %>  <span>lorem inpsum dolor sit amet</span></dt>
-	       							<dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<dd>
+	       							<dt><p class="product_title"><%=vo_list.get(i).getTitle() %> </p> 
+	       								<span>상품명:  <%=vo_list.get(i).getProduct_name() %>/<%=vo_list.get(i).getProduct_weight() %> /원산지:<%=vo_list.get(i).getProduct_country() %></span></dt>
+	       							<dd><span class="enter">재고량: <%=vo_list.get(i).getQuantity() %></span><span class="enter"></span><span class="enter">판매가:  <%=vo_list.get(i).getPrice() %></span><span class="enter">배송비:  <%=vo_list.get(i).getDelivery_price() %></span>
+	       								<span class="enter">제조년도:  <%=vo_list.get(i).getDate_manufacture() %></span><span class="enter">품질유지기한:  <%=vo_list.get(i).getBest_before_date() %></span>
+	       							<dd>
 	       						</dl>
 	       					</div>
 	       					<div class="item-desc--option">
@@ -138,9 +142,6 @@
                                             <span style="width: <%=(int)(vo_list.get(i).getSatisfaction() * 20)%>%;"></span>
                                         </span>
 	   						 		</dt>
-	       							 <dd class="order-quantity">
-	       						 		<%=vo_list.get(i).getQuantity() %>
-	       							 </dd>
 	       						</dl>
 	       						<sec:authorize access="isAnonymous()">
 	       						<button class="order-btn" onclick="javascript:location.href='BoardProductView.bo?board_id=<%=vo_list.get(i).getBoard_id() %>'"

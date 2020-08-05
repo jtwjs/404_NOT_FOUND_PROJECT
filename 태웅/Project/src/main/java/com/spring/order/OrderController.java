@@ -15,6 +15,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -388,13 +389,21 @@ public class OrderController {
 		System.out.println("3");
 		
 		// ====================================================================
-		
+		/*
+		 * buyerService.InsertSavePoint(buyer_id,"적립", "주문결제",
+		 * save_point[i],"주문결제 적립 +"+board_title[i], vo.getOrder_id());
+		 */
 		for(int i = 0; i < board_id.length; i++) {
 			if(vo.getNon_member_flag()=='N') {
-				buyerService.InsertSavePoint(buyer_id,"적립", "주문결제", save_point[i],"주문결제 적립 +"+board_title[i], vo.getOrder_id());
 	    		if(reserveUse != 0 ) {
 				buyerService.InsertSavePoint(buyer_id,"사용","적립금결제",reserveUse, board_title[i], vo.getOrder_id());
 	    		}
+	    		BoardProductVO productVO = new BoardProductVO();
+				productVO.setBoard_id(board_id[i]);
+				productVO.setSeller_id(seller_id[i]);
+				productVO.setQuantity(amount[i]);
+				
+				boardProductService.updateProductStock(productVO);
 			}
 			vo.setBoard_id(board_id[i]);
 			vo.setBoard_title(board_title[i]);
@@ -446,6 +455,7 @@ public class OrderController {
 			vo.setOrder_address(vo.getOrder_address().substring(index1+1,index2)
 			+ " " +vo.getOrder_address().substring(index2+1));
 		
+			
 		model.addAttribute("order",vo);
 		
     	return "Order/order_complete";
@@ -526,6 +536,88 @@ public class OrderController {
     	model.addAttribute("list",list);
     	return "Order/address_book";
     }
+    
+    @RequestMapping(value = "/OrderReceiptModify.or")
+    @ResponseBody
+    public void orderReceiptModify(@RequestParam(value="status", required=false)String status, 
+    		@RequestParam(value="order_delivery", required=false)String order_delivery, 
+    		@RequestParam(value="order_address", required=false)String order_address, 
+    		@RequestParam(value="order_name", required=false)String order_name, 
+    		@RequestParam(value="order_phone", required=false)String order_phone, 
+    		@RequestParam(value="order_invoicenum", required=false)String order_invoicenum, 
+    		String order_id, String board_id) {
+    	
+//    	System.out.println(status);
+//    	System.out.println(order_delivery);
+//    	System.out.println(order_address);
+//    	System.out.println(order_name);
+//    	System.out.println(order_phone);
+//    	System.out.println(order_invoicenum);
+//    	System.out.println(order_id);
+//    	System.out.println(board_id);
+    	
+    	if(orderService.orderReceiptModify(status, order_delivery, order_address, order_name, 
+    			order_phone, order_invoicenum, order_id, board_id) == 1) {
+    		
+    	}
+    	
+    }
+    
+    @GetMapping(value = "/MemberChartData.or")
+    @ResponseBody
+    public void memberChartData(HttpServletRequest request, HttpServletResponse response
+			) throws IOException {
+		
+		request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        
+        
+        int member = orderService.getMemberChart("Y");
+        int nonMember = orderService.getMemberChart("N");
+        
+        JSONObject jsonObj = new JSONObject();
+    	
+    	jsonObj.put("member", member);
+    	jsonObj.put("nonMember", nonMember);
+        
+        out.println(jsonObj.toString());
+        
+        
+        out.flush();
+    	
+    }
+    
+    @GetMapping(value = "/OrderCancle.or")
+    @ResponseBody
+    public void orderCancle(String order_id, String board_id) {
+    	
+    	if(orderService.orderCancle(order_id, board_id) == 1) {
+    		
+    	}
+    	
+    }
+    
+    @GetMapping(value = "/OrderRefund.or")
+    @ResponseBody
+    public void orderRefund(String order_id, String board_id) {
+    	
+    	if(orderService.orderRefund(order_id, board_id) == 1) {
+    		
+    	}
+    	
+    }
+    
+    @GetMapping(value = "/OrderComplete.or")
+    @ResponseBody
+    public void orderComplete(String order_id, String board_id) {
+    	
+    	if(orderService.orderComplete(order_id, board_id) == 1) {
+    		
+    	}
+    	
+    }
+    
 
     
 }

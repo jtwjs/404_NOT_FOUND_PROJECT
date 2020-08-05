@@ -80,7 +80,7 @@
                                         <img src="./resources/Images/Buyer/Money.png" alt="saving point image"/>
                                         <dl>
                                             <dt>적립금</dt>
-                                            <dd>${user.savePoint}</dd>
+                                            <dd>${user.strSavePoint}</dd>
                                         </dl>
                                     </div>
                                     <div class="write-review" onclick="location.href='BuyerMyPageReview.by'">

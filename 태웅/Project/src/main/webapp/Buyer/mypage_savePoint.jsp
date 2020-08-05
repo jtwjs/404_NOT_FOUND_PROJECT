@@ -53,7 +53,7 @@
                      	<div class="point-desc">
 	                     	<dl>
 	                     		<dt class="point-present">현재 적립금</dt>
-	                     		<dd class="point">${user.savePoint}원</dd>
+	                     		<dd class="point">${user.strSavePoint}원</dd>
 	                   		</dl>
 	                   		<dl>
 	                     		<dt class="point-expected">예정 적립금</dt>
@@ -61,7 +61,7 @@
 	                   		</dl>
 	                   		<dl>
 	                     		<dt class="point-total text-green">총 적립금</dt>
-	                     		<dd class="point text-green">${user.savePoint}원</dd>
+	                     		<dd class="point text-green">${user.strSavePoint}원</dd>
 	                     	</dl>
                      	</div>
                      	<div class="point-explain">
