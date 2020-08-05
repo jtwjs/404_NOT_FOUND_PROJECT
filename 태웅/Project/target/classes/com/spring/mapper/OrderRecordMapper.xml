@@ -77,7 +77,43 @@
 		a.board_id = b.board_id(+)
 	</select>
 
-	<select id="selectOrderListById"
+	<select id="selectOrderListById" resultType="com.spring.order.OrderRecordVO">
+	SELECT a.*,
+        b.thumbnail_thum,b.thumbnail_thum_path
+		FROM (
+			SELECT order_num,
+				    order_id,
+					board_id,
+					board_title,
+					buyer_id,
+					amount,
+					price,
+					status,
+					order_date,
+					order_delivery,
+					order_invoicenum,
+					row_number() OVER (ORDER BY order_num DESC)AS rNum
+			FROM order_record
+			<![CDATA[
+		     WHERE order_date >=to_date( #{startDate}, 'YYYY-MM-DD') AND order_date <= to_date(#{endDate}, 'YYYY-MM-DD')+1 
+		    ]]>
+			) a,
+            board_product b
+		WHERE rNum between #{rowStart} AND #{rowEnd} AND buyer_id = #{buyer_id} AND a.board_id = b.board_id(+)
+		ORDER BY order_num DESC
+	</select>
+	
+	
+
+	<select id="orderListCountById" resultType="int">
+		SELECT count(*) FROM order_record
+		<![CDATA[  
+		WHERE buyer_id=#{buyer_id}
+		AND order_date >=to_date(#{startDate}, 'YYYY-MM-DD') AND order_date <= to_date(#{endDate}, 'YYYY-MM-DD')+1
+			 ]]>
+	</select>
+	
+	<select id="selectOrderListByConfirmation"
 		resultType="com.spring.order.OrderRecordVO">
 		SELECT
 		a.order_num,a.order_id,a.board_id,a.board_title,a.buyer_id,a.amount,a.price,a.status,a.order_date,
@@ -96,7 +132,7 @@
 		FROM
 		order_record
 			<![CDATA[
-		     WHERE order_date >=to_date( #{startDate}, 'YYYY-MM-DD') AND order_date <= to_date(#{endDate}, 'YYYY-MM-DD')+1 
+		     WHERE order_date >=to_date( #{startDate}, 'YYYY-MM-DD') AND order_date <= to_date(#{endDate}, 'YYYY-MM-DD')+1 AND status = '거래완료'
 		    ]]>
 		) a,
 		board_product b
@@ -106,21 +142,22 @@
 		ORDER BY order_num
 		DESC
 	</select>
-
-	<select id="orderListCountById" resultType="int">
+	
+	<select id="orderListCountByConfirmation" resultType="int">
 		SELECT count(*) FROM order_record
 		<![CDATA[  
 		WHERE buyer_id=#{buyer_id}
-		AND order_date >=to_date(#{startDate}, 'YYYY-MM-DD') AND order_date <= to_date(#{endDate}, 'YYYY-MM-DD')+1
+		AND order_date >=to_date(#{startDate}, 'YYYY-MM-DD') AND order_date <= to_date(#{endDate}, 'YYYY-MM-DD')+1 AND status = '거래완료'
 			 ]]>
 	</select>
+	
 
 
 	<select id="orderBeingDeliveredListById"
 		resultType="com.spring.order.OrderRecordVO">
 		SELECT * FROM order_record
 		WHERE buyer_id = #{buyer_id} AND
-		status != '구매확정' AND status != '주문취소'
+		status != '거래완료' AND status != '주문취소'
 		ORDER BY order_num desc
 	</select>
 
@@ -331,6 +368,9 @@
 	        AND order_date <= TO_DATE(#{end_date}, 'YYYY-MM-DD')+1)
 	        AND seller_id = #{seller_id}
 	    ]]>
+	</select>
+	<select id="orderDelivery" resultMap="OrderRecordMap">
+	    SELECT * FROM order_record WHERE order_id = #{order_id} AND board_id = #{board_id}
 	</select>
 
 

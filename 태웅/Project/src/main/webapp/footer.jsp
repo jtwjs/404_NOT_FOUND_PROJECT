@@ -19,9 +19,9 @@
                                     </button>
                                     <div id="related_site--wrap">
                                         <dl id="related_site--list">
-                                            <dt>마이페이지</dt>
+                                            <!-- <dt>마이페이지</dt>
                                             <dd><a href="BuyerMyPage.by">구매자 마이페이지</a></dd>
-                                            <dd><a href="SellerMyPage.se">판매자 마이페이지</a></dd>
+                                            <dd><a href="SellerMyPage.se">판매자 마이페이지</a></dd> -->
                                             <dt class="related_site--title">지방농촌진흥기관</dt>
                                             <dd><a href="http://www.rda.go.kr/localOrgAllView.do" title="새창열기" target="_blank">지방농촌진흥기관 전체보기</a></dd>
                                             <dt class="related_site--title">유관 기관</dt>
@@ -50,10 +50,10 @@
                                 <div class="cs_content">
                                     <ul class="cs_menulist">
                                         <li>
-                                            <a href="#">FAQ</a>
+                                            <a href="/project/BoardNotice.sc">공지사항</a>
                                         </li>
                                         <li>
-                                            <a href="#">1:1문의</a>
+                                            <a href="/project/BoardFaq.sc">FAQ</a>
                                         </li>
                                         <li>
                                             <a href="#">이용안내</a>

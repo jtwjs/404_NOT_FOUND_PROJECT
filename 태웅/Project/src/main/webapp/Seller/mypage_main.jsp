@@ -216,16 +216,16 @@
 									</div>
 									<ul class="inquery--list">
 										<li class="inquery--list-item"><p>${orderHistoryCntArray[4]}<span
-													class="enter">교환신청</span>
+													class="enter">취소신청</span>
 											</p></li>
 										<li class="inquery--list-item complete"><p>${orderHistoryCntArray[5]}<span
-													class="enter">교환완료</span>
+													class="enter">취소완료</span>
 											</p></li>
 										<li class="inquery--list-item"><p>${orderHistoryCntArray[6]}<span
-													class="enter">반품신청</span>
+													class="enter">환불신청</span>
 											</p></li>
 										<li class="inquery--list-item complete"><p>${orderHistoryCntArray[7]}<span
-													class="enter">반품완료</span>
+													class="enter">환불완료</span>
 											</p></li>
 									</ul>
 								</div>

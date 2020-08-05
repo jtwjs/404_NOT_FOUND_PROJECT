@@ -84,14 +84,14 @@
                             <button type="button" class="submitjoinBtn"
                                      onclick="javascript:location.href='JoinSeller.ad'">회원가입하기</button>
     
-                            <div class="other_login">
+                            <!-- <div class="other_login">
                                 <a id="naver-login-btn" href="#" role="button">
                                     <img src="resources/Images/Order/naver.png" width="37%" height="45" />
                                 </a>
                                 <a id="kakao-login-btn" href="#" role="button">
                                     <img src="./resources/Images/Order/kakao_login_medium_narrow.png" width="37%" height="45" />
                                 </a>
-                            </div>
+                            </div> -->
                         </form> 
                       </div>
                	   </div>

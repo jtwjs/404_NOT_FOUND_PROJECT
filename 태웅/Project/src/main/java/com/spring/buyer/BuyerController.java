@@ -132,10 +132,10 @@ public class BuyerController {
 			case "배송준비중" : cntArray[1]++; break;
 			case "배송중" : cntArray[2]++; break;
 			case "배송완료" : cntArray[3]++; break;
-			case "교환신청" : cntArray[4]++; break;
-			case "교환완료" : cntArray[5]++; break;
-			case "반품신청" : cntArray[6]++; break;
-			case "반품완료" : cntArray[7]++; break;
+			case "취소신청" : cntArray[4]++; break;
+			case "취소완료" : cntArray[5]++; break;
+			case "환불신청" : cntArray[6]++; break;
+			case "환불완료" : cntArray[7]++; break;
 			}
 		}
 		
@@ -557,8 +557,8 @@ public class BuyerController {
 		int rowEnd = cri.getRowEnd();
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(orderService.listCount(account.getId(), startDate, endDate));
-		ArrayList<OrderRecordVO> list = orderService.selectOrderListById(account.getId(), rowStart, rowEnd,startDate,endDate);
+		pageMaker.setTotalCount(orderService.listCountByConfirmation(account.getId(), startDate, endDate));
+		ArrayList<OrderRecordVO> list = orderService.selectOrderListByConfirmation(account.getId(), rowStart, rowEnd,startDate,endDate);
 		
 		System.out.println(startDate);
 		System.out.println(endDate);

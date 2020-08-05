@@ -54,4 +54,11 @@ public interface OrderService {
 	public int orderRefund(String order_id, String board_id);
 
 	public int orderComplete(String order_id, String board_id);
+
+	public ArrayList<OrderRecordVO> selectOrderListByConfirmation(String buyer_id, int rowStart, int rowEnd,
+			String startDate, String endDate);
+
+	public int listCountByConfirmation(String buyer_id, String startDate, String endDate);
+
+	public OrderRecordVO orderDelivery(String order_id, String board_id);
 }

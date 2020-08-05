@@ -52,54 +52,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
-                <sec:authorize access = "isAnonymous()">
-                    <div class="login__box">
-                    	<div class="order__login--wrap">
-                        <!-- 일반회원 주문조회 로그인-->
-                            <h5 class="order_title">로그인</h5>                        
-                 		<form name="order__login--form" id="login_form" action='<c:url value='/Login.ad'/>' method="post">
-    
-                            <div class="id">
-                            	<label for="userId">아이디</label>
-                                <input type="text" class="inputId" id="userId" name="userId" maxlength="20" 
-                                    placeholder="  아이디를 입력해 주세요." required>
-                            </div>
-    
-                            <div class="password">
-                            	<label for="userPw">비밀번호</label>
-                                <input type="password" class="inputPw" id="userPw" name="userPw" maxlength="20"
-                                    placeholder="  비밀번호를 입력해 주세요." required>
-                            </div>
-                            <div class="find">
-	                            <div class="check_id">
-	                                <input type="checkbox" class="chk_Id" name="remember" id="Id_button" >
-									<label for="Id_button">로그인 유지</label>
-	                            </div>
-	                            <div class="loginfind_btn">
-	                                <a href="#" id="findIdBtn" class="findIdBtn" onclick="location.href='#'">아이디
-	                                        찾기</a>
-	                                <a href="#" id="findPwBtn" class="findPwBtn" onclick="location.href='#'">비밀번호
-	                                        찾기</a>
-	                            </div>
-                            </div>
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                            <button type="button" value="Login" class="submitBtn" >로그인</button>
-                            <button type="button" class="submitjoinBtn"
-                                     onclick="javascript:location.href='JoinBuyer.ad'">회원가입하기</button>
-                            <div class="other_login">
-                                <a id="naverIdLogin" href="#" role="button">
-                                    <img src="resources/Images/Order/naver.png" width="37%" height="45" />
-                                </a>
-    
-                                <a id="kakao-login-btn" href="#" role="button">
-                                    <img src="./resources/Images/Order/kakao_login_medium_narrow.png" width="37%" height="45" />
-                                </a>
-                            </div>
-                        </form> 
-                      </div>
-               	   </div>
-               	   </sec:authorize>
-               	   <sec:authorize access = "isAuthenticated()">
+               
 	 <main id="main">
         <div class="container">
             <div class="row">
@@ -196,7 +149,6 @@
             </div>
         </div>
     </main>
-               	   </sec:authorize>
                 </div>
             </div>
         </div>

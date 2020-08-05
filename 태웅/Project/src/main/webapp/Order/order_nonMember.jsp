@@ -31,11 +31,6 @@
 	  </div>
 	  <div class="sub-tab">
 	  	<ul>
-	  		<li class="unselect">
-	  			<a href="OrderResearch.or">
-	  				<span>주문배송</span>
-	  			</a>
-	  		</li>
 	  		<li>
 	  			<a href="OrderNonMember.or">
 	  				<span>비회원 주문조회</span>

@@ -201,7 +201,7 @@
                                       		                </c:if>
                                       		                <c:if test='${orderList.status eq "거래완료"}'>
                                       		                <fmt:parseNumber var="savePoint" integerOnly="true" 
-                                      		                    value="${(orderList.price * orderList.amount) / 10}" />
+                                      		                    value="${(orderList.price * orderList.amount) *0.03}" />
                                       		                    <span style="color: limegreen; font-size: 17px;">
                                       		                        ${savePoint}P 적립
                                       		                    </span>

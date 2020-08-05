@@ -388,11 +388,6 @@ public class OrderController {
 		
 		System.out.println("3");
 		
-		// ====================================================================
-		/*
-		 * buyerService.InsertSavePoint(buyer_id,"적립", "주문결제",
-		 * save_point[i],"주문결제 적립 +"+board_title[i], vo.getOrder_id());
-		 */
 		for(int i = 0; i < board_id.length; i++) {
 			if(vo.getNon_member_flag()=='N') {
 	    		if(reserveUse != 0 ) {
@@ -482,6 +477,7 @@ public class OrderController {
     public HashMap<String,Object> orderBeingDelivered(@CurrentUser AccountVO account) {
     	String buyer_id = account.getId();
     	ArrayList<OrderRecordVO> list = orderService.orderBeingDeliveredListById(buyer_id);
+    	System.out.println("list사이즈:"+list.size());
     	HashMap<String,Object> map = new HashMap<String,Object>();
     	String order_id = "";
     	
@@ -518,7 +514,23 @@ public class OrderController {
     }
     
     @RequestMapping(value = "/non-OrderResearch.or")
-    public String non_OrderResearch(){
+    public String non_OrderResearch(@RequestParam("order_id")String order_id, Model model){
+    	ArrayList<OrderRecordVO> list = orderService.selectOrderByOrderId(order_id);
+    	for(int i=0; i<list.size(); i++) {
+    		try {
+				list.get(i).setThumbnail_thum(URLEncoder.encode(list.get(i).getThumbnail_thum(),"UTF-8"));
+				list.get(i).setThumbnail_thum_path(URLEncoder.encode(list.get(i).getThumbnail_thum_path(),"UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+    		int index1 = list.get(i).getOrder_address().indexOf("+");
+    		int index2 = list.get(i).getOrder_address().indexOf("/");
+    		list.get(i).setOrder_address(list.get(i).getOrder_address().substring(index1+1,index2)+" "+
+    					list.get(i).getOrder_address().substring(index2+1));
+    	}
+    
+    	
+    	model.addAttribute("list",list);
     	return "Order/order_research";
     }
     
@@ -608,15 +620,45 @@ public class OrderController {
     	
     }
     
-    @GetMapping(value = "/OrderComplete.or")
+    @GetMapping(value = "/OrderConfirmation.or")
     @ResponseBody
-    public void orderComplete(String order_id, String board_id) {
-    	
+    public void orderComplete(String order_id, String board_id,@CurrentUser AccountVO account) {
+    	ArrayList<OrderRecordVO> orderList = orderService.selectOrderByOrderId(order_id);
+    			System.out.println("orderList[1]:"+orderList.size());    	
     	if(orderService.orderComplete(order_id, board_id) == 1) {
-    		
+    		for(int i=0; i<orderList.size(); i++) {
+    			System.out.println("orderList["+i+"]:"+orderList.get(i));
+    			int save_point =(int)((orderList.get(i).getPrice() * orderList.get(i).getAmount())*0.03);
+    		buyerService.InsertSavePoint(account.getId(),"적립", "주문결제", save_point,"주문결제 적립 +"+orderList.get(i).getBoard_title(), orderList.get(i).getOrder_id());
+    		}
     	}
     	
     }
+    
+    @GetMapping(value = "/OrderDelivery.or")
+    @ResponseBody
+    public void orderDelivery(HttpServletRequest request, HttpServletResponse response, 
+    		String order_id, String board_id) throws IOException {
+    	
+    	request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        
+        OrderRecordVO vo = orderService.orderDelivery(order_id, board_id);
+        
+    	JSONObject jsonObj = new JSONObject();
+        	
+        jsonObj.put("delivery", vo.getOrder_delivery());
+        jsonObj.put("invoicenum", vo.getOrder_invoicenum());
+            
+        out.println(jsonObj.toString());
+    		
+        
+        out.flush();
+    	
+    }
+    
+    
     
 
     
