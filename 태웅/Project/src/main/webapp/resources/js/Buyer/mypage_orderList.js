@@ -203,7 +203,7 @@ function orderComplete(i, price, amount, order_id, board_id){
 	
 	$.ajax({
 	    type: 'GET',
-	    url: "OrderComplete.or",
+	    url: "OrderConfirmation.or",
 	    data: "order_id=" + order_id + "&board_id=" + board_id,
 	    contentType: 'application/html; charset=utf-8',
 	    cache: false,

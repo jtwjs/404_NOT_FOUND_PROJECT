@@ -231,7 +231,7 @@
 		having date_order_date between
 		to_date(#{startDate},'yy-mm-dd') AND
 		to_date(#{endDate},'yy-mm-dd')+1
-		order by date_order_date asc
+		order by date_order_date desc
 		)b
 		WHERE rNum between #{rowStart} AND
 		#{rowEnd}
