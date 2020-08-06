@@ -154,7 +154,7 @@ public class BuyerController {
 
 	@RequestMapping(value = "/BuyerMyPageOrderList.by") 
 	public String buyerMyPageOrderList(Model model, @CurrentUser AccountVO account,
-			CriteriaVO cri,@RequestParam(value="startDate", required=false, defaultValue="19800101")String startDate,
+			CriteriaVO cri,@RequestParam(value="startDate", required=false, defaultValue="20000101")String startDate,
 			@RequestParam(value="endDate", required=false, defaultValue ="")String endDate)throws Exception {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));

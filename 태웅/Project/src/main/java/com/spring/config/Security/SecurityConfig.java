@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
               http.addFilterBefore(filter, CsrfFilter.class);  
   
             http.authorizeRequests()
-            		.mvcMatchers("/BordNoticeWrite.sc","//Boardnoticemodify.sc",
+            		.mvcMatchers("/BordNoticeWrite.sc","/Boardnoticemodify.sc",
             				"/FaqBoardWrite.sc","/FaqBoardModify.sc").hasRole("ADMIN")
             		.mvcMatchers("/Buyer**").hasRole("BUYER")
             		.mvcMatchers("/Seller**","BoardProductRegist.bo").hasRole("SELLER")

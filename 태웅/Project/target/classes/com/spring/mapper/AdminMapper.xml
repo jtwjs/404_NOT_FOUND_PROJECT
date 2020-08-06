@@ -35,8 +35,15 @@
 <!-- ======================= 하나 기석 작업  ======================================================== -->
 	  
 	  <select id = "selectAccountById" resultMap = "accountResultMap">
-	  	SELECT * FROM all_account WHERE account_id = #{id}
-	  </select>
+        <!-- SELECT * FROM all_account WHERE account_id = #{id} -->
+        <![CDATA[
+           SELECT a.*
+            FROM all_account a
+                LEFT OUTER JOIN member_buyer b ON a.account_id = b.buyer_id 
+                LEFT OUTER JOIN member_seller s ON a.account_id = s.seller_id 
+            WHERE (b.del_flag != 'Y' OR s.del_flag != 'Y' OR a.account_type = 'ADMIN') AND a.account_id = #{id}
+        ]]> 
+     </select>
 	  	  
 	  <select id="getAllAccountCount" resultType="int">
 	  	select count(*) from all_account

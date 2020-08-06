@@ -21,22 +21,22 @@ $(document).ready(function(){
 		Img4 = document.getElementById('productThumbImg4').value;
 	
 	document.getElementById('representImgLabel').style.backgroundImage = "url("+refImg+")";
-	document.getElementById('representImgLabel').style.backgroundSize = "250px";
+	document.getElementById('representImgLabel').style.backgroundSize = "cover";
 	document.getElementById('representImgLabel').style.backgroundPosition = "center";
 	document.getElementById('representImgLabel').innerHTML= '';
 
 	document.getElementById('productImg1Label').style.backgroundImage = "url("+Img2+")";
-	document.getElementById('productImg1Label').style.backgroundSize = "200px";
+	document.getElementById('productImg1Label').style.backgroundSize = "cover";
 	document.getElementById('productImg1Label').style.backgroundPosition = "center";
 	document.getElementById('productImg1Label').innerHTML= '';
 
 	document.getElementById('productImg2Label').style.backgroundImage = "url("+Img3+")";
-	document.getElementById('productImg2Label').style.backgroundSize = "200px";
+	document.getElementById('productImg2Label').style.backgroundSize = "cover";
 	document.getElementById('productImg2Label').style.backgroundPosition = "center";
 	document.getElementById('productImg2Label').innerHTML= '';
 
 	document.getElementById('productImg3Label').style.backgroundImage = "url("+Img4+")";
-	document.getElementById('productImg3Label').style.backgroundSize = "200px";
+	document.getElementById('productImg3Label').style.backgroundSize = "cover";
 	document.getElementById('productImg3Label').style.backgroundPosition = "center";
 	document.getElementById('productImg3Label').innerHTML= '';
 			    	
