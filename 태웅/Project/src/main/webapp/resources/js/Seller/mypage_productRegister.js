@@ -579,27 +579,27 @@ function LoadImg(event, code) {
 		switch(code){
 		    case 1:
 		    	document.getElementById('representImgLabel').style.backgroundImage = "url("+event.target.result+")";
-		    	document.getElementById('representImgLabel').style.backgroundSize = "250px";
+		    	document.getElementById('representImgLabel').style.backgroundSize = "cover";
 		    	document.getElementById('representImgLabel').style.backgroundPosition = "center";
 		    	document.getElementById('representImgLabel').innerHTML= '';
 			break;
 		    case 2:
 		    	document.getElementById('productImg1Label').style.backgroundImage = "url("+event.target.result+")";
-		    	document.getElementById('productImg1Label').style.backgroundSize = "200px";
+		    	document.getElementById('productImg1Label').style.backgroundSize = "cover";
 		    	document.getElementById('productImg1Label').style.backgroundPosition = "center";
 		    	document.getElementById('productImg1Label').innerHTML= '';
 		    	
 			break;
 		    case 3:
 		    	document.getElementById('productImg2Label').style.backgroundImage = "url("+event.target.result+")";
-		    	document.getElementById('productImg2Label').style.backgroundSize = "200px";
+		    	document.getElementById('productImg2Label').style.backgroundSize = "cover";
 		    	document.getElementById('productImg2Label').style.backgroundPosition = "center";
 		    	document.getElementById('productImg2Label').innerHTML= '';
 		    	
 			break;
 		    case 4:
 		    	document.getElementById('productImg3Label').style.backgroundImage = "url("+event.target.result+")";
-		    	document.getElementById('productImg3Label').style.backgroundSize = "200px";
+		    	document.getElementById('productImg3Label').style.backgroundSize = "cover";
 		    	document.getElementById('productImg3Label').style.backgroundPosition = "center";
 		    	document.getElementById('productImg3Label').innerHTML= '';
 		    	

@@ -191,8 +191,10 @@
 }
 
 .non-post {
-  height: 200px;
-  font-size: 20px;
+    position: relative;
+     left: 325px;
+    height: 300px;
+    font-size: 20px;
 }
 
 .product_img {

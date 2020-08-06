@@ -48,6 +48,7 @@ public class OrderRecordVO {           // 주문기록
     private int delivery_price;        // 배송비
     private int use_point;             // 사용한 적립금
     private int tot_price;             // 총합 금액
+    private String str_tot_price;
     private String status;             // 주문상태
     private String buyer_name;         // 주문자 이름
     private String buyer_phone;        // 주문자 번호
@@ -62,17 +63,26 @@ public class OrderRecordVO {           // 주문기록
     private String order_payment;      // 결제방식
     private String order_account;      // 결제계좌/카드번호
     private String order_date;           // 결제일
-    private char non_member_flag;      // 비회원 여부 ('Y', 'N' 으로 구분)
+    private String non_member_flag;      // 비회원 여부 ('Y', 'N' 으로 구분)
     private String thumbnail_thum;
     private String thumbnail_thum_path;
     private boolean reviewCheck;
-    
     private String date_order_id;
     private String date_tot_price;
     private String date_order_date;
     private String commission;
     private String calculate;
+  
     
+    
+    
+	public String getStr_tot_price() {
+		return str_tot_price;
+	}
+	public void setStr_tot_price(String str_tot_price) {
+		this.str_tot_price = str_tot_price;
+	}
+	
 	public int getOrder_num() {
 		return order_num;
 	}
@@ -205,10 +215,10 @@ public class OrderRecordVO {           // 주문기록
 	public void setOrder_date(String order_date) {
 		this.order_date = order_date;
 	}
-	public char getNon_member_flag() {
+	public String getNon_member_flag() {
 		return non_member_flag;
 	}
-	public void setNon_member_flag(char non_member_flag) {
+	public void setNon_member_flag(String non_member_flag) {
 		this.non_member_flag = non_member_flag;
 	}
 	public String getBuyer_name() {

@@ -61,7 +61,7 @@
 <title>찜목록</title>
 </head>
 <body onload="setStyle('<%=pageMaker.getPage_amount()%>', '<%=sort_list %>');" >
-	<section id="sub-main" class="">
+	<section id="sub-main" class="mypage">
 		<div class="sub-top">
 			<h2 class="sub-title">마이페이지</h2>
 			<ul class="sub-location">

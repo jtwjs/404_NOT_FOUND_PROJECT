@@ -163,6 +163,7 @@
 
 
 #tel-input .tel {
+	position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -170,6 +171,21 @@
     padding: 0 20px 0 0;
 }
 
+.tel::before {
+	position: absolute;
+   	left: 136px;
+    top: 6px;
+    color: rgba(0,0,0,0.5);
+    content: '-';
+}
+
+.tel::after {
+	position: absolute;
+   	left: 285px;
+    top: 6px;
+    color: rgba(0,0,0,0.5);
+    content: '-';
+}
 .required-info--input input,
 #mPhone1,
 #email03 {
@@ -194,8 +210,9 @@
 #mPhone1,
 #mPhone2,
 #mPhone3 {
-  width: 95px;
+  width: 130px;
 }
+
 
 .sendAtNum-btn,
 .AtNum-confirm-btn {

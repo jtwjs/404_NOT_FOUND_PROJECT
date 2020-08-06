@@ -154,7 +154,7 @@ public class BuyerController {
 
 	@RequestMapping(value = "/BuyerMyPageOrderList.by") 
 	public String buyerMyPageOrderList(Model model, @CurrentUser AccountVO account,
-			CriteriaVO cri,@RequestParam(value="startDate", required=false, defaultValue="19800101")String startDate,
+			CriteriaVO cri,@RequestParam(value="startDate", required=false, defaultValue="20000101")String startDate,
 			@RequestParam(value="endDate", required=false, defaultValue ="")String endDate)throws Exception {
 		BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 		buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0, 10));
@@ -1133,7 +1133,18 @@ private boolean checkImageType(File file) {  // 파일 이미지 체크
 		public String listdeliverywriteForm(Model model, @CurrentUser AccountVO account) {
 	      	BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
 	    	buyerAccount.setLoginDate(buyerAccount.getLoginDate().substring(0,10));
-			
+			try {
+				if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+					buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+					buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+				}else {
+					buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+					buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+				}
+				
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 	    	model.addAttribute("user",buyerAccount);
 
 			return "Buyer/mypage_deliveryManager_write";
@@ -1209,10 +1220,24 @@ private boolean checkImageType(File file) {  // 파일 이미지 체크
 			
 			/* BuyerVO buyerAccount = buyerService.selectOneById(account.getId()); */
 			  deliveryVO vo = buyerService.getListDeliveryDetail(account.getId(), num);
-			  
+			  BuyerVO buyerAccount = buyerService.selectOneById(account.getId());
+			  try {
+					if(buyerAccount.getProfileImg() == null&&buyerAccount.getProfileImgPath() ==null) {
+						buyerAccount.setProfileImg(URLEncoder.encode("no_profile.png","UTF-8"));
+						buyerAccount.setProfileImgPath(URLEncoder.encode("/img/common/", "UTF-8"));
+					}else {
+						buyerAccount.setProfileImg(URLEncoder.encode(buyerAccount.getProfileImg(),"UTF-8"));
+						buyerAccount.setProfileImgPath(URLEncoder.encode(buyerAccount.getProfileImgPath(), "UTF-8"));
+					}
+					
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
 			  int addr1 = vo.getAddress().indexOf("+"); 
 			  int addr2 = vo.getAddress().indexOf("/");
 			  
+			  
+			  model.addAttribute("user",buyerAccount);
 			  model.addAttribute("num", vo.getNum());
 			  System.out.println("vo.getNum=" + vo.getNum());	
 			  
@@ -1251,7 +1276,7 @@ private boolean checkImageType(File file) {  // 파일 이미지 체크
 				 * model.addAttribute("loginDate", account.getLoginDate().substring(0, 10));
 				 */
 				 
-
+			  
 			return "Buyer/mypage_deliveryManager_modify";
 
 		}

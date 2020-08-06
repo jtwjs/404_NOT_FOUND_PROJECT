@@ -33,7 +33,7 @@
 <title>배송지 관리</title>
 </head>
 <body>
-	<section id="sub-main" class="">
+	<section id="sub-main" class="mypage">
 		<div class="sub-top">
 			<h2 class="sub-title">마이페이지</h2>
 			<ul class="sub-location">
@@ -60,58 +60,59 @@
 							<form name="update__form--listdelivery"
 								id="update__listdelivery--form"
 								action="listdeliverymodifyform.by" method="post">
-								
+
 								<div class="contnt__delivery">
 									<div class="site_content1">
 										<h4 class="content-title--site">나의 배송지 목록</h4>
 
-								<input type="hidden" name="${_csrf.parameterName}"
-									value="${_csrf.token}" />
-								<div>
-									<table class="setting_form">
-										<tr class="delivery--cont">
-											<th class="TH--nick">배송지명</th>
-											<th class="TH--name">수령인</th>
-											<th class="TH--add">주소</th>
-											<th class="TH-tel">연락처</th>
+										<input type="hidden" name="${_csrf.parameterName}"
+											value="${_csrf.token}" />
+										<div>
+											<table class="setting_form">
+												<tr class="delivery--cont">
+													<th class="TH--nick">배송지명</th>
+													<th class="TH--name">수령인</th>
+													<th class="TH--add">주소</th>
+													<th class="TH-tel">연락처</th>
 
-										</tr>
-										<tr class="delivery--cont--f">
-											<td><input type="hidden" class="delivery_list_num1"
-												name="num" value="${deliveryY.num }" /></td>
-										</tr>
+												</tr>
+												<tr class="delivery--cont--f">
+													<td><input type="hidden" class="delivery_list_num1"
+														name="num" value="${deliveryY.num }" /></td>
+												</tr>
 
-										<tr class="delivery--cont--f1">
-											<td class="setting_list"><img src="./resources/Images/Buyer/defaultaddress.JPG" class="defaultaddress--img">
-												 <input type="text"	name="delivery_list_deliveryName1" class="member_delivery_deliveryName1"
-												value="${deliveryY.deliveryName }" readonly /></td>
-											<td class="setting_list"><input type="text"
-												name="delivery_list_receiverName1"
-												class="member_delivery_reciverName1"
-												value="${deliveryY.receiverName}" readonly /></td>
-											<c:set var="address" value="${deliveryY.address}" />
-											<c:set var="addrIndex" value="${fn:indexOf(address,'+')}" />
-											<c:set var="addrLength" value="${fn:length(address)}" />
-											<td class="setting_list"><input type="text"
-												name="delivery_list_address1"
-												class="member_delivery_address1"
-												value="${fn:substring(address,addrIndex+1,addrLength)}"
-												readonly /></td>
-											<td class="setting_list"><input type="text"
-												name="delivery_list_phone1" class="member_delivery_phone1"
-												value="${deliveryY.receiverPhone}" readonly /></td>
+												<tr class="delivery--cont--f1">
+													<td class="setting_list"><img
+														src="./resources/Images/Buyer/defaultaddress.JPG"
+														class="defaultaddress--img"> <input type="text"
+														name="delivery_list_deliveryName1"
+														class="member_delivery_deliveryName1"
+														value="${deliveryY.deliveryName }" readonly /></td>
+													<td class="setting_list"><input type="text"
+														name="delivery_list_receiverName1"
+														class="member_delivery_reciverName1"
+														value="${deliveryY.receiverName}" readonly /></td>
+													<c:set var="address" value="${deliveryY.address}" />
+													<c:set var="addrIndex" value="${fn:indexOf(address,'+')}" />
+													<c:set var="addrLength" value="${fn:length(address)}" />
+													<td class="setting_list"><input type="text"
+														name="delivery_list_address1"
+														class="member_delivery_address1"
+														value="${fn:substring(address,addrIndex+1,addrLength)}"
+														readonly /></td>
+													<td class="setting_list"><input type="text"
+														name="delivery_list_phone1" class="member_delivery_phone1"
+														value="${deliveryY.receiverPhone}" readonly /></td>
 
-										</tr>
-									</table>
-								</div>
+												</tr>
+											</table>
+										</div>
 
-								<!-- <div class="contnt__delivery">
+										<!-- <div class="contnt__delivery">
 									<div class="site_content1">
 										<h4 class="content-title--site">나의 배송지 목록</h4> -->
-										<br />
-										<br />
-										<br />
-										<span class="content-pp">자주 쓰는 배송지를 등록 및 관리 하실 수 있습니다.</span>
+										<br /> <br /> <br /> <span class="content-pp">자주 쓰는
+											배송지를 등록 및 관리 하실 수 있습니다.</span>
 										<div class="delivery_Btn">
 											<button type="button" id="deliveryBtn" class="deliveryBtn"
 												onclick="location.href='ListDeliveryWriteForm.by'">배송지

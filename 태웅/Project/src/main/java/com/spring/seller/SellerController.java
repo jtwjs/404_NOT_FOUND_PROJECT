@@ -957,58 +957,42 @@ public class SellerController {
 
 	@RequestMapping(value = "/SellerTransactionList.se") // 거래내역 - 거래목록
 	public String sellerTransactionList(Model model, @CurrentUser AccountVO account, OrderRecordVO orderRecordVo,
-			@RequestParam(value = "page", required = false, defaultValue = "1") int page) {
-
-		System.out.println("test");
-		System.out.println("listCount : " + Sellerservice.getOrderRecordOneByIdListCount(account.getId()));
+		CriteriaVO cri,@RequestParam(value="startDate", required=false, defaultValue="19800101")String startDate,
+		@RequestParam(value="endDate", required=false, defaultValue ="")String endDate)throws Exception{
+		Date date = new Date();
+		date = new Date(date.getTime()+(1000*60*60*24*1));
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+		if(endDate.equals("") || endDate == null) {
+			endDate = simpleDateFormat.format(date);
+		}
+		System.out.println("endDate"+endDate);
+		
 		String id = account.getId();
 		SellerVO sellerAccount = Sellerservice.selectOneById(id);
+		int rowStart = cri.getRowStart();
+		int rowEnd = cri.getRowEnd();
+		
 
-		int limit = 10;
-		int listcount = Sellerservice.getOrderRecordOneByIdListCount(account.getId());
-		int startrow = (page - 1) * 10 + 1;
-		int endrow = startrow + limit - 1;
+		ArrayList<OrderRecordVO> orderRecordList = Sellerservice.getOrderRecordOneByIdList(account.getId(), rowStart,
+				rowEnd,startDate,endDate);
+		
+		for(int i=0; i<orderRecordList.size(); i++) {
+			System.out.println("["+i+"]:"+ orderRecordList.get(i).getBoard_id());
+			orderRecordList.get(i).setOrder_date(orderRecordList.get(i).getOrder_date().substring(0,10));
+			orderRecordList.get(i).setThumbnail_thum(URLEncoder.encode(orderRecordList.get(i).getThumbnail_thum(), "UTF-8"));
+			orderRecordList.get(i).setThumbnail_thum_path(URLEncoder.encode(orderRecordList.get(i).getThumbnail_thum_path(), "UTF-8"));
+			String strPrice = numberOfDigit(orderRecordList.get(i).getTot_price());
+			strPrice = reverseString(strPrice);
+			orderRecordList.get(i).setStr_tot_price(strPrice);
+		
+			}
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(Sellerservice.getOrderRecordOneByIdListCount(account.getId(), startDate, endDate));
 
-		List<OrderRecordVO> orderRecordList = Sellerservice.getOrderRecordOneByIdList(account.getId(), startrow,
-				endrow);
 
-		for (int i = 0; i < orderRecordList.size(); i++) {
-			orderRecordList.get(i).setOrder_date(orderRecordList.get(i).getOrder_date().substring(0, 11));
-		}
-
-		// 총 페이지 수
-		int maxpage = (int) ((double) listcount / limit + 0.95); // 0.95를 더해서 올림 처리
-		// 현재 페이지에 보여줄 시작 페이지 수(1, 11, 21 등...)
-		int startpage = (((int) ((double) page / 10 + 0.9)) - 1) * 10 + 1;
-		// 현재 페이지에 보여줄 마지막 페이지 수(10, 20, 30 등...)
-		int endpage = maxpage;
-
-		if (endpage > startpage + 10 - 1)
-			endpage = startpage + 10 - 1;
-
-		model.addAttribute("page", page);
-		model.addAttribute("listcount", listcount);
-		model.addAttribute("orderRecordList", orderRecordList);
-		model.addAttribute("maxpage", maxpage);
-		model.addAttribute("startpage", startpage);
-		model.addAttribute("endpage", endpage);
-		System.out.println("orderRecordlist222 : " + orderRecordList);
-
-		// 주문번호
-		model.addAttribute("order_id", orderRecordVo.getOrder_id());
-		// 상품명
-		model.addAttribute("board_title", orderRecordVo.getBoard_title());
-
-		// 가격
-		model.addAttribute("amount", orderRecordVo.getAmount());
-		model.addAttribute("price", orderRecordVo.getPrice());
-
-		// 구매일
-		model.addAttribute("order_date", orderRecordVo.getOrder_date());
-
-		// 회원 구분
-		model.addAttribute("non_member_flag", orderRecordVo.getNon_member_flag());
-
+	
 		// 사이드메뉴 프로필 정보
 		sellerAccount.setLoginDate(sellerAccount.getLoginDate().substring(0, 10));
 		try {
@@ -1025,6 +1009,11 @@ public class SellerController {
 		}
 
 		model.addAttribute("user", sellerAccount);
+		model.addAttribute("currentPage", cri.getPage());
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("orderRecordList", orderRecordList);
+		model.addAttribute("startDate",startDate);
+		model.addAttribute("endDate",endDate);
 
 		return "Seller/mypage_transactionList";
 	}

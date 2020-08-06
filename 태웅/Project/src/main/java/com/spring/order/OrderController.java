@@ -341,12 +341,17 @@ public class OrderController {
     	System.out.println("buyer_id"+buyer_id);
     	OrderRecordVO vo = new OrderRecordVO();
     	
+    	int tot = 0;
+    	
+    	for(int i = 0; i < price.length; i++) {
+    		tot += (price[i] * amount[i]) + delivery_price[i];
+    	}
     	
     	// 리스트 수 (배열)과 관계 없이 변하지 않는 값 저장
     	// 결제일은 데이터베이스에서 sysdate로 처리, 주문번호는 데이터베이스에서 selectKey 처리
     	// =================================================================
 		vo.setUse_point(reserveUse);  // 사용적립금은 현재 0으로 고정하여 test
-		vo.setTot_price(tot_price);
+		vo.setTot_price(tot);
 		vo.setStatus("상품준비중");  // 배송 상태 = 상품준비중 고정
 		vo.setBuyer_name(buyer_name);
 		vo.setBuyer_phone(buyer_phone);
@@ -365,9 +370,9 @@ public class OrderController {
 			vo.setOrder_account("000-111-222222");
 		}
 		if(member_flag.equals("Y")) {
-			vo.setNon_member_flag('Y'); //비회원
+			vo.setNon_member_flag("Y"); //비회원
 		} else {
-			vo.setNon_member_flag('N'); //회원
+			vo.setNon_member_flag("N"); //회원
 		}
 		System.out.println("2");
 		
@@ -389,7 +394,7 @@ public class OrderController {
 		System.out.println("3");
 		
 		for(int i = 0; i < board_id.length; i++) {
-			if(vo.getNon_member_flag()=='N') {
+			if(vo.getNon_member_flag().equals("N")) {
 	    		if(reserveUse != 0 ) {
 				buyerService.InsertSavePoint(buyer_id,"사용","적립금결제",reserveUse, board_title[i], vo.getOrder_id());
 	    		}
@@ -399,6 +404,7 @@ public class OrderController {
 				productVO.setQuantity(amount[i]);
 				
 				boardProductService.updateProductStock(productVO);
+				
 			}
 			vo.setBoard_id(board_id[i]);
 			vo.setBoard_title(board_title[i]);
@@ -506,9 +512,9 @@ public class OrderController {
     		int index2 = list.get(i).getOrder_address().indexOf("/");
     		list.get(i).setOrder_address(list.get(i).getOrder_address().substring(index1+1,index2)+" "+
     					list.get(i).getOrder_address().substring(index2+1));
+    		
     	}
     
-    	
     	model.addAttribute("list",list);
     	return "Order/order_research";
     }

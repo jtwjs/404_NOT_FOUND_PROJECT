@@ -63,7 +63,6 @@ CREATE SEQUENCE buyer_num_seq
 --     select buyer_num_seq.nextval from DUAL;
 --     select buyer_num_seq.currval from dual;   
 
-select * from save_point;
 /*적립금 테이블*/     
 create table save_point (
  sp_status varchar2(4) not null, --적립, 사용
@@ -162,7 +161,7 @@ profile_img_path varchar2(100),
 last_loginDate date default sysdate,
 constraint member_seller_seller_id_pk primary key(seller_id)
 );
-
+drop  sequence seller_num_seq;
 CREATE SEQUENCE seller_num_seq
     INCREMENT BY 1
     START WITH 1
@@ -302,8 +301,8 @@ create table order_record(                   -- 주문기록
     order_id varchar2(32) not null,          -- 주문번호 ID
     board_id varchar2(32) not null,          -- 상품판매글 ID (member_buyer테이블 외래키)
     board_title varchar2(100) not null,      -- 상품판매글 제목
-	seller_id varchar2(16) not null,         -- 판매자 ID
-	buyer_id varchar2(16) not null,          -- 구매자 ID
+	seller_id varchar2(32) not null,         -- 판매자 ID
+	buyer_id varchar2(32) not null,          -- 구매자 ID
     amount number not null,                  -- 구매수량
     price number not null,                   -- 상품 금액
     delivery_price number not null,          -- 배송비
@@ -345,11 +344,13 @@ create table board_qna(                -- 상품 문의 게시판
     constraint board_qna_qna_id_pk primary key(qna_id)
 );
 
-
+commit;
 
 ----------------------------------------------------------------------
 --
 --SELECT 'DROP TABLE "' || TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
+select * from list_delivery;
 
-
-
+select * from order_record where buyer_name = '정태웅'AND buyer_phone = '010-2379-9829';
+select * from order_record;
+desc order_record;

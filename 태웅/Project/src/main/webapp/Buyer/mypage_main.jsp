@@ -10,9 +10,9 @@
 <%
 	/* 마이페이지 접속했을 때 로그인 상태인지 세션을 통해 확인하고 아닐 경우 메인페이지로 이동
 if((String)session.getAttribute("id") != null){
-	out.println("<script>alert('로그인해주십시오')"
-	+ "location.href='/Index.in'</script>");
-	
+out.println("<script>alert('로그인해주십시오')"
++ "location.href='/Index.in'</script>");
+
 }*/
 
 // 아이디, 이름 (고객쇼핑정보) 을 받아옴
@@ -39,7 +39,7 @@ if((String)session.getAttribute("id") != null){
 <title>구매자페이지</title>
 </head>
 <body>
-	<section id="sub-main" class="">
+	<section id="sub-main" class="mypage">
 		<div class="sub-top">
 			<h2 class="sub-title">마이페이지</h2>
 			<ul class="sub-location">
@@ -112,17 +112,17 @@ if((String)session.getAttribute("id") != null){
 									</div>
 									<div class="inquery--content">
 										<ul class="inquery--list">
-											<li class="inquery--list-item"><p>${countList[4]}<span
-														class="enter">취소신청</span>
+											<li class="inquery--list-item"><p>${countList[0]}<span
+														class="enter">입금대기중</span>
 												</p></li>
-											<li class="inquery--list-item complete"><p>${countList[5]}<span
-														class="enter">취소완료</span>
+											<li class="inquery--list-item complete"><p>${countList[1]}<span
+														class="enter">상품준비중</span>
 												</p></li>
-											<li class="inquery--list-item"><p>${countList[6]}<span
-														class="enter">환불신청</span>
+											<li class="inquery--list-item"><p>${countList[2]}<span
+														class="enter">배송중</span>
 												</p></li>
-											<li class="inquery--list-item complete"><p>${countList[7]}<span
-														class="enter">환불완료</span>
+											<li class="inquery--list-item complete"><p>${countList[3]}<span
+														class="enter">배송완료</span>
 												</p></li>
 										</ul>
 									</div>

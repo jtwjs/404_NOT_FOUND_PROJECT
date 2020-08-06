@@ -8,24 +8,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.spring.order.OrderRecordVO"%>
 
-<%
-System.out.println("hi1");
-    SimpleDateFormat format_time = new SimpleDateFormat("yyyy-MM-dd");
-    String today = format_time.format(Calendar.getInstance().getTime());
-    
-    List<OrderRecordVO> orderRecordList = (List<OrderRecordVO>) request.getAttribute("orderRecordList");
-    
-System.out.println("hi2");
 
-	int listcount=((Integer)request.getAttribute("listcount")).intValue();
-	int nowpage=((Integer)request.getAttribute("page")).intValue();
-	int maxpage=((Integer)request.getAttribute("maxpage")).intValue();
-	int startpage=((Integer)request.getAttribute("startpage")).intValue();
-	int endpage=((Integer)request.getAttribute("endpage")).intValue();
-
-System.out.println("hi3");
-    
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,7 +25,7 @@ System.out.println("hi3");
     <title>거래 목록</title>
 </head>
 <body>
-  <section id="sub-main" class="seller">
+  <section id="sub-main" class="mypage">
 	  <div class="sub-top">
 	  	<h2 class="sub-title">마이페이지</h2>
 	  	<ul class="sub-location">
@@ -114,78 +97,59 @@ System.out.println("hi3");
                                         </tr>   
                                     </thead>
                                     <tbody>                                 
-	                                    <%
-											int num = listcount - ((nowpage - 1) * 10);
-	                                    System.out.println("123123123:"+orderRecordList.size());
-		                                    for(int i = 0; i < orderRecordList.size(); i++) {
-		                           
-												OrderRecordVO orl = (OrderRecordVO) orderRecordList.get(i);
-							
-										
-										%>										
-                                        <tr class="orderList" onclick="javascript:location.href='BoardProductView.bo?board_id=<%=orl.getBoard_id()%>'">
-                                            <td><%=orl.getOrder_num() %></td>
-                                            <td><%=orl.getBoard_title() %></td>
-                                            <td><%=((orl.getAmount()) * (orl.getPrice())) %></td>
+	                                  <c:forEach var="list" items="${orderRecordList}" varStatus="status">
+	                                    <tr class="orderList"  >
+                                            <td class="order_number" onclick="javascript:location.href='BoardProductView.bo?board_id=${list.board_id}'">${list.order_id}</td>
+                                            <td class="product_info" onclick="javascript:location.href='BoardProductView.bo?board_id=${list.board_id}'">
+                                            	<img src="display?path=${list.thumbnail_thum_path}&name=${list.thumbnail_thum}" alt="상품이미지">
+                                            	${list.board_title}
+                                           	</td>
+                                            <td>${list.str_tot_price}원</td>
                                             <td>
-                                            	<%
-                                            		if(orl.getNon_member_flag() == 'Y') { 
-                                            			//회원 구매자
-                                            			System.out.println("회원 구매자 test");
-                                            	%>
-                                            	<%=orl.getBuyer_id() %>
-                                            	<%
-                                            		} else { 	
-                                            			//비회원 구매자
-                                            			System.out.println("비회원 구매자 test");
-                                            	%>
-                                            	<%=orl.getBuyer_name() %>
-                                            	<%	
-                                            		}
-                                            	%>
+                                            	<c:if test="${list.non_member_flag eq 'Y' }">
+                                            		${list.buyer_name}	
+                                            	</c:if>
+                                            	<c:if test="${list.non_member_flag eq 'N' }">
+                                            		${list.buyer_id}	
+                                            	</c:if>
                                             </td>
                                             <td>
-                                           
-                                             	<span><%=orl.getOrder_date() %></span>
+                                             	<span>${list.order_date}</span>
                                             </td>
                                         </tr>
-                                        
-                                        <%
-											num--;
-										}
-										%>
-										
-										<tr align=center height=20>
-											<td class="page" colspan=5 style="font-family: Tahoma; font-size: 10pt;">
-												<%
-													if (nowpage<=1) {
-												%> [이전]&nbsp; <%
-													} else {
-												%> <a href="./SellerTransactionList.se?page=<%=nowpage-1%>">[이전]</a>&nbsp;
-												<%
-													}
-												%> <%
-													for (int a=startpage; a<=endpage; a++) {
-													if (a==nowpage) {
-												%> [<%=a%>] <%
-													} else {
-												%> <a href="./SellerTransactionList.se?page=<%=a%>">[<%=a%>]
-																					</a> &nbsp; <%
-													}
-												%> <%
-													}
-												%> <%
-													if (nowpage>=maxpage) {
-												%> [다음] <%
-													} else {
-												%> <a href="./SellerTransactionList.se?page=<%=nowpage+1%>">[다음]</a> <%
-													}
-												%>
-											</td>
-										</tr>
+	                                  </c:forEach>
                                     </tbody>
                                 </table>
                             </article>
+                            <div class="n-paging">
+									<ul>
+										<c:if test="${pageMaker.prev}">
+											<li><a
+												href="SellerTransactionList.se${pageMaker.makeQuery(pageMaker.startPage - 1,startDate,endDate)}"
+												class="prev">이전</a></li>
+										</c:if>
+
+										<c:forEach begin="${pageMaker.startPage}"
+											end="${pageMaker.endPage}" var="idx">
+											<c:if test="${currentPage eq idx}">
+												<li><a
+													href="SellerTransactionList.se${pageMaker.makeQuery(idx,startDate,endDate)}"
+													class="page active">${idx}</a></li>
+											</c:if>
+											<c:if test="${currentPage ne idx}">
+												<li><a
+													href="SellerTransactionList.se${pageMaker.makeQuery(idx,startDate,endDate)}"
+													class="page">${idx}</a></li>
+											</c:if>
+										</c:forEach>
+
+										<c:if test="${pageMaker.next && pageMaker.endPage> 0}">
+											<li><a
+												href="SellerTransactionList.se${pageMaker.makeQuery(pageMaker.endPage + 1,startDate,endDate)}"
+												class="next">다음</a></li>
+										</c:if>
+									</ul>
+								</div>
                     </section>
 	            </section>
 	        </div>	

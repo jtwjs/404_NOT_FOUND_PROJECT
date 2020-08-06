@@ -63,33 +63,7 @@ public class SellerServiceImpl implements SellerService {
 		return product;
 	}
 
-	@Override
-	public int getOrderRecordOneByIdListCount(String seller_id) {
-		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
-
-		int res = orderRecordMapper.getOrderRecordOneByIdListCount(seller_id);
-		System.out.println("res : " + res);
-
-		return res;
-	}
-
-	@Override
-	public List<OrderRecordVO> getOrderRecordOneByIdList(String seller_id, int startrow, int endrow) {
-
-		OrderRecordMapper orderRecordMapper = sqlSession.getMapper(OrderRecordMapper.class);
-
-		HashMap<String, Object> map = new HashMap<String, Object>();
-
-		map.put("seller_id", seller_id);
-		map.put("startrow", startrow);
-		map.put("endrow", endrow);
-
-		List<OrderRecordVO> vo_list = orderRecordMapper.getOrderRecordOneByIdList(map);
-
-		System.out.println("vo_list : " + vo_list);
-
-		return vo_list;
-	}
+	
 
 	public OrderRecordVO getOrderReceipt(String order_id, String board_id) {
 
@@ -120,6 +94,19 @@ public class SellerServiceImpl implements SellerService {
 				start_date, end_date, page_num, page_amount);
 
 		return vo_list;
+	}
+
+	@Override
+	public int getOrderRecordOneByIdListCount(String seller_id, String startDate, String endDate) {
+		int count = orderRecordMapper.getOrderRecordOneByIdListCount(seller_id, startDate, endDate);
+		return count;
+	}
+
+	@Override
+	public ArrayList<OrderRecordVO> getOrderRecordOneByIdList(String seller_id, int rowStart, int rowEnd, String startDate,
+			String endDate) {
+		ArrayList<OrderRecordVO> list = orderRecordMapper.getOrderRecordOneByIdList(seller_id, rowStart, rowEnd, startDate, endDate);
+		return list;
 	}
 
 }

@@ -93,7 +93,7 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 									<%
 											if(faqboardlist.size() == 0) {
 									    %>
-										<tr>
+										<tr id="non-post">
 											<td align="center" colspan="4">
 												<br /><br />
 												등록된 게시물이 없습니다.

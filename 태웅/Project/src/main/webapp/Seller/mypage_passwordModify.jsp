@@ -23,7 +23,7 @@
 <title>프로필 수정</title>
 </head>
 <body>
-	<section id="sub-main" class="seller">
+	<section id="sub-main" class="mypage">
 		<div class="sub-top">
 			<h2 class="sub-title">마이페이지</h2>
 			<ul class="sub-location">
