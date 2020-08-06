@@ -22,7 +22,7 @@
     <title>주문 내역</title>
 </head>
 <body>
-<section id="sub-main" class="">
+<section id="sub-main" class="mypage">
 	  <div class="sub-top">
 	  	<h2 class="sub-title">마이페이지</h2>
 	  	<ul class="sub-location">
@@ -123,14 +123,11 @@
                                       		            String week = null;
                                       		            
                                       		            if(compare >= 0){ // 배송예정일보다 시간이 지났을 때
-
                                       		            	delivery_date.setTime(today);
                                       		            	delivery_date.add(Calendar.DATE, 2);
-
                                       		            	month = delivery_date.get(Calendar.MONTH);
                                           		            day = delivery_date.get(Calendar.DATE);
                                           		            day_of_week = delivery_date.get(Calendar.DAY_OF_WEEK);
-
                                       		            }
                                       		            
                                       		            switch(day_of_week){

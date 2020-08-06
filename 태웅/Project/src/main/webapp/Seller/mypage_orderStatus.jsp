@@ -61,7 +61,7 @@
     <title>주문관리</title>
 </head>
 <body onload="setView('<%=status_data%>', '<%=payment_data%>');">
-<section id="sub-main" class="seller">
+<section id="sub-main" class="mypage">
 	  <div class="sub-top">
 	  	<h2 class="sub-title">마이페이지</h2>
 	  	<ul class="sub-location">

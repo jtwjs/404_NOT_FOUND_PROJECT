@@ -167,8 +167,8 @@
                           </select>
                           <input type="text" id="mPhone2" name="telAllocationNum" value="" size="4" maxlength="4" required />
                           <input type="text" id="mPhone3" name="telDiscretionaryNum" value="" size="4" maxlength="4" required />
-                          <!-- <a href="#" class="sendAtNum-btn">인증번호 발송</a> -->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                          
+                          <!-- <a href="#" class="sendAtNum-btn">인증번호 발송</a> -->
+                                                  
                           </p>
                         <p id="tel_check" class="check hide"></p>
                       </div>

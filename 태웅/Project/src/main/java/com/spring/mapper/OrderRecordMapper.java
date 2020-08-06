@@ -15,8 +15,9 @@ public interface OrderRecordMapper {
 
     public int getOrderRecordMaxNum();
     public int insertOrderRecord(OrderRecordVO vo);
-    public int getOrderRecordOneByIdListCount(String seller_id);
-    public List<OrderRecordVO> getOrderRecordOneByIdList(HashMap<String, Object> hashmap);
+    public int getOrderRecordOneByIdListCount(@Param("seller_id")String seller_id,@Param("startDate")String startDate,@Param("endDate")String endDate );
+    public ArrayList<OrderRecordVO> getOrderRecordOneByIdList(@Param("seller_id")String seller_id,@Param("rowStart")int rowStart,@Param("rowEnd")int rowEnd,
+    			@Param("startDate")String startDate,@Param("endDate")String endDate);
     public String[] getOrderID(
     		@Param("board_id")String board_id, @Param("buyer_id")String buyer_id);
     public ArrayList<OrderRecordVO> selectOrderByOrderId(String order_id);

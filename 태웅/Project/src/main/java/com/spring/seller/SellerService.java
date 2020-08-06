@@ -19,9 +19,9 @@ public interface SellerService {
 
 	BoardProductVO BoardSelectOneByBoardId(String board_id);
 
-	public int getOrderRecordOneByIdListCount(String seller_id);
+	public int getOrderRecordOneByIdListCount(String seller_id,String startDate,String endDate);
 
-	public List<OrderRecordVO> getOrderRecordOneByIdList(String seller_id, int startrow, int endrow);
+	public ArrayList<OrderRecordVO> getOrderRecordOneByIdList(String seller_id, int rowStart, int rowEnd, String startDate, String endDate);
 
 	public OrderRecordVO getOrderReceipt(String order_id, String board_id);
 

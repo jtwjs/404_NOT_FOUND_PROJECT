@@ -168,25 +168,25 @@
 		ORDER BY order_num
 	</select>
 
-	<select id="getOrderRecordOneByIdListCount" resultType="int"
-		parameterType="String">
+	<select id="getOrderRecordOneByIdListCount" resultType="int">
 		select count(*) from order_record WHERE seller_id =
-		#{seller_id}
+		#{seller_id} AND order_date between to_date(#{startDate},'yy-mm-dd') AND to_date(#{endDate},'yy-mm-dd')+1
 	</select>
 
-	<select id="getOrderRecordOneByIdList" parameterType="HashMap"
-		resultType="com.spring.order.OrderRecordVO">
-		<![CDATA[
-			select order_num, order_id, board_id, board_title, seller_id, buyer_id, amount, price, delivery_price, use_point, tot_price,
+	<select id="getOrderRecordOneByIdList" resultType="com.spring.order.OrderRecordVO">
+		SELECT ore.*, b.thumbnail_thum, b.thumbnail_thum_path
+		FROM(
+				SELECT order_num, order_id, board_id, board_title, seller_id, buyer_id, amount, price, delivery_price, use_point, tot_price,
 					status, buyer_name, buyer_phone, buyer_email, order_postalCode, order_address, order_name, order_phone, order_demand,
-					order_delivery, order_invoicenum, order_payment, order_account, order_date, non_member_flag
-	        	from (select rownum rnum, order_num, order_id, board_id, board_title, seller_id, buyer_id, amount, price, delivery_price, use_point, tot_price,
-						status, buyer_name, buyer_phone, buyer_email, order_postalCode, order_address, order_name, order_phone, order_demand,
-						order_delivery, order_invoicenum, order_payment, order_account, order_date, non_member_flag
-            		from (select * from order_record where seller_id = #{seller_id} order by order_date desc)) 
-	        where rnum>=#{startrow} and rnum<=#{endrow}
-     	]]>
+					order_delivery, order_invoicenum, order_payment, order_account, order_date, non_member_flag,
+					row_number() OVER (ORDER BY order_num DESC) AS rNum
+				FROM order_record				
+	        	WHERE seller_id=#{seller_id} AND order_date BETWEEN to_date(#{startDate},'yy-mm-dd') AND to_date(#{endDate},'yy-mm-dd')+1
+				)ore, board_product b
+	   WHERE rNum BETWEEN #{rowStart} ANd #{rowEnd} AND ore.board_id = b.board_id(+)
+	   ORDER BY order_num DESC
 	</select>
+	
 
 
 	<select id="salesStatusCount" resultType="int">

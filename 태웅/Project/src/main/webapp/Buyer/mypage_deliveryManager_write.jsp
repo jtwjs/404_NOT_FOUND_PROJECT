@@ -26,7 +26,7 @@
 <title>배송지 관리</title>
 </head>
 <body>
-	<section id="sub-main" class="">
+	<section id="sub-main" class="mypage">
 		<div class="sub-top">
 			<h2 class="sub-title">마이페이지</h2>
 			<ul class="sub-location">
@@ -103,15 +103,17 @@
 															<option value="016">017</option>
 															<option value="018">018</option>
 															<option value="019">019</option>
-													</select> 
-													<input type="text" id="mPhone2" name="telAllocationNum"	value="" size="4" maxlength="4" required /> 
-														<input type="text" id="mPhone3" name="telDiscretionaryNum" value="" size="4" maxlength="4" required /></td>
+													</select> <input type="text" id="mPhone2" name="telAllocationNum"
+														value="" size="4" maxlength="4" required /> <input
+														type="text" id="mPhone3" name="telDiscretionaryNum"
+														value="" size="4" maxlength="4" required /></td>
 												</tr>
-												<tr >
+												<tr>
 													<td class="form_tD">기본 배송지</td>
-													<td>
-													<input type="radio" id="defaultaddress" name="defaultaddress" value="Y">기본 배송지설정
-													<input type="radio" id="defaultaddress"name="defaultaddress" value="N" checked="checked"/>미설정</td>
+													<td><input type="radio" id="defaultaddress"
+														name="defaultaddress" value="Y">기본 배송지설정 <input
+														type="radio" id="defaultaddress" name="defaultaddress"
+														value="N" checked="checked" />미설정</td>
 												</tr>
 											</thead>
 										</table>

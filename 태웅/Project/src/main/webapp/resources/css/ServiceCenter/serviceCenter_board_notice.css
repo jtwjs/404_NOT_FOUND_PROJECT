@@ -51,6 +51,9 @@
 }
 
 /* content */
+#center-list__table #non-post {
+	height: 300px;
+}
 
 #center-list {
     width: 100%;

@@ -26,7 +26,7 @@
 <title>배송지 관리</title>
 </head>
 <body>
-	<section id="sub-main" class="">
+	<section id="sub-main" class="mypage">
 		<div class="sub-top">
 			<h2 class="sub-title">마이페이지</h2>
 			<ul class="sub-location">
@@ -66,67 +66,66 @@
 										<table class="settingwrite_forms">
 											<thead class="setting_form--write">
 
-													<tr>
-													<tr>
-														<td><input type="hidden" class="delivery_list_id"
-															name="id" value="${id }" /></td>
-													</tr>
-													<tr>
-														<td><input type="hidden" class="delivery_list_num"
-															name="num" value="${num }" /></td>
-													</tr>
-													<tr>
-														<td class="form_tD">배송지명</td>
-														<td><input type="text"
-															class="delivery_list_deliveryName" name="deliveryName"
-															value="${deliveryName }" /></td>
-													</tr>
-													<tr>
-														<td class="form_tD">주소</td>
-														<td><input type="text" id="sample4_postcode"
-															class="inputAddrNum" name="addrNum" placeholder="우편번호"
-															value="${addrNum }">
-															<button type="button" class="addrNumBtn"
-																onclick="sample4_execDaumPostcode()">우편번호찾기</button> <input
-															type="text" id="sample4_roadAddress" class="inputAddr1"
-															id="sample4_roadAddress" placeholder="도로명주소"
-															name="addrRoadName" value="${addrRoadName }"> <span
-															id="guide" style="color: #999; display: none"></span> <input
-															type="text" class="inputAddr2" id="sample4_detailAddress"
-															name="addrDetail" placeholder="상세주소"
-															value="${addrDetail }"> <script
-																src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-														</td>
-													</tr>
-													<tr>
-														<td class="form_tD">수령인</td>
-														<td><input type="text"
-															class="delivery_list_receiverName" name="receiverName"
-															value="${receiverName }" /></td>
-													</tr>
-													<tr class="update_tel">
-														<td><label for="mPhone1" class="form_tD">연락처</label></td>
-														<td><select id="mPhone1" name="telCarrierNum">
-																<option value="${telCarrierNum }">${telCarrierNum }</option>
-																<option value="010">010</option>
-																<option value="011">011</option>
-																<option value="016">017</option>
-																<option value="018">018</option>
-																<option value="019">019</option>
-														</select> <input type="text" id="mPhone2" name="telAllocationNum"
-															size="4" maxlength="4" value="${telAllocationNum }"
-															required /> <input type="text" id="mPhone3"
-															name="telDiscretionaryNum" size="4" maxlength="4"
-															value="${telDiscretionaryNum }" required /></td>
-													</tr>
-													<tr>
-														<td class="form_tD">기본 배송지</td>
-														<td><input type="radio" id="defaultaddress"
-															class="defaultaddress" name="defaultaddress"
-															value="Y" />기본 배송지 설정 <input type=radio
-															id="defaultaddress" name="defaultaddress" value="N"  checked="checked"
-															/>미설정</td>
-													</tr>
+												<tr>
+												<tr>
+													<td><input type="hidden" class="delivery_list_id"
+														name="id" value="${id }" /></td>
+												</tr>
+												<tr>
+													<td><input type="hidden" class="delivery_list_num"
+														name="num" value="${num }" /></td>
+												</tr>
+												<tr>
+													<td class="form_tD">배송지명</td>
+													<td><input type="text"
+														class="delivery_list_deliveryName" name="deliveryName"
+														value="${deliveryName }" /></td>
+												</tr>
+												<tr>
+													<td class="form_tD">주소</td>
+													<td><input type="text" id="sample4_postcode"
+														class="inputAddrNum" name="addrNum" placeholder="우편번호"
+														value="${addrNum }">
+														<button type="button" class="addrNumBtn"
+															onclick="sample4_execDaumPostcode()">우편번호찾기</button> <input
+														type="text" id="sample4_roadAddress" class="inputAddr1"
+														id="sample4_roadAddress" placeholder="도로명주소"
+														name="addrRoadName" value="${addrRoadName }"> <span
+														id="guide" style="color: #999; display: none"></span> <input
+														type="text" class="inputAddr2" id="sample4_detailAddress"
+														name="addrDetail" placeholder="상세주소"
+														value="${addrDetail }"> <script
+															src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+													</td>
+												</tr>
+												<tr>
+													<td class="form_tD">수령인</td>
+													<td><input type="text"
+														class="delivery_list_receiverName" name="receiverName"
+														value="${receiverName }" /></td>
+												</tr>
+												<tr class="update_tel">
+													<td><label for="mPhone1" class="form_tD">연락처</label></td>
+													<td><select id="mPhone1" name="telCarrierNum">
+															<option value="${telCarrierNum }">${telCarrierNum }</option>
+															<option value="010">010</option>
+															<option value="011">011</option>
+															<option value="016">017</option>
+															<option value="018">018</option>
+															<option value="019">019</option>
+													</select> <input type="text" id="mPhone2" name="telAllocationNum"
+														size="4" maxlength="4" value="${telAllocationNum }"
+														required /> <input type="text" id="mPhone3"
+														name="telDiscretionaryNum" size="4" maxlength="4"
+														value="${telDiscretionaryNum }" required /></td>
+												</tr>
+												<tr>
+													<td class="form_tD">기본 배송지</td>
+													<td><input type="radio" id="defaultaddress"
+														class="defaultaddress" name="defaultaddress" value="Y" />기본
+														배송지 설정 <input type=radio id="defaultaddress"
+														name="defaultaddress" value="N" checked="checked" />미설정</td>
+												</tr>
 											</thead>
 										</table>
 									</div>

@@ -365,9 +365,9 @@ public class OrderController {
 			vo.setOrder_account("000-111-222222");
 		}
 		if(member_flag.equals("Y")) {
-			vo.setNon_member_flag('Y'); //비회원
+			vo.setNon_member_flag("Y"); //비회원
 		} else {
-			vo.setNon_member_flag('N'); //회원
+			vo.setNon_member_flag("N"); //회원
 		}
 		System.out.println("2");
 		
@@ -389,7 +389,7 @@ public class OrderController {
 		System.out.println("3");
 		
 		for(int i = 0; i < board_id.length; i++) {
-			if(vo.getNon_member_flag()=='N') {
+			if(vo.getNon_member_flag().equals("N")) {
 	    		if(reserveUse != 0 ) {
 				buyerService.InsertSavePoint(buyer_id,"사용","적립금결제",reserveUse, board_title[i], vo.getOrder_id());
 	    		}

@@ -85,7 +85,7 @@ int endpage = ((Integer) request.getAttribute("endpage")).intValue();
 									<%
 											if(noticelist.size() == 0) {
 									    %>
-										<tr>
+										<tr id="non-post">
 											<td colspan="4">
 												<br /><br />
 												등록된 게시물이 없습니다.
