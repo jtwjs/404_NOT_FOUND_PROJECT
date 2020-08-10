@@ -1,0 +1,182 @@
+.b__member {
+
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    padding-bottom: 100px;
+    width: 1200px;
+    
+}
+
+
+.b__member--tab {
+
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.b__member img {
+
+    width: 77px;
+    height: 57px;
+    
+} 
+
+.b__member span {
+
+     font-size: 23px;
+     font-weight: bold;
+
+}
+
+.b__member input {
+
+    padding: 0px 10px;
+}
+
+
+.order_check_tit{
+
+    font-size: 28px; 
+    margin-bottom: 35px; 
+
+}
+
+.b__member--order_check_ch {
+    
+    border-top: 2px solid #b3b3b3;;
+    border-bottom: 2px solid #b3b3b3;
+    padding : 25px 0 25px 0;
+
+
+}
+
+.b__member--order_check_ch img{
+
+    float: left;
+    margin-left: 10px;
+    width: 215px;
+    height: 95px;     
+    
+}
+
+.b__member--text_1 p {
+
+    padding-top: 15px;
+    text-align: left;
+    text-indent : 20px;
+    font-weight: bold;
+    color : #696969;
+    
+}
+
+
+
+.b__member--text_2 p::before,
+.b__memberor_order--list P::before{
+
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    background-image: url(../../Images/Order/orderckicon6.png);
+    background-position: right;
+    background-repeat: no-repeat;
+    content: '';
+}
+
+
+.b__member--text_2 {
+    
+    margin: 25px 0px 20px 0;
+    font-weight: bold;  
+}
+
+.b__member--text_2 p,
+.b__memberor_order--list p{
+
+    font-size: 19px;
+}
+
+.order_content1 table,
+.order_content2 table {
+
+    table-layout: fixed;
+    width: 1200px;
+}
+
+.order_content1 th, .order_content2 th{
+
+    padding: 10px;
+    border-bottom: 1px solid #b3b3b3;
+    border-top: 1px solid #b3b3b3;
+    background: #f1eeee;
+    text-align: left;
+    font-weight: initial;
+    font-size: 13px;
+    width: 15%;
+    height : 40px;
+    
+}
+
+.order_content1 td,
+.order_content2 td {
+
+    border-bottom: 1px solid #b3b3b3;
+    border-top: 1px solid #b3b3b3;
+
+} 
+    
+.order_content1 td{
+
+
+    width: 85%;
+}
+
+.b__memberor_order--list {
+
+    margin: 55px 0px 20px 0;
+    font-weight: bold;  
+}
+
+
+
+.order_content2 th{
+
+    text-align: center;
+
+}
+
+.order_content2 td {
+
+    height : 35px;
+
+}
+
+/*확인, 메인으로 버튼 */
+.buttoms {
+
+    text-align: center;
+
+}
+
+/*버튼 스타일*/
+.submitBtn1, .submitBtn2 {
+
+    margin: 30px 0 0 20px; 
+    border-radius: 5px;
+    width: 200px;
+    height: 39px;
+    color : #ffffff
+
+}
+
+.submitBtn1 {
+
+    background: #15a308;
+}
+
+.submitBtn2 {
+
+    background: #636363;
+}

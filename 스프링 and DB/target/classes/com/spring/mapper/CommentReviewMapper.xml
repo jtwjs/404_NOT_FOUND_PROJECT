@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace="com.spring.mapper.BoardMapper는 
+	 BoardMapper인퍼페이스(BoardMapper.class)의 이름을 사용한다. -->
+<!-- root-context에서 아래와 같이 typeAliasesPackage를 설정하면 패키지 경로 생략 가능. -->
+<mapper namespace="com.spring.mapper.CommentReviewMapper">
+
+    <resultMap type="com.spring.boardproduct.CommentReviewVO" id="CommentReviewMap">
+        <result property="review_cmt_id" column="review_cmt_id" />
+        <result property="review_cmt_num" column="review_cmt_num" />
+        <result property="review_id" column="review_id" />
+        <result property="content" column="content" />
+        <result property="register_date" column="register_date" />
+        <result property="seller_id" column="seller_id" />
+    </resultMap>
+
+	<!-- id는 Mapper.java(여기선 MemberMapper.java)에 동일하게 사용해야된다. -->  
+	<select id="getReviewCommentNum" parameterType="String" resultType="int">
+	    SELECT NVL(MAX(review_cmt_num), 0) FROM comment_review WHERE review_id = #{review_id}
+	</select>
+	
+	<insert id="insertReviewComment" parameterType="com.spring.boardproduct.CommentReviewVO">
+	    INSERT INTO comment_review VALUES (#{review_cmt_id}, #{review_cmt_num}, #{review_id}, 
+	        #{content}, SYSDATE, #{seller_id})
+	</insert>
+	
+	<select id="getReviewComment" parameterType="String" resultMap="CommentReviewMap">
+	    SELECT * FROM comment_review WHERE review_id = #{review_id} ORDER BY review_cmt_num ASC
+	</select>
+	
+	<delete id="deleteReviewComment">
+	    DELETE FROM comment_review WHERE review_id = #{review_id} AND review_cmt_num = #{review_cmt_num}
+	</delete>
+
+</mapper>

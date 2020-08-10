@@ -1,0 +1,92 @@
+.container {
+    width: 1200px;
+    max-width: none !important;
+}
+
+.content-title {
+	width: 1200px;
+	padding: 50px;
+	text-align: center;
+}
+
+
+#board__info {
+    display: flex;
+    margin-bottom: 40px;
+}
+
+.default__info {
+	position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 305px;
+    margin-top: 50px;
+    margin-right: 10px;
+}
+.product__info,
+.review__info {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin-top: 50px;
+    margin-right: 10px;
+}
+
+.info--title {
+  position: absolute;
+  top: -15px;
+  font-size: 25px;
+  background-color: #fff;
+}
+
+.info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-top: 50px;
+  font-size: 20px;
+}
+
+.board_count {
+  display: block;
+  margin-top: 5px;
+  font-size: 15px;
+  
+}
+
+.board-counting {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+#board {
+  font-size: 35px;
+  color: #092c4c;
+}
+
+.board_info-connect {
+  position: relative;
+  padding-right: 20px;
+  font-size: 15px;
+  color: #4f4f4f;
+}
+
+.board_info-connect:hover {
+  color: #4f4f4f;
+}
+
+.board_info-connect::after {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  width: 13px;
+  height: 13px;
+  background-image: url(../../Images/Buyer/arrow-right.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  content: "";
+}
+

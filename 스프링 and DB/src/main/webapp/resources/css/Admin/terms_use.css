@@ -1,0 +1,155 @@
+#contents {
+	max-width: 1100px;
+    margin: 0 auto;
+    margin-bottom: 80px;
+    padding: 40px 30px 0;
+    font-size: 16px;
+    color: #666;
+}
+
+.page_title {
+    margin-bottom: 50px;
+    color: #333;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+ .terms_wrap {
+    margin-top: 50px;
+    text-align: left;
+}
+
+
+
+ .terms_wrap .terms_title {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #444;
+    font-weight: 400;
+}
+
+ .terms_wrap .terms_cont {
+    margin-bottom: 20px;
+    line-height: 20px;
+}
+
+ .terms_wrap table {
+    margin-top: 10px;
+}
+
+table.list {
+    width: 100%;
+    table-layout: fixed;
+    border-top: solid 2px #666;
+    border-bottom: solid 2px #666;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+caption, legend {
+    visibility: hidden;
+    width: 0px;
+    height: 0px;
+    font-size: 0px;
+    line-height: 0px;
+}
+
+
+ .terms_wrap table th,  .terms_wrap table td {
+    border: solid 1px #c9c9c9;
+    line-height: 20px;
+}
+
+ .terms_wrap{
+	margin-top:50px;
+	text-align:left
+}
+	
+ .terms_wrap .terms_title{
+	margin-bottom:10px;
+	font-size:16px;
+	color:#444;
+	font-weight:400
+}
+	
+ .terms_wrap .terms_cont{
+	margin-bottom:20px;
+	line-height:20px
+}
+	
+ .terms_wrap table{
+	margin-top:10px
+}	
+	
+ .terms_wrap table th,
+ .terms_wrap table td{
+	border:solid 1px #c9c9c9;
+	line-height:20px
+}
+
+ .terms_wrap table tr:last-child td{
+	border-bottom:solid 1px #c9c9c9
+}
+
+ .terms_wrap table tbody tr:first-child td{
+	border-top:solid 1px #c9c9c9
+}
+
+ .terms_wrap a{
+	text-decoration:underline;
+	font-weight:400
+}
+
+table.list{
+	width:100%;
+	table-layout:fixed;
+	border-top:solid 2px #666;
+	border-bottom:solid 2px #666
+}
+	
+table.list td,table.list th{
+	height:20px;
+	padding:15px 20px;
+	font-size:16px;
+	line-height:20px;
+	text-align:center;
+	vertical-align:middle;
+	color:#666
+}
+	
+table.list td{
+	border-top:1px solid #dedede
+}
+
+table.list th{
+	color:#333;
+	font-weight:500;
+	border-bottom:solid 1px #8c8c8c;
+	background:#fff
+}
+
+
+table.list td, table.list th {
+    height: 20px;
+    padding: 15px 20px;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    color: #666;
+}
+
+ .terms_wrap table td {
+    /border: solid 1px #c9c9c9;
+    line-height: 20px;
+}
+.t_layout_tc {
+    display: table-cell;
+}
+
+.t_con_b {
+    display: none;
+}

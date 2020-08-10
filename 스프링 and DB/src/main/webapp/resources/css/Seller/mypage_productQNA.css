@@ -1,0 +1,152 @@
+#content__product-list--search-box {
+	margin: 0 0 50px 0;
+	padding: 0;
+	width: 100%;
+	height: 150px;
+	display: table;
+	text-align: center;
+    background-color: #ece9e9;
+}
+
+#product-list__search-box--line-1 {
+	margin: 40px 0 10px 0;
+	padding: 0;
+	width: 100%;
+	display: inline-block;
+}
+
+#product-list__search-box--line-1 > input[type="text"] {
+	width: 60%;
+	text-align: center;
+	border: 1px solid #a7a3a3;
+	background-color: #fff;
+}
+
+#product-list__search-box--line-1 > input[type="submit"] {
+	margin: 0 0 0 20px;
+	padding: 5px 22px 5px 10px;
+	background: url(//pics.gmarket.co.kr/pc/ko/myg/button/btn_gray_right_11.png) no-repeat right 3px;
+	color: #444;
+}
+
+#product-list__search-box--line-2 {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	display: inline-block;
+}
+
+#product-list__search-box--line-2 > div {
+	display: inline-block;
+}
+
+#search-box__date--calendar {
+	position: relative;
+	top: -8px;
+}
+
+#search-box__date--select {
+	height: 33px;
+	background-color: #fff;
+	border: 1px solid #c7c7c7;
+}
+
+#product-list__search-box--line-2 > div > span {
+	font-size: 17px;
+	font-weight: bold;
+}
+
+#product-list__search-box--line-2 > div > input[type="date"] {
+	margin: 0 10px;
+	padding: 0;
+	border: 1px solid #a7a3a3;
+	background-color: #fff;
+}
+
+#product-list__search-box--line-2 > div > ul {
+	position: relative;
+	top: 4px;
+	height: 20px;
+}
+
+#product-list__search-box--line-2 > div > ul > li {
+	margin: 0;
+	padding: 3px 13px;
+	text-align: center;
+	font-size: 13px;
+	float: left;
+	color: #444;
+}
+
+#product-list__search-box--line-2 > div > ul > li:hover {
+	position: relative;
+	top: -4px;
+	padding: 7px 13px;
+	background-color: #7895ff;
+	color: #fff;
+	box-shadow: 1px 1px 3px 1px #444 inset;
+	cursor: pointer;
+}
+
+.select-border {
+	border-right: 1px solid #c7c7c7;
+}
+
+#transaction__detail {
+	margin: 50px 0;
+	padding: 0;
+}
+
+.transaction__detail--table {
+  width: 100%;
+  text-align: center;
+}
+
+.transaction__detail--table > thead {
+    border-top: 1px solid #509b59;
+    border-bottom: 1px solid #509b59;
+}
+
+.transaction__detail--table th,
+.transaction__detail--table td {
+  padding: 10px;
+}
+
+.board-number {
+  width: 10%;
+}
+
+.product-name {
+  width: 30%;
+}
+
+.board-name {
+	width: 30%;
+}
+
+.board-writer {
+	width: 15%;
+}
+
+.board-write-date {
+	width: 15%;
+}
+
+.board-number,
+.product-name,
+.board-name,
+.board-writer,
+.board-write-date {
+  font-weight: 500;
+  font-size: 16px;
+  color: #333;
+}
+
+.transaction__detail--table > tbody {
+  font-size: 1.2rem;
+}
+
+.non-post {
+  height: 200px;
+  font-size: 20px;
+}
