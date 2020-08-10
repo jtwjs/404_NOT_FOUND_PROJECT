@@ -1,0 +1,77 @@
+.container {
+  width: 1200px;
+  max-width: none !important;
+}
+
+#content {
+  display: flex;
+  width: 1200px;
+  padding: 50px 0 100px;
+}
+
+.title {
+  font-size: 25px;
+}
+
+.item {
+  color: #2f80ed;
+}
+
+.enter {
+  display: block;
+}
+
+#side {
+  margin-right: 100px;
+}
+
+#side__menu {
+  box-shadow: 2px 4px 4px 1px rgba(0, 0, 0, 0.22);
+}
+
+#side__menu dd > a:hover::before {
+  position: absolute;
+  top: 5px;
+  left: 9px;
+  width: 25px;
+  height: 25px;
+  background-image: url(../../Images/Buyer/arrow_right_24px_rounded.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  content: "";
+}
+
+#menu-accountManagement--item > a {
+  position: relative;
+  padding: 8px 20px 8px;
+  font-size: 14px;
+  text-indent: 15px;
+  background-color: #f6f6f6;
+}
+
+#menu-accountManagement--item > h6 {
+	
+	margin : 15px 0 15px 15px;
+
+}
+
+#menu-accountManagement{
+  position: relative;
+  height: 45px;
+  padding: 10px 20px;
+  font-size: 18px;	
+  color: #fff;
+  background-color: #34c759;
+}
+
+
+
+#menu-accountManagement--item
+{  	
+  display: flex;
+  flex-direction: column;
+  height: 0;
+}
+
+

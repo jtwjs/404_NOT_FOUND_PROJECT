@@ -1,0 +1,50 @@
+.contnt__boardproductlist {
+	display: flex;
+	flex-direction: column;
+	margin-top: 20px;
+	width: 900px;
+}
+
+.content-title--site {
+	margin-top: 10px;
+	padding-bottom: 15px;
+}
+
+.boardproduct_B {
+	
+	padding : 0 0 15px 0;
+}
+
+.setting_form {
+	width: 100%;
+}
+
+.setting_form {
+	text-align: center;
+	color: #000000;
+}
+
+.BoardProductlist--cont {
+	
+	height: 45px;
+	text-align: center;
+	border-top : 1px solid #008040; 
+	border-bottom :1px solid #008040; 
+	color: #232323;
+	text-align: center;
+	
+}
+
+.TH--B--num1, .TH--B--boardnum1, .TH--B-thumbnail_origin1,
+ .TH--B-sellerid1, .TH--B-title1, .TH--B-register_date1, .TH--B-hit1 {
+	padding: 15px 0 15px 0;
+}
+
+.deleteBtn {
+	width: 80px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: #52a56ec9;
+    text-align: center; 
+    color: #ffffff;
+}

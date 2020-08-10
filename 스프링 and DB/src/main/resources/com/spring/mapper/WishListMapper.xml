@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace="com.spring.mapper.BoardMapper는 
+	 BoardMapper인퍼페이스(BoardMapper.class)의 이름을 사용한다. -->
+<!-- root-context에서 아래와 같이 typeAliasesPackage를 설정하면 패키지 경로 생략 가능. -->
+<mapper namespace="com.spring.mapper.WishListMapper">
+
+    <resultMap type="com.spring.buyer.WishListVO" id="WishListMap">
+        <result property="wish_id" column="wish_id" />
+        <result property="buyer_id" column="buyer_id" />
+        <result property="board_id" column="board_id" />
+        <result property="title" column="title" />
+        <result property="price" column="price" />
+        <result property="thumbnail_thum" column="thumbnail_thum" />
+        <result property="thumbnail_thum_path" column="thumbnail_thum_path" />
+    </resultMap>
+
+	<!-- id는 Mapper.java(여기선 MemberMapper.java)에 동일하게 사용해야된다. -->  
+	  
+	<select id="getWishListOverlapCheck" parameterType="String" resultType="int">
+	    SELECT COUNT(*) FROM wish_list WHERE board_id = #{board_id} AND buyer_id = #{buyer_id}
+	</select>
+	
+	<insert id="insertWishList" parameterType="com.spring.buyer.WishListVO">
+	    INSERT INTO wish_list VALUES (#{wish_id}, #{buyer_id}, #{board_id}, #{title} , #{price}, 
+	        #{thumbnail_thum}, #{thumbnail_thum_path})
+	</insert>
+	
+	<select id="selectWishListCountOneById" resultType="int" parameterType="String" >
+		select count(*) from wish_list where buyer_id = #{buyer_id}
+	</select>
+	
+	
+	<select id="selectWishList" parameterType="int" resultMap="WishListMap">
+		<choose>	
+			<when test="sort_list == 1"> <!-- 등록일 순 (최근) -->
+				<![CDATA[
+					select wish_id, buyer_id, board_id, title, price, thumbnail_thum, thumbnail_thum_path
+						from (select rownum rnum, wish_id, buyer_id, board_id, title, price, thumbnail_thum, thumbnail_thum_path
+							from (select * from wish_list where buyer_id = #{buyer_id} order by rownum desc))
+					WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+				]]>
+			</when>
+			<when test="sort_list == 2"> <!-- 등록일 순 (오래된순) -->
+				<![CDATA[
+					select wish_id, buyer_id, board_id, title, price, thumbnail_thum, thumbnail_thum_path
+						from (select rownum rnum, wish_id, buyer_id, board_id, title, price, thumbnail_thum, thumbnail_thum_path
+							from (select * from wish_list where buyer_id = #{buyer_id} order by rownum asc))
+					WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+				]]>
+			</when>
+			<when test="sort_list == 3"> <!-- 상품명 순 -->	
+				<![CDATA[
+					select wish_id, buyer_id, board_id, title, price, thumbnail_thum, thumbnail_thum_path
+						from (select rownum rnum, wish_id, buyer_id, board_id, title, price, thumbnail_thum, thumbnail_thum_path
+							from (select * from wish_list where buyer_id = #{buyer_id} order by title asc))
+					WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+				]]>
+			</when>
+			<when test="sort_list == 4"> <!-- 가격 순 (높은 가격) -->	
+				<![CDATA[
+					select wish_id, buyer_id, board_id, title, price, thumbnail_thum, thumbnail_thum_path
+						from (select rownum rnum, wish_id, buyer_id, board_id, title, price, thumbnail_thum, thumbnail_thum_path
+							from (select * from wish_list where buyer_id = #{buyer_id} order by price desc))
+					WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+				]]>
+			</when>
+			<when test="sort_list == 5"> <!-- 가격 순 (낮은 가격) -->
+				<![CDATA[
+					select wish_id, buyer_id, board_id, title, price, thumbnail_thum, thumbnail_thum_path
+						from (select rownum rnum, wish_id, buyer_id, board_id, title, price, thumbnail_thum, thumbnail_thum_path
+							from (select * from wish_list where buyer_id = #{buyer_id} order by price asc))
+					WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+				]]>
+			</when>
+			<otherwise> <!-- 등록일 순 (최근) -->
+				<![CDATA[
+					select wish_id, buyer_id, board_id, title, price, thumbnail_thum, thumbnail_thum_path
+						from (select rownum rnum, wish_id, buyer_id, board_id, title, price, thumbnail_thum, thumbnail_thum_path
+							from (select * from wish_list where buyer_id = #{buyer_id} order by rownum desc))
+					WHERE RNUM BETWEEN (((#{page_num}-1) * #{page_amount}) + 1) AND (#{page_num} * #{page_amount})
+				]]>
+			</otherwise>
+		</choose>
+	</select>	
+	
+	<delete id="deleteWishList"  parameterType="String">
+		delete from wish_list where wish_id = #{wish_id}
+	</delete>
+	
+	<select id="isWishListWriter" parameterType="HashMap" resultType="int">
+		select count(*) from wish_list where wish_id = #{wish_id}
+	</select>
+	
+	
+	
+</mapper>

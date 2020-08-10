@@ -1,0 +1,203 @@
+
+.container {
+    width: 1200px;
+    max-width: none !important;
+}
+
+#content {
+    display: flex;
+    width: 1200px;
+	height: 100%;
+	padding: 50px 0 100px;
+		
+}
+
+.selected-menu {
+    color: #fff;
+    background-color: rgba(34,34,34,0.8);
+	
+}
+
+/* side-bar */
+
+#side {
+    margin-right: 50px;
+}
+
+#side h2 {
+    height: 45px;
+    padding: 0 15px;
+    font-size: 22px;
+    line-height: 2;
+    color: #fff;
+    background-color: #34C759;
+}
+
+#side a {
+    display: block;
+    width: 180px;
+    height: 45px;
+    padding: 10px 15px;
+    font-size: 20px;
+    font-weight: 600;
+    transition: all 350ms ease-in-out;
+}
+
+#side a:hover {
+    color: #fff;
+    background-color: rgba(34,34,34,0.8);
+    
+}
+
+/* content */
+#center-list__table #non-post {
+	height: 300px;
+}
+
+#center-list {
+    width: 100%;
+}
+
+#center-list__title {
+	height: 40px;
+	text-align: left;
+	font-size: 20px;
+}
+
+#center-list__table {
+	width: 100%;
+}
+
+#center-list__table > thead {
+    border-top: 5px solid #a9a9a9;
+    border-bottom: 1px solid #a9a9a9;
+    text-align: center;
+}
+
+#center-list__table > tbody > tr {
+	height: 40px;
+    border-bottom: 1px solid #a9a9a9;
+}
+
+.getContent {
+	text-align: left;
+}
+
+.center-list__table--num {
+    width: 50px;
+    height: 40px;
+}
+
+.center-list__table--title {
+    width: 600px;
+    height: 40px;
+}
+
+.center-list__table--none-content {
+    height: 300px;
+    text-align: center;
+}
+
+/* 게시글 list 부분 */
+
+.center-list__table--num {
+    width: 50px;
+}
+
+.center-list__table--title {
+    width: 500px;
+    height: 40px;
+    text-align: center;
+}
+
+.center-list__table--title1 {
+    width: 500px;
+    height: 40px;
+    padding-left: 50px;
+    text-align: left;
+    
+}
+
+.list__table--admin {
+	width: 150px;
+	display: flex;	
+	float: right;
+	margin-bottom: 10px;
+}
+
+.boardFaq_modify, 
+.boardFaq_delete  {
+	width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: #52a56ec9;
+    text-align: center; 
+    color: #ffffff;
+}
+
+.boardFaq_modify {
+	margin-right: 10px;
+}
+
+
+
+
+/* 추가 css -기석- */
+tr .hide {
+	display:none;
+}
+
+.faqList_num {
+	text-align: center;
+}
+
+
+/* board_faq--css */
+.faqList_btn {
+	padding-top : 15px;
+    text-align: right; 
+}
+
+.boardFaq_wr {
+	width: 150px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: #52a56ec9;
+    text-align: center; 
+    color: #ffffff;
+}
+
+
+
+
+/* board_faq_write--css */
+.faqWrite_btn {
+    text-align: center; 
+}
+
+.faq_success, .faq_reset, .faq_main {
+    width: 150px;
+    height: 30px;
+    border-radius: 5px;
+    text-align: center;
+    color: #ffffff;
+
+}
+
+.faq_success {
+    background-color: #52a56ec9;
+}
+
+.faq_reset {
+
+    background-color: #697568;
+}
+
+.faq_main {
+
+    background-color: #a87f77;
+}
+
+
+
+

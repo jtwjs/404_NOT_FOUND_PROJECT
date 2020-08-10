@@ -1,0 +1,183 @@
+.container {
+	width: 1200px;
+	max-width: none !important;
+}
+
+.main {
+	display: flex;
+	flex-direction: column;
+}
+
+.login__box {
+	display: flex;
+	justify-content: center; min-width : 1200px;
+	height: 100%;
+	min-width: 1200px;
+}
+
+.order__login--wrap {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-top: 80px;
+	padding-bottom: 100px;
+}
+
+.order_title {
+	position: relative;
+}
+
+.order_title::after {
+	position: absolute;
+	width: 10px;
+	height: 4px;
+	backgoround-color: #509b59;
+	content: '';
+}
+
+.order__login--wrap form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 25px 0;
+}
+
+
+
+/* 嚥≪뮄�젃占쎌뵥, �뜮袁れ돳占쎌뜚雅뚯눖揆鈺곌퀬�돳 text*/
+.order_title {
+	text-align: center;
+}
+
+/*占쎌돳占쎌뜚, �뜮袁れ돳占쎌뜚 text*/
+.login__member, .login__member2 {
+	margin-top: 25px;
+	font-weight: bold;
+	text-align: center;
+}
+
+/* 占쎈걗占쏙옙占쎄퉳 餓ο옙*/
+.login__border, .login__border2 {
+	border-top: 4px solid #fdcf41;
+	width: 35%;
+}
+
+.id, .password, .irum, .phone {
+	display: flex;
+	flex-direction: column;
+}
+
+.id, .irum {
+	margin-bottom: 20px;
+}
+
+/* input, button */
+.inputId,
+.inputPw,
+.inputIrum,
+.inputPhone{
+	width: 420px;
+	height: 39px;
+	border-radius: 5px;
+	padding: 0 10px;
+}
+
+.submitBtn, .submitjoinBtn, .submitcartBtn {
+	width: 420px;
+	height: 50px;
+	margin-top: 20px;
+	border-radius: 5px;
+}
+
+.submitcartBtn {
+	margin-top: 40px;
+}
+
+.submitjoinBtn {
+	background-color: rgba(54, 54, 54, 0.4);
+}
+
+/*input*/
+.inputId, .inputPw, .inputIrum, .inputPhone {
+	border: 1px solid #808080;
+	text-align: left;
+}
+
+.inputIrum, .inputPhone {
+	margin-top: 0;
+}
+
+.find {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	padding-top: 10px;
+}
+
+#Id_button {
+	cursor: pointer;
+}
+
+/* 嚥≪뮄�젃占쎌뵥 甕곌쑵�뱣 */
+.submitBtn, .submitcartBtn {
+	color: #fff;
+	background: #509b59;
+}
+
+/* 占쎈툡占쎌뵠占쎈탵 /  �뜮袁⑨옙甕곕뜇�깈 筌≪뼐由� */
+.loginfind_btn {
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+#findIdBtn {
+	margin-right: 10px;
+}
+
+#findPwBtn {
+	position: relative;
+}
+
+#findPwBtn::before {
+    position: absolute;
+    top: 50%;
+    left: -8px;
+    display: block;
+    width: 1px;
+    height: 14px;
+    margin-top: -6px;
+    background-color: #909090;
+    content: "";
+}
+/* 占쎌돳占쎌뜚揶쏉옙占쎌뿯 甕곌쑵�뱣 */
+.submitjoinBtn {
+	margin-top: 20px;
+}
+
+/* 雅뚯눖揆鈺곌퀬�돳 甕곌쑵�뱣 */
+
+/* 占쎌돳占쎌뜚揶쏉옙占쎌뿯, 雅뚯눖揆鈺곌퀬�돳 text color */
+.submitjoinBtn, .submitcartBtn, .b {
+	color: #ffffff
+}
+
+/* 占쎄퐬占쎌뵠甕곤옙, 燁삳똻萸낉옙�궎 占쎌뵠沃섎챷占� 占쎌맄燁삼옙 */
+.other_login {
+	display: flex;
+	justify-content: center;
+	margin-top: 25px;
+}
+
+#naverIdLogin, #kakao-login-btn {
+	display: block;
+	width: 100%;
+}
+
+#naverIdLogin {
+	margin-right: 20px;
+}
+
+#naverIdLogin img, #kakao-login-btn img {
+	width: 200px;
+	height: 45px;
+}

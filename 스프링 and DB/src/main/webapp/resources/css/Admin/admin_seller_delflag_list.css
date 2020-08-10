@@ -1,0 +1,48 @@
+.contnt__Sellerdelflaglist {
+	display: flex;
+	flex-direction: column;
+	margin-top: 20px;
+	width: 900px;
+}
+
+.site_content {
+	padding: 0 0 15px 0;
+}
+
+.content-title--site {
+	margin-top: 10px;
+	padding-bottom: 15px;
+}
+
+.sellerdelflaglist_C {
+	
+	padding : 0 0 15px 0;
+}
+
+.setting_form {
+	width: 100%;
+}
+
+.setting_form {
+	text-align: center;
+	color: #000000;
+}
+
+
+.sellerdelflag--cont {
+	
+	height: 45px;
+	text-align: center;
+	border-top : 1px solid #008040; 
+	border-bottom :1px solid #008040; 
+	color: #232323;
+	text-align: center;
+	
+}
+
+.TH--NO1, .TH--id1, .TH--name1, .TH-tel1, .TH-joindate1,
+ .TH-logindate1, .TH-del_flag1 {
+	
+	padding : 15px 0 15px 0;
+	
+}

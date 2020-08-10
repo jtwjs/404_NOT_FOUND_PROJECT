@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace="com.spring.mapper.BoardMapper는 
+	 BoardMapper인퍼페이스(BoardMapper.class)의 이름을 사용한다. -->
+<!-- root-context에서 아래와 같이 typeAliasesPackage를 설정하면 패키지 경로 생략 가능. -->
+<mapper namespace="com.spring.mapper.SellerMapper">
+
+	<!-- id는 Mapper.java(여기선 MemberMapper.java)에 동일하게 사용해야된다. -->
+	<resultMap id="sellerResultMap" type="com.spring.seller.SellerVO">
+		<result column = "seller_id" property = "id" />
+		<result column = "password" property = "password" />
+		<result column = "shop_name" property = "shopName" />
+		<result column = "representative" property = "represent" />
+		<result column = "address" property = "address" />
+		<result column = "manager_phone" property = "tel" />
+		<result column = "manager_email" property = "email" />
+		<result column = "manager_name" property = "name" />
+		<result column = "mail_order_report_num" property = "orderReportNum" />
+		<result column = "mail_order_report_img" property = "orderReportImg" />
+		<result column = "mail_order_report_img_path" property = "orderReportImgPath" />
+		<result column = "bank_name" property = "bankName" />
+		<result column = "bank_account" property = "bankAccountNum" />
+		<result column = "seller_reg_num" property = "sellerNum" />
+		<result column = "seller_grade" property = "grade" />
+		<result column = "member_type" property = "memberType" />
+		<result column = "del_flag" property = "delFlag" />
+		<result column = "wthder_date" property = "wtdrDate" />
+		<result column = "join_date" property = "joinDate" />
+		<result column = "profile_img" property = "profileImg" />
+		<result column = "profile_img_path" property ="profileImgPath" />
+		<result column = "last_loginDate" property = "loginDate" />
+	</resultMap>  
+	
+	<select id = "selectOneById" resultMap = "sellerResultMap" >
+		SELECT * FROM member_seller WHERE seller_id = #{id}
+	</select>
+	
+	
+	<select id = "selectProductListById" resultType = "com.spring.boardproduct.BoardProductVO" >
+		SELECT * FROM board_product WHERE seller_id = #{id}
+	</select>
+	
+	<insert id = "InsertSellerAccout" parameterType = "com.spring.seller.SellerVO">
+		<selectKey keyProperty="sellerNum" order = "BEFORE" resultType="int">
+			SELECT seller_num_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO member_seller (seller_id, password, shop_name, representative, address,
+		manager_phone, manager_email, manager_name, mail_order_report_num, mail_order_report_img, mail_order_report_img_path,
+		bank_name, bank_account, seller_reg_num)
+		VALUES (#{id},#{password},#{shopName},#{represent},#{address},#{tel},#{email},#{name},
+		 #{orderReportNum}, #{orderReportImg}, #{orderReportImgPath}, #{bankName}, #{bankAccountNum}, #{sellerNum})
+	</insert>
+
+	
+	<update id = "UpdateLoginDateBy" parameterType = "com.spring.seller.SellerVO" >
+		UPDATE member_seller SET last_loginDate=sysdate WHERE seller_id = #{id}
+	</update>
+	
+	<delete id = "DeleteSellerAccount" parameterType ="com.spring.seller.SellerVO">
+		UPDATE member_seller SET del_flag="Y", wthdr_date=sysdate 
+		WHERE seller_id = #{id} AND password = #{password}
+	</delete>
+	
+	<update id = "UpdateSellerAccount" parameterType = "com.spring.seller.SellerVO"  >
+		UPDATE member_seller SET manager_phone = #{tel}, manager_email = #{email}, manager_name = #{name}, 
+									bank_name = #{bankName}, bank_account = #{bankAccountNum},profile_img=#{profileImg}
+									,profile_img_path=#{profileImgPath} 
+		WHERE seller_id = #{id}
+	</update>
+	
+	<select id = "SellerConfirmPassword" resultMap = "sellerResultMap" >
+		SELECT * FROM member_seller where seller_id = #{id} and password = #{password}
+	</select>
+	
+	<update id = "UpdateSellerPassword" parameterType = "com.spring.seller.SellerVO"  >
+		UPDATE member_seller SET password = #{password}
+		 WHERE seller_id = #{id}
+	</update>
+	
+	
+	
+	<!-- 판매자 리스트 -->
+
+	<select id="getSellerListCount" resultType="int">
+		select count(*) from member_seller where del_flag = 'N'
+	</select>
+
+	<select id="SelectAllSellerList" parameterType="HashMap" resultMap="sellerResultMap">
+		<![CDATA[
+			select seller_id,password,shop_name,representative,address,manager_phone,manager_email,manager_name,
+					mail_order_report_num,mail_order_report_img,mail_order_report_img_path,bank_name,bank_account,seller_reg_num,seller_grade,
+					member_type,del_flag,join_date,wthdr_date,profile_img,profile_img_path,last_loginDate
+	        	from (select rownum rnum,seller_id,password,shop_name,representative,address,manager_phone,manager_email,manager_name,
+						mail_order_report_num,mail_order_report_img,mail_order_report_img_path,bank_name,bank_account,seller_reg_num,seller_grade,
+						member_type,del_flag,join_date,wthdr_date,profile_img,profile_img_path,last_loginDate
+            		from (select * from member_seller where del_flag = 'N' order by join_date desc)) 
+	        where rnum>=#{startrow} and rnum<=#{endrow}
+     	]]>
+	</select>
+
+
+	<update id="AdminUpdateSellerList" parameterType="com.spring.seller.SellerVO">
+		UPDATE member_seller SET shop_name=#{shopName},mail_order_report_num=#{orderReportNum},	mail_order_report_img=#{orderReportImg},
+							mail_order_report_img_path=#{orderReportImgPath},representative=#{represent},address=#{address},del_flag=#{delFlag}
+		WHERE seller_id = #{id}
+	</update>
+	
+	
+	<!-- 판매자 비활성 리스트  -->
+	
+	<select id="getSellerDelflagListCount" resultType="int">
+	     select count(*) from member_seller where del_flag = 'Y'	
+	</select>
+
+	<select id="SelectAllSellerDelflagList" parameterType="HashMap" resultMap="sellerResultMap">
+		<![CDATA[
+			select seller_id,password,shop_name,representative,address,manager_phone,manager_email,manager_name,
+					mail_order_report_num,mail_order_report_img,mail_order_report_img_path,bank_name,bank_account,seller_reg_num,seller_grade,
+					member_type,del_flag,join_date,wthdr_date,profile_img,profile_img_path,last_loginDate
+	        	from (select rownum rnum,seller_id,password,shop_name,representative,address,manager_phone,manager_email,manager_name,
+						mail_order_report_num,mail_order_report_img,mail_order_report_img_path,bank_name,bank_account,seller_reg_num,seller_grade,
+						member_type,del_flag,join_date,wthdr_date,profile_img,profile_img_path,last_loginDate
+            		from (select * from member_seller where del_flag = 'Y' order by join_date desc)) 
+	        where rnum>=#{startrow} and rnum<=#{endrow}
+     	]]>
+	</select>
+	
+	
+	<update id="AdminUpdateSellerDelflagList" parameterType="com.spring.seller.SellerVO">
+		UPDATE member_seller SET del_flag=#{delFlag} WHERE seller_id = #{id}
+	</update>
+	
+</mapper>

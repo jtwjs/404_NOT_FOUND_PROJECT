@@ -1,0 +1,45 @@
+.contnt__sellerlist {
+	display: flex;
+	flex-direction: column;
+	margin-top: 20px;
+	width: 900px;
+}
+
+.site_content1 {
+	padding: 0 0 15px 0;
+}
+
+.content-title--site {
+	margin-top: 10px;
+	padding-bottom: 15px;
+}
+
+.sellerlist_C {
+	
+	padding : 0 0 15px 0;
+}
+
+.setting_form {
+	width: 100%;
+}
+
+.setting_form {
+	text-align: center;
+	color: #000000;
+}
+
+.sellerlist--cont {
+	
+	height: 45px;
+	text-align: center;
+	border-top : 1px solid #008040; 
+	border-bottom :1px solid #008040; 
+	color: #232323;
+	text-align: center;
+	
+}
+
+.TH--se-NO1, .TH--se-id1, .TH--se-name1, .TH--se-tel1, .TH--se-joindate1,
+	.TH--se-logindate1, .TH--se-del_flag1 {
+	padding: 15px 0 15px 0;
+}
