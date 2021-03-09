@@ -37,5 +37,5 @@
 - 결제페이지
   - 카카오 페이 API를 활용한 결제기능
 - 상품페이지
-  - cache를 이용해 최근본 상품 구현
+  - cookie를 이용해 최근본 상품 구현
 ### [시연영상 보러가기](https://www.youtube.com/watch?v=2t-2IaTXMVM)
